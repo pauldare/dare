@@ -28,15 +28,15 @@
     [Parse setApplicationId:ParseAppID
                   clientKey:ParseClientKey];
     
-    [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
-    
     [PFFacebookUtils initializeFacebook];
     
     NSArray *permissions = @[@"email", @"user_friends"];
     if (FBSession.activeSession.state != FBSessionStateCreatedTokenLoaded) {
     [PFFacebookUtils logInWithPermissions:permissions block:^(PFUser *user, NSError *error) {
         if (!user) {
+            if (!error) {
             NSLog(@"Uh oh. The user cancelled the Facebook login.");
+            }
         } else if (user.isNew) {
             NSLog(@"User signed up and logged in through Facebook!");
         } else {
@@ -48,7 +48,7 @@
     }];
     }else{
         
-        [self loginSuccess];
+        //[self loginSuccess];
     }
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
@@ -151,6 +151,7 @@
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
+    [FBAppCall handleDidBecomeActiveWithSession:[PFFacebookUtils session]];
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
 }
 
@@ -159,6 +160,19 @@
     // Saves changes in the application's managed object context before the application terminates.
     [self saveContext];
 }
+
+
+- (BOOL)application:(UIApplication *)application
+            openURL:(NSURL *)url
+  sourceApplication:(NSString *)sourceApplication
+         annotation:(id)annotation
+{
+    return [FBAppCall handleOpenURL:url
+                  sourceApplication:sourceApplication
+                        withSession:[PFFacebookUtils session]];
+}
+
+
 
 - (void)saveContext
 {

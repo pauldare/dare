@@ -7,17 +7,18 @@
 //
 
 #import "MessageThread.h"
+#import "User.h"
+#import "Message.h"
 
 @implementation MessageThread
 
-+(MessageThread *)getThread
++(MessageThread *)getThread 
 {
     return nil;
 }
 
 -(void)addUserToThread:(User *)user
 {
-    
     NSMutableArray *participants = [self.participants mutableCopy];
     [participants addObject:user];
     

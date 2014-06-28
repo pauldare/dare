@@ -13,31 +13,178 @@
 
 @implementation Temp
 
+
 + (void)fakeData
 {
+    PFObject *thr1 = [PFObject objectWithClassName:@"MessageThread"];
+    [thr1 save];
+    PFObject *thr2 = [PFObject objectWithClassName:@"MessageThread"];
+    [thr2 save];
+
+    PFObject *mes1 = [PFObject objectWithClassName:@"Message"];
+    [mes1 addObject:@"message one" forKey:@"text"];
+    [mes1 save];
+    PFObject *mes2 = [PFObject objectWithClassName:@"Message"];
+    [mes2 addObject:@"message two" forKey:@"text"];
+    [mes2 save];
+    PFObject *mes3 = [PFObject objectWithClassName:@"Message"];
+    [mes3 addObject:@"message three" forKey:@"text"];
+    [mes3 save];
+    PFObject *mes4 = [PFObject objectWithClassName:@"Message"];
+    [mes4 addObject:@"message four" forKey:@"text"];
+    [mes4 save];
+    PFObject *mes5 = [PFObject objectWithClassName:@"Message"];
+    [mes5 addObject:@"message five" forKey:@"text"];
+    [mes5 save];
+    PFObject *mes6 = [PFObject objectWithClassName:@"Message"];
+    [mes6 addObject:@"message six" forKey:@"text"];
+    [mes6 save];
+    PFObject *mes7 = [PFObject objectWithClassName:@"Message"];
+    [mes7 addObject:@"message seven" forKey:@"text"];
+    [mes7 save];
+    PFObject *mes8 = [PFObject objectWithClassName:@"Message"];
+    [mes8 addObject:@"message eight" forKey:@"text"];
+    [mes8 save];
+    
+
     PFUser *user = [PFUser user];
     user.username = @"Alice";
     user.password = @"";
     user.email = @"email@example.com";
+    user[@"displayName"] = @"alice";
     
-    
-    PFUser *user1 = [PFUser user];
-    user.username = @"Bob";
-    user.password = @"";
-    user.email = @"email1@example.com";
-    
-    PFUser *user2 = [PFUser user];
-    user.username = @"Cat";
-    user.password = @"";
-    user.email = @"email2@example.com";
-    
-    PFUser *user3 = [PFUser user];
-    user.username = @"Danny";
-    user.password = @"";
-    user.email = @"email3@example.com";
-    
-    PFObject *thr1 = [PFObject objectWithClassName:@"MessageThread"];
-    
+    [user signUpInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        if (!error) {
+            PFRelation *rel = [user relationForKey:@"messageThreads"];
+            [rel addObject:thr1];
+            
+            PFUser *user1 = [PFUser user];
+            user1.username = @"Bob";
+            user1.password = @"";
+            user1.email = @"email1@example.com";
+            user1[@"displayName"] = @"bob";
+            
+            [user1 signUpInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                if (!error) {
+                    PFRelation *rel1 = [user relationForKey:@"messageThreads"];
+                    [rel1 addObject:thr1];
+                    
+                    PFUser *user2 = [PFUser user];
+                    user2.username = @"Cat";
+                    user2.password = @"";
+                    user2.email = @"email2@example.com";
+                    user2[@"displayName"] = @"cat";
+                    
+                    [user2 signUpInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                        if (!error) {
+                            PFRelation *rel2 = [user relationForKey:@"messageThreads"];
+                            [rel2 addObject:thr2];
+                            
+                            PFUser *user3 = [PFUser user];
+                            user3.username = @"Danny";
+                            user3.password = @"";
+                            user3.email = @"email3@example.com";
+                            user3[@"displayName"] = @"danny";
+                            
+                            [user3 signUpInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                                if (!error) {
+                                    PFRelation *rel3 = [user relationForKey:@"messageThreads"];
+                                    [rel3 addObject:thr2];
+                                    
+                                    //friend relations
+                                    PFRelation *frrel = [user relationForKey:@"friends"];
+                                    [frrel addObject:user1];
+                                    
+                                    PFRelation *frrel1 = [user1 relationForKey:@"friends"];
+                                    [frrel1 addObject:user];
+                                    
+                                    PFRelation *frrel2 = [user2 relationForKey:@"friends"];
+                                    [frrel2 addObject:user3];
+                                    
+                                    PFRelation *frrel3 = [user3 relationForKey:@"friends"];
+                                    [frrel3 addObject:user2];
+                                    
+                                    //messages relations
+                                    PFRelation *mesrel = [user relationForKey:@"messages"];
+                                    [mesrel addObject:mes1];
+                                    [mesrel addObject:mes2];
+                                    [mesrel addObject:mes3];
+                                    
+                                    PFRelation *mesrel1 = [user1 relationForKey:@"messages"];
+                                    [mesrel1 addObject:mes4];
+                                    [mesrel1 addObject:mes5];
+                                    
+                                    PFRelation *mesrel2 = [user2 relationForKey:@"messages"];
+                                    [mesrel2 addObject:mes6];
+                                    [mesrel2 addObject:mes7];
+                                    
+                                    PFRelation *mesrel3 = [user3 relationForKey:@"messages"];
+                                    [mesrel3 addObject:mes8];
+                                    
+                                    //messages to thr
+                                    PFRelation *r = [thr1 relationForKey:@"messages"];
+                                    [r addObject:mes1];
+                                    [r addObject:mes2];
+                                    [r addObject:mes3];
+                                    [r addObject:mes4];
+                                    [r addObject:mes5];
+                                    
+                                    PFRelation *r1 = [thr2 relationForKey:@"messages"];
+                                    [r1 addObject:mes6];
+                                    [r1 addObject:mes7];
+                                    [r1 addObject:mes8];
+                                    
+                                    [PFUser logInWithUsernameInBackground:@"Alice" password:@""
+                                                                    block:^(PFUser *user, NSError *error) {
+                                                                        if (user) {
+                                                                            [user save];
+                                                            
+                                                                            [PFUser logInWithUsernameInBackground:@"Cat" password:@""
+                                                                                                            block:^(PFUser *user, NSError *error) {
+                                                                                                                if (user) {
+                                                                                                                    [user save];
+                                                                                                                    NSLog(@"all saved");
+                                                                                                                    // Do stuff after successful login.
+                                                                                                                } else {
+                                                                                                                    // The login failed. Check error to see why.
+                                                                                                                }
+                                                                                                            }];
+                                                                        } else {
+                                                                            // The login failed. Check error to see why.
+                                                                        }
+                                                                    }];
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    // Hooray! Let them use the app now.
+                                } else {
+                                    NSString *errorString = [error userInfo][@"error"];
+                                    // Show the errorString somewhere and let the user try again.
+                                }
+                            }];
+
+                            
+                            // Hooray! Let them use the app now.
+                        } else {
+                            NSString *errorString = [error userInfo][@"error"];
+                            // Show the errorString somewhere and let the user try again.
+                        }
+                    }];
+
+                } else {
+                    NSString *errorString = [error userInfo][@"error"];
+                    // Show the errorString somewhere and let the user try again.
+                }
+            }];
+ 
+            // Hooray! Let them use the app now.
+        } else {
+            NSString *errorString = [error userInfo][@"error"];
+            // Show the errorString somewhere and let the user try again.
+        }
+    }];
 }
 
 

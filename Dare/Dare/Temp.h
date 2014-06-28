@@ -10,4 +10,6 @@
 
 @interface Temp : NSObject
 
++ (void)fakeData;
+
 @end

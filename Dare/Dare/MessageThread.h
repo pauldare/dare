@@ -7,9 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "User.h"
-#import "Message.h"
 #import <Parse/Parse.h>
+
+@class User;
+@class Message;
 
 @interface MessageThread : NSObject
 
@@ -22,7 +23,7 @@
 
 -(void)addUserToThread:(User*)user;
 
--(void)postMessgeToThread:(Message*)message;
+-(void)postMessgeToThread:(Message *)message;
 
 -(void)postMessageThreadToParse;
 

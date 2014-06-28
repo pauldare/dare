@@ -157,18 +157,19 @@
                         }];
 
                 } else {
-                    NSString *errorString = [error userInfo][@"error"];
+                    //NSString *errorString = [error userInfo][@"error"];
                     // Show the errorString somewhere and let the user try again.
                 }
             }];
- 
-            // Hooray! Let them use the app now.
         } else {
-            NSString *errorString = [error userInfo][@"error"];
+            //NSString *errorString = [error userInfo][@"error"];
             // Show the errorString somewhere and let the user try again.
         }
     }];
 }
+
+
+
 
 
 //[Parse setApplicationId:ParseAppID

@@ -7,16 +7,14 @@
 //
 
 #import "AppDelegate.h"
-#import <Parse/Parse.h>
 #import "Constants.h"
-#import <FacebookSDK/FacebookSDK.h>
-#import "User.h"
 #import "Temp.h"
+#import "ParseClient.h"
 
 
 @interface AppDelegate()
-@property (strong, nonatomic) UIView *faceBookProfileImageContainerView;
-@property (strong, nonatomic) PFUser *myUser;
+//@property (strong, nonatomic) UIView *faceBookProfileImageContainerView;
+//@property (strong, nonatomic) PFUser *myUser;
 @end
 
 
@@ -28,31 +26,18 @@
 
     [Parse setApplicationId:ParseAppID
                   clientKey:ParseClientKey];
+    
+//    [ParseClient loginUser:@"Alice" completion:^(NSString *displayName) {
+//        NSLog(@"Login user: %@", displayName);
+//    } failure:nil];
+    
+    [ParseClient getLoggedInUser:^(User *loggedUser) {
+        NSLog(@"%@", loggedUser);
+    } WithFailure:nil];
+    
     return YES;
 }
 
-- (void)loginWithFB
-{
-    [PFFacebookUtils initializeFacebook];
-    
-    NSArray *permissions = @[@"email", @"user_friends"];
-    
-    if (FBSession.activeSession.state != FBSessionStateCreatedTokenLoaded) {
-        [PFFacebookUtils logInWithPermissions:permissions block:^(PFUser *user, NSError *error) {
-            if (!user) {
-                if (!error) {
-                    NSLog(@"Uh oh. The user cancelled the Facebook login.");
-                }
-            } else if (user.isNew) {
-                NSLog(@"User signed up and logged in through Facebook!");
-            } else {
-                NSLog(@"User logged in through Facebook!");
-                NSLog(@"Currently loggen in: %@", [PFUser currentUser]);
-            }
-        }];
-    }
-
-}
 
 
 - (void)applicationWillResignActive:(UIApplication *)application

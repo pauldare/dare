@@ -38,6 +38,7 @@
 		4553B5E0195B9EDC005C6D1A /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4553B5DF195B9EDC005C6D1A /* FacebookSDK.framework */; };
 		456E6251195F0336003CC220 /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = 456E6250195F0336003CC220 /* Constants.m */; };
 		456E6259195F2DB4003CC220 /* Temp.m in Sources */ = {isa = PBXBuildFile; fileRef = 456E6258195F2DB4003CC220 /* Temp.m */; };
+		456E625F195F67C5003CC220 /* ParseClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 456E625E195F67C5003CC220 /* ParseClient.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -90,6 +91,8 @@
 		456E6250195F0336003CC220 /* Constants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Constants.m; sourceTree = "<group>"; };
 		456E6257195F2DB4003CC220 /* Temp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Temp.h; sourceTree = "<group>"; };
 		456E6258195F2DB4003CC220 /* Temp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Temp.m; sourceTree = "<group>"; };
+		456E625D195F67C5003CC220 /* ParseClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ParseClient.h; path = ../ParseClient.h; sourceTree = "<group>"; };
+		456E625E195F67C5003CC220 /* ParseClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ParseClient.m; path = ../ParseClient.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -219,6 +222,8 @@
 		456E6252195F27F4003CC220 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				456E625D195F67C5003CC220 /* ParseClient.h */,
+				456E625E195F67C5003CC220 /* ParseClient.m */,
 				07977E71195F230100B2C0C6 /* User.h */,
 				07977E72195F230100B2C0C6 /* User.m */,
 				07977E74195F235700B2C0C6 /* MessageThread.h */,
@@ -336,6 +341,7 @@
 			files = (
 				07977E73195F230100B2C0C6 /* User.m in Sources */,
 				07977E76195F235700B2C0C6 /* MessageThread.m in Sources */,
+				456E625F195F67C5003CC220 /* ParseClient.m in Sources */,
 				4553B5A7195B944E005C6D1A /* AppDelegate.m in Sources */,
 				07977E79195F236100B2C0C6 /* Message.m in Sources */,
 				4553B5A3195B944E005C6D1A /* main.m in Sources */,

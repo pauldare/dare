@@ -88,6 +88,11 @@
             
             UILabel *nameLabel = [[UILabel alloc]initWithFrame:CGRectMake(facebookProfileImageView.frame.origin.x, facebookProfileImageView.frame.origin.y, facebookProfileImageView.frame.size.width, 60)];
             nameLabel.text = userData[@"name"];
+            PFUser *myuser = [PFUser currentUser];
+            [myuser setObject:userData[@"name"] forKey:@"faceBookName"];
+            [myuser setObject:@"Dare" forKey:@"displayName"];
+           
+            
             nameLabel.textColor = [UIColor redColor];
             [_faceBookProfileImageContainerView addSubview:nameLabel];
             [_faceBookProfileImageContainerView bringSubviewToFront:nameLabel];
@@ -103,6 +108,10 @@
                              dispatch_async(dispatch_get_main_queue(), ^{
                             
                                  NSString *friendID = friendData[@"id"];
+                                 NSSet *friendSet = [NSSet setWithArray:@[friendID]];
+                                 
+                                 [myuser setObject:[friendSet allObjects] forKey:@"friends"];
+                                   [myuser saveInBackground];
                             
                             UIImage* friendImgProfile = [UIImage imageWithData:
                                            [NSData dataWithContentsOfURL:
@@ -130,6 +139,9 @@
             }];
         }
     }];
+ 
+   
+   
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application

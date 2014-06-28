@@ -10,4 +10,18 @@
 
 @implementation User
 
++(User *)getUser
+{
+    PFUser *parseUser = [PFUser currentUser];
+    User *user = [[User alloc]init];
+    user.displayName = parseUser[@"displayName"];
+    user.userID = parseUser.objectId;
+    user.messageThreads = parseUser[@"UserThreads"];
+    user.friends = parseUser[@"friends"];
+    user.messages = parseUser[@"Messages"];
+    user.parseObject = parseUser;
+    
+    return user;
+}
+
 @end

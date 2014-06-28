@@ -9,14 +9,16 @@
 #import <Foundation/Foundation.h>
 #import "User.h"
 #import "Message.h"
+#import <Parse/Parse.h>
 
 @interface MessageThread : NSObject
 
 @property (strong, nonatomic) NSArray *messages;
 @property (strong, nonatomic) NSString *ID;
 @property (strong, nonatomic) NSArray *participants;
+@property (strong, nonatomic) PFObject *parseObject;
 
-+(MessageThread*)createNewThread;
++(MessageThread*)getThread;
 
 -(void)addUserToThread:(User*)user;
 

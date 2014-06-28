@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <Parse/Parse.h>
 
 @interface Message : NSObject
 
@@ -18,6 +19,7 @@
 @property (nonatomic) BOOL shouldBlur;
 @property (nonatomic) NSInteger blurTimer;
 @property (nonatomic) BOOL hasBeenViewed;
+@property (strong, nonatomic) PFObject *parseObject;
 
 +(Message*)createNewMessage;
 

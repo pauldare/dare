@@ -7,7 +7,21 @@
 //
 
 #import "User.h"
+#import <Parse/Parse.h>
 
 @implementation User
+
++(User *)getUser
+{
+    PFUser *parseUser = [PFUser currentUser];
+    User *user = [[User alloc]init];
+    user.displayName = parseUser[@""];
+    user.userID = parseUser.objectId;
+    user.messageThreads = parseUser[@""];
+    user.friends = parseUser[@""];
+    user.messages = parseUser[@""];
+    
+    return user;
+}
 
 @end

@@ -16,7 +16,7 @@
 @property (strong, nonatomic) NSString *ID;
 @property (strong, nonatomic) NSArray *participants;
 
-+(MessageThread*)createNewThread;
++(MessageThread*)getThread;
 
 -(void)addUserToThread:(User*)user;
 

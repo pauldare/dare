@@ -10,4 +10,8 @@
 
 @interface Temp : NSObject
 
++ (void)fakeData;
+
++ (void)test;
+
 @end

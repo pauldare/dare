@@ -13,6 +13,7 @@
 
 @interface AppDelegate()
 @property (strong, nonatomic) UIView *faceBookProfileImageContainerView;
+@property (strong, nonatomic) PFUser *myUser;
 @end
 
 
@@ -32,20 +33,20 @@
     
     NSArray *permissions = @[@"email", @"user_friends"];
     if (FBSession.activeSession.state != FBSessionStateCreatedTokenLoaded) {
-    [PFFacebookUtils logInWithPermissions:permissions block:^(PFUser *user, NSError *error) {
-        if (!user) {
-            if (!error) {
-            NSLog(@"Uh oh. The user cancelled the Facebook login.");
+        [PFFacebookUtils logInWithPermissions:permissions block:^(PFUser *user, NSError *error) {
+            if (!user) {
+                if (!error) {
+                    NSLog(@"Uh oh. The user cancelled the Facebook login.");
+                }
+            } else if (user.isNew) {
+                NSLog(@"User signed up and logged in through Facebook!");
+            } else {
+                NSLog(@"User logged in through Facebook!");
+                [self loginSuccess];
+                
+                NSLog(@"Currently loggen in: %@", [PFUser currentUser]);
             }
-        } else if (user.isNew) {
-            NSLog(@"User signed up and logged in through Facebook!");
-        } else {
-            NSLog(@"User logged in through Facebook!");
-            [self loginSuccess];
-            
-            NSLog(@"Currently loggen in: %@", [PFUser currentUser]);
-        }
-    }];
+        }];
     }else{
         
         //[self loginSuccess];
@@ -88,10 +89,10 @@
             
             UILabel *nameLabel = [[UILabel alloc]initWithFrame:CGRectMake(facebookProfileImageView.frame.origin.x, facebookProfileImageView.frame.origin.y, facebookProfileImageView.frame.size.width, 60)];
             nameLabel.text = userData[@"name"];
-            PFUser *myuser = [PFUser currentUser];
-            [myuser setObject:userData[@"name"] forKey:@"faceBookName"];
-            [myuser setObject:@"Dare" forKey:@"displayName"];
-           
+            _myUser = [PFUser currentUser];
+            [_myUser setObject:userData[@"name"] forKey:@"faceBookName"];
+            [_myUser setObject:@"Dare" forKey:@"displayName"];
+            
             
             nameLabel.textColor = [UIColor redColor];
             [_faceBookProfileImageContainerView addSubview:nameLabel];
@@ -105,19 +106,26 @@
                         //we now have an array of NSDictionary entries contating friend data
                         for (NSMutableDictionary *friendData in data) {
                             
-                             dispatch_async(dispatch_get_main_queue(), ^{
-                            
-                                 NSString *friendID = friendData[@"id"];
-                                 NSSet *friendSet = [NSSet setWithArray:@[friendID]];
-                                 
-                                 [myuser setObject:[friendSet allObjects] forKey:@"friends"];
-                                   [myuser saveInBackground];
-                            
-                            UIImage* friendImgProfile = [UIImage imageWithData:
-                                           [NSData dataWithContentsOfURL:
-                                                    [NSURL URLWithString:
-                                              [NSString stringWithFormat:@"http://graph.facebook.com/%@/picture?type=large", friendID]]]];
-                               
+                            dispatch_async(dispatch_get_main_queue(), ^{
+                                
+                                NSString *friendID = friendData[@"id"];
+                                NSSet *friendSet = [NSSet setWithArray:@[friendID]];
+                                
+                                [_myUser setObject:[friendSet allObjects] forKey:@"friends"];
+                                [_myUser saveInBackground];
+                                
+                                
+                                PFObject *messageThread = [PFObject objectWithClassName:@"MessageThread"];
+                                [messageThread setObject:@[_myUser] forKey:@"participants"];
+                                PFObject *message = [PFObject objectWithClassName:@"Message"];
+                                [_myUser addUniqueObject:messageThread forKey:@"MessageThreads"];
+                                [messageThread addObject:@[message] forKey:@"message"];
+                                
+                                UIImage* friendImgProfile = [UIImage imageWithData:
+                                                             [NSData dataWithContentsOfURL:
+                                                              [NSURL URLWithString:
+                                                               [NSString stringWithFormat:@"http://graph.facebook.com/%@/picture?type=large", friendID]]]];
+                                
                                 UIImageView *friendFacebookProfileImageView = [[UIImageView alloc] initWithImage:friendImgProfile];
                                 friendFacebookProfileImageView.frame = CGRectMake(_faceBookProfileImageContainerView.frame.origin.x, _faceBookProfileImageContainerView.frame.size.height/2, _faceBookProfileImageContainerView.frame.size.width, _faceBookProfileImageContainerView.frame.size.height/2);
                                 friendFacebookProfileImageView.backgroundColor = [UIColor redColor];
@@ -129,8 +137,11 @@
                                 friendNameLabel.textColor = [UIColor redColor];
                                 [_faceBookProfileImageContainerView addSubview:friendNameLabel];
                                 [_faceBookProfileImageContainerView bringSubviewToFront:friendNameLabel];
+                                
+                                
+                                
                             });
-                           
+                            
                         }
                     } else {
                         NSLog(@"%@", error);
@@ -139,9 +150,11 @@
             }];
         }
     }];
- 
-   
-   
+    
+    
+    
+    
+    
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application

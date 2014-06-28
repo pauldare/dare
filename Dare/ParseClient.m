@@ -44,11 +44,10 @@
                 NSArray *friends = objects;
                 [messagesQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
                     NSArray *messages = objects;
-                    
                     User *loggedUser = [[User alloc]initWithDisplayName:currentUser[@"displayName"]
-                                             messageThreads:messageThreads
-                                                    friends:friends
-                                                   messages:messages];
+                                             messageThreads:messageThreads //PFObjects
+                                                    friends:friends //PFObjects
+                                                   messages:messages]; //PFObjects
                     completion(loggedUser);
                     
                 }];

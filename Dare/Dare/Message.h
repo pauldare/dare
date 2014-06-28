@@ -14,8 +14,8 @@
 
 @interface Message : NSObject
 @property (strong, nonatomic) NSString *ID;
-@property (strong, nonatomic) NSString *poster;
-@property (strong, nonatomic) NSString *thread;
+@property (strong, nonatomic) User *poster;
+@property (strong, nonatomic) NSString *threadId;
 @property (strong, nonatomic) NSString *text;
 @property (strong, nonatomic) UIImage *picture;
 @property (nonatomic) BOOL shouldBlur;
@@ -25,8 +25,10 @@
 @property (strong, nonatomic) MessageThread *messageThread;
 @property (strong, nonatomic) PFObject *parseObject;
 
-+(Message*)createNewMessage;
+- (instancetype)initWithText: (NSString *)text
+                      thread: (NSString *)threadId
+                      poster: (User *)poster;
 
--(void)postMessageToPost;
+
 
 @end

@@ -10,6 +10,7 @@
 #import "Constants.h"
 #import "Temp.h"
 #import "ParseClient.h"
+#import "Message.h"
 
 
 @interface AppDelegate()
@@ -32,7 +33,7 @@
 //    } failure:nil];
     
     [ParseClient getLoggedInUser:^(User *loggedUser) {
-        NSLog(@"%@", loggedUser);
+            NSLog(@"%@", loggedUser);
     } WithFailure:nil];
     
     return YES;

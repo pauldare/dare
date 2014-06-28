@@ -10,4 +10,21 @@
 
 @implementation Message
 
+- (instancetype)init
+{
+    return [self initWithText:nil thread:nil poster:nil];
+}
+
+- (instancetype)initWithText: (NSString *)text
+                      thread: (NSString *)threadId
+                      poster: (User *)poster
+{
+    self = [super init];
+    if (self) {
+        self.text = text;
+        self.poster = poster;
+        self.threadId = threadId;
+    }
+    return self;
+}
 @end

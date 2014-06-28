@@ -100,24 +100,28 @@
                         //we now have an array of NSDictionary entries contating friend data
                         for (NSMutableDictionary *friendData in data) {
                             
-                            NSString *friendID = friendData[@"id"];
+                             dispatch_async(dispatch_get_main_queue(), ^{
+                            
+                                 NSString *friendID = friendData[@"id"];
                             
                             UIImage* friendImgProfile = [UIImage imageWithData:
                                            [NSData dataWithContentsOfURL:
                                                     [NSURL URLWithString:
                                               [NSString stringWithFormat:@"http://graph.facebook.com/%@/picture?type=large", friendID]]]];
-                            
-                            UIImageView *friendFacebookProfileImageView = [[UIImageView alloc] initWithImage:friendImgProfile];
-                            friendFacebookProfileImageView.frame = CGRectMake(_faceBookProfileImageContainerView.frame.origin.x, _faceBookProfileImageContainerView.frame.size.height/2, _faceBookProfileImageContainerView.frame.size.width, _faceBookProfileImageContainerView.frame.size.height/2);
-                            friendFacebookProfileImageView.backgroundColor = [UIColor redColor];
-                            friendFacebookProfileImageView.contentMode = UIViewContentModeScaleToFill;
-                            [_faceBookProfileImageContainerView addSubview:friendFacebookProfileImageView];
-                            
-                            UILabel *friendNameLabel = [[UILabel alloc]initWithFrame:CGRectMake(friendFacebookProfileImageView.frame.origin.x, friendFacebookProfileImageView.frame.origin.y, friendFacebookProfileImageView.frame.size.width, 60)];
-                            friendNameLabel.text = friendData[@"name"];
-                            friendNameLabel.textColor = [UIColor redColor];
-                            [_faceBookProfileImageContainerView addSubview:friendNameLabel];
-                            [_faceBookProfileImageContainerView bringSubviewToFront:friendNameLabel];
+                               
+                                UIImageView *friendFacebookProfileImageView = [[UIImageView alloc] initWithImage:friendImgProfile];
+                                friendFacebookProfileImageView.frame = CGRectMake(_faceBookProfileImageContainerView.frame.origin.x, _faceBookProfileImageContainerView.frame.size.height/2, _faceBookProfileImageContainerView.frame.size.width, _faceBookProfileImageContainerView.frame.size.height/2);
+                                friendFacebookProfileImageView.backgroundColor = [UIColor redColor];
+                                friendFacebookProfileImageView.contentMode = UIViewContentModeScaleToFill;
+                                [_faceBookProfileImageContainerView addSubview:friendFacebookProfileImageView];
+                                
+                                UILabel *friendNameLabel = [[UILabel alloc]initWithFrame:CGRectMake(friendFacebookProfileImageView.frame.origin.x, friendFacebookProfileImageView.frame.origin.y, friendFacebookProfileImageView.frame.size.width, 60)];
+                                friendNameLabel.text = friendData[@"name"];
+                                friendNameLabel.textColor = [UIColor redColor];
+                                [_faceBookProfileImageContainerView addSubview:friendNameLabel];
+                                [_faceBookProfileImageContainerView bringSubviewToFront:friendNameLabel];
+                            });
+                           
                         }
                     } else {
                         NSLog(@"%@", error);

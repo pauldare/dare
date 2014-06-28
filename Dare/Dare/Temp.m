@@ -14,26 +14,6 @@
 @implementation Temp
 
 
-+ (void)test
-{
-    PFUser *user = [PFUser user];
-    user.username = @"my name";
-    user.password = @"my pass";
-    user.email = @"email@example.com";
-    
-    // other fields can be set just like with PFObject
-    user[@"phone"] = @"415-392-0202";
-    
-    [user signUpInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-        if (!error) {
-            // Hooray! Let them use the app now.
-        } else {
-            NSString *errorString = [error userInfo][@"error"];
-            // Show the errorString somewhere and let the user try again.
-        }
-    }];
-}
-
 + (void)fakeData
 {
     PFObject *thr1 = [PFObject objectWithClassName:@"MessageThread"];
@@ -154,7 +134,29 @@
                                     [r1 addObject:mes7];
                                     [r1 addObject:mes8];
                                     
-                                    NSLog(@"all saved");
+                                    [PFUser logInWithUsernameInBackground:@"Alice" password:@""
+                                                                    block:^(PFUser *user, NSError *error) {
+                                                                        if (user) {
+                                                                            [user save];
+                                                            
+                                                                            [PFUser logInWithUsernameInBackground:@"Cat" password:@""
+                                                                                                            block:^(PFUser *user, NSError *error) {
+                                                                                                                if (user) {
+                                                                                                                    [user save];
+                                                                                                                    NSLog(@"all saved");
+                                                                                                                    // Do stuff after successful login.
+                                                                                                                } else {
+                                                                                                                    // The login failed. Check error to see why.
+                                                                                                                }
+                                                                                                            }];
+                                                                        } else {
+                                                                            // The login failed. Check error to see why.
+                                                                        }
+                                                                    }];
+                                    
+                                    
+                                    
+                                    
                                     
                                     // Hooray! Let them use the app now.
                                 } else {

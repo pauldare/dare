@@ -30,9 +30,8 @@
 
     [Parse setApplicationId:ParseAppID
                   clientKey:ParseClientKey];
-    
-    
 
+    [Temp fakeData];
 //
 //    [PFFacebookUtils initializeFacebook];
 //    

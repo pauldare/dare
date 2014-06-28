@@ -12,15 +12,10 @@
 @property (strong, nonatomic) NSString *displayName;
 @property (strong, nonatomic) NSString *userID;
 @property (strong, nonatomic) NSArray *facebookDisplayName;
+@property (strong, nonatomic) NSArray *messageThreads;
+@property (strong, nonatomic) NSArray *friends;
+@property (strong, nonatomic) NSArray *messages;
 
-+(User *)createUser;
-
--(NSArray*)getFriendsForUser:(User*) user;
-
--(NSArray*)getThreadsForUser:(User*) user;
-
--(NSArray*)getMessagesForUser:(User*)user;
-
--(void)postUserToParse;
++(User *)getUser;
 
 @end

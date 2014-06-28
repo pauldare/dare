@@ -9,8 +9,10 @@
 #import <Foundation/Foundation.h>
 #import <Parse/Parse.h>
 
-@interface Message : NSObject
+@class MessageThread;
+@class User;
 
+@interface Message : NSObject
 @property (strong, nonatomic) NSString *ID;
 @property (strong, nonatomic) NSString *poster;
 @property (strong, nonatomic) NSString *thread;
@@ -19,6 +21,8 @@
 @property (nonatomic) BOOL shouldBlur;
 @property (nonatomic) NSInteger blurTimer;
 @property (nonatomic) BOOL hasBeenViewed;
+@property (strong, nonatomic) User *messagePoster;
+@property (strong, nonatomic) MessageThread *messageThread;
 @property (strong, nonatomic) PFObject *parseObject;
 
 +(Message*)createNewMessage;

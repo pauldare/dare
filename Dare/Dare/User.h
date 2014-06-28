@@ -9,6 +9,9 @@
 #import <Foundation/Foundation.h>
 #import <Parse/Parse.h>
 
+@class Message;
+@class MessageThread;
+
 @interface User : NSObject
 @property (strong, nonatomic) NSString *displayName; //choose, set to fb by default
 @property (strong, nonatomic) NSString *userID; //comes from Parse

@@ -7,6 +7,8 @@
 //
 
 #import "MessageThread.h"
+#import "User.h"
+#import "Message.h"
 
 @implementation MessageThread
 

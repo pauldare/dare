@@ -17,7 +17,6 @@
 		4553B5A1195B944E005C6D1A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4553B59F195B944E005C6D1A /* InfoPlist.strings */; };
 		4553B5A3195B944E005C6D1A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4553B5A2195B944E005C6D1A /* main.m */; };
 		4553B5A7195B944E005C6D1A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4553B5A6195B944E005C6D1A /* AppDelegate.m */; };
-		4553B5AA195B944F005C6D1A /* Dare.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4553B5A8195B944F005C6D1A /* Dare.xcdatamodeld */; };
 		4553B5AC195B944F005C6D1A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4553B5AB195B944F005C6D1A /* Images.xcassets */; };
 		4553B5B3195B944F005C6D1A /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4553B5B2195B944F005C6D1A /* XCTest.framework */; };
 		4553B5B4195B944F005C6D1A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4553B594195B944E005C6D1A /* Foundation.framework */; };
@@ -68,7 +67,6 @@
 		4553B5A4195B944E005C6D1A /* Dare-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Dare-Prefix.pch"; sourceTree = "<group>"; };
 		4553B5A5195B944E005C6D1A /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		4553B5A6195B944E005C6D1A /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		4553B5A9195B944F005C6D1A /* Dare.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Dare.xcdatamodel; sourceTree = "<group>"; };
 		4553B5AB195B944F005C6D1A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		4553B5B1195B944F005C6D1A /* DareTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DareTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4553B5B2195B944F005C6D1A /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
@@ -181,7 +179,6 @@
 				456E6252195F27F4003CC220 /* Model */,
 				456E6256195F29FA003CC220 /* Temp */,
 				4553B5AB195B944F005C6D1A /* Images.xcassets */,
-				4553B5A8195B944F005C6D1A /* Dare.xcdatamodeld */,
 				4553B59D195B944E005C6D1A /* Supporting Files */,
 			);
 			path = Dare;
@@ -338,7 +335,6 @@
 				4553B5A7195B944E005C6D1A /* AppDelegate.m in Sources */,
 				07977E79195F236100B2C0C6 /* Message.m in Sources */,
 				4553B5A3195B944E005C6D1A /* main.m in Sources */,
-				4553B5AA195B944F005C6D1A /* Dare.xcdatamodeld in Sources */,
 				456E6251195F0336003CC220 /* Constants.m in Sources */,
 				456E6259195F2DB4003CC220 /* Temp.m in Sources */,
 			);
@@ -557,19 +553,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCVersionGroup section */
-		4553B5A8195B944F005C6D1A /* Dare.xcdatamodeld */ = {
-			isa = XCVersionGroup;
-			children = (
-				4553B5A9195B944F005C6D1A /* Dare.xcdatamodel */,
-			);
-			currentVersion = 4553B5A9195B944F005C6D1A /* Dare.xcdatamodel */;
-			path = Dare.xcdatamodeld;
-			sourceTree = "<group>";
-			versionGroupType = wrapper.xcdatamodel;
-		};
-/* End XCVersionGroup section */
 	};
 	rootObject = 4553B589195B944E005C6D1A /* Project object */;
 }

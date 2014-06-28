@@ -7,7 +7,21 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "User.h"
+#import "Message.h"
 
 @interface MessageThread : NSObject
+
+@property (strong, nonatomic) NSArray *messages;
+@property (strong, nonatomic) NSString *ID;
+@property (strong, nonatomic) NSArray *participants;
+
++(MessageThread*)createNewThread;
+
+-(void)addUserToThread:(User*)user;
+
+-(void)postMessgeToThread:(Message*)message;
+
+-(void)postMessageThreadToParse;
 
 @end

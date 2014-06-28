@@ -9,5 +9,18 @@
 #import <Foundation/Foundation.h>
 
 @interface User : NSObject
+@property (strong, nonatomic) NSString *displayName;
+@property (strong, nonatomic) NSString *userID;
+@property (strong, nonatomic) NSArray *facebookDisplayName;
+
++(User *)createUser;
+
+-(NSArray*)getFriendsForUser:(User*) user;
+
+-(NSArray*)getThreadsForUser:(User*) user;
+
+-(NSArray*)getMessagesForUser:(User*)user;
+
+-(void)postUserToParse;
 
 @end

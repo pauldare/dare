@@ -10,4 +10,17 @@
 
 @interface Message : NSObject
 
+@property (strong, nonatomic) NSString *ID;
+@property (strong, nonatomic) NSString *poster;
+@property (strong, nonatomic) NSString *thread;
+@property (strong, nonatomic) NSString *text;
+@property (strong, nonatomic) UIImage *picture;
+@property (nonatomic) BOOL shouldBlur;
+@property (nonatomic) NSInteger blurTimer;
+@property (nonatomic) BOOL hasBeenViewed;
+
++(Message*)createNewMessage;
+
+-(void)postMessageToPost;
+
 @end

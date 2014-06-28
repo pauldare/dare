@@ -33,7 +33,7 @@
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"The user is: %@, a friend with: %d friends, messages count: %d, threads count: %d", self.displayName, [self.friends count], [self.messages count], [self.messageThreads count]];
+    return [NSString stringWithFormat:@"The user is: %@, a friend with: %@ friends, messages count: %@, threads count: %@", self.displayName, self.friends, self.messages, self.messageThreads];
 }
 
 

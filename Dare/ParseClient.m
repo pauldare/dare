@@ -49,12 +49,9 @@
                                                     friends:friends //PFObjects
                                                    messages:messages]; //PFObjects
                     completion(loggedUser);
-                    
                 }];
             }];
         }];
-        
-        
     } else {
         failure();
     }
@@ -64,9 +61,7 @@
 + (void)loginWithFB
 {
     [PFFacebookUtils initializeFacebook];
-    
     NSArray *permissions = @[@"email", @"user_friends"];
-    
     if (FBSession.activeSession.state != FBSessionStateCreatedTokenLoaded) {
         [PFFacebookUtils logInWithPermissions:permissions block:^(PFUser *user, NSError *error) {
             if (!user) {

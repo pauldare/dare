@@ -24,7 +24,6 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-
     [Parse setApplicationId:ParseAppID
                   clientKey:ParseClientKey];
     
@@ -33,7 +32,7 @@
 //    } failure:nil];
     
     [ParseClient getLoggedInUser:^(User *loggedUser) {
-            NSLog(@"%@", loggedUser);
+        NSLog(@"%@", loggedUser);
     } WithFailure:nil];
     
     return YES;

@@ -10,6 +10,7 @@
 #import <Parse/Parse.h>
 #import "Constants.h"
 #import <FacebookSDK/FacebookSDK.h>
+#import "User.h"
 
 @interface AppDelegate()
 @property (strong, nonatomic) UIView *faceBookProfileImageContainerView;
@@ -42,10 +43,21 @@
                 NSLog(@"User signed up and logged in through Facebook!");
             } else {
                 NSLog(@"User logged in through Facebook!");
-                NSLog(@"Currently loggen in: %@", [PFUser currentUser]);
+                //NSLog(@"Currently loggen in: %@", [PFUser currentUser]);
+                
+                [PFUser logInWithUsername:@"Cat" password:@""];
+                
+
+                    User *newUser = [User getUser];
+                    NSLog(@"%@, %@", newUser.displayName, newUser.friends);
+
+               
             }
         }];
     }
+    
+ 
+    
 
     return YES;
 }

@@ -7,7 +7,6 @@
 //
 
 #import "User.h"
-#import <Parse/Parse.h>
 
 @implementation User
 
@@ -20,6 +19,7 @@
     user.messageThreads = parseUser[@""];
     user.friends = parseUser[@""];
     user.messages = parseUser[@""];
+    user.parseObject = parseUser;
     
     return user;
 }

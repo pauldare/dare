@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <Parse/Parse.h>
 
 @interface User : NSObject
 @property (strong, nonatomic) NSString *displayName;
@@ -15,6 +16,7 @@
 @property (strong, nonatomic) NSArray *messageThreads;
 @property (strong, nonatomic) NSArray *friends;
 @property (strong, nonatomic) NSArray *messages;
+@property (strong, nonatomic) PFUser *parseObject;
 
 +(User *)getUser;
 

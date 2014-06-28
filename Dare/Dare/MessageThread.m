@@ -7,7 +7,6 @@
 //
 
 #import "MessageThread.h"
-#import <Parse/Parse.h>
 
 @implementation MessageThread
 
@@ -26,26 +25,19 @@
 #warning Include ID For Thread
     [threadQuery includeKey:@"objectId"];
     [threadQuery whereKey:@"objectId" equalTo:self.ID];
-    [threadQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-        if (objects.count > 0) {
-            
-            PFObject *thread = objects[0];
-            
-            PFQuery *userQuery = [PFQuery queryWithClassName:@"User"];
-            [userQuery includeKey:@"objectId"];
-            [userQuery whereKey:@"objectId" equalTo: user.userID];
-            [userQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-                
-                if (objects.count > 0) {
-                    PFUser *user = objects[0];
-#warning Add @"users key"
-                    [thread addObject:user forKey:@""];
-                    [thread saveInBackground];
-                }
-            }];
-        }
-    }];
+    
+    [self.parseObject addObject:user.parseObject forKey:@""];
+    [self.parseObject saveInBackground];
 }
+
+-(void)postMessgeToThread:(Message *)message
+{
+#warning add relation key
+    [self.parseObject addObject:message.parseObject forKey:@""];
+    [self.parseObject saveInBackground];
+}
+
+
 
 
 @end

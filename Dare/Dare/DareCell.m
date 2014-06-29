@@ -26,6 +26,8 @@
         _backgroundImageView.backgroundColor = [UIColor clearColor];
         _unreadCountLabel.backgroundColor = [UIColor clearColor];
         _titleLabel.backgroundColor = [UIColor clearColor];
+        _backgroundImageView.backgroundColor = [UIColor DareBlue];
+        self.backgroundColor = [UIColor DareBlue];
         
         
     }
@@ -35,6 +37,15 @@
 - (void)awakeFromNib
 {
      self.cellContainerView.backgroundColor = [UIColor DareCellOverlay];
+    _cellContainerView.backgroundColor = [UIColor DareCellOverlay];
+    _backgroundImageView.backgroundColor = [UIColor clearColor];
+    _unreadCountLabel.backgroundColor = [UIColor clearColor];
+    _titleLabel.backgroundColor = [UIColor clearColor];
+    _titleLabel.font = [UIFont boldSystemFontOfSize:18];
+    _titleLabel.textColor = [UIColor whiteColor];
+    _unreadCountLabel.font = [UIFont boldSystemFontOfSize:48];
+    _unreadCountLabel.textColor = [UIColor DareUnreadBadge];
+
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated

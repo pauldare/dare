@@ -14,4 +14,6 @@
 
 +(UIColor *)DareCellOverlay;
 
++(UIColor *)DareUnreadBadge;
+
 @end

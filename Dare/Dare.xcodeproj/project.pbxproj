@@ -40,6 +40,11 @@
 		4553B5E0195B9EDC005C6D1A /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4553B5DF195B9EDC005C6D1A /* FacebookSDK.framework */; };
 		456E6259195F2DB4003CC220 /* Temp.m in Sources */ = {isa = PBXBuildFile; fileRef = 456E6258195F2DB4003CC220 /* Temp.m */; };
 		456E625F195F67C5003CC220 /* ParseClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 456E625E195F67C5003CC220 /* ParseClient.m */; };
+		5234BB1A19606D4C00850ECB /* DisplayNameSelectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5234BB1919606D4C00850ECB /* DisplayNameSelectViewController.m */; };
+		5234BB1D19606D8600850ECB /* UIColor+DareColors.m in Sources */ = {isa = PBXBuildFile; fileRef = 5234BB1C19606D8600850ECB /* UIColor+DareColors.m */; };
+		5234BB20196077AE00850ECB /* ChooseDisplayPhotoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5234BB1F196077AE00850ECB /* ChooseDisplayPhotoViewController.m */; };
+		527FDAE21960807B0083D6F0 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 527FDAE11960807B0083D6F0 /* AVFoundation.framework */; };
+		527FDAE5196086E00083D6F0 /* AVCamPreviewView.m in Sources */ = {isa = PBXBuildFile; fileRef = 527FDAE4196086E00083D6F0 /* AVCamPreviewView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -96,6 +101,15 @@
 		456E6258195F2DB4003CC220 /* Temp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Temp.m; sourceTree = "<group>"; };
 		456E625D195F67C5003CC220 /* ParseClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ParseClient.h; path = ../ParseClient.h; sourceTree = "<group>"; };
 		456E625E195F67C5003CC220 /* ParseClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ParseClient.m; path = ../ParseClient.m; sourceTree = "<group>"; };
+		5234BB1819606D4C00850ECB /* DisplayNameSelectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DisplayNameSelectViewController.h; sourceTree = "<group>"; };
+		5234BB1919606D4C00850ECB /* DisplayNameSelectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DisplayNameSelectViewController.m; sourceTree = "<group>"; };
+		5234BB1B19606D8600850ECB /* UIColor+DareColors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+DareColors.h"; sourceTree = "<group>"; };
+		5234BB1C19606D8600850ECB /* UIColor+DareColors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+DareColors.m"; sourceTree = "<group>"; };
+		5234BB1E196077AE00850ECB /* ChooseDisplayPhotoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChooseDisplayPhotoViewController.h; sourceTree = "<group>"; };
+		5234BB1F196077AE00850ECB /* ChooseDisplayPhotoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChooseDisplayPhotoViewController.m; sourceTree = "<group>"; };
+		527FDAE11960807B0083D6F0 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		527FDAE3196086E00083D6F0 /* AVCamPreviewView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVCamPreviewView.h; sourceTree = "<group>"; };
+		527FDAE4196086E00083D6F0 /* AVCamPreviewView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVCamPreviewView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,6 +117,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				527FDAE21960807B0083D6F0 /* AVFoundation.framework in Frameworks */,
 				4553B5DE195B9853005C6D1A /* SystemConfiguration.framework in Frameworks */,
 				4553B5DC195B9848005C6D1A /* StoreKit.framework in Frameworks */,
 				4553B5DA195B9829005C6D1A /* Security.framework in Frameworks */,
@@ -157,6 +172,7 @@
 		4553B593195B944E005C6D1A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				527FDAE11960807B0083D6F0 /* AVFoundation.framework */,
 				4553B5DF195B9EDC005C6D1A /* FacebookSDK.framework */,
 				4553B5DD195B9853005C6D1A /* SystemConfiguration.framework */,
 				4553B5DB195B9848005C6D1A /* StoreKit.framework */,
@@ -185,8 +201,16 @@
 				4553B5E1195B9FB2005C6D1A /* Constants.h */,
 				05FA70EC195FA75E00C057D4 /* Constants.m */,
 				0719EAB7195F516E007C2983 /* Storyboard.storyboard */,
+				5234BB1B19606D8600850ECB /* UIColor+DareColors.h */,
+				5234BB1C19606D8600850ECB /* UIColor+DareColors.m */,
 				0719EAB9195F5599007C2983 /* LoginViewController.h */,
 				0719EABA195F5599007C2983 /* LoginViewController.m */,
+				5234BB1819606D4C00850ECB /* DisplayNameSelectViewController.h */,
+				5234BB1919606D4C00850ECB /* DisplayNameSelectViewController.m */,
+				5234BB1E196077AE00850ECB /* ChooseDisplayPhotoViewController.h */,
+				5234BB1F196077AE00850ECB /* ChooseDisplayPhotoViewController.m */,
+				527FDAE3196086E00083D6F0 /* AVCamPreviewView.h */,
+				527FDAE4196086E00083D6F0 /* AVCamPreviewView.m */,
 				456E6252195F27F4003CC220 /* Model */,
 				456E6256195F29FA003CC220 /* Temp */,
 				4553B5AB195B944F005C6D1A /* Images.xcassets */,
@@ -344,9 +368,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5234BB1A19606D4C00850ECB /* DisplayNameSelectViewController.m in Sources */,
 				0719EABB195F5599007C2983 /* LoginViewController.m in Sources */,
+				527FDAE5196086E00083D6F0 /* AVCamPreviewView.m in Sources */,
 				07977E73195F230100B2C0C6 /* User.m in Sources */,
 				07977E76195F235700B2C0C6 /* MessageThread.m in Sources */,
+				5234BB1D19606D8600850ECB /* UIColor+DareColors.m in Sources */,
+				5234BB20196077AE00850ECB /* ChooseDisplayPhotoViewController.m in Sources */,
 				456E625F195F67C5003CC220 /* ParseClient.m in Sources */,
 				05FA70ED195FA75E00C057D4 /* Constants.m in Sources */,
 				4553B5A7195B944E005C6D1A /* AppDelegate.m in Sources */,

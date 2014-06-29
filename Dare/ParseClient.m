@@ -66,24 +66,51 @@
                 if (!error) {
                     NSLog(@"Uh oh. The user cancelled the Facebook login.");
                 }
-//            } else if (user.isNew) {
-//                                NSLog(@"User signed up and logged in through Facebook!");
-            } else {
-                NSLog(@"User logged in through Facebook!");
-                //NSLog(@"Currently loggen in: %@", [PFUser currentUser]);
+            } else if (user.isNew) {
                 [FBRequestConnection startForMeWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
                     if (!error) {
-                        // Store the current user's Facebook ID on the user
-                        [[PFUser currentUser] setObject:[result objectForKey:@"id"]
-                                                 forKey:@"fbId"];
-                        [[PFUser currentUser] saveInBackground];
+                        PFUser *currentUser = [PFUser currentUser];
+                        [currentUser setObject:[result objectForKey:@"id"] forKey:@"fbId"];
+                        [currentUser setObject:[result objectForKey:@"name"] forKey:@"displayName"];
+                        [currentUser saveInBackground];
+                        // Store the current user's Facebook ID, userName and photo on the user
+                        [self fetchUserProfilePicture:^(NSString *imageString) { //if fails should handle offer to take a picture from camera of device library
+                            
+                            [currentUser setObject:imageString forKey:@"image"];
+                            [currentUser saveInBackground];
+                            
+                            completion();
+                        }];
                     }
                 }];
-
+            } else {
+                NSLog(@"Existing user logged in through Facebook!");
                 completion();
             }
         }];
     }
+}
+
++ (void)fetchUserProfilePicture: (void(^)(NSString *))completion
+{
+    NSString *requestPath = @"me/?fields=picture.type(large)";
+    FBRequest *request = [[FBRequest alloc] initWithSession:[PFFacebookUtils session] graphPath:requestPath];
+    [request startWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
+        if (result) {
+            NSString *urlString = result[@"picture"][@"data"][@"url"];
+            UIImage *profileImage = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString: urlString]]];
+            NSData *imageData = UIImagePNGRepresentation(profileImage);
+            NSString *imageString;
+            imageString = [[NSString alloc] initWithData:imageData encoding:NSUTF8StringEncoding];
+            if (!imageString) {
+                imageString = [[NSString alloc] initWithData:imageData encoding:NSASCIIStringEncoding];
+            }
+            completion(imageString);
+        } else {
+            NSLog(@"%@", error);
+        }
+        
+    }];
 }
 
 + (void)getMessageThreadsForUser: (User *)user
@@ -199,7 +226,7 @@
 }
 
 
-+ (void)addFriend: (PFUser *)friend
++ (void)relateFriend: (PFUser *)friend
        completion:(void(^)())completion//adds PFUser to friends relation
 {
     PFUser *currentUser = [PFUser currentUser];
@@ -225,7 +252,7 @@
                 for (NSMutableDictionary *friendData in data) {
                     
                     [self findPFUserByFacebookId:friendData[@"id"] completion:^(PFUser *foundUser) {
-                        [self addFriend:foundUser completion:^{
+                        [self relateFriend:foundUser completion:^{
                             count++;
                         }];
                     }];

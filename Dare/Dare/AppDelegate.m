@@ -28,14 +28,12 @@
     [Parse setApplicationId:ParseAppID
                   clientKey:ParseClientKey];
     
-//    [ParseClient loginWithFB:^{
-//        
-//        [ParseClient relateFacebookFriendsInParse:^(bool isDone) {
-//            if (isDone) {
-//                NSLog(@"done");
-//            }
-//        } failure:nil];
-//    }];
+    
+    [ParseClient loginWithFB:^{
+        
+        NSLog(@"signed up");
+        
+    }];
    
     return YES;
 }

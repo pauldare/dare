@@ -108,8 +108,7 @@
             completion(imageString);
         } else {
             NSLog(@"%@", error);
-        }
-        
+        }  
     }];
 }
 
@@ -165,9 +164,14 @@
             [threadQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
                 NSArray *parseMessages = objects;
                 for (PFObject *parseMessage in parseMessages) {
+                    BOOL isRead = NO;
+                    if (![parseMessage[@"isRead"] isEqualToString:@"NO"]) {
+                        isRead = YES;
+                    }
                     Message *message = [[Message alloc]initWithText:parseMessage[@"text"]
                                                                user: user
-                                                             thread:thread];
+                                                             thread:thread
+                                                             isRead:isRead];
                     [threadMessages addObject:message];
                 }
                 completion(threadMessages);
@@ -178,6 +182,30 @@
         }
             }];
 }
+
++ (void)addMessageToThread: (MessageThread *)thread
+                  withText: (NSString *)text
+                   picture: (NSString *)pictureString
+{
+    PFQuery *threadQuery = [PFQuery queryWithClassName:@"MessageThread"];
+    [threadQuery whereKey:@"id" equalTo:thread.identifier];
+    [threadQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        PFObject *parseThread = objects[0];
+        
+        PFObject *parseMessage = [PFObject objectWithClassName:@"Message"];
+        [parseMessage addObject:text forKey:@"text"];
+        [parseMessage addObject:pictureString forKey:@"picture"];
+        [parseMessage addObject:@"NO" forKey:@"isRead"];
+        
+        PFRelation *messageToThread = [parseMessage relationForKey:@"messageThreads"];
+        [messageToThread addObject:parseThread];
+        [parseMessage saveInBackground];
+        PFRelation *threadToMessage = [parseThread relationForKey:@"messages"];
+        [threadToMessage addObject:parseMessage];
+        [parseThread saveInBackground];
+    }];
+}
+
 
 
 + (void)findUserByName: (NSString *)displayName

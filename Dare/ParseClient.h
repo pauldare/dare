@@ -51,5 +51,9 @@
 
 + (void)fetchUserProfilePicture: (void(^)(NSString *))completion;
 
++ (void)addMessageToThread: (MessageThread *)thread
+                  withText: (NSString *)text
+                   picture: (NSString *)pictureString;
+
 
 @end

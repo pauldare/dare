@@ -29,7 +29,6 @@
             failure: (void(^)())failure
 {
     //PFUser *currentUser = [PFUser currentUser];
-        
     PFRelation *messageThreadRelation = [currentUser relationForKey:@"messageThreads"];
     PFRelation *friendsRelation = [currentUser relationForKey:@"friends"];
     PFRelation *messagesRelation = [currentUser relationForKey:@"messages"];
@@ -60,9 +59,7 @@
 + (void)loginWithFB
 {
     [PFFacebookUtils initializeFacebook];
-    
     NSArray *permissions = @[@"email", @"user_friends"];
-    
     if (FBSession.activeSession.state != FBSessionStateCreatedTokenLoaded) {
         [PFFacebookUtils logInWithPermissions:permissions block:^(PFUser *user, NSError *error) {
             if (!user) {

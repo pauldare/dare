@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		05FA70ED195FA75E00C057D4 /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = 05FA70EC195FA75E00C057D4 /* Constants.m */; };
 		0719EAB8195F516E007C2983 /* Storyboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0719EAB7195F516E007C2983 /* Storyboard.storyboard */; };
+		0719EABB195F5599007C2983 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0719EABA195F5599007C2983 /* LoginViewController.m */; };
 		07977E73195F230100B2C0C6 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 07977E72195F230100B2C0C6 /* User.m */; };
 		07977E76195F235700B2C0C6 /* MessageThread.m in Sources */ = {isa = PBXBuildFile; fileRef = 07977E75195F235700B2C0C6 /* MessageThread.m */; };
 		07977E79195F236100B2C0C6 /* Message.m in Sources */ = {isa = PBXBuildFile; fileRef = 07977E78195F236100B2C0C6 /* Message.m */; };
@@ -54,6 +55,8 @@
 /* Begin PBXFileReference section */
 		05FA70EC195FA75E00C057D4 /* Constants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Constants.m; path = ../Constants.m; sourceTree = "<group>"; };
 		0719EAB7195F516E007C2983 /* Storyboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Storyboard.storyboard; sourceTree = "<group>"; };
+		0719EAB9195F5599007C2983 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
+		0719EABA195F5599007C2983 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		07977E71195F230100B2C0C6 /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
 		07977E72195F230100B2C0C6 /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
 		07977E74195F235700B2C0C6 /* MessageThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageThread.h; sourceTree = "<group>"; };
@@ -182,6 +185,8 @@
 				4553B5E1195B9FB2005C6D1A /* Constants.h */,
 				05FA70EC195FA75E00C057D4 /* Constants.m */,
 				0719EAB7195F516E007C2983 /* Storyboard.storyboard */,
+				0719EAB9195F5599007C2983 /* LoginViewController.h */,
+				0719EABA195F5599007C2983 /* LoginViewController.m */,
 				456E6252195F27F4003CC220 /* Model */,
 				456E6256195F29FA003CC220 /* Temp */,
 				4553B5AB195B944F005C6D1A /* Images.xcassets */,
@@ -339,6 +344,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0719EABB195F5599007C2983 /* LoginViewController.m in Sources */,
 				07977E73195F230100B2C0C6 /* User.m in Sources */,
 				07977E76195F235700B2C0C6 /* MessageThread.m in Sources */,
 				456E625F195F67C5003CC220 /* ParseClient.m in Sources */,

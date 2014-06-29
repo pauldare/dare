@@ -34,6 +34,4 @@
     return [NSString stringWithFormat:@"The message is: '%@'", self.text];
 }
 
-
-
 @end

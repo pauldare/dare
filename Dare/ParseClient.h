@@ -10,6 +10,7 @@
 #import "User.h"
 #import "MessageThread.h"
 #import "Message.h"
+#import "User.h"
 
 
 
@@ -53,7 +54,14 @@
 
 + (void)addMessageToThread: (MessageThread *)thread
                   withText: (NSString *)text
-                   picture: (NSString *)pictureString;
+                   picture: (UIImage *)picture
+                completion: (void(^)())completion; //not tested
+
++ (void)startMessageThreadForUsers: (NSArray *)participants
+                       withMessage: (PFObject *) message
+                         withTitle: (NSString *)title
+                    backroundImage: (UIImage *)backgroundImage
+                        completion: (void(^)())completion; //not tested
 
 
 @end

@@ -90,11 +90,11 @@
                                 [aliceThreads addObject:threadOne];
                                 [aliceThreads addObject:threadTwo];
                                 
-                                PFRelation *threadOneToAlice = [threadOne relationForKey:@"User"];
+                                PFRelation *threadOneToAlice = [threadOne relationForKey:@"Users"];
                                 [threadOneToAlice addObject:alice];
                                 [threadOne save];
                                 
-                                PFRelation *threadTwoToAlice = [threadTwo relationForKey:@"User"];
+                                PFRelation *threadTwoToAlice = [threadTwo relationForKey:@"Users"];
                                 [threadTwoToAlice addObject:alice];
                                 [threadTwo save];
                                 
@@ -130,7 +130,7 @@
                                             PFRelation *bobThreads = [bob relationForKey:@"messageThreads"];
                                             [bobThreads addObject:threadTwo];
                                             
-                                            PFRelation *threadTwoToBob = [threadTwo relationForKey:@"User"];
+                                            PFRelation *threadTwoToBob = [threadTwo relationForKey:@"Users"];
                                             [threadTwoToBob addObject:bob];
                                             [threadTwo save];
                                             

@@ -17,13 +17,17 @@
     return [self initWithUser:nil
                  participants:nil
                      messages:nil
-                   identifier:nil];
+                   identifier:nil
+                        title:nil
+              backgroundImage:nil];
 }
 
 - (instancetype)initWithUser: (User *)user
                 participants: (NSArray *)participants
                     messages: (NSMutableArray *)messages
                   identifier: (NSString *)identifier
+                       title: (NSString *)title
+             backgroundImage: (UIImage *)image;
 {
     self = [super init];
     if (self) {
@@ -31,6 +35,8 @@
         self.participants = participants;
         self.messages = messages;
         self.identifier = identifier;
+        self.title = title;
+        self.backgroundImage = image;
     }
     return self;
 }
@@ -42,24 +48,7 @@
 
 
 
-//-(void)addUserToThread:(User *)user
-//{
-//    NSMutableArray *participants = [self.participants mutableCopy];
-//    [participants addObject:user];
-//    
-//    PFQuery *threadQuery = [PFQuery queryWithClassName:@"MessageThread"];
-//    [threadQuery includeKey:@"objectId"];
-//    [threadQuery whereKey:@"objectId" equalTo:self.ID];
-//    
-//    [self.parseObject addObject:user.parseObject forKey:@"Users"];
-//    [self.parseObject saveInBackground];
-//}
-//
-//-(void)postMessgeToThread:(Message *)message
-//{
-//    [self.parseObject addObject:message.parseObject forKey:@"Messages"];
-//    [self.parseObject saveInBackground];
-//}
+
 
 
 

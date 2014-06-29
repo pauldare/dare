@@ -49,7 +49,7 @@
 + (void)relateFacebookFriendsInParse: (void(^)(bool))completion
                              failure: (void(^)(NSError *))failure;
 
-+ (void)fetchUserProfilePicture: (void(^)(NSString *))completion;
++ (void)fetchUserProfilePicture: (void(^)(NSData *))completion;
 
 + (void)addMessageToThread: (MessageThread *)thread
                   withText: (NSString *)text

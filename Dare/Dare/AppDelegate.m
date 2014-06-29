@@ -27,6 +27,10 @@
 {
     [Parse setApplicationId:ParseAppID
                   clientKey:ParseClientKey];
+    
+    [ParseClient loginWithFB:^{
+        
+    }];
     return YES;
 }
 

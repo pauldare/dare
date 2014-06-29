@@ -11,6 +11,7 @@
 #import <AVFoundation/AVFoundation.h>
 #import <AssetsLibrary/AssetsLibrary.h>
 #import "UIColor+DareColors.h"
+#import "ParseClient.h"
 
 
 @interface ChooseDisplayPhotoViewController ()
@@ -33,7 +34,12 @@
     [super viewDidLoad];
     _captureSessionIsActive = NO;
 
-    _imageView.hidden = YES;
+    //_imageView.hidden = YES;
+    
+    [ParseClient getUser:[PFUser currentUser] completion:^(User *loggedUser) {
+        _imageView.image = loggedUser.profileImage;
+    } failure:nil];
+    
 }
 
 

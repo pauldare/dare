@@ -21,6 +21,7 @@
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
 @property (strong, nonatomic) UIImage *capturedImage;
 @property (nonatomic) BOOL captureSessionIsActive;
+@property (weak, nonatomic) IBOutlet UIButton *cameraCaptureButton;
 
 // For use in the storyboards.
 
@@ -32,6 +33,11 @@
 {
     [super viewDidLoad];
     _captureSessionIsActive = NO;
+    _cameraCaptureButton.tintColor = [UIColor DareBlue];
+    _imageView.backgroundColor = [UIColor DareBlue];
+    _cameraView.backgroundColor = [UIColor DareBlue];
+    [self.view bringSubviewToFront:_cameraCaptureButton];
+    
 
     
 }

@@ -15,5 +15,10 @@
     return [UIColor colorWithRed:0 green:0.84 blue:1.0 alpha:1.0];
 }
 
++(UIColor *)DareCellOverlay
+{
+    return [UIColor colorWithRed:0 green:0 blue:0 alpha:0.5];
+}
+
 
 @end

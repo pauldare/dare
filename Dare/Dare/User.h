@@ -15,6 +15,7 @@
 @property (strong, nonatomic) NSString *identifier; //comes from Parse
 @property (strong, nonatomic) NSArray *facebookDisplayName; 
 @property (strong, nonatomic) NSArray *messageThreads;
+@property (strong, nonatomic) UIImage *profileImage;
 @property (strong, nonatomic) NSArray *friends;
 @property (strong, nonatomic) NSMutableArray *messages;
 @property (strong, nonatomic) PFUser *parseObject;
@@ -23,6 +24,7 @@
                      messageThreads: (NSArray *)messageThreads
                             friends: (NSArray *)friends
                            messages: (NSMutableArray *)messages
-                         identifier: (NSString *)identifier;
+                         identifier: (NSString *)identifier
+                        profileImage: (UIImage *)profileImage;
 
 @end

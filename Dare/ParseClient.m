@@ -43,16 +43,29 @@
             NSArray *friends = objects;
             [messagesQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
                 NSMutableArray *messages = [objects mutableCopy];
+                
+                PFFile *imageFile = currentUser[@"image"];
+                UIImage *userPic = [self imageFileToImage:imageFile];
+                
                 User *loggedUser = [[User alloc]initWithDisplayName:currentUser[@"displayName"]
                                          messageThreads:messageThreads //PFObjects
                                                 friends:friends //PFObjects
                                                messages:messages
-                                            identifier:currentUser[@"objectId"]]; //PFObjects
+                                            identifier:currentUser[@"objectId"]
+                                            profileImage:userPic];
                 completion(loggedUser);
                 
             }];
         }];
     }];
+}
+
+
++ (UIImage *)imageFileToImage: (PFFile *)imageFile
+{
+    NSData *imageData = [imageFile getData];
+    UIImage *image = [UIImage imageWithData:imageData];
+    return image;
 }
 
 
@@ -74,9 +87,11 @@
                         [currentUser setObject:[result objectForKey:@"name"] forKey:@"displayName"];
                         [currentUser saveInBackground];
                         // Store the current user's Facebook ID, userName and photo on the user
-                        [self fetchUserProfilePicture:^(NSString *imageString) { //if fails should handle offer to take a picture from camera of device library
+                        [self fetchUserProfilePicture:^(NSData *imageData) { //if fails should handle offer to take a picture from camera of device library
                             
-                            [currentUser setObject:imageString forKey:@"image"];
+                            PFFile *file = [PFFile fileWithName:@"userPic" data:imageData];
+                            [file saveInBackground];
+                            [currentUser setObject:file forKey:@"image"];
                             [currentUser saveInBackground];
                             
                             completion();
@@ -84,28 +99,23 @@
                     }
                 }];
             } else {
+                
                 NSLog(@"Existing user logged in through Facebook!");
-                completion();
+                //completion();
             }
         }];
     }
 }
 
-+ (void)fetchUserProfilePicture: (void(^)(NSString *))completion
++ (void)fetchUserProfilePicture: (void(^)(NSData *))completion
 {
     NSString *requestPath = @"me/?fields=picture.type(large)";
     FBRequest *request = [[FBRequest alloc] initWithSession:[PFFacebookUtils session] graphPath:requestPath];
     [request startWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
         if (result) {
             NSString *urlString = result[@"picture"][@"data"][@"url"];
-            UIImage *profileImage = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString: urlString]]];
-            NSData *imageData = UIImagePNGRepresentation(profileImage);
-            NSString *imageString;
-            imageString = [[NSString alloc] initWithData:imageData encoding:NSUTF8StringEncoding];
-            if (!imageString) {
-                imageString = [[NSString alloc] initWithData:imageData encoding:NSASCIIStringEncoding];
-            }
-            completion(imageString);
+            NSData *imageData = [NSData dataWithContentsOfURL:[NSURL URLWithString: urlString]];
+            completion(imageData);
         } else {
             NSLog(@"%@", error);
         }  

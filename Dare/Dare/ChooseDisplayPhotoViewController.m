@@ -11,6 +11,7 @@
 #import <AVFoundation/AVFoundation.h>
 #import <AssetsLibrary/AssetsLibrary.h>
 #import "UIColor+DareColors.h"
+#import "ParseClient.h"
 
 
 @interface ChooseDisplayPhotoViewController ()
@@ -38,8 +39,9 @@
     _cameraView.backgroundColor = [UIColor DareBlue];
     [self.view bringSubviewToFront:_cameraCaptureButton];
     
-
-    
+    [ParseClient getUser:[PFUser currentUser] completion:^(User *loggedUser) {
+        _imageView.image = loggedUser.profileImage;
+    } failure:nil];
 }
 
 

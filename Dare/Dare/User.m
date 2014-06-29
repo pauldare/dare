@@ -16,7 +16,8 @@
                       messageThreads:nil
                              friends:nil
                             messages:nil
-                          identifier:nil];
+                          identifier:nil
+                        profileImage:nil];
 }
 
 - (instancetype)initWithDisplayName: (NSString *)displayName
@@ -24,6 +25,7 @@
                             friends: (NSArray *)friends
                            messages: (NSMutableArray *)messages
                          identifier: (NSString *)identifier
+                        profileImage: (UIImage *)profileImage
 
 {
     self = [super init];
@@ -32,6 +34,7 @@
         self.messageThreads = messageThreads;
         self.friends = friends;
         self.messages = messages;
+        self.profileImage = profileImage;
     }
     return self;
 }

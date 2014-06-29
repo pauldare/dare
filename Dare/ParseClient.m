@@ -42,7 +42,7 @@
         [friendsQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
             NSArray *friends = objects;
             [messagesQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-                NSArray *messages = [objects mutableCopy];
+                NSMutableArray *messages = [objects mutableCopy];
                 User *loggedUser = [[User alloc]initWithDisplayName:currentUser[@"displayName"]
                                          messageThreads:messageThreads //PFObjects
                                                 friends:friends //PFObjects
@@ -56,7 +56,7 @@
 }
 
 
-+ (void)loginWithFB
++ (void)loginWithFB: (void(^)())completion
 {
     [PFFacebookUtils initializeFacebook];
     NSArray *permissions = @[@"email", @"user_friends"];
@@ -66,11 +66,21 @@
                 if (!error) {
                     NSLog(@"Uh oh. The user cancelled the Facebook login.");
                 }
-            } else if (user.isNew) {
-                NSLog(@"User signed up and logged in through Facebook!");
+//            } else if (user.isNew) {
+//                                NSLog(@"User signed up and logged in through Facebook!");
             } else {
                 NSLog(@"User logged in through Facebook!");
-                NSLog(@"Currently loggen in: %@", [PFUser currentUser]);
+                //NSLog(@"Currently loggen in: %@", [PFUser currentUser]);
+                [FBRequestConnection startForMeWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
+                    if (!error) {
+                        // Store the current user's Facebook ID on the user
+                        [[PFUser currentUser] setObject:[result objectForKey:@"id"]
+                                                 forKey:@"fbId"];
+                        [[PFUser currentUser] saveInBackground];
+                    }
+                }];
+
+                completion();
             }
         }];
     }
@@ -148,12 +158,88 @@
 {
     PFQuery *userQuery = [PFUser query];
     [userQuery whereKey:@"displayName" equalTo:displayName];
-    PFUser *foundUser = [userQuery findObjects][0];
-    
-    [self getUser:foundUser completion:^(User *searchResultUser) {
-        //NSLog(@"Search result user: %@", searchResultUser.displayName);
-        completion(searchResultUser);
-    } failure:nil];
+    NSArray *foundUsers = [userQuery findObjects];
+    if ([foundUsers count] > 0) {
+        PFUser *foundUser = foundUsers[0];
+        [self getUser:foundUser completion:^(User *searchResultUser) {
+            //NSLog(@"Search result user: %@", searchResultUser.displayName);
+            completion(searchResultUser);
+        } failure:nil];
+    } else {
+        completion(nil);
+    }
+}
+
++ (void)findPFUserByName: (NSString *)displayName
+                  completion:(void(^)(PFUser *))completion
+{
+    PFQuery *userQuery = [PFUser query];
+    [userQuery whereKey:@"displayName" equalTo:displayName];
+    NSArray *foundUsers = [userQuery findObjects];
+    if ([foundUsers count] > 0) {
+        PFUser *foundUser = foundUsers[0];
+        completion(foundUser);
+    } else {
+        completion(nil);
+    }
+}
+
++ (void)findPFUserByFacebookId: (NSString *)fbid
+                    completion:(void(^)(PFUser *))completion
+{
+    PFQuery *userQuery = [PFUser query];
+    [userQuery whereKey:@"fbId" equalTo:fbid];
+    NSArray *foundUsers = [userQuery findObjects];
+    if ([foundUsers count] > 0) {
+        PFUser *foundUser = foundUsers[0];
+        completion(foundUser);
+    } else {
+        completion(nil);
+    }
+}
+
+
++ (void)addFriend: (PFUser *)friend
+       completion:(void(^)())completion//adds PFUser to friends relation
+{
+    PFUser *currentUser = [PFUser currentUser];
+    if (currentUser) {
+        PFRelation *friendRelation = [currentUser relationForKey:@"friends"];
+        [friendRelation addObject:friend];
+        [currentUser saveInBackground];
+        completion();
+    } else {
+        NSLog(@"not logged in");
+    }
+}
+
++ (void)relateFacebookFriendsInParse: (void(^)(bool))completion
+                             failure: (void(^)(NSError *))failure //adds friend relation with FBFriends, who already have logged in to Parse
+{
+    FBRequest *friendsRequest = [[FBRequest alloc]initWithSession:[PFFacebookUtils session] graphPath:@"me/friends"];
+    [friendsRequest startWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
+        if (!error) {
+            NSArray *data = [result objectForKey:@"data"];
+            __block NSInteger count = 0;
+            if (data) {
+                for (NSMutableDictionary *friendData in data) {
+                    
+                    [self findPFUserByFacebookId:friendData[@"id"] completion:^(PFUser *foundUser) {
+                        [self addFriend:foundUser completion:^{
+                            count++;
+                        }];
+                    }];
+                }
+            }
+            bool isDone = NO;
+            if (count == [data count]) {
+                isDone = YES;
+            }
+            completion(isDone);
+        } else {
+            failure(error);
+        }
+    }];
 }
 
 

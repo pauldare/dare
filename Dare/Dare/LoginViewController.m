@@ -10,6 +10,7 @@
 #import <Parse/Parse.h>
 #import <FacebookSDK/FacebookSDK.h>
 #import "User.h"
+#import "ParseClient.h"
 
 
 @interface LoginViewController ()<UIScrollViewDelegate>
@@ -91,28 +92,11 @@
 
 -(void)login
 {
-    NSArray *permissions = @[@"email", @"user_friends"];
-    if (FBSession.activeSession.state != FBSessionStateCreatedTokenLoaded) {
-        [PFFacebookUtils logInWithPermissions:permissions block:^(PFUser *user, NSError *error) {
-            if (!user) {
-                if (!error) {
-                    NSLog(@"Uh oh. The user cancelled the Facebook login.");
-                }
-            } else if (user.isNew) {
-                NSLog(@"User signed up and logged in through Facebook!");
-            } else {
-                NSLog(@"User logged in through Facebook!");
-                //NSLog(@"Currently loggen in: %@", [PFUser currentUser]);
-                
-                //User *newUser = [User getUser];
-                //NSLog(@"%@, %@", newUser.displayName, newUser.friends);
-                
-                
-            }
-        }];
-    }
-    
+    [ParseClient loginWithFB:^{
+        NSLog(@"logged");
+    }];
 }
+
 -(void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];

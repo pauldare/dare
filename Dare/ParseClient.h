@@ -23,7 +23,7 @@
      completion:(void(^)(User *))completion
         failure: (void(^)())failure;
 
-+ (void)loginWithFB;
++ (void)loginWithFB: (void(^)())completion;
 
 + (void)getMessageThreadsForUser: (User *)user
                      completion: (void(^)(NSArray *, bool))completion
@@ -35,7 +35,16 @@
                   failure: (void(^)(NSError *))failure;
 
 + (void)findUserByName: (NSString *)displayName
-            completion:(void(^)(User *))completion;
+            completion:(void(^)(User *))completion; //passes User in completion
+
++ (void)findPFUserByName: (NSString *)displayName
+              completion:(void(^)(PFUser *))completion; //returns PFUser
+
++ (void)addFriend: (PFUser *)friend
+        completion:(void(^)())completion; //adds friend on Parse side
+
++ (void)relateFacebookFriendsInParse: (void(^)(bool))completion
+                             failure: (void(^)(NSError *))failure;
 
 
 @end

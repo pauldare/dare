@@ -11,6 +11,7 @@
 #import <FacebookSDK/FacebookSDK.h>
 #import "User.h"
 #import "ParseClient.h"
+#import "UIColor+DareColors.h"
 
 
 @interface LoginViewController ()<UIScrollViewDelegate>
@@ -51,10 +52,11 @@
     [_signinLabel addGestureRecognizer:signinGesture];
     _arrowLabel.userInteractionEnabled = YES;
     _signinLabel.userInteractionEnabled = YES;
-    _scrollView.backgroundColor = [UIColor colorWithRed:0 green:0.84 blue:1.0 alpha:1.0];
-    _containerView.backgroundColor = [UIColor colorWithRed:0 green:0.84 blue:1.0 alpha:1.0];
+    _scrollView.backgroundColor = [UIColor DareBlue];
+    _containerView.backgroundColor = [UIColor DareBlue];
     _signinLabel.translatesAutoresizingMaskIntoConstraints = NO;
     _arrowLabel.translatesAutoresizingMaskIntoConstraints = NO;
+    _signinLabel.textAlignment = NSTextAlignmentRight;
     
     _scrollView.frame = self.view.frame;
     CGRect scrollFrame = _scrollView.frame;

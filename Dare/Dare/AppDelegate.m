@@ -27,14 +27,6 @@
 {
     [Parse setApplicationId:ParseAppID
                   clientKey:ParseClientKey];
-    
-    
-    [ParseClient loginWithFB:^{
-        
-        NSLog(@"signed up");
-        
-    }];
-   
     return YES;
 }
 
@@ -66,6 +58,9 @@
 - (void)applicationWillTerminate:(UIApplication *)application
 {
     // Saves changes in the application's managed object context before the application terminates.
+#warning uncomment code to terminate FB session
+    //    FBSession *activeSession = [FBSession activeSession];
+    //    [activeSession closeAndClearTokenInformation];
 }
 
 
@@ -77,6 +72,15 @@
     return [FBAppCall handleOpenURL:url
                   sourceApplication:sourceApplication
                         withSession:[PFFacebookUtils session]];
+    
+    FBSession *activeSession = [FBSession activeSession];
+    
+    if (activeSession.isOpen) {
+        UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];
+        
+        
+    }
+    
 }
 
 

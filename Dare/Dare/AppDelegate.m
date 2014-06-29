@@ -27,19 +27,6 @@
 {
     [Parse setApplicationId:ParseAppID
                   clientKey:ParseClientKey];
-    
-    [PFFacebookUtils initializeFacebook];
-    
-    
-    
- 
-    
-    NSLog(@"%@", [PFFacebookUtils session]);
-    
-    
-    
-
-    
     return YES;
 }
 

@@ -94,8 +94,11 @@
 
 -(void)login
 {
-    [ParseClient loginWithFB];
+    [ParseClient loginWithFB:^{
+        NSLog(@"logged");
+    }];
 }
+
 -(void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];

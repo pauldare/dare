@@ -12,13 +12,18 @@
 
 - (instancetype)init
 {
-    return [self initWithDisplayName:@"" messageThreads:@[] friends:@[] messages:@[]];
+    return [self initWithDisplayName:nil
+                      messageThreads:nil
+                             friends:nil
+                            messages:nil
+                          identifier:nil];
 }
 
 - (instancetype)initWithDisplayName: (NSString *)displayName
                      messageThreads: (NSArray *)messageThreads
                             friends: (NSArray *)friends
-                           messages: (NSArray *)messages
+                           messages: (NSMutableArray *)messages
+                         identifier: (NSString *)identifier
 
 {
     self = [super init];
@@ -33,7 +38,7 @@
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"The user is: %@, a friend with: %d friends, messages count: %d, threads count: %d", self.displayName, [self.friends count], [self.messages count], [self.messageThreads count]];
+    return [NSString stringWithFormat:@"The user is: %@", self.displayName];
 }
 
 

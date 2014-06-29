@@ -8,23 +8,28 @@
 
 #import <Foundation/Foundation.h>
 #import <Parse/Parse.h>
+#import "User.h"
 
-@class User;
-@class Message;
+
 
 @interface MessageThread : NSObject
 
-@property (strong, nonatomic) NSArray *messages;
-@property (strong, nonatomic) NSString *ID;
+@property (strong, nonatomic) NSMutableArray *messages;
+@property (strong, nonatomic) NSString *identifier;
 @property (strong, nonatomic) NSArray *participants;
 @property (strong, nonatomic) PFObject *parseObject;
+@property (strong, nonatomic) User *user;
 
-+(MessageThread*)getThread;
+- (instancetype)initWithUser: (User *)user
+                participants: (NSArray *)participants
+                    messages: (NSMutableArray *)messages
+                  identifier: (NSString *)identifier;
 
--(void)addUserToThread:(User*)user;
 
--(void)postMessgeToThread:(Message *)message;
-
--(void)postMessageThreadToParse;
+//-(void)addUserToThread:(User*)user;
+//
+//-(void)postMessgeToThread:(Message *)message;
+//
+//-(void)postMessageThreadToParse;
 
 @end

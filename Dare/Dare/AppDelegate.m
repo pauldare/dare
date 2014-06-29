@@ -11,6 +11,7 @@
 #import "Temp.h"
 #import "ParseClient.h"
 #import "Message.h"
+#import "MessageThread.h"
 
 
 @interface AppDelegate()
@@ -28,14 +29,37 @@
     [Parse setApplicationId:ParseAppID
                   clientKey:ParseClientKey];
     
+    [ParseClient findUserByName:@"fbuser" completion:^(User *foundUser) {
+        NSLog(@"Found user: %@", foundUser);
+    }];
+    
+//    PFUser *currentUser = [PFUser currentUser];
+//    
+//    [ParseClient getUser:currentUser completion:^(User *loggedUser) {
+//        NSLog(@"%@", loggedUser);
+//        [ParseClient getMessageThreadsForUser:loggedUser completion:^(NSArray *userThreads, bool isDone) {
+//            
+//            if (isDone) {
+//                NSLog(@"threads are: %@", userThreads);
+//                
+//                for (MessageThread *thread in userThreads) {
+//                    //fetch all messages for user thread, no matter to which user they belong
+//                    [ParseClient getMessagesForThread:thread user:loggedUser completion:^(NSArray *messages) {
+//                        NSLog(@"Thread: %@ messages: %@", thread.identifier, messages);
+//                        
+//                    } failure:^(NSError *error) {
+//                        NSLog(@"%@", error);
+//                    }];
+//                }
+//            }
+//        } failure:nil];
+//        
+//    } failure:nil];
+    
 //    [ParseClient loginUser:@"Alice" completion:^(NSString *displayName) {
 //        NSLog(@"Login user: %@", displayName);
 //    } failure:nil];
-    
-    [ParseClient getLoggedInUser:^(User *loggedUser) {
-            NSLog(@"%@", loggedUser);
-    } WithFailure:nil];
-    
+
     return YES;
 }
 

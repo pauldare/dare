@@ -12,19 +12,28 @@
 
 - (instancetype)init
 {
-    return [self initWithText:nil thread:nil poster:nil];
+    return [self initWithText:nil user:nil thread:nil];
 }
 
+
 - (instancetype)initWithText: (NSString *)text
-                      thread: (NSString *)threadId
-                      poster: (User *)poster
+                        user: (User *) user
+                      thread: (MessageThread *)thread
 {
     self = [super init];
     if (self) {
         self.text = text;
-        self.poster = poster;
-        self.threadId = threadId;
+        self.user = user;
+        self.thread = thread;
     }
     return self;
 }
+
+- (NSString *)description
+{
+    return [NSString stringWithFormat:@"The message is: '%@'", self.text];
+}
+
+
+
 @end

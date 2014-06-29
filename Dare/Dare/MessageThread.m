@@ -12,29 +12,54 @@
 
 @implementation MessageThread
 
-+(MessageThread *)getThread 
+- (instancetype)init
 {
-    return nil;
+    return [self initWithUser:nil
+                 participants:nil
+                     messages:nil
+                   identifier:nil];
 }
 
--(void)addUserToThread:(User *)user
+- (instancetype)initWithUser: (User *)user
+                participants: (NSArray *)participants
+                    messages: (NSMutableArray *)messages
+                  identifier: (NSString *)identifier
 {
-    NSMutableArray *participants = [self.participants mutableCopy];
-    [participants addObject:user];
-    
-    PFQuery *threadQuery = [PFQuery queryWithClassName:@"MessageThread"];
-    [threadQuery includeKey:@"objectId"];
-    [threadQuery whereKey:@"objectId" equalTo:self.ID];
-    
-    [self.parseObject addObject:user.parseObject forKey:@"Users"];
-    [self.parseObject saveInBackground];
+    self = [super init];
+    if (self) {
+        self.user = user;
+        self.participants = participants;
+        self.messages = messages;
+        self.identifier = identifier;
+    }
+    return self;
 }
 
--(void)postMessgeToThread:(Message *)message
+- (NSString *)description
 {
-    [self.parseObject addObject:message.parseObject forKey:@"Messages"];
-    [self.parseObject saveInBackground];
+    return [NSString stringWithFormat:@"The thread has number: %@", self.identifier];
 }
+
+
+
+//-(void)addUserToThread:(User *)user
+//{
+//    NSMutableArray *participants = [self.participants mutableCopy];
+//    [participants addObject:user];
+//    
+//    PFQuery *threadQuery = [PFQuery queryWithClassName:@"MessageThread"];
+//    [threadQuery includeKey:@"objectId"];
+//    [threadQuery whereKey:@"objectId" equalTo:self.ID];
+//    
+//    [self.parseObject addObject:user.parseObject forKey:@"Users"];
+//    [self.parseObject saveInBackground];
+//}
+//
+//-(void)postMessgeToThread:(Message *)message
+//{
+//    [self.parseObject addObject:message.parseObject forKey:@"Messages"];
+//    [self.parseObject saveInBackground];
+//}
 
 
 

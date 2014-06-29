@@ -8,13 +8,13 @@
 
 #import <Foundation/Foundation.h>
 #import <Parse/Parse.h>
+#import "MessageThread.h"
 
-@class MessageThread;
-@class User;
 
 @interface Message : NSObject
 @property (strong, nonatomic) NSString *ID;
-@property (strong, nonatomic) User *poster;
+@property (strong, nonatomic) User *user;
+@property (strong, nonatomic) MessageThread *thread;
 @property (strong, nonatomic) NSString *threadId;
 @property (strong, nonatomic) NSString *text;
 @property (strong, nonatomic) UIImage *picture;
@@ -25,10 +25,10 @@
 @property (strong, nonatomic) MessageThread *messageThread;
 @property (strong, nonatomic) PFObject *parseObject;
 
-- (instancetype)initWithText: (NSString *)text
-                      thread: (NSString *)threadId
-                      poster: (User *)poster;
 
+- (instancetype)initWithText: (NSString *)text
+                        user: (User *) user
+                      thread: (MessageThread *)thread;
 
 
 @end

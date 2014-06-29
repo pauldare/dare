@@ -8,6 +8,10 @@
 
 #import <Foundation/Foundation.h>
 #import "User.h"
+#import "MessageThread.h"
+#import "Message.h"
+
+
 
 @interface ParseClient : NSObject
 
@@ -15,10 +19,23 @@
        completion: (void(^)(NSString *))completion
           failure: (void(^)())failure;
 
-+ (void)getLoggedInUser: (void(^)(User *))completion
-            WithFailure: (void(^)())failure;
++ (void)getUser: (PFUser *)currentUser
+     completion:(void(^)(User *))completion
+        failure: (void(^)())failure;
 
 + (void)loginWithFB;
+
++ (void)getMessageThreadsForUser: (User *)user
+                     completion: (void(^)(NSArray *, bool))completion
+                     failure: (void(^)())failure;
+
++ (void)getMessagesForThread: (MessageThread *)thread
+                     user: (User *)user
+               completion: (void(^)(NSArray *))completion
+                  failure: (void(^)(NSError *))failure;
+
++ (void)findUserByName: (NSString *)displayName
+            completion:(void(^)(User *))completion;
 
 
 @end

@@ -141,23 +141,43 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <view contentMode="scaleToFill" id="d6z-cZ-6Tt" customClass="AVCamPreviewView">
-                                <rect key="frame" x="0.0" y="150" width="320" height="268"/>
+                            <view contentMode="scaleToFill" id="d6z-cZ-6Tt">
+                                <rect key="frame" x="0.0" y="150" width="320" height="320"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="D7g-Ej-WVx">
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="320"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    </imageView>
+                                </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                             </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="saD-Zg-0ip">
+                                <rect key="frame" x="20" y="112" width="41" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button" image="icon-157351_640.png">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="snapStillImage:" destination="fke-Yu-Lf4" eventType="touchUpInside" id="6bY-gk-QO9"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="0.139803607" green="0.90190699460000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
                     <connections>
-                        <outlet property="previewView" destination="d6z-cZ-6Tt" id="Z9D-UQ-OK5"/>
+                        <outlet property="cameraView" destination="d6z-cZ-6Tt" id="aIb-1P-kwv"/>
+                        <outlet property="imageView" destination="D7g-Ej-WVx" id="0Op-A3-3DM"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="trX-JG-kXT" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1136" y="85"/>
+            <point key="canvasLocation" x="1105" y="95"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="icon-157351_640.png" width="640" height="492"/>
+    </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>

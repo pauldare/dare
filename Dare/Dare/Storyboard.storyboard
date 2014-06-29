@@ -1,45 +1,66 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="14A238x" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="mm5-sc-vKO">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13D65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="49L-9A-Nai">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
-        <scene sceneID="JF6-TS-Sdh">
+        <!--Login View Controller-->
+        <scene sceneID="RVQ-gG-urU">
             <objects>
-                <viewController id="mm5-sc-vKO" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="kgD-CV-44Y"/>
-                        <viewControllerLayoutGuide type="bottom" id="DPL-H7-o99"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="Yjv-iO-anM">
+                <viewController id="49L-9A-Nai" customClass="LoginViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="doh-TK-kNi">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <scrollView appearanceType="aqua" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TRs-2h-UvG">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="8no-cW-yfd">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
-                                    <view appearanceType="aqua" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Jla-di-3WV">
-                                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                    <view contentMode="scaleToFill" id="oMt-qJ-vxC">
+                                        <rect key="frame" x="0.0" y="0.0" width="640" height="568"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                        <subviews>
+                                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="DARE" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="hwn-Ou-lBM">
+                                                <rect key="frame" x="20" y="192" width="279" height="183"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="78"/>
+                                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sign In" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="T77-Nw-iIy">
+                                                <rect key="frame" x="91" y="500" width="136" height="48"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="32"/>
+                                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="▶︎▶︎▶︎▶︎" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="NkA-iT-AlP">
+                                                <rect key="frame" x="219" y="451" width="158" height="145"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                        <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                     </view>
                                 </subviews>
                             </scrollView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="TRs-2h-UvG" firstAttribute="top" secondItem="Yjv-iO-anM" secondAttribute="top" id="IEd-OY-lgb"/>
-                            <constraint firstAttribute="trailing" secondItem="TRs-2h-UvG" secondAttribute="trailing" id="LIb-kh-wTm"/>
-                            <constraint firstItem="TRs-2h-UvG" firstAttribute="leading" secondItem="Yjv-iO-anM" secondAttribute="leading" id="PrB-9s-S12"/>
-                            <constraint firstItem="DPL-H7-o99" firstAttribute="top" secondItem="TRs-2h-UvG" secondAttribute="bottom" id="YMF-TR-0OK"/>
-                        </constraints>
                     </view>
+                    <size key="freeformSize" width="640" height="568"/>
+                    <connections>
+                        <outlet property="arrowLabel" destination="NkA-iT-AlP" id="4yQ-ss-3QZ"/>
+                        <outlet property="containerView" destination="oMt-qJ-vxC" id="uyA-6F-Vsb"/>
+                        <outlet property="dareLabel" destination="hwn-Ou-lBM" id="FPo-Jn-fHH"/>
+                        <outlet property="scrollView" destination="8no-cW-yfd" id="iiH-27-qhW"/>
+                        <outlet property="signinLabel" destination="T77-Nw-iIy" id="kdz-jT-K2W"/>
+                    </connections>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Ykg-dt-Zo8" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="4ko-CS-bP5" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="618" y="-172"/>
+            <point key="canvasLocation" x="154" y="85"/>
         </scene>
     </scenes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

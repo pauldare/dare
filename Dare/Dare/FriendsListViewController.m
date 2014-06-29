@@ -9,9 +9,10 @@
 #import "FriendsListViewController.h"
 #import "FriendListIcon.h"
 
-@interface FriendsListViewController ()
+@interface FriendsListViewController ()<UICollectionViewDelegate>
 
 @property (strong, nonatomic) UINib *friendNib;
+@property (strong, nonatomic) NSSet *selectedIndices;
 
 @end
 
@@ -32,6 +33,7 @@
     
     _friendNib = [UINib nibWithNibName:@"FriendListIcon" bundle:nil];
     [self.collectionView registerNib:_friendNib forCellWithReuseIdentifier:@"FriendCell"];
+    self.collectionView.delegate = self;
     
     
     // Do any additional setup after loading the view.
@@ -57,12 +59,42 @@
 {
     UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"FriendCell" forIndexPath:indexPath];
    
-    NSURL *imageURL = [NSURL URLWithString:@"http://ibmsmartercommerce.sourceforge.net/wp-content/uploads/2012/09/Roses_Bunch_Of_Flowers.jpeg"];
-    NSData *imageData = [NSData dataWithContentsOfURL:imageURL];
-    UIImage *image = [UIImage imageWithData:imageData];
-    ((FriendListIcon*)cell).friendImage.image = image;
+    
+    NSOperationQueue *queue = [[NSOperationQueue alloc]init];
+    [queue addOperationWithBlock:^{
+        
+        NSURL *imageURL = [NSURL URLWithString:@"http://www.trutv.com/library/crime/blog/files/2013/03/p-april-vasturo-mugshot.jpg"];
+        NSData *imageData = [NSData dataWithContentsOfURL:imageURL];
+        UIImage *image = [UIImage imageWithData:imageData];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+           
+            ((FriendListIcon*)cell).friendImage.image = image;
+
+        });
+        
+        
+    }];
+
+    
     
     return cell;
+}
+
+
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    return CGSizeMake(106, 106);
+}
+
+- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section
+{
+    return 0;
+}
+
+- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section
+{
+    return 0;
 }
 
 

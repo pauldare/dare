@@ -10,18 +10,32 @@
 
 @implementation User
 
-+(User *)getUser
+- (instancetype)init
 {
-    PFUser *parseUser = [PFUser currentUser];
-    User *user = [[User alloc]init];
-    user.displayName = parseUser[@"displayName"];
-    user.userID = parseUser.objectId;
-    user.messageThreads = parseUser[@"UserThreads"];
-    user.friends = parseUser[@"friends"];
-    user.messages = parseUser[@"Messages"];
-    user.parseObject = parseUser;
-    
-    return user;
+    return [self initWithDisplayName:@"" messageThreads:@[] friends:@[] messages:@[]];
 }
+
+- (instancetype)initWithDisplayName: (NSString *)displayName
+                     messageThreads: (NSArray *)messageThreads
+                            friends: (NSArray *)friends
+                           messages: (NSArray *)messages
+
+{
+    self = [super init];
+    if (self) {
+        self.displayName = displayName;
+        self.messageThreads = messageThreads;
+        self.friends = friends;
+        self.messages = messages;
+    }
+    return self;
+}
+
+- (NSString *)description
+{
+    return [NSString stringWithFormat:@"The user is: %@, a friend with: %@ friends, messages count: %@, threads count: %@", self.displayName, self.friends, self.messages, self.messageThreads];
+}
+
+
 
 @end

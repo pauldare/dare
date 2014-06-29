@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5056" systemVersion="13D65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="5Tt-Gg-ECh" customClass="FriendListIcon">
+            <rect key="frame" x="0.0" y="0.0" width="106" height="106"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="106" height="106"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="hG7-ou-bIR">
+                        <rect key="frame" x="0.0" y="0.0" width="106" height="106"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                    </imageView>
+                </subviews>
+                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            </view>
+            <constraints>
+                <constraint firstItem="hG7-ou-bIR" firstAttribute="leading" secondItem="5Tt-Gg-ECh" secondAttribute="leading" id="KNG-25-FYi"/>
+                <constraint firstAttribute="bottom" secondItem="hG7-ou-bIR" secondAttribute="bottom" id="NKo-A6-quo"/>
+                <constraint firstItem="hG7-ou-bIR" firstAttribute="top" secondItem="5Tt-Gg-ECh" secondAttribute="top" id="Pnd-Pg-dG5"/>
+                <constraint firstAttribute="trailing" secondItem="hG7-ou-bIR" secondAttribute="trailing" id="xqr-8G-n4w"/>
+            </constraints>
+            <size key="customSize" width="176" height="169"/>
+            <connections>
+                <outlet property="friendImage" destination="hG7-ou-bIR" id="qzV-h7-szO"/>
+            </connections>
+        </collectionViewCell>
+    </objects>
+</document>

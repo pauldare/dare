@@ -15,5 +15,14 @@
     return [UIColor colorWithRed:0 green:0.84 blue:1.0 alpha:1.0];
 }
 
++(UIColor *)DareCellOverlay
+{
+    return [UIColor colorWithRed:0 green:0 blue:0 alpha:0.4];
+}
+
++(UIColor *)DareUnreadBadge
+{
+    return [UIColor colorWithRed:1.0 green:.33 blue:.05 alpha:1.0];
+}
 
 @end

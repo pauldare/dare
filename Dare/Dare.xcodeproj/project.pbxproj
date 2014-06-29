@@ -45,6 +45,12 @@
 		5234BB20196077AE00850ECB /* ChooseDisplayPhotoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5234BB1F196077AE00850ECB /* ChooseDisplayPhotoViewController.m */; };
 		527FDAE21960807B0083D6F0 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 527FDAE11960807B0083D6F0 /* AVFoundation.framework */; };
 		527FDAE91960A2250083D6F0 /* icon-157351_640.png in Resources */ = {isa = PBXBuildFile; fileRef = 527FDAE81960A2250083D6F0 /* icon-157351_640.png */; };
+		527FDAEB1960AEE50083D6F0 /* DareCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 527FDAEA1960AEE50083D6F0 /* DareCell.xib */; };
+		527FDAEE1960B35C0083D6F0 /* DareCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 527FDAED1960B35C0083D6F0 /* DareCell.m */; };
+		527FDAF11960B7420083D6F0 /* DareTable.m in Sources */ = {isa = PBXBuildFile; fileRef = 527FDAF01960B7420083D6F0 /* DareTable.m */; };
+		527FDAF61960C3E10083D6F0 /* FriendsListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 527FDAF51960C3E10083D6F0 /* FriendsListViewController.m */; };
+		527FDAF81960C4650083D6F0 /* FriendListIcon.xib in Resources */ = {isa = PBXBuildFile; fileRef = 527FDAF71960C4650083D6F0 /* FriendListIcon.xib */; };
+		527FDAFB1960C6580083D6F0 /* FriendListIcon.m in Sources */ = {isa = PBXBuildFile; fileRef = 527FDAFA1960C6580083D6F0 /* FriendListIcon.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -109,6 +115,16 @@
 		5234BB1F196077AE00850ECB /* ChooseDisplayPhotoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChooseDisplayPhotoViewController.m; sourceTree = "<group>"; };
 		527FDAE11960807B0083D6F0 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		527FDAE81960A2250083D6F0 /* icon-157351_640.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-157351_640.png"; sourceTree = "<group>"; };
+		527FDAEA1960AEE50083D6F0 /* DareCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DareCell.xib; sourceTree = "<group>"; };
+		527FDAEC1960B35C0083D6F0 /* DareCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DareCell.h; sourceTree = "<group>"; };
+		527FDAED1960B35C0083D6F0 /* DareCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DareCell.m; sourceTree = "<group>"; };
+		527FDAEF1960B7420083D6F0 /* DareTable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DareTable.h; sourceTree = "<group>"; };
+		527FDAF01960B7420083D6F0 /* DareTable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DareTable.m; sourceTree = "<group>"; };
+		527FDAF41960C3E10083D6F0 /* FriendsListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FriendsListViewController.h; sourceTree = "<group>"; };
+		527FDAF51960C3E10083D6F0 /* FriendsListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FriendsListViewController.m; sourceTree = "<group>"; };
+		527FDAF71960C4650083D6F0 /* FriendListIcon.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FriendListIcon.xib; sourceTree = "<group>"; };
+		527FDAF91960C6580083D6F0 /* FriendListIcon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FriendListIcon.h; sourceTree = "<group>"; };
+		527FDAFA1960C6580083D6F0 /* FriendListIcon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FriendListIcon.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -200,6 +216,16 @@
 				4553B5E1195B9FB2005C6D1A /* Constants.h */,
 				05FA70EC195FA75E00C057D4 /* Constants.m */,
 				0719EAB7195F516E007C2983 /* Storyboard.storyboard */,
+				527FDAF71960C4650083D6F0 /* FriendListIcon.xib */,
+				527FDAF91960C6580083D6F0 /* FriendListIcon.h */,
+				527FDAFA1960C6580083D6F0 /* FriendListIcon.m */,
+				527FDAF41960C3E10083D6F0 /* FriendsListViewController.h */,
+				527FDAF51960C3E10083D6F0 /* FriendsListViewController.m */,
+				527FDAEF1960B7420083D6F0 /* DareTable.h */,
+				527FDAF01960B7420083D6F0 /* DareTable.m */,
+				527FDAEA1960AEE50083D6F0 /* DareCell.xib */,
+				527FDAEC1960B35C0083D6F0 /* DareCell.h */,
+				527FDAED1960B35C0083D6F0 /* DareCell.m */,
 				5234BB1B19606D8600850ECB /* UIColor+DareColors.h */,
 				5234BB1C19606D8600850ECB /* UIColor+DareColors.m */,
 				0719EAB9195F5599007C2983 /* LoginViewController.h */,
@@ -345,6 +371,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				527FDAF81960C4650083D6F0 /* FriendListIcon.xib in Resources */,
+				527FDAEB1960AEE50083D6F0 /* DareCell.xib in Resources */,
 				4553B5A1195B944E005C6D1A /* InfoPlist.strings in Resources */,
 				4553B5AC195B944F005C6D1A /* Images.xcassets in Resources */,
 				0719EAB8195F516E007C2983 /* Storyboard.storyboard in Resources */,
@@ -375,9 +403,13 @@
 				5234BB20196077AE00850ECB /* ChooseDisplayPhotoViewController.m in Sources */,
 				456E625F195F67C5003CC220 /* ParseClient.m in Sources */,
 				05FA70ED195FA75E00C057D4 /* Constants.m in Sources */,
+				527FDAFB1960C6580083D6F0 /* FriendListIcon.m in Sources */,
+				527FDAEE1960B35C0083D6F0 /* DareCell.m in Sources */,
 				4553B5A7195B944E005C6D1A /* AppDelegate.m in Sources */,
 				07977E79195F236100B2C0C6 /* Message.m in Sources */,
 				4553B5A3195B944E005C6D1A /* main.m in Sources */,
+				527FDAF61960C3E10083D6F0 /* FriendsListViewController.m in Sources */,
+				527FDAF11960B7420083D6F0 /* DareTable.m in Sources */,
 				456E6259195F2DB4003CC220 /* Temp.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

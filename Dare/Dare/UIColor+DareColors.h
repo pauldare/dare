@@ -12,4 +12,8 @@
 
 +(UIColor *)DareBlue;
 
++(UIColor *)DareCellOverlay;
+
++(UIColor *)DareUnreadBadge;
+
 @end

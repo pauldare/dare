@@ -33,12 +33,13 @@
     [super viewDidLoad];
     _captureSessionIsActive = NO;
 
-    _imageView.hidden = YES;
+    
 }
 
 
 - (void) initializeCamera {
     if ([UIImagePickerController isSourceTypeAvailable: UIImagePickerControllerSourceTypeCamera]){
+        _imageView.hidden = YES;
         _session = [[AVCaptureSession alloc] init];
         _session.sessionPreset = AVCaptureSessionPresetPhoto;
         
@@ -106,7 +107,7 @@
                         [_session stopRunning];
                         _imageView.hidden = NO;
                         _imageView.image = image;
-                        _capturedImage = image;
+                        _capturedImage = _imageView.image;
                         _captureSessionIsActive = NO;
                         
                         

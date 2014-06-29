@@ -19,11 +19,15 @@
 @property (strong, nonatomic) NSArray *participants;
 @property (strong, nonatomic) PFObject *parseObject;
 @property (strong, nonatomic) User *user;
+@property (strong, nonatomic) NSString *title;
+@property (strong, nonatomic) UIImage *backgroundImage;
 
 - (instancetype)initWithUser: (User *)user
                 participants: (NSArray *)participants
                     messages: (NSMutableArray *)messages
-                  identifier: (NSString *)identifier;
+                  identifier: (NSString *)identifier
+                       title: (NSString *)title
+             backgroundImage: (UIImage *)image;
 
 
 //-(void)addUserToThread:(User*)user;

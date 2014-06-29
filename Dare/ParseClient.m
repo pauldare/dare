@@ -51,7 +51,7 @@
                                          messageThreads:messageThreads //PFObjects
                                                 friends:friends //PFObjects
                                                messages:messages
-                                            identifier:currentUser[@"objectId"]
+                                            identifier:currentUser[@"fbId"]
                                             profileImage:userPic];
                 completion(loggedUser);
                 
@@ -132,7 +132,7 @@
     
     for (PFObject *parseThread in user.messageThreads) {
 
-        PFRelation *participantsRelation = [parseThread relationForKey:@"User"];
+        PFRelation *participantsRelation = [parseThread relationForKey:@"Users"];
         PFQuery *participantsQuery = [participantsRelation query];
         
         
@@ -142,7 +142,9 @@
             MessageThread *thread = [[MessageThread alloc]initWithUser:user
                                                           participants:participants
                                                               messages:user.messages
-                                                            identifier:[parseThread objectId]];
+                                                            identifier:[parseThread objectId]
+                                                                 title:parseThread[@"title"]
+                                                       backgroundImage:[self imageFileToImage:parseThread[@"backgroundImage"]]];
             [userThreads addObject:thread];
             count++;
             
@@ -178,9 +180,13 @@
                     if (![parseMessage[@"isRead"] isEqualToString:@"NO"]) {
                         isRead = YES;
                     }
+                    PFFile *imageFile = parseMessage[@"picture"];
+                    UIImage *picture = [self imageFileToImage:imageFile];
+                    
                     Message *message = [[Message alloc]initWithText:parseMessage[@"text"]
                                                                user: user
                                                              thread:thread
+                                                            picture:picture
                                                              isRead:isRead];
                     [threadMessages addObject:message];
                 }
@@ -195,7 +201,8 @@
 
 + (void)addMessageToThread: (MessageThread *)thread
                   withText: (NSString *)text
-                   picture: (NSString *)pictureString
+                   picture: (UIImage *)picture
+                completion: (void(^)())completion
 {
     PFQuery *threadQuery = [PFQuery queryWithClassName:@"MessageThread"];
     [threadQuery whereKey:@"id" equalTo:thread.identifier];
@@ -204,15 +211,22 @@
         
         PFObject *parseMessage = [PFObject objectWithClassName:@"Message"];
         [parseMessage addObject:text forKey:@"text"];
-        [parseMessage addObject:pictureString forKey:@"picture"];
+        
+        NSData *imageData = UIImagePNGRepresentation(picture);
+        PFFile *file = [PFFile fileWithName:@"picture" data:imageData];
+        [file saveInBackground];
+        [parseMessage setObject:file forKey:@"picture"];
         [parseMessage addObject:@"NO" forKey:@"isRead"];
         
         PFRelation *messageToThread = [parseMessage relationForKey:@"messageThreads"];
         [messageToThread addObject:parseThread];
+        
         [parseMessage saveInBackground];
         PFRelation *threadToMessage = [parseThread relationForKey:@"messages"];
         [threadToMessage addObject:parseMessage];
         [parseThread saveInBackground];
+        
+        completion();
     }];
 }
 
@@ -305,6 +319,44 @@
             failure(error);
         }
     }];
+}
+
++ (void)startMessageThreadForUsers: (NSArray *)participants
+                       withMessage: (PFObject *) message
+                         withTitle: (NSString *)title
+                    backroundImage: (UIImage *)backgroundImage
+                        completion: (void(^)())completion
+
+{
+    PFObject *messageThread = [PFObject objectWithClassName:@"MessageThread"];
+    [messageThread setObject:title forKey:@"title"];
+    NSData *imageData = UIImagePNGRepresentation(backgroundImage);
+    PFFile *file = [PFFile fileWithName:@"backroundImage" data:imageData];
+    [file saveInBackground];
+    [messageThread setObject:file forKey:@"backgroundImage"];
+    
+    PFRelation *threadToMessage = [messageThread relationForKey:@"messages"];
+    [threadToMessage addObject:message];
+    [messageThread saveInBackground];
+    
+    PFRelation *messageToThread = [message relationForKey:@"messageThreads"];
+    [messageToThread addObject:messageThread];
+    [message saveInBackground];
+    
+    for (User *participant in participants) {
+        PFQuery *query = [PFUser query];
+        [query whereKey:@"fbId" equalTo:participant.identifier];
+        NSArray *parseUsers = [query findObjects];
+        for (PFObject *user in parseUsers) {
+            PFRelation *userToThread = [user relationForKey:@"messageThreads"];
+            [userToThread addObject:messageThread];
+            [user saveInBackground];
+            PFRelation *threadToUser = [messageThread relationForKey:@"Users"];
+            [threadToUser addObject:user];
+            [messageThread saveInBackground];
+        }
+    }    
+    completion();
 }
 
 

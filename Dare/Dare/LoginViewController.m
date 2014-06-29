@@ -104,8 +104,8 @@
                 NSLog(@"User logged in through Facebook!");
                 //NSLog(@"Currently loggen in: %@", [PFUser currentUser]);
                 
-                User *newUser = [User getUser];
-                NSLog(@"%@, %@", newUser.displayName, newUser.friends);
+                //User *newUser = [User getUser];
+                //NSLog(@"%@, %@", newUser.displayName, newUser.friends);
                 
                 
             }

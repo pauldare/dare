@@ -28,36 +28,39 @@
     [Parse setApplicationId:ParseAppID
                   clientKey:ParseClientKey];
     
-    [ParseClient findUserByName:@"fbuser" completion:^(User *foundUser) {
-        NSLog(@"Found user: %@", foundUser);
-    }];
+//    [ParseClient findUserByName:@"fbuser" completion:^(User *foundUser) {
+//        NSLog(@"Found user: %@", foundUser);
+//    }];
     
-//    PFUser *currentUser = [PFUser currentUser];
-//    
-//    [ParseClient getUser:currentUser completion:^(User *loggedUser) {
-//        NSLog(@"%@", loggedUser);
-//        [ParseClient getMessageThreadsForUser:loggedUser completion:^(NSArray *userThreads, bool isDone) {
-//            
-//            if (isDone) {
-//                NSLog(@"threads are: %@", userThreads);
-//                
-//                for (MessageThread *thread in userThreads) {
-//                    //fetch all messages for user thread, no matter to which user they belong
-//                    [ParseClient getMessagesForThread:thread user:loggedUser completion:^(NSArray *messages) {
-//                        NSLog(@"Thread: %@ messages: %@", thread.identifier, messages);
-//                        
-//                    } failure:^(NSError *error) {
-//                        NSLog(@"%@", error);
-//                    }];
-//                }
-//            }
-//        } failure:nil];
-//        
-//    } failure:nil];
+    [ParseClient loginUser:@"Alice" completion:^(NSString *displayName) {
+        NSLog(@"Login user: %@", displayName);
+        PFUser *currentUser = [PFUser currentUser];
+        
+        [ParseClient getUser:currentUser completion:^(User *loggedUser) {
+            NSLog(@"%@", loggedUser);
+            [ParseClient getMessageThreadsForUser:loggedUser completion:^(NSArray *userThreads, bool isDone) {
+                
+                if (isDone) {
+                    NSLog(@"threads are: %@", userThreads);
+                    
+                    for (MessageThread *thread in userThreads) {
+                        //fetch all messages for user thread, no matter to which user they belong, done on purpose
+                        [ParseClient getMessagesForThread:thread user:loggedUser completion:^(NSArray *messages) {
+                            NSLog(@"Thread: %@ messages: %@", thread.identifier, messages);
+                            
+                        } failure:^(NSError *error) {
+                            NSLog(@"%@", error);
+                        }];
+                    }
+                }
+            } failure:nil];
+            
+        } failure:nil];
+
+    } failure:nil];
+
     
-//    [ParseClient loginUser:@"Alice" completion:^(NSString *displayName) {
-//        NSLog(@"Login user: %@", displayName);
-//    } failure:nil];
+    
     return YES;
 }
 

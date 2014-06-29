@@ -81,13 +81,14 @@
                      failure: (void(^)())failure
 {
     NSMutableArray *userThreads = [[NSMutableArray alloc]init];
-    NSInteger count = 0;
+    __block NSInteger count = 0;
+    
     
     for (PFObject *parseThread in user.messageThreads) {
 
         PFRelation *participantsRelation = [parseThread relationForKey:@"User"];
         PFQuery *participantsQuery = [participantsRelation query];
-        count++;
+        
         
         [participantsQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
             NSArray *participants = objects;
@@ -97,6 +98,7 @@
                                                               messages:user.messages
                                                             identifier:[parseThread objectId]];
             [userThreads addObject:thread];
+            count++;
             
             bool isDone = NO;
             if (count == [user.messageThreads count]) {

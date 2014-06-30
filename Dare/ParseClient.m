@@ -16,8 +16,9 @@
 {
     [PFUser logInWithUsernameInBackground:userName password:@"" block:^(PFUser *user, NSError *error) {
         if (user) {
-            NSString *displayName = [user objectForKey:@"displayName"];
-            completion(displayName);
+            [self getUser:user completion:^(User *user) {
+                NSLog(@"%@", user.displayName);
+            } failure:nil];
         } else {
             failure();
         }

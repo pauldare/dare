@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface DisplayNameSelectViewController : UIViewController
+@interface DisplayNameSelectViewController : UIViewController <UITextFieldDelegate>
 
 @end

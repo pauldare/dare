@@ -39,9 +39,17 @@
     _cameraView.backgroundColor = [UIColor DareBlue];
     [self.view bringSubviewToFront:_cameraCaptureButton];
     
-    [ParseClient getUser:[PFUser currentUser] completion:^(User *loggedUser) {
-        _imageView.image = loggedUser.profileImage;
-    } failure:nil];
+    [PFUser logInWithUsernameInBackground:@"Alice" password:@"" block:^(PFUser *user, NSError *error) {
+        if (user) {
+            [ParseClient getUser:user completion:^(User *loggedUser) {
+                _imageView.image = loggedUser.profileImage;
+            } failure:nil];
+        }
+    }];
+    
+//    [ParseClient getUser:[PFUser currentUser] completion:^(User *loggedUser) {
+//        _imageView.image = loggedUser.profileImage;
+//    } failure:nil];
 }
 
 

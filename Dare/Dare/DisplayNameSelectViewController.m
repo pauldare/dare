@@ -8,12 +8,15 @@
 
 #import "DisplayNameSelectViewController.h"
 #import "UIColor+DareColors.h"
+#import "User.h"
 
 @interface DisplayNameSelectViewController ()
+
 @property (weak, nonatomic) IBOutlet UILabel *userNameLabel;
 @property (weak, nonatomic) IBOutlet UITextField *userNameTextfield;
 @property (weak, nonatomic) IBOutlet UILabel *nextLabel;
 @property (weak, nonatomic) IBOutlet UILabel *arrowLabel;
+@property (strong, nonatomic) PFUser *loggedUser;
 
 @end
 
@@ -31,8 +34,13 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [self.view removeConstraints:self.view.constraints];
     
     self.view.backgroundColor = [UIColor DareBlue];
+    self.loggedUser = [PFUser currentUser];
+    self.userNameTextfield.text = self.loggedUser[@"displayName"];
+    
+    self.userNameTextfield.delegate = self;
     
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(dismissKeyboard)];
     tapGesture.numberOfTapsRequired = 1;
@@ -65,6 +73,20 @@
     
     
     // Do any additional setup after loading the view.
+}
+
+-(BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    [self resignFirstResponder];
+    return YES;
+}
+
+- (BOOL)resignFirstResponder
+{
+    [self.userNameTextfield resignFirstResponder];
+    [self.loggedUser setObject:_userNameTextfield.text forKey:@"displayName"];
+    [self.loggedUser saveInBackground];
+    return [super resignFirstResponder];
 }
 
 - (void)didReceiveMemoryWarning

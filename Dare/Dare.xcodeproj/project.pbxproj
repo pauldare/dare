@@ -51,6 +51,8 @@
 		527FDAF61960C3E10083D6F0 /* FriendsListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 527FDAF51960C3E10083D6F0 /* FriendsListViewController.m */; };
 		527FDAF81960C4650083D6F0 /* FriendListIcon.xib in Resources */ = {isa = PBXBuildFile; fileRef = 527FDAF71960C4650083D6F0 /* FriendListIcon.xib */; };
 		527FDAFB1960C6580083D6F0 /* FriendListIcon.m in Sources */ = {isa = PBXBuildFile; fileRef = 527FDAFA1960C6580083D6F0 /* FriendListIcon.m */; };
+		527FDB011960E5830083D6F0 /* FinalCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 527FDB001960E5830083D6F0 /* FinalCell.xib */; };
+		527FDB041960E63E0083D6F0 /* FinalCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 527FDB031960E63E0083D6F0 /* FinalCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -125,6 +127,9 @@
 		527FDAF71960C4650083D6F0 /* FriendListIcon.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FriendListIcon.xib; sourceTree = "<group>"; };
 		527FDAF91960C6580083D6F0 /* FriendListIcon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FriendListIcon.h; sourceTree = "<group>"; };
 		527FDAFA1960C6580083D6F0 /* FriendListIcon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FriendListIcon.m; sourceTree = "<group>"; };
+		527FDB001960E5830083D6F0 /* FinalCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FinalCell.xib; sourceTree = "<group>"; };
+		527FDB021960E63E0083D6F0 /* FinalCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FinalCell.h; sourceTree = "<group>"; };
+		527FDB031960E63E0083D6F0 /* FinalCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FinalCell.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -217,6 +222,9 @@
 				05FA70EC195FA75E00C057D4 /* Constants.m */,
 				0719EAB7195F516E007C2983 /* Storyboard.storyboard */,
 				527FDAF71960C4650083D6F0 /* FriendListIcon.xib */,
+				527FDB001960E5830083D6F0 /* FinalCell.xib */,
+				527FDB021960E63E0083D6F0 /* FinalCell.h */,
+				527FDB031960E63E0083D6F0 /* FinalCell.m */,
 				527FDAF91960C6580083D6F0 /* FriendListIcon.h */,
 				527FDAFA1960C6580083D6F0 /* FriendListIcon.m */,
 				527FDAF41960C3E10083D6F0 /* FriendsListViewController.h */,
@@ -376,6 +384,7 @@
 				4553B5A1195B944E005C6D1A /* InfoPlist.strings in Resources */,
 				4553B5AC195B944F005C6D1A /* Images.xcassets in Resources */,
 				0719EAB8195F516E007C2983 /* Storyboard.storyboard in Resources */,
+				527FDB011960E5830083D6F0 /* FinalCell.xib in Resources */,
 				527FDAE91960A2250083D6F0 /* icon-157351_640.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -404,6 +413,7 @@
 				456E625F195F67C5003CC220 /* ParseClient.m in Sources */,
 				05FA70ED195FA75E00C057D4 /* Constants.m in Sources */,
 				527FDAFB1960C6580083D6F0 /* FriendListIcon.m in Sources */,
+				527FDB041960E63E0083D6F0 /* FinalCell.m in Sources */,
 				527FDAEE1960B35C0083D6F0 /* DareCell.m in Sources */,
 				4553B5A7195B944E005C6D1A /* AppDelegate.m in Sources */,
 				07977E79195F236100B2C0C6 /* Message.m in Sources */,

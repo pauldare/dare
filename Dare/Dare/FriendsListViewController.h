@@ -12,4 +12,6 @@
 
 @property (strong, nonatomic) UIImage *friendImage;
 
+@property (strong, nonatomic) NSArray *friendsArray;
+
 @end

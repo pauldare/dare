@@ -25,4 +25,8 @@
     return [UIColor colorWithRed:1.0 green:.33 blue:.05 alpha:1.0];
 }
 
++(UIColor *)DareOverlaySeletcedCell
+{
+    return [UIColor colorWithRed:1.0 green:1.0 blue:0 alpha:0.4];
+}
 @end

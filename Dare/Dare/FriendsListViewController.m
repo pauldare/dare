@@ -8,11 +8,17 @@
 
 #import "FriendsListViewController.h"
 #import "FriendListIcon.h"
+#import "UIColor+DareColors.h"
+#import "FinalCell.h"
 
 @interface FriendsListViewController ()<UICollectionViewDelegate>
 
 @property (strong, nonatomic) UINib *friendNib;
-@property (strong, nonatomic) NSSet *selectedIndices;
+@property (strong, nonatomic) UINib *finalCellNib;
+@property (strong, nonatomic) NSSet *selectedFriends;
+@property (strong, nonatomic) NSMutableSet *selectedIndices;
+
+
 
 @end
 
@@ -33,7 +39,19 @@
     
     _friendNib = [UINib nibWithNibName:@"FriendListIcon" bundle:nil];
     [self.collectionView registerNib:_friendNib forCellWithReuseIdentifier:@"FriendCell"];
+    
+    _finalCellNib = [UINib nibWithNibName:@"FinalCell" bundle:nil];
+    [self.collectionView registerNib:_finalCellNib forCellWithReuseIdentifier:@"FinalCell"];
+    
     self.collectionView.delegate = self;
+    self.collectionView.backgroundColor = [UIColor DareBlue];
+    
+#warning Remove this! It's for testing
+    _friendsArray = @[@1, @2, @3, @4, @5, @6];
+    _selectedFriends = [[NSSet alloc]init];
+    _selectedIndices = [[NSMutableSet alloc]init];
+    
+    
     
     
     // Do any additional setup after loading the view.
@@ -52,39 +70,67 @@
 
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return 30;
+    //this adds a final selection cell
+    return [_friendsArray count] +1;
 }
 
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"FriendCell" forIndexPath:indexPath];
+    
    
-    
-    NSOperationQueue *queue = [[NSOperationQueue alloc]init];
-    [queue addOperationWithBlock:^{
+    if (indexPath.row == [_friendsArray count]) {
         
-        NSURL *imageURL = [NSURL URLWithString:@"http://www.trutv.com/library/crime/blog/files/2013/03/p-april-vasturo-mugshot.jpg"];
-        NSData *imageData = [NSData dataWithContentsOfURL:imageURL];
-        UIImage *image = [UIImage imageWithData:imageData];
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-           
-            ((FriendListIcon*)cell).friendImage.image = image;
+        FinalCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"FinalCell" forIndexPath:indexPath];
+        cell.cellLabel.backgroundColor = [UIColor DareBlue];
+        if ([_selectedIndices count] == 0) {
+            cell.cellLabel.font = [UIFont boldSystemFontOfSize:120];
+            cell.cellLabel.text = @"＋";
+            
+        }else{
+             cell.cellLabel.font = [UIFont boldSystemFontOfSize:80];
+            cell.cellLabel.text = @"➡︎";
+        }
 
-        });
+        return cell;
         
+    }else{
+         FriendListIcon *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"FriendCell" forIndexPath:indexPath];
         
-    }];
-
+        if ([_selectedIndices containsObject:@(indexPath.row)]) {
+            cell.selectedOverlay.backgroundColor = [UIColor DareOverlaySeletcedCell];
+        }else{
+            cell.selectedOverlay.backgroundColor = [UIColor clearColor];
+        }
+        
+        NSOperationQueue *queue = [[NSOperationQueue alloc]init];
+        [queue addOperationWithBlock:^{
+            
+            NSURL *imageURL = [NSURL URLWithString:@"http://www.trutv.com/library/crime/blog/files/2013/03/p-april-vasturo-mugshot.jpg"];
+            NSData *imageData = [NSData dataWithContentsOfURL:imageURL];
+            UIImage *image = [UIImage imageWithData:imageData];
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                
+                ((FriendListIcon*)cell).friendImage.image = image;
+                
+                
+            });
+            
+            
+        }];
+        
+        return cell;
+    }
     
-    
-    return cell;
+    return nil;
 }
 
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    return CGSizeMake(106, 106);
+    
+    CGFloat oneThirdOfDisplay = self.collectionView.frame.size.width/3;
+    return CGSizeMake(oneThirdOfDisplay, oneThirdOfDisplay);
 }
 
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section
@@ -98,15 +144,29 @@
 }
 
 
-/*
-#pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+-(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+#warning insert friends into set here
+    
+    if (![_selectedIndices containsObject:@(indexPath.row)]) {
+        [_selectedIndices addObject:@(indexPath.row)];
+    }else{
+        [_selectedIndices removeObject:@(indexPath.row)];
+    }
+    [collectionView reloadData];
+    
 }
-*/
+
+/*
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+ {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 @end

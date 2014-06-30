@@ -29,14 +29,15 @@
     [Parse setApplicationId:ParseAppID
                   clientKey:ParseClientKey];
     
-    [PFFacebookUtils initializeFacebook];
-    if (FBSession.activeSession.state == FBSessionStateOpen ||
-        FBSession.activeSession.state == FBSessionStateOpenTokenExtended) {
-        NSLog(@"CUrrenly logged: %@", [PFUser currentUser][@"displayName"]);
-        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];
-        UIViewController *viewController = [storyboard instantiateViewControllerWithIdentifier:@"DareTable"];
-        self.window.rootViewController = viewController;
-    }
+#warning comment out for making other VC root
+//    [PFFacebookUtils initializeFacebook];
+//    if (FBSession.activeSession.state == FBSessionStateOpen ||
+//        FBSession.activeSession.state == FBSessionStateOpenTokenExtended) {
+//        NSLog(@"CUrrenly logged: %@", [PFUser currentUser][@"displayName"]);
+//        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];
+//        UIViewController *viewController = [storyboard instantiateViewControllerWithIdentifier:@"DareTable"];
+//        self.window.rootViewController = viewController;
+//    }
     return YES;
 }
 

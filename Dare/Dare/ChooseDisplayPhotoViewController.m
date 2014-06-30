@@ -103,8 +103,9 @@
         [_session startRunning];
         _captureSessionIsActive = YES;
     }else{
-        UIAlertView *noCamAlert = [[UIAlertView alloc]initWithTitle:@"No Camera Available" message:@"Your device does not have a camera" delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
-        [noCamAlert show];
+        [self selectPictureFromLibrary];
+//        UIAlertView *noCamAlert = [[UIAlertView alloc]initWithTitle:@"No Camera Available" message:@"Your device does not have a camera" delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
+//        [noCamAlert show];
         _captureSessionIsActive = NO;
     }
 }
@@ -136,11 +137,7 @@
                         _captureSessionIsActive = NO;
                         
 #warning this method needs testing
-                        NSData *imageData = UIImagePNGRepresentation(image);
-                        PFFile *file = [PFFile fileWithName:@"image" data:imageData];
-                        [file saveInBackground];
-                        [self.loggedUser setObject:file forKey:@"image"];
-                        [self.loggedUser saveInBackground];
+                        [self changeImageOnParse:image];
                         
                     });
                 }
@@ -156,13 +153,46 @@
     
 }
 
+- (void)selectPictureFromLibrary
+{
+    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary]) {
+        UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+        picker.delegate = self;
+        picker.allowsEditing = YES;
+        picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+        
+        [self presentViewController:picker animated:YES completion:NULL];
+    }
+}
+
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
+    
+    UIImage *chosenImage = info[UIImagePickerControllerEditedImage];
+    self.imageView.image = chosenImage;
+    [self changeImageOnParse:chosenImage];
+    [picker dismissViewControllerAnimated:YES completion:NULL];
+}
+
+- (void)changeImageOnParse: (UIImage *)newImage
+{
+    NSData *imageData = UIImagePNGRepresentation(newImage);
+    PFFile *file = [PFFile fileWithName:@"image" data:imageData];
+    [file saveInBackground];
+    [self.loggedUser setObject:file forKey:@"image"];
+    [self.loggedUser saveInBackground];
+}
+
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
+    
+    [picker dismissViewControllerAnimated:YES completion:NULL];
+    
+}
+
 -(void)presentNextView
 {
-    
         UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];
         UIViewController *vc = [storyBoard instantiateViewControllerWithIdentifier:@"DareTable"];
         [self presentViewController:vc animated:YES completion:nil];
-    
 }
 
 

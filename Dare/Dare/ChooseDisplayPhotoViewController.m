@@ -25,6 +25,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *cameraCaptureButton;
 @property (weak, nonatomic) IBOutlet UILabel *nextLabel;
 @property (weak, nonatomic) IBOutlet UILabel *arrowLabel;
+@property (strong, nonatomic) PFUser *loggedUser;
 
 // For use in the storyboards.
 
@@ -35,6 +36,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.loggedUser = [PFUser currentUser];
     _captureSessionIsActive = NO;
     _cameraCaptureButton.tintColor = [UIColor DareBlue];
     _imageView.backgroundColor = [UIColor DareBlue];
@@ -54,7 +56,7 @@
     [self.view addGestureRecognizer:swipeGesture];
 
     
-    [ParseClient getUser:[PFUser currentUser] completion:^(User *loggedUser) {
+    [ParseClient getUser:self.loggedUser completion:^(User *loggedUser) {
         _imageView.image = loggedUser.profileImage;
     } failure:nil];
 }
@@ -133,7 +135,12 @@
                         _capturedImage = _imageView.image;
                         _captureSessionIsActive = NO;
                         
-                        
+#warning this method needs testing
+                        NSData *imageData = UIImagePNGRepresentation(image);
+                        PFFile *file = [PFFile fileWithName:@"image" data:imageData];
+                        [file saveInBackground];
+                        [self.loggedUser setObject:file forKey:@"image"];
+                        [self.loggedUser saveInBackground];
                         
                     });
                 }

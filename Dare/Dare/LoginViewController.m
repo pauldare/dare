@@ -96,15 +96,17 @@
 -(void)login
 {
     [ParseClient loginWithFB:^(BOOL isNEW) {
+        UIViewController *viewController;
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];
         if (isNEW) {
             NSLog(@"I am new");
-            UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];
-            UIViewController *viewController = [storyboard instantiateViewControllerWithIdentifier:@"DisplayNameSelectVC"];
-            [self presentViewController:viewController animated:YES completion:nil];
-        } else {
+            viewController = [storyboard instantiateViewControllerWithIdentifier:@"DisplayNameSelectVC"];
             
+        } else {
             NSLog(@"Returning");
+            viewController = [storyboard instantiateViewControllerWithIdentifier:@"DareTable"];
         }
+        [self presentViewController:viewController animated:YES completion:nil];
     }];
 
 }

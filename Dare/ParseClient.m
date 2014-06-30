@@ -185,7 +185,7 @@
                     if (![parseMessage[@"isRead"] isEqualToString:@"NO"]) {
                         isRead = YES;
                     }
-                    PFFile *imageFile = parseMessage[@"picture"][0];//bad data
+                    PFFile *imageFile = parseMessage[@"picture"][0];//bad fake data, parse message is set to an array with PFFile in it
                     UIImage *picture = [self imageFileToImage:imageFile];
                     
                     Message *message = [[Message alloc]initWithText:parseMessage[@"text"]

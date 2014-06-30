@@ -170,6 +170,40 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		35B041FA1961B4BA00FB741E /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				527FDAEA1960AEE50083D6F0 /* DareCell.xib */,
+				527FDB001960E5830083D6F0 /* FinalCell.xib */,
+				527FDAF71960C4650083D6F0 /* FriendListIcon.xib */,
+				0719EAB7195F516E007C2983 /* Storyboard.storyboard */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
+		35B041FB1961B4CF00FB741E /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				527FDB021960E63E0083D6F0 /* FinalCell.h */,
+				527FDB031960E63E0083D6F0 /* FinalCell.m */,
+				527FDAF91960C6580083D6F0 /* FriendListIcon.h */,
+				527FDAFA1960C6580083D6F0 /* FriendListIcon.m */,
+				527FDAF41960C3E10083D6F0 /* FriendsListViewController.h */,
+				527FDAF51960C3E10083D6F0 /* FriendsListViewController.m */,
+				527FDAEF1960B7420083D6F0 /* DareTable.h */,
+				527FDAF01960B7420083D6F0 /* DareTable.m */,
+				527FDAEC1960B35C0083D6F0 /* DareCell.h */,
+				527FDAED1960B35C0083D6F0 /* DareCell.m */,
+				0719EAB9195F5599007C2983 /* LoginViewController.h */,
+				0719EABA195F5599007C2983 /* LoginViewController.m */,
+				5234BB1819606D4C00850ECB /* DisplayNameSelectViewController.h */,
+				5234BB1919606D4C00850ECB /* DisplayNameSelectViewController.m */,
+				5234BB1E196077AE00850ECB /* ChooseDisplayPhotoViewController.h */,
+				5234BB1F196077AE00850ECB /* ChooseDisplayPhotoViewController.m */,
+			);
+			name = Controllers;
+			sourceTree = "<group>";
+		};
 		4553B588195B944E005C6D1A = {
 			isa = PBXGroup;
 			children = (
@@ -220,28 +254,8 @@
 				4553B5A6195B944E005C6D1A /* AppDelegate.m */,
 				4553B5E1195B9FB2005C6D1A /* Constants.h */,
 				05FA70EC195FA75E00C057D4 /* Constants.m */,
-				0719EAB7195F516E007C2983 /* Storyboard.storyboard */,
-				527FDAF71960C4650083D6F0 /* FriendListIcon.xib */,
-				527FDB001960E5830083D6F0 /* FinalCell.xib */,
-				527FDB021960E63E0083D6F0 /* FinalCell.h */,
-				527FDB031960E63E0083D6F0 /* FinalCell.m */,
-				527FDAF91960C6580083D6F0 /* FriendListIcon.h */,
-				527FDAFA1960C6580083D6F0 /* FriendListIcon.m */,
-				527FDAF41960C3E10083D6F0 /* FriendsListViewController.h */,
-				527FDAF51960C3E10083D6F0 /* FriendsListViewController.m */,
-				527FDAEF1960B7420083D6F0 /* DareTable.h */,
-				527FDAF01960B7420083D6F0 /* DareTable.m */,
-				527FDAEA1960AEE50083D6F0 /* DareCell.xib */,
-				527FDAEC1960B35C0083D6F0 /* DareCell.h */,
-				527FDAED1960B35C0083D6F0 /* DareCell.m */,
-				5234BB1B19606D8600850ECB /* UIColor+DareColors.h */,
-				5234BB1C19606D8600850ECB /* UIColor+DareColors.m */,
-				0719EAB9195F5599007C2983 /* LoginViewController.h */,
-				0719EABA195F5599007C2983 /* LoginViewController.m */,
-				5234BB1819606D4C00850ECB /* DisplayNameSelectViewController.h */,
-				5234BB1919606D4C00850ECB /* DisplayNameSelectViewController.m */,
-				5234BB1E196077AE00850ECB /* ChooseDisplayPhotoViewController.h */,
-				5234BB1F196077AE00850ECB /* ChooseDisplayPhotoViewController.m */,
+				35B041FB1961B4CF00FB741E /* Controllers */,
+				35B041FA1961B4BA00FB741E /* Views */,
 				456E6252195F27F4003CC220 /* Model */,
 				456E6256195F29FA003CC220 /* Temp */,
 				4553B5AB195B944F005C6D1A /* Images.xcassets */,
@@ -283,6 +297,8 @@
 		456E6252195F27F4003CC220 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				5234BB1B19606D8600850ECB /* UIColor+DareColors.h */,
+				5234BB1C19606D8600850ECB /* UIColor+DareColors.m */,
 				456E625D195F67C5003CC220 /* ParseClient.h */,
 				456E625E195F67C5003CC220 /* ParseClient.m */,
 				07977E71195F230100B2C0C6 /* User.h */,

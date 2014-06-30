@@ -21,6 +21,7 @@
 @property (strong, nonatomic) User *user;
 @property (strong, nonatomic) NSString *title;
 @property (strong, nonatomic) UIImage *backgroundImage;
+@property (nonatomic) NSInteger unreadMessages;
 
 - (instancetype)initWithUser: (User *)user
                 participants: (NSArray *)participants

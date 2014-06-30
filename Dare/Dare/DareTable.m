@@ -9,10 +9,15 @@
 #import "DareTable.h"
 #import "UIColor+DareColors.h"
 #import "DareCell.h"
+#import "ParseClient.h"
+#import "User.h"
+
 
 @interface DareTable ()
 
 @property (strong, nonatomic) UINib *cellNib;
+@property (strong, nonatomic) NSArray *threads;
+@property (strong, nonatomic) User *loggedUser;
 
 @end
 
@@ -27,13 +32,39 @@
     return self;
 }
 
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
+    self.tableView.backgroundColor = [UIColor DareBlue];
+    
     _cellNib = [UINib nibWithNibName:@"DareCell" bundle:nil];
     [self.tableView registerNib:_cellNib forCellReuseIdentifier:@"DareCell"];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    
+    [ParseClient getUser:[PFUser currentUser] completion:^(User *loggedUser) {
+        self.loggedUser = loggedUser;
+        
+        [ParseClient getMessageThreadsForUser:loggedUser completion:^(NSArray *threads, bool isDone) {
+            if (isDone) {
+                self.threads = threads;
+                //[self.tableView reloadData];
+                for (MessageThread *thread in self.threads) {
+                    [ParseClient getMessagesForThread:thread user:loggedUser completion:^(NSArray *messages) {
+                        thread.unreadMessages = 0;
+                        for (Message *message in messages) {
+                            if (!message.isRead) {
+                                thread.unreadMessages++;
+                            }
+                        }
+                        [self.tableView reloadData];
+                    } failure:nil];
+                }
+            }
+        } failure:nil];
+    } failure:nil];
+    
     
 
     
@@ -54,16 +85,14 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-#warning Potentially incomplete method implementation.
     // Return the number of sections.
     return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-#warning Incomplete method implementation.
     // Return the number of rows in the section.
-    return 30;
+    return [self.threads count];
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -74,22 +103,25 @@
 {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"DareCell" forIndexPath:indexPath];
     
+    MessageThread *thread = self.threads[indexPath.row];
+    ((DareCell *)cell).backgroundImageView.image = thread.backgroundImage;
+    ((DareCell *)cell).titleLabel.text = [NSString stringWithFormat:@"I DARE YOU TO\n%@", thread.title];
+    ((DareCell *)cell).unreadCountLabel.text = [NSString stringWithFormat:@"%d", thread.unreadMessages];
     
-    NSOperationQueue *queue = [[NSOperationQueue alloc]init];
-    [queue addOperationWithBlock:^{
-       
-        NSURL *imageURL = [NSURL URLWithString:@"http://ibmsmartercommerce.sourceforge.net/wp-content/uploads/2012/09/Roses_Bunch_Of_Flowers.jpeg"];
-        NSData *imageData = [NSData dataWithContentsOfURL:imageURL];
-        UIImage *image = [UIImage imageWithData:imageData];
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            ((DareCell *)cell).backgroundImageView.image = image;
-            ((DareCell *)cell).titleLabel.text = @"I Dare You To Wear Pink";
-            ((DareCell *)cell).unreadCountLabel.text = @"15";
-        });
-      
-        
-    }];
+    
+//    NSOperationQueue *queue = [[NSOperationQueue alloc]init];
+//    [queue addOperationWithBlock:^{
+//       
+//        NSURL *imageURL = [NSURL URLWithString:@"http://ibmsmartercommerce.sourceforge.net/wp-content/uploads/2012/09/Roses_Bunch_Of_Flowers.jpeg"];
+//        NSData *imageData = [NSData dataWithContentsOfURL:imageURL];
+//        UIImage *image = [UIImage imageWithData:imageData];
+//        
+//        dispatch_async(dispatch_get_main_queue(), ^{
+//            ((DareCell *)cell).backgroundImageView.image = image;
+//            ((DareCell *)cell).titleLabel.text = @"I Dare You To Wear Pink";
+//            ((DareCell *)cell).unreadCountLabel.text = @"15";
+//        });
+//    }];
    
     return cell;
 }

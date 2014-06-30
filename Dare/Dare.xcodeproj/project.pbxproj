@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		05984F3C1960C9D300DAE025 /* bob.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 05984F3B1960C9D300DAE025 /* bob.jpg */; };
+		05984F3E1960C9DF00DAE025 /* alice.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 05984F3D1960C9DF00DAE025 /* alice.jpg */; };
+		05984F431960CB5700DAE025 /* mesFour.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 05984F3F1960CB5700DAE025 /* mesFour.jpeg */; };
+		05984F441960CB5700DAE025 /* mesThree.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 05984F401960CB5700DAE025 /* mesThree.jpeg */; };
+		05984F451960CB5700DAE025 /* mesTwo.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 05984F411960CB5700DAE025 /* mesTwo.jpeg */; };
+		05984F461960CB5700DAE025 /* mesOne.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 05984F421960CB5700DAE025 /* mesOne.jpeg */; };
 		05FA70ED195FA75E00C057D4 /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = 05FA70EC195FA75E00C057D4 /* Constants.m */; };
 		0719EAB8195F516E007C2983 /* Storyboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0719EAB7195F516E007C2983 /* Storyboard.storyboard */; };
 		0719EABB195F5599007C2983 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0719EABA195F5599007C2983 /* LoginViewController.m */; };
@@ -64,6 +70,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		05984F3B1960C9D300DAE025 /* bob.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = bob.jpg; sourceTree = "<group>"; };
+		05984F3D1960C9DF00DAE025 /* alice.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = alice.jpg; sourceTree = "<group>"; };
+		05984F3F1960CB5700DAE025 /* mesFour.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = mesFour.jpeg; sourceTree = "<group>"; };
+		05984F401960CB5700DAE025 /* mesThree.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = mesThree.jpeg; sourceTree = "<group>"; };
+		05984F411960CB5700DAE025 /* mesTwo.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = mesTwo.jpeg; sourceTree = "<group>"; };
+		05984F421960CB5700DAE025 /* mesOne.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = mesOne.jpeg; sourceTree = "<group>"; };
 		05FA70EC195FA75E00C057D4 /* Constants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Constants.m; path = ../Constants.m; sourceTree = "<group>"; };
 		0719EAB7195F516E007C2983 /* Storyboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Storyboard.storyboard; sourceTree = "<group>"; };
 		0719EAB9195F5599007C2983 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
@@ -165,6 +177,50 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		05984F391960C76A00DAE025 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				527FDAF91960C6580083D6F0 /* FriendListIcon.h */,
+				527FDAFA1960C6580083D6F0 /* FriendListIcon.m */,
+				527FDAF41960C3E10083D6F0 /* FriendsListViewController.h */,
+				527FDAF51960C3E10083D6F0 /* FriendsListViewController.m */,
+				527FDAEF1960B7420083D6F0 /* DareTable.h */,
+				527FDAF01960B7420083D6F0 /* DareTable.m */,
+				527FDAEC1960B35C0083D6F0 /* DareCell.h */,
+				527FDAED1960B35C0083D6F0 /* DareCell.m */,
+				0719EAB9195F5599007C2983 /* LoginViewController.h */,
+				0719EABA195F5599007C2983 /* LoginViewController.m */,
+				5234BB1819606D4C00850ECB /* DisplayNameSelectViewController.h */,
+				5234BB1919606D4C00850ECB /* DisplayNameSelectViewController.m */,
+				5234BB1E196077AE00850ECB /* ChooseDisplayPhotoViewController.h */,
+				5234BB1F196077AE00850ECB /* ChooseDisplayPhotoViewController.m */,
+			);
+			name = Controllers;
+			sourceTree = "<group>";
+		};
+		05984F3A1960C7A600DAE025 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				527FDAEA1960AEE50083D6F0 /* DareCell.xib */,
+				0719EAB7195F516E007C2983 /* Storyboard.storyboard */,
+				527FDAF71960C4650083D6F0 /* FriendListIcon.xib */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
+		05984F471960CB5E00DAE025 /* images */ = {
+			isa = PBXGroup;
+			children = (
+				05984F3F1960CB5700DAE025 /* mesFour.jpeg */,
+				05984F401960CB5700DAE025 /* mesThree.jpeg */,
+				05984F411960CB5700DAE025 /* mesTwo.jpeg */,
+				05984F421960CB5700DAE025 /* mesOne.jpeg */,
+				05984F3D1960C9DF00DAE025 /* alice.jpg */,
+				05984F3B1960C9D300DAE025 /* bob.jpg */,
+			);
+			name = images;
+			sourceTree = "<group>";
+		};
 		4553B588195B944E005C6D1A = {
 			isa = PBXGroup;
 			children = (
@@ -215,25 +271,8 @@
 				4553B5A6195B944E005C6D1A /* AppDelegate.m */,
 				4553B5E1195B9FB2005C6D1A /* Constants.h */,
 				05FA70EC195FA75E00C057D4 /* Constants.m */,
-				0719EAB7195F516E007C2983 /* Storyboard.storyboard */,
-				527FDAF71960C4650083D6F0 /* FriendListIcon.xib */,
-				527FDAF91960C6580083D6F0 /* FriendListIcon.h */,
-				527FDAFA1960C6580083D6F0 /* FriendListIcon.m */,
-				527FDAF41960C3E10083D6F0 /* FriendsListViewController.h */,
-				527FDAF51960C3E10083D6F0 /* FriendsListViewController.m */,
-				527FDAEF1960B7420083D6F0 /* DareTable.h */,
-				527FDAF01960B7420083D6F0 /* DareTable.m */,
-				527FDAEA1960AEE50083D6F0 /* DareCell.xib */,
-				527FDAEC1960B35C0083D6F0 /* DareCell.h */,
-				527FDAED1960B35C0083D6F0 /* DareCell.m */,
-				5234BB1B19606D8600850ECB /* UIColor+DareColors.h */,
-				5234BB1C19606D8600850ECB /* UIColor+DareColors.m */,
-				0719EAB9195F5599007C2983 /* LoginViewController.h */,
-				0719EABA195F5599007C2983 /* LoginViewController.m */,
-				5234BB1819606D4C00850ECB /* DisplayNameSelectViewController.h */,
-				5234BB1919606D4C00850ECB /* DisplayNameSelectViewController.m */,
-				5234BB1E196077AE00850ECB /* ChooseDisplayPhotoViewController.h */,
-				5234BB1F196077AE00850ECB /* ChooseDisplayPhotoViewController.m */,
+				05984F3A1960C7A600DAE025 /* Views */,
+				05984F391960C76A00DAE025 /* Controllers */,
 				456E6252195F27F4003CC220 /* Model */,
 				456E6256195F29FA003CC220 /* Temp */,
 				4553B5AB195B944F005C6D1A /* Images.xcassets */,
@@ -275,6 +314,8 @@
 		456E6252195F27F4003CC220 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				5234BB1B19606D8600850ECB /* UIColor+DareColors.h */,
+				5234BB1C19606D8600850ECB /* UIColor+DareColors.m */,
 				456E625D195F67C5003CC220 /* ParseClient.h */,
 				456E625E195F67C5003CC220 /* ParseClient.m */,
 				07977E71195F230100B2C0C6 /* User.h */,
@@ -290,6 +331,7 @@
 		456E6256195F29FA003CC220 /* Temp */ = {
 			isa = PBXGroup;
 			children = (
+				05984F471960CB5E00DAE025 /* images */,
 				456E6257195F2DB4003CC220 /* Temp.h */,
 				456E6258195F2DB4003CC220 /* Temp.m */,
 			);
@@ -374,9 +416,15 @@
 				527FDAF81960C4650083D6F0 /* FriendListIcon.xib in Resources */,
 				527FDAEB1960AEE50083D6F0 /* DareCell.xib in Resources */,
 				4553B5A1195B944E005C6D1A /* InfoPlist.strings in Resources */,
+				05984F451960CB5700DAE025 /* mesTwo.jpeg in Resources */,
 				4553B5AC195B944F005C6D1A /* Images.xcassets in Resources */,
 				0719EAB8195F516E007C2983 /* Storyboard.storyboard in Resources */,
+				05984F461960CB5700DAE025 /* mesOne.jpeg in Resources */,
 				527FDAE91960A2250083D6F0 /* icon-157351_640.png in Resources */,
+				05984F441960CB5700DAE025 /* mesThree.jpeg in Resources */,
+				05984F3E1960C9DF00DAE025 /* alice.jpg in Resources */,
+				05984F431960CB5700DAE025 /* mesFour.jpeg in Resources */,
+				05984F3C1960C9D300DAE025 /* bob.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

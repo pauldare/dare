@@ -143,8 +143,8 @@
                                                           participants:participants
                                                               messages:user.messages
                                                             identifier:[parseThread objectId]
-                                                                 title:parseThread[@"title"]
-                                                       backgroundImage:[self imageFileToImage:parseThread[@"backgroundImage"]]];
+                                                                 title:parseThread[@"title"][0] //for debug purpose because I have set message text to array in fake data
+                                                       backgroundImage:[self imageFileToImage:parseThread[@"backgroundImage"]]]; 
             [userThreads addObject:thread];
             count++;
             
@@ -180,7 +180,7 @@
                     if (![parseMessage[@"isRead"] isEqualToString:@"NO"]) {
                         isRead = YES;
                     }
-                    PFFile *imageFile = parseMessage[@"picture"];
+                    PFFile *imageFile = parseMessage[@"picture"][0];//bad data
                     UIImage *picture = [self imageFileToImage:imageFile];
                     
                     Message *message = [[Message alloc]initWithText:parseMessage[@"text"]

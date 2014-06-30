@@ -43,7 +43,7 @@
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"The thread has number: %@", self.identifier];
+    return [NSString stringWithFormat:@"The thread: %@", self.title];
 }
 
 

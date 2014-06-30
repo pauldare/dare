@@ -14,6 +14,7 @@
 #import "MessageThread.h"
 
 
+
 @interface AppDelegate()
 //@property (strong, nonatomic) UIView *faceBookProfileImageContainerView;
 //@property (strong, nonatomic) PFUser *myUser;
@@ -28,9 +29,17 @@
     [Parse setApplicationId:ParseAppID
                   clientKey:ParseClientKey];
     
-    [ParseClient loginWithFB:^{
-        
-    }];
+//    [ParseClient loginUser:@"Alice" completion:^(NSString *loggedUser) {
+//        NSLog(@"%@", loggedUser);
+//    } failure:nil];
+    
+//    [Temp fakeData];
+
+    
+    
+//    [ParseClient loginWithFB:^{
+//        
+//    }];
     return YES;
 }
 

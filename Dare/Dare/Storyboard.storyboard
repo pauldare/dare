@@ -141,29 +141,37 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="rDV-U3-OpR">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="126"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </tableView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EyM-1N-UfL">
-                                <rect key="frame" x="0.0" y="80" width="320" height="320"/>
+                                <rect key="frame" x="0.0" y="126" width="320" height="342"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="0mC-a8-Vn2">
-                                        <rect key="frame" x="0.0" y="0.0" width="320" height="320"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="342"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     </imageView>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="320" id="9Mq-to-dyT"/>
                                     <constraint firstAttribute="trailing" secondItem="0mC-a8-Vn2" secondAttribute="trailing" id="FA8-PO-fgv"/>
                                     <constraint firstAttribute="bottom" secondItem="0mC-a8-Vn2" secondAttribute="bottom" id="Nrt-pT-arJ"/>
                                     <constraint firstItem="0mC-a8-Vn2" firstAttribute="leading" secondItem="EyM-1N-UfL" secondAttribute="leading" id="Ps6-Ry-oE6"/>
                                     <constraint firstItem="0mC-a8-Vn2" firstAttribute="top" secondItem="EyM-1N-UfL" secondAttribute="top" id="Wx3-Fz-tGX"/>
-                                    <constraint firstAttribute="height" constant="320" id="XAa-Q4-ELy"/>
                                 </constraints>
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="EyM-1N-UfL" firstAttribute="top" secondItem="lxA-Wh-N4U" secondAttribute="bottom" constant="60" id="hZd-bl-yJi"/>
+                            <constraint firstItem="EyM-1N-UfL" firstAttribute="top" secondItem="lxA-Wh-N4U" secondAttribute="bottom" constant="106" id="9Zc-Pc-LfI"/>
+                            <constraint firstAttribute="trailing" secondItem="rDV-U3-OpR" secondAttribute="trailing" id="EKn-5c-dO9"/>
+                            <constraint firstItem="rDV-U3-OpR" firstAttribute="top" secondItem="lxA-Wh-N4U" secondAttribute="bottom" constant="-20" id="UIP-41-Uvv"/>
+                            <constraint firstItem="QFr-7T-IKK" firstAttribute="top" secondItem="EyM-1N-UfL" secondAttribute="bottom" constant="100" id="a9r-zr-pFN"/>
+                            <constraint firstItem="rDV-U3-OpR" firstAttribute="leading" secondItem="8yY-oN-wzh" secondAttribute="leading" id="gzL-sK-DWd"/>
+                            <constraint firstItem="EyM-1N-UfL" firstAttribute="top" secondItem="rDV-U3-OpR" secondAttribute="bottom" id="nZB-ua-gvR"/>
                             <constraint firstAttribute="trailing" secondItem="EyM-1N-UfL" secondAttribute="trailing" id="t0l-uu-Zvw"/>
                             <constraint firstItem="EyM-1N-UfL" firstAttribute="leading" secondItem="8yY-oN-wzh" secondAttribute="leading" id="thG-Og-9RA"/>
                         </constraints>
@@ -171,6 +179,7 @@
                     <connections>
                         <outlet property="cameraView" destination="EyM-1N-UfL" id="QlF-HF-lH8"/>
                         <outlet property="imageView" destination="0mC-a8-Vn2" id="uqe-Jc-Ii7"/>
+                        <outlet property="tableView" destination="rDV-U3-OpR" id="vVF-jL-xC1"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dY5-qt-ZtF" userLabel="First Responder" sceneMemberID="firstResponder"/>

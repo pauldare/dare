@@ -16,6 +16,7 @@
 @property (weak, nonatomic) IBOutlet UIView *cameraView;
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
 @property (strong, nonatomic) CameraManager *cameraManager;
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 
 @end
@@ -30,6 +31,12 @@
     self.cameraManager = [[CameraManager alloc]init];
     _imageView.backgroundColor = [UIColor DareBlue];
     _cameraView.backgroundColor = [UIColor DareBlue];
+    
+    self.tableView.rowHeight = self.view.bounds.size.width/3;
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
+    CGAffineTransform transform = CGAffineTransformMakeRotation(-1.5707963);
+    self.tableView.transform = transform;
+    self.tableView.backgroundColor = [UIColor greenColor];
 }
 
 

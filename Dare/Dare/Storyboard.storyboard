@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13D65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="j1D-eL-NGR">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13D65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="1Sg-ia-qAj">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
@@ -64,7 +64,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4ko-CS-bP5" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="190" y="-557"/>
+            <point key="canvasLocation" x="53" y="-567"/>
         </scene>
         <!--Dare Table-->
         <scene sceneID="46j-8s-phZ">
@@ -92,7 +92,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kWB-Gg-eHB" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="353" y="280"/>
+            <point key="canvasLocation" x="903" y="280"/>
         </scene>
         <!--Friends List View Controller-->
         <scene sceneID="Gkh-5N-Gcz">
@@ -127,7 +127,7 @@
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bVj-Ay-1Zu" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="905" y="280"/>
+            <point key="canvasLocation" x="1369" y="280"/>
         </scene>
         <!--Display Name Select View Controller-->
         <scene sceneID="xzQ-zB-4uX">
@@ -181,12 +181,12 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="o3O-OO-uEY" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="697" y="-557"/>
+            <point key="canvasLocation" x="559" y="-567"/>
         </scene>
         <!--Choose Display Photo View Controller-->
         <scene sceneID="Plk-M4-woh">
             <objects>
-                <viewController id="fke-Yu-Lf4" customClass="ChooseDisplayPhotoViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ChooseDisplayPhoto" id="fke-Yu-Lf4" customClass="ChooseDisplayPhotoViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="8uu-ly-4pE"/>
                         <viewControllerLayoutGuide type="bottom" id="YlX-sx-FXk"/>
@@ -278,14 +278,16 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="arrowLabel" destination="clB-qa-qgT" id="gFh-Cj-TnI"/>
                         <outlet property="cameraCaptureButton" destination="saD-Zg-0ip" id="SQn-ou-cco"/>
                         <outlet property="cameraView" destination="d6z-cZ-6Tt" id="aIb-1P-kwv"/>
                         <outlet property="imageView" destination="D7g-Ej-WVx" id="0Op-A3-3DM"/>
+                        <outlet property="nextLabel" destination="lLA-xx-tbC" id="Icd-rc-kGB"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="trX-JG-kXT" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1140" y="-537"/>
+            <point key="canvasLocation" x="964" y="-567"/>
         </scene>
     </scenes>
     <resources>

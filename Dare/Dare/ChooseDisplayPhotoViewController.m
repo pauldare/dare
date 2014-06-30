@@ -23,6 +23,8 @@
 @property (strong, nonatomic) UIImage *capturedImage;
 @property (nonatomic) BOOL captureSessionIsActive;
 @property (weak, nonatomic) IBOutlet UIButton *cameraCaptureButton;
+@property (weak, nonatomic) IBOutlet UILabel *nextLabel;
+@property (weak, nonatomic) IBOutlet UILabel *arrowLabel;
 
 // For use in the storyboards.
 
@@ -38,18 +40,23 @@
     _imageView.backgroundColor = [UIColor DareBlue];
     _cameraView.backgroundColor = [UIColor DareBlue];
     [self.view bringSubviewToFront:_cameraCaptureButton];
+
+    UITapGestureRecognizer *arrowTapGesture = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(presentNextView)];
+    arrowTapGesture.numberOfTapsRequired =1;
+    [_arrowLabel addGestureRecognizer:arrowTapGesture];
     
-    [PFUser logInWithUsernameInBackground:@"Alice" password:@"" block:^(PFUser *user, NSError *error) {
-        if (user) {
-            [ParseClient getUser:user completion:^(User *loggedUser) {
-                _imageView.image = loggedUser.profileImage;
-            } failure:nil];
-        }
-    }];
+    UITapGestureRecognizer *nextTapGesture = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(presentNextView)];
+    nextTapGesture.numberOfTapsRequired =1;
+    [_nextLabel addGestureRecognizer:arrowTapGesture];
     
-//    [ParseClient getUser:[PFUser currentUser] completion:^(User *loggedUser) {
-//        _imageView.image = loggedUser.profileImage;
-//    } failure:nil];
+    UISwipeGestureRecognizer *swipeGesture = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(presentNextView)];
+    swipeGesture.direction = UISwipeGestureRecognizerDirectionLeft;
+    [self.view addGestureRecognizer:swipeGesture];
+
+    
+    [ParseClient getUser:[PFUser currentUser] completion:^(User *loggedUser) {
+        _imageView.image = loggedUser.profileImage;
+    } failure:nil];
 }
 
 
@@ -141,6 +148,16 @@
     // Update the orientation on the still image output video connection before capturing.
     
 }
+
+-(void)presentNextView
+{
+    
+        UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];
+        UIViewController *vc = [storyBoard instantiateViewControllerWithIdentifier:@"ChooseDisplayPhoto"];
+        [self presentViewController:vc animated:YES completion:nil];
+    
+}
+
 
 
 @end

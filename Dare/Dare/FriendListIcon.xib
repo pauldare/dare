@@ -17,18 +17,27 @@
                         <rect key="frame" x="0.0" y="0.0" width="106" height="106"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     </imageView>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bJf-Ki-ZBg">
+                        <rect key="frame" x="0.0" y="0.0" width="106" height="106"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    </view>
                 </subviews>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             </view>
             <constraints>
+                <constraint firstAttribute="bottom" secondItem="bJf-Ki-ZBg" secondAttribute="bottom" id="5a7-yH-zbi"/>
+                <constraint firstItem="bJf-Ki-ZBg" firstAttribute="leading" secondItem="5Tt-Gg-ECh" secondAttribute="leading" id="JZZ-eU-1ij"/>
                 <constraint firstItem="hG7-ou-bIR" firstAttribute="leading" secondItem="5Tt-Gg-ECh" secondAttribute="leading" id="KNG-25-FYi"/>
+                <constraint firstAttribute="trailing" secondItem="bJf-Ki-ZBg" secondAttribute="trailing" id="Kju-Re-De6"/>
                 <constraint firstAttribute="bottom" secondItem="hG7-ou-bIR" secondAttribute="bottom" id="NKo-A6-quo"/>
                 <constraint firstItem="hG7-ou-bIR" firstAttribute="top" secondItem="5Tt-Gg-ECh" secondAttribute="top" id="Pnd-Pg-dG5"/>
+                <constraint firstItem="bJf-Ki-ZBg" firstAttribute="top" secondItem="5Tt-Gg-ECh" secondAttribute="top" id="X7y-5d-ij8"/>
                 <constraint firstAttribute="trailing" secondItem="hG7-ou-bIR" secondAttribute="trailing" id="xqr-8G-n4w"/>
             </constraints>
             <size key="customSize" width="176" height="169"/>
             <connections>
                 <outlet property="friendImage" destination="hG7-ou-bIR" id="qzV-h7-szO"/>
+                <outlet property="selectedOverlay" destination="bJf-Ki-ZBg" id="TfZ-08-Isi"/>
             </connections>
         </collectionViewCell>
     </objects>

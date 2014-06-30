@@ -42,6 +42,7 @@
 {
     
     [super viewDidLoad];
+
     
     UITapGestureRecognizer *signinGesture = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(scrollPage)];
     signinGesture.numberOfTapsRequired = 1;
@@ -56,7 +57,7 @@
     _containerView.backgroundColor = [UIColor DareBlue];
     _signinLabel.translatesAutoresizingMaskIntoConstraints = NO;
     _arrowLabel.translatesAutoresizingMaskIntoConstraints = NO;
-    _signinLabel.textAlignment = NSTextAlignmentRight;
+    _signinLabel.textAlignment = NSTextAlignmentCenter;
     
     _scrollView.frame = self.view.frame;
     CGRect scrollFrame = _scrollView.frame;
@@ -66,7 +67,7 @@
     CGFloat arrowLabelBox = 100;
     _arrowLabel.frame = CGRectMake(_scrollView.frame.size.width - arrowLabelBox, _scrollView.frame.size.height - arrowLabelBox, arrowLabelBox, arrowLabelBox);
     CGFloat signinBox = 150;
-    _signinLabel.frame = CGRectMake(_scrollView.frame.size.width - (arrowLabelBox+signinBox), _scrollView.frame.size.height - arrowLabelBox, signinBox, arrowLabelBox);
+    _signinLabel.frame = CGRectMake(_scrollView.frame.size.width - (arrowLabelBox+signinBox) , _scrollView.frame.size.height - arrowLabelBox, signinBox, arrowLabelBox);
     
     _scrollView.delegate = self;
     _scrollView.pagingEnabled = YES;

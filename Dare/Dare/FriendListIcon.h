@@ -10,5 +10,7 @@
 
 @interface FriendListIcon : UICollectionViewCell
 @property (weak, nonatomic) IBOutlet UIImageView *friendImage;
+@property (nonatomic) BOOL indexIsSelected;
+@property (weak, nonatomic) IBOutlet UIView *selectedOverlay;
 
 @end

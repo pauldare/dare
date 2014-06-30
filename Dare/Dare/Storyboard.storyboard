@@ -132,7 +132,7 @@
         <!--Display Name Select View Controller-->
         <scene sceneID="xzQ-zB-4uX">
             <objects>
-                <viewController id="1Sg-ia-qAj" customClass="DisplayNameSelectViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="DisplayNameSelectVC" id="1Sg-ia-qAj" customClass="DisplayNameSelectViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="uHV-Wr-Uak"/>
                         <viewControllerLayoutGuide type="bottom" id="GHt-P9-9sk"/>

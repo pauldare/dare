@@ -153,7 +153,7 @@
 {
     
         UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];
-        UIViewController *vc = [storyBoard instantiateViewControllerWithIdentifier:@"ChooseDisplayPhoto"];
+        UIViewController *vc = [storyBoard instantiateViewControllerWithIdentifier:@"DareTable"];
         [self presentViewController:vc animated:YES completion:nil];
     
 }

@@ -13,6 +13,9 @@
 		07977E73195F230100B2C0C6 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 07977E72195F230100B2C0C6 /* User.m */; };
 		07977E76195F235700B2C0C6 /* MessageThread.m in Sources */ = {isa = PBXBuildFile; fileRef = 07977E75195F235700B2C0C6 /* MessageThread.m */; };
 		07977E79195F236100B2C0C6 /* Message.m in Sources */ = {isa = PBXBuildFile; fileRef = 07977E78195F236100B2C0C6 /* Message.m */; };
+		35F35F401961EA2F0002C7BC /* NewDareViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 35F35F3F1961EA2F0002C7BC /* NewDareViewController.m */; };
+		35F35F481961F23F0002C7BC /* cat.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 35F35F471961F23F0002C7BC /* cat.jpeg */; };
+		35F35F501961F89E0002C7BC /* CameraManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 35F35F4F1961F89E0002C7BC /* CameraManager.m */; };
 		4553B595195B944E005C6D1A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4553B594195B944E005C6D1A /* Foundation.framework */; };
 		4553B597195B944E005C6D1A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4553B596195B944E005C6D1A /* CoreGraphics.framework */; };
 		4553B599195B944E005C6D1A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4553B598195B944E005C6D1A /* UIKit.framework */; };
@@ -76,6 +79,11 @@
 		07977E75195F235700B2C0C6 /* MessageThread.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageThread.m; sourceTree = "<group>"; };
 		07977E77195F236100B2C0C6 /* Message.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Message.h; sourceTree = "<group>"; };
 		07977E78195F236100B2C0C6 /* Message.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Message.m; sourceTree = "<group>"; };
+		35F35F3E1961EA2F0002C7BC /* NewDareViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewDareViewController.h; sourceTree = "<group>"; };
+		35F35F3F1961EA2F0002C7BC /* NewDareViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewDareViewController.m; sourceTree = "<group>"; };
+		35F35F471961F23F0002C7BC /* cat.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = cat.jpeg; sourceTree = "<group>"; };
+		35F35F4E1961F89E0002C7BC /* CameraManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CameraManager.h; sourceTree = "<group>"; };
+		35F35F4F1961F89E0002C7BC /* CameraManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CameraManager.m; sourceTree = "<group>"; };
 		4553B591195B944E005C6D1A /* Dare.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Dare.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4553B594195B944E005C6D1A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		4553B596195B944E005C6D1A /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -173,6 +181,12 @@
 		35B041FA1961B4BA00FB741E /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				527FDAEC1960B35C0083D6F0 /* DareCell.h */,
+				527FDAED1960B35C0083D6F0 /* DareCell.m */,
+				527FDB021960E63E0083D6F0 /* FinalCell.h */,
+				527FDB031960E63E0083D6F0 /* FinalCell.m */,
+				527FDAF91960C6580083D6F0 /* FriendListIcon.h */,
+				527FDAFA1960C6580083D6F0 /* FriendListIcon.m */,
 				527FDAEA1960AEE50083D6F0 /* DareCell.xib */,
 				527FDB001960E5830083D6F0 /* FinalCell.xib */,
 				527FDAF71960C4650083D6F0 /* FriendListIcon.xib */,
@@ -184,22 +198,18 @@
 		35B041FB1961B4CF00FB741E /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				527FDB021960E63E0083D6F0 /* FinalCell.h */,
-				527FDB031960E63E0083D6F0 /* FinalCell.m */,
-				527FDAF91960C6580083D6F0 /* FriendListIcon.h */,
-				527FDAFA1960C6580083D6F0 /* FriendListIcon.m */,
 				527FDAF41960C3E10083D6F0 /* FriendsListViewController.h */,
 				527FDAF51960C3E10083D6F0 /* FriendsListViewController.m */,
 				527FDAEF1960B7420083D6F0 /* DareTable.h */,
 				527FDAF01960B7420083D6F0 /* DareTable.m */,
-				527FDAEC1960B35C0083D6F0 /* DareCell.h */,
-				527FDAED1960B35C0083D6F0 /* DareCell.m */,
 				0719EAB9195F5599007C2983 /* LoginViewController.h */,
 				0719EABA195F5599007C2983 /* LoginViewController.m */,
 				5234BB1819606D4C00850ECB /* DisplayNameSelectViewController.h */,
 				5234BB1919606D4C00850ECB /* DisplayNameSelectViewController.m */,
 				5234BB1E196077AE00850ECB /* ChooseDisplayPhotoViewController.h */,
 				5234BB1F196077AE00850ECB /* ChooseDisplayPhotoViewController.m */,
+				35F35F3E1961EA2F0002C7BC /* NewDareViewController.h */,
+				35F35F3F1961EA2F0002C7BC /* NewDareViewController.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -297,6 +307,8 @@
 		456E6252195F27F4003CC220 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				35F35F4E1961F89E0002C7BC /* CameraManager.h */,
+				35F35F4F1961F89E0002C7BC /* CameraManager.m */,
 				5234BB1B19606D8600850ECB /* UIColor+DareColors.h */,
 				5234BB1C19606D8600850ECB /* UIColor+DareColors.m */,
 				456E625D195F67C5003CC220 /* ParseClient.h */,
@@ -314,6 +326,7 @@
 		456E6256195F29FA003CC220 /* Temp */ = {
 			isa = PBXGroup;
 			children = (
+				35F35F471961F23F0002C7BC /* cat.jpeg */,
 				456E6257195F2DB4003CC220 /* Temp.h */,
 				456E6258195F2DB4003CC220 /* Temp.m */,
 			);
@@ -399,6 +412,7 @@
 				527FDAEB1960AEE50083D6F0 /* DareCell.xib in Resources */,
 				4553B5A1195B944E005C6D1A /* InfoPlist.strings in Resources */,
 				4553B5AC195B944F005C6D1A /* Images.xcassets in Resources */,
+				35F35F481961F23F0002C7BC /* cat.jpeg in Resources */,
 				0719EAB8195F516E007C2983 /* Storyboard.storyboard in Resources */,
 				527FDB011960E5830083D6F0 /* FinalCell.xib in Resources */,
 				527FDAE91960A2250083D6F0 /* icon-157351_640.png in Resources */,
@@ -434,7 +448,9 @@
 				4553B5A7195B944E005C6D1A /* AppDelegate.m in Sources */,
 				07977E79195F236100B2C0C6 /* Message.m in Sources */,
 				4553B5A3195B944E005C6D1A /* main.m in Sources */,
+				35F35F501961F89E0002C7BC /* CameraManager.m in Sources */,
 				527FDAF61960C3E10083D6F0 /* FriendsListViewController.m in Sources */,
+				35F35F401961EA2F0002C7BC /* NewDareViewController.m in Sources */,
 				527FDAF11960B7420083D6F0 /* DareTable.m in Sources */,
 				456E6259195F2DB4003CC220 /* Temp.m in Sources */,
 			);

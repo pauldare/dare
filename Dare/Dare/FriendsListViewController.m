@@ -118,23 +118,6 @@
         User *friend = self.friends[indexPath.row];
         ((FriendListIcon*)cell).friendImage.image = friend.profileImage;
         
-//        NSOperationQueue *queue = [[NSOperationQueue alloc]init];
-//        [queue addOperationWithBlock:^{
-//            
-//            NSURL *imageURL = [NSURL URLWithString:@"http://www.trutv.com/library/crime/blog/files/2013/03/p-april-vasturo-mugshot.jpg"];
-//            NSData *imageData = [NSData dataWithContentsOfURL:imageURL];
-//            UIImage *image = [UIImage imageWithData:imageData];
-//            
-//            dispatch_async(dispatch_get_main_queue(), ^{
-//                
-//                ((FriendListIcon*)cell).friendImage.image = image;
-//                
-//                
-//            });
-//            
-//            
-//        }];
-        
         return cell;
     }
     

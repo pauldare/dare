@@ -10,6 +10,8 @@
 #import "FriendListIcon.h"
 #import "UIColor+DareColors.h"
 #import "FinalCell.h"
+#import "User.h"
+#import "ParseClient.h"
 
 @interface FriendsListViewController ()<UICollectionViewDelegate>
 
@@ -17,8 +19,7 @@
 @property (strong, nonatomic) UINib *finalCellNib;
 @property (strong, nonatomic) NSSet *selectedFriends;
 @property (strong, nonatomic) NSMutableSet *selectedIndices;
-
-
+@property (strong, nonatomic) NSMutableArray *friends;
 
 @end
 
@@ -36,6 +37,17 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    self.friends = [[NSMutableArray alloc]init];
+    
+    [ParseClient getUser:[PFUser currentUser] completion:^(User *loggedUser) {
+        for (PFUser *friend in loggedUser.friends) {
+            [ParseClient getUser:friend completion:^(User *friend) {
+                [self.friends addObject:friend];
+                [self.collectionView reloadData];
+            } failure:nil];
+        }
+    } failure:nil];
     
     _friendNib = [UINib nibWithNibName:@"FriendListIcon" bundle:nil];
     [self.collectionView registerNib:_friendNib forCellWithReuseIdentifier:@"FriendCell"];
@@ -71,14 +83,15 @@
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
     //this adds a final selection cell
-    return [_friendsArray count] +1;
+//    return [_friendsArray count] +1;
+    return [self.friends count] + 1;
 }
 
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     
    
-    if (indexPath.row == [_friendsArray count]) {
+    if (indexPath.row == [self.friends count]) {
         
         FinalCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"FinalCell" forIndexPath:indexPath];
         cell.cellLabel.backgroundColor = [UIColor DareBlue];
@@ -102,22 +115,25 @@
             cell.selectedOverlay.backgroundColor = [UIColor clearColor];
         }
         
-        NSOperationQueue *queue = [[NSOperationQueue alloc]init];
-        [queue addOperationWithBlock:^{
-            
-            NSURL *imageURL = [NSURL URLWithString:@"http://www.trutv.com/library/crime/blog/files/2013/03/p-april-vasturo-mugshot.jpg"];
-            NSData *imageData = [NSData dataWithContentsOfURL:imageURL];
-            UIImage *image = [UIImage imageWithData:imageData];
-            
-            dispatch_async(dispatch_get_main_queue(), ^{
-                
-                ((FriendListIcon*)cell).friendImage.image = image;
-                
-                
-            });
-            
-            
-        }];
+        User *friend = self.friends[indexPath.row];
+        ((FriendListIcon*)cell).friendImage.image = friend.profileImage;
+        
+//        NSOperationQueue *queue = [[NSOperationQueue alloc]init];
+//        [queue addOperationWithBlock:^{
+//            
+//            NSURL *imageURL = [NSURL URLWithString:@"http://www.trutv.com/library/crime/blog/files/2013/03/p-april-vasturo-mugshot.jpg"];
+//            NSData *imageData = [NSData dataWithContentsOfURL:imageURL];
+//            UIImage *image = [UIImage imageWithData:imageData];
+//            
+//            dispatch_async(dispatch_get_main_queue(), ^{
+//                
+//                ((FriendListIcon*)cell).friendImage.image = image;
+//                
+//                
+//            });
+//            
+//            
+//        }];
         
         return cell;
     }

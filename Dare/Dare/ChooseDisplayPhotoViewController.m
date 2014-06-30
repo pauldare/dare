@@ -104,8 +104,10 @@
         _captureSessionIsActive = YES;
     }else{
         [self selectPictureFromLibrary];
+        
 //        UIAlertView *noCamAlert = [[UIAlertView alloc]initWithTitle:@"No Camera Available" message:@"Your device does not have a camera" delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
 //        [noCamAlert show];
+        
         _captureSessionIsActive = NO;
     }
 }
@@ -142,8 +144,6 @@
                     });
                 }
             }];
-            
-            
         }];
     }else{
         [self initializeCamera];
@@ -185,14 +185,13 @@
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
     
     [picker dismissViewControllerAnimated:YES completion:NULL];
-    
 }
 
 -(void)presentNextView
 {
-        UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];
-        UIViewController *vc = [storyBoard instantiateViewControllerWithIdentifier:@"DareTable"];
-        [self presentViewController:vc animated:YES completion:nil];
+    UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];
+    UIViewController *vc = [storyBoard instantiateViewControllerWithIdentifier:@"DareTable"];
+    [self presentViewController:vc animated:YES completion:nil];
 }
 
 

@@ -100,10 +100,16 @@
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];
         if (isNEW) {
             NSLog(@"I am new");
+            [ParseClient relateFacebookFriendsInParse:^(bool isDone) {
+    
+            } failure:nil];
             viewController = [storyboard instantiateViewControllerWithIdentifier:@"DisplayNameSelectVC"];
             
         } else {
             NSLog(@"Returning");
+            [ParseClient relateFacebookFriendsInParse:^(bool isDone) {
+                
+            } failure:nil];
             viewController = [storyboard instantiateViewControllerWithIdentifier:@"DareTable"];
         }
         [self presentViewController:viewController animated:YES completion:nil];

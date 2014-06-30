@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13D65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="1Sg-ia-qAj">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13D65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="49L-9A-Nai">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
@@ -69,7 +69,7 @@
         <!--Dare Table-->
         <scene sceneID="46j-8s-phZ">
             <objects>
-                <tableViewController id="mzX-ra-e7R" customClass="DareTable" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="DareTable" id="mzX-ra-e7R" customClass="DareTable" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="fFh-Yt-lRC">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -365,7 +365,7 @@
         <!--Display Name Select View Controller-->
         <scene sceneID="xzQ-zB-4uX">
             <objects>
-                <viewController id="1Sg-ia-qAj" customClass="DisplayNameSelectViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="DisplayNameSelectVC" id="1Sg-ia-qAj" customClass="DisplayNameSelectViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="uHV-Wr-Uak"/>
                         <viewControllerLayoutGuide type="bottom" id="GHt-P9-9sk"/>

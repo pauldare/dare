@@ -29,17 +29,13 @@
     [Parse setApplicationId:ParseAppID
                   clientKey:ParseClientKey];
     
-//    [ParseClient loginUser:@"Alice" completion:^(NSString *loggedUser) {
-//        NSLog(@"%@", loggedUser);
-//    } failure:nil];
-    
-//    [Temp fakeData];
-
-    
-    
-//    [ParseClient loginWithFB:^{
-//        
-//    }];
+    [ParseClient loginUser:@"Alice" completion:^(NSString *userName) {
+        if ([PFUser currentUser]) {
+            UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];
+            UIViewController *viewController = [storyboard instantiateViewControllerWithIdentifier:@"DareTable"];
+            self.window.rootViewController = viewController;
+        }
+    } failure:nil];
     return YES;
 }
 

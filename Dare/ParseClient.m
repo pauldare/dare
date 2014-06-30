@@ -11,13 +11,14 @@
 @implementation ParseClient
 
 + (void)loginUser: (NSString *)userName
-       completion: (void(^)(NSString *))completion
+       completion: (void(^)())completion
           failure: (void(^)())failure
 {
     [PFUser logInWithUsernameInBackground:userName password:@"" block:^(PFUser *user, NSError *error) {
         if (user) {
             [self getUser:user completion:^(User *user) {
                 NSLog(@"%@", user.displayName);
+                completion();
             } failure:nil];
         } else {
             failure();
@@ -70,10 +71,11 @@
 }
 
 
-+ (void)loginWithFB: (void(^)())completion
++ (void)loginWithFB: (void(^)(BOOL))completion
 {
     [PFFacebookUtils initializeFacebook];
     NSArray *permissions = @[@"email", @"user_friends"];
+    __block BOOL isNEW = NO;
     if (FBSession.activeSession.state != FBSessionStateCreatedTokenLoaded) {
         [PFFacebookUtils logInWithPermissions:permissions block:^(PFUser *user, NSError *error) {
             if (!user) {
@@ -95,14 +97,16 @@
                             [currentUser setObject:file forKey:@"image"];
                             [currentUser saveInBackground];
                             
-                            completion();
+                            isNEW = YES;
+                            
+                            completion(isNEW);
                         }];
                     }
                 }];
             } else {
                 
                 NSLog(@"Existing user logged in through Facebook!");
-                //completion();
+                completion(isNEW);
             }
         }];
     }

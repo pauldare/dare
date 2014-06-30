@@ -46,7 +46,7 @@
     [ParseClient getUser:[PFUser currentUser] completion:^(User *loggedUser) {
         self.loggedUser = loggedUser;
         
-        [ParseClient getMessageThreadsForUser:loggedUser completion:^(NSArray *threads, bool isDone) {
+        [ParseClient getMessageThreadsForUser:self.loggedUser completion:^(NSArray *threads, bool isDone) {
             if (isDone) {
                 self.threads = threads;
                 //[self.tableView reloadData];

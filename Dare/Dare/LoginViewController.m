@@ -95,9 +95,18 @@
 
 -(void)login
 {
-    [ParseClient loginWithFB:^{
-        NSLog(@"logged");
+    [ParseClient loginWithFB:^(BOOL isNEW) {
+        if (isNEW) {
+            NSLog(@"I am new");
+            UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];
+            UIViewController *viewController = [storyboard instantiateViewControllerWithIdentifier:@"DisplayNameSelectVC"];
+            [self presentViewController:viewController animated:YES completion:nil];
+        } else {
+            
+            NSLog(@"Returning");
+        }
     }];
+
 }
 
 -(void)viewDidAppear:(BOOL)animated

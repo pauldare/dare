@@ -11,13 +11,15 @@
 @implementation ParseClient
 
 + (void)loginUser: (NSString *)userName
-       completion: (void(^)(NSString *))completion
+       completion: (void(^)())completion
           failure: (void(^)())failure
 {
     [PFUser logInWithUsernameInBackground:userName password:@"" block:^(PFUser *user, NSError *error) {
         if (user) {
-            NSString *displayName = [user objectForKey:@"displayName"];
-            completion(displayName);
+            [self getUser:user completion:^(User *user) {
+                NSLog(@"%@", user.displayName);
+                completion();
+            } failure:nil];
         } else {
             failure();
         }
@@ -69,10 +71,11 @@
 }
 
 
-+ (void)loginWithFB: (void(^)())completion
++ (void)loginWithFB: (void(^)(BOOL))completion
 {
     [PFFacebookUtils initializeFacebook];
     NSArray *permissions = @[@"email", @"user_friends"];
+    __block BOOL isNEW = NO;
     if (FBSession.activeSession.state != FBSessionStateCreatedTokenLoaded) {
         [PFFacebookUtils logInWithPermissions:permissions block:^(PFUser *user, NSError *error) {
             if (!user) {
@@ -94,14 +97,16 @@
                             [currentUser setObject:file forKey:@"image"];
                             [currentUser saveInBackground];
                             
-                            completion();
+                            isNEW = YES;
+                            
+                            completion(isNEW);
                         }];
                     }
                 }];
             } else {
                 
                 NSLog(@"Existing user logged in through Facebook!");
-                //completion();
+                completion(isNEW);
             }
         }];
     }
@@ -143,8 +148,8 @@
                                                           participants:participants
                                                               messages:user.messages
                                                             identifier:[parseThread objectId]
-                                                                 title:parseThread[@"title"]
-                                                       backgroundImage:[self imageFileToImage:parseThread[@"backgroundImage"]]];
+                                                                 title:parseThread[@"title"][0] //for debug purpose because I have set message text to array in fake data
+                                                       backgroundImage:[self imageFileToImage:parseThread[@"backgroundImage"]]]; 
             [userThreads addObject:thread];
             count++;
             
@@ -180,7 +185,7 @@
                     if (![parseMessage[@"isRead"] isEqualToString:@"NO"]) {
                         isRead = YES;
                     }
-                    PFFile *imageFile = parseMessage[@"picture"];
+                    PFFile *imageFile = parseMessage[@"picture"][0];//bad data
                     UIImage *picture = [self imageFileToImage:imageFile];
                     
                     Message *message = [[Message alloc]initWithText:parseMessage[@"text"]

@@ -40,7 +40,7 @@
     _imageView.backgroundColor = [UIColor DareBlue];
     _cameraView.backgroundColor = [UIColor DareBlue];
     [self.view bringSubviewToFront:_cameraCaptureButton];
-    
+
     UITapGestureRecognizer *arrowTapGesture = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(presentNextView)];
     arrowTapGesture.numberOfTapsRequired =1;
     [_arrowLabel addGestureRecognizer:arrowTapGesture];

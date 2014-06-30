@@ -12,6 +12,4 @@
 
 + (void)fakeData;
 
-+ (void)loginWithFB;
-
 @end

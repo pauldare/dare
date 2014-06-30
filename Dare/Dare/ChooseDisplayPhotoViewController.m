@@ -65,7 +65,10 @@
 
 - (IBAction)snapStillImage:(id)sender
 {
-    [self.cameraManager snapStillImageForImageView:self.imageView view:self.cameraView completion:^(UIImage *newImage) {
+    [self.cameraManager snapStillImageForImageView:self.imageView
+                                           isFront:YES
+                                              view:self.cameraView
+                                        completion:^(UIImage *newImage) {
         [self changeImageOnParse:newImage];
     } failure:^{
         [self selectPictureFromLibrary];

@@ -18,11 +18,13 @@
 
 
 - (void) initializeCameraForImageView: (UIImageView *)imageView
+                              isFront: (BOOL)isFronCamera
                                  view: (UIView *)cameraView
                               failure: (void(^)())failure;
 
 
 - (void)snapStillImageForImageView: (UIImageView *)imageView
+                           isFront: (BOOL)isFront
                               view: (UIView *)view
                         completion: (void(^)(UIImage *))completion
                            failure: (void(^)())failure;

@@ -20,6 +20,7 @@
 }
 
 - (void) initializeCameraForImageView: (UIImageView *)imageView
+                              isFront: (BOOL)isFronCamera
                                  view: (UIView *)cameraView
                               failure: (void(^)())failure
 {
@@ -35,21 +36,29 @@
         [cameraView.layer addSublayer:captureVideoPreviewLayer];
         
         NSArray *devices = [AVCaptureDevice devices];
-        AVCaptureDevice *frontCamera;
+        AVCaptureDevice *camera;
         
         for (AVCaptureDevice *device in devices) {
             
             if ([device hasMediaType:AVMediaTypeVideo]) {
                 
-                if ([device position] == AVCaptureDevicePositionFront) {
-                    
-                    frontCamera = device;
+                if (isFronCamera) {
+                    if ([device position] == AVCaptureDevicePositionFront) {
+                        
+                        camera = device;
+                    }
+                } else {
+                    if ([device position] == AVCaptureDevicePositionBack) {
+                        
+                        camera = device;
+                    }
                 }
             }
         }
         
         NSError *error = nil;
-        AVCaptureDeviceInput *input = [AVCaptureDeviceInput deviceInputWithDevice:frontCamera error:&error];
+        AVCaptureDeviceInput *input = [AVCaptureDeviceInput deviceInputWithDevice:camera
+                                                                            error:&error];
         
         [self.session addInput:input];
         
@@ -74,6 +83,7 @@
 
 
 - (void)snapStillImageForImageView: (UIImageView *)imageView
+                           isFront: (BOOL)isFront
                               view: (UIView *)view
                         completion: (void(^)(UIImage *))completion
                            failure: (void(^)())failure
@@ -109,7 +119,10 @@
             }];
         }];
     }else{
-        [self initializeCameraForImageView:imageView view:view failure:^{
+        [self initializeCameraForImageView:imageView
+                                   isFront:isFront
+                                      view:view
+                                   failure:^{
             failure();
         }];
     }

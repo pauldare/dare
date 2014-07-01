@@ -73,6 +73,7 @@
     
     if (collectionView == self.friendsCollection) {
         FriendListIcon *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"FriendCell" forIndexPath:indexPath];
+        cell.friendImage = self.images[indexPath.row];
         return cell;
     } else {
         UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"messageCell" forIndexPath:indexPath];

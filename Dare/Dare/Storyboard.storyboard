@@ -142,18 +142,18 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Thh-yg-4ue">
-                                <rect key="frame" x="20" y="120" width="46" height="30"/>
+                                <rect key="frame" x="20" y="130" width="46" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Button">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                             </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EyM-1N-UfL">
-                                <rect key="frame" x="0.0" y="106" width="320" height="362"/>
+                                <rect key="frame" x="0.0" y="116" width="320" height="352"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="0mC-a8-Vn2">
-                                        <rect key="frame" x="0.0" y="0.0" width="320" height="362"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="352"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     </imageView>
                                 </subviews>
@@ -166,9 +166,9 @@
                                 </constraints>
                             </view>
                             <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="9Za-hG-63x">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="106"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="116"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Gdc-Ym-hze">
+                                <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="Gdc-Ym-hze">
                                     <size key="itemSize" width="106" height="106"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
@@ -176,7 +176,7 @@
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="FriendCell" id="ulH-zd-R1r" customClass="FriendListIcon">
-                                        <rect key="frame" x="0.0" y="0.0" width="106" height="106"/>
+                                        <rect key="frame" x="0.0" y="5" width="106" height="106"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="0.0" y="0.0" width="106" height="106"/>
@@ -186,7 +186,7 @@
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>
-                            <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="ODS-Ap-Ui2">
+                            <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="ODS-Ap-Ui2">
                                 <rect key="frame" x="0.0" y="468" width="320" height="100"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="CsP-JV-miK">
@@ -210,14 +210,19 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="ODS-Ap-Ui2" firstAttribute="leading" secondItem="8yY-oN-wzh" secondAttribute="leading" id="5ud-Hk-r3L"/>
                             <constraint firstItem="9Za-hG-63x" firstAttribute="leading" secondItem="8yY-oN-wzh" secondAttribute="leading" id="7Lb-SZ-o0Z"/>
-                            <constraint firstItem="EyM-1N-UfL" firstAttribute="top" secondItem="lxA-Wh-N4U" secondAttribute="bottom" constant="86" id="9Zc-Pc-LfI"/>
+                            <constraint firstItem="EyM-1N-UfL" firstAttribute="top" secondItem="lxA-Wh-N4U" secondAttribute="bottom" constant="96" id="9Zc-Pc-LfI"/>
                             <constraint firstItem="Thh-yg-4ue" firstAttribute="top" secondItem="EyM-1N-UfL" secondAttribute="top" constant="14" id="G98-tD-jiT"/>
                             <constraint firstItem="Thh-yg-4ue" firstAttribute="leading" secondItem="EyM-1N-UfL" secondAttribute="leading" constant="20" id="IwL-eY-FHY"/>
                             <constraint firstAttribute="trailing" secondItem="9Za-hG-63x" secondAttribute="trailing" id="XH5-6y-m46"/>
+                            <constraint firstItem="ODS-Ap-Ui2" firstAttribute="top" secondItem="EyM-1N-UfL" secondAttribute="bottom" id="Yci-rA-NKw"/>
                             <constraint firstItem="QFr-7T-IKK" firstAttribute="top" secondItem="EyM-1N-UfL" secondAttribute="bottom" constant="100" id="a9r-zr-pFN"/>
                             <constraint firstItem="EyM-1N-UfL" firstAttribute="top" secondItem="9Za-hG-63x" secondAttribute="bottom" id="aLq-bB-jOg"/>
+                            <constraint firstAttribute="trailing" secondItem="ODS-Ap-Ui2" secondAttribute="trailing" id="baU-0m-QYV"/>
+                            <constraint firstItem="QFr-7T-IKK" firstAttribute="top" secondItem="ODS-Ap-Ui2" secondAttribute="bottom" id="lX0-9W-aaq"/>
                             <constraint firstItem="9Za-hG-63x" firstAttribute="top" secondItem="8yY-oN-wzh" secondAttribute="top" id="m8H-gC-pIL"/>
+                            <constraint firstItem="ODS-Ap-Ui2" firstAttribute="top" secondItem="EyM-1N-UfL" secondAttribute="bottom" id="rXQ-g1-9UQ"/>
                             <constraint firstAttribute="trailing" secondItem="EyM-1N-UfL" secondAttribute="trailing" id="t0l-uu-Zvw"/>
                             <constraint firstItem="EyM-1N-UfL" firstAttribute="leading" secondItem="8yY-oN-wzh" secondAttribute="leading" id="thG-Og-9RA"/>
                         </constraints>
@@ -225,7 +230,6 @@
                     <connections>
                         <outlet property="cameraButton" destination="Thh-yg-4ue" id="I8w-pJ-j8s"/>
                         <outlet property="cameraView" destination="EyM-1N-UfL" id="QlF-HF-lH8"/>
-                        <outlet property="collectionView" destination="9Za-hG-63x" id="CvL-2I-Vxi"/>
                         <outlet property="friendsCollection" destination="9Za-hG-63x" id="xdo-5y-qVd"/>
                         <outlet property="imageView" destination="0mC-a8-Vn2" id="uqe-Jc-Ii7"/>
                         <outlet property="textCollection" destination="ODS-Ap-Ui2" id="lee-cb-bgg"/>

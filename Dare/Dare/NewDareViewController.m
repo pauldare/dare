@@ -44,6 +44,9 @@
     self.imageView.hidden = YES;
     self.friendsCollection.backgroundColor = [UIColor DareBlue];
     self.textCollection.backgroundColor = [UIColor DareBlue];
+    self.textCollection.pagingEnabled = YES;
+    self.textCollection.showsHorizontalScrollIndicator = NO;
+    self.friendsCollection.showsHorizontalScrollIndicator = NO;
     [self.view bringSubviewToFront:self.cameraButton];
     
     //[self.cameraManager initializeCameraForImageView:self.imageView isFront:YES view:self.cameraView failure:nil];

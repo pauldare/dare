@@ -92,6 +92,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
+    return 50;
     return [self.threads count];
 }
 
@@ -109,6 +110,7 @@
     ((DareCell *)cell).unreadCountLabel.text = [NSString stringWithFormat:@"%d", thread.unreadMessages];
     
     
+    //((DareCell *)cell).unreadCountLabel.text = @"6";
 //    NSOperationQueue *queue = [[NSOperationQueue alloc]init];
 //    [queue addOperationWithBlock:^{
 //       
@@ -118,7 +120,7 @@
 //        
 //        dispatch_async(dispatch_get_main_queue(), ^{
 //            ((DareCell *)cell).backgroundImageView.image = image;
-//            ((DareCell *)cell).titleLabel.text = @"I Dare You To Wear Pink";
+//            ((DareCell *)cell).titleLabel.text = @"I DARE YOU TO WEAR PINK" ;
 //            ((DareCell *)cell).unreadCountLabel.text = @"15";
 //        });
 //    }];

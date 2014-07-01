@@ -37,10 +37,13 @@
 {
     [super viewDidLoad];
     self.cameraManager = [[CameraManager alloc]init];
+    self.cameraManager.captureSessionIsActive = YES;
     _imageView.backgroundColor = [UIColor DareBlue];
     _cameraView.backgroundColor = [UIColor DareBlue];
+    self.imageView.hidden = YES;
     self.friendsCollection.backgroundColor = [UIColor DareBlue];
     [self.view bringSubviewToFront:self.cameraButton];
+
         
     self.friendsCollection.delegate = self;
     self.textCollection.delegate = self;
@@ -63,6 +66,7 @@
                                               view:self.cameraView
                                         completion:^(UIImage *image) {
         NSLog(@"image snapped");
+                                            
     } failure:^{
         [self selectPictureFromLibrary];
     }];

@@ -152,11 +152,11 @@
                                 </connections>
                             </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EyM-1N-UfL">
-                                <rect key="frame" x="0.0" y="116" width="320" height="352"/>
+                                <rect key="frame" x="0.0" y="116" width="320" height="342"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
                                     <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="0mC-a8-Vn2">
-                                        <rect key="frame" x="0.0" y="0.0" width="320" height="352"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="342"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     </imageView>
                                 </subviews>
@@ -190,17 +190,17 @@
                                 </cells>
                             </collectionView>
                             <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="ODS-Ap-Ui2">
-                                <rect key="frame" x="0.0" y="468" width="320" height="100"/>
+                                <rect key="frame" x="0.0" y="458" width="320" height="110"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="CsP-JV-miK">
+                                <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="CsP-JV-miK">
                                     <size key="itemSize" width="320" height="100"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="messageCell" id="Vnl-Nh-MDw">
-                                        <rect key="frame" x="0.0" y="0.0" width="320" height="100"/>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="SelectDareCell" id="Vnl-Nh-MDw" customClass="SelectDareCell">
+                                        <rect key="frame" x="0.0" y="5" width="320" height="100"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="100"/>
@@ -220,7 +220,7 @@
                             <constraint firstItem="Thh-yg-4ue" firstAttribute="leading" secondItem="EyM-1N-UfL" secondAttribute="leading" constant="20" id="IwL-eY-FHY"/>
                             <constraint firstAttribute="trailing" secondItem="9Za-hG-63x" secondAttribute="trailing" id="XH5-6y-m46"/>
                             <constraint firstItem="ODS-Ap-Ui2" firstAttribute="top" secondItem="EyM-1N-UfL" secondAttribute="bottom" id="Yci-rA-NKw"/>
-                            <constraint firstItem="QFr-7T-IKK" firstAttribute="top" secondItem="EyM-1N-UfL" secondAttribute="bottom" constant="100" id="a9r-zr-pFN"/>
+                            <constraint firstItem="QFr-7T-IKK" firstAttribute="top" secondItem="EyM-1N-UfL" secondAttribute="bottom" constant="110" id="a9r-zr-pFN"/>
                             <constraint firstItem="EyM-1N-UfL" firstAttribute="top" secondItem="9Za-hG-63x" secondAttribute="bottom" id="aLq-bB-jOg"/>
                             <constraint firstAttribute="trailing" secondItem="ODS-Ap-Ui2" secondAttribute="trailing" id="baU-0m-QYV"/>
                             <constraint firstItem="QFr-7T-IKK" firstAttribute="top" secondItem="ODS-Ap-Ui2" secondAttribute="bottom" id="lX0-9W-aaq"/>

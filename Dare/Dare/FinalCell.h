@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface FinalCell : UICollectionViewCell
+
 @property (weak, nonatomic) IBOutlet UILabel *cellLabel;
 
 @end

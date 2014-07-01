@@ -11,6 +11,7 @@
 #import "UIColor+DareColors.h"
 #import "CameraManager.h"
 #import "FriendListIcon.h"
+#import "SelectDareCell.h"
 
 
 @interface NewDareViewController () <UICollectionViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UICollectionViewDataSource>
@@ -42,14 +43,19 @@
     _cameraView.backgroundColor = [UIColor DareBlue];
     self.imageView.hidden = YES;
     self.friendsCollection.backgroundColor = [UIColor DareBlue];
+    self.textCollection.backgroundColor = [UIColor DareBlue];
     [self.view bringSubviewToFront:self.cameraButton];
     
-    [self.cameraManager initializeCameraForImageView:self.imageView isFront:YES view:self.cameraView failure:nil];
+    //[self.cameraManager initializeCameraForImageView:self.imageView isFront:YES view:self.cameraView failure:nil];
     
     self.friendsCollection.delegate = self;
     self.textCollection.delegate = self;
     self.friendsCollection.dataSource = self;
     self.textCollection.dataSource = self;
+    
+    UINib *dareNib = [UINib nibWithNibName:@"SelectDareCell" bundle:nil];
+    [self.textCollection registerNib:dareNib forCellWithReuseIdentifier:@"SelectDareCell"];
+
     
     self.images = @[[UIImage imageNamed:@"angry.jpeg"], [UIImage imageNamed:@"tricolor.jpeg"], [UIImage imageNamed:@"kitten.jpeg"], [UIImage imageNamed:@"cat.jpeg"]];
     
@@ -105,8 +111,12 @@
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    CGFloat oneThirdOfDisplay = self.friendsCollection.frame.size.width/3;
-    return CGSizeMake(oneThirdOfDisplay, oneThirdOfDisplay);
+    if (collectionView == self.friendsCollection) {
+        CGFloat oneThirdOfDisplay = self.friendsCollection.frame.size.width/3;
+        return CGSizeMake(oneThirdOfDisplay, oneThirdOfDisplay);
+    } else {
+        return CGSizeMake(self.textCollection.frame.size.width, self.textCollection.frame.size.width);
+    }
 }
 
 
@@ -129,7 +139,8 @@
         ((FriendListIcon*)cell).friendImage.image = self.images[indexPath.row];
         return cell;
     } else {
-        UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"messageCell" forIndexPath:indexPath];
+        SelectDareCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"SelectDareCell" forIndexPath:indexPath];
+        ((SelectDareCell *)cell).messageLabel.text = self.messages[indexPath.row];
         return cell;
     }
 }

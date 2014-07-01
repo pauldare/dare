@@ -13,6 +13,8 @@
 		07977E73195F230100B2C0C6 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 07977E72195F230100B2C0C6 /* User.m */; };
 		07977E76195F235700B2C0C6 /* MessageThread.m in Sources */ = {isa = PBXBuildFile; fileRef = 07977E75195F235700B2C0C6 /* MessageThread.m */; };
 		07977E79195F236100B2C0C6 /* Message.m in Sources */ = {isa = PBXBuildFile; fileRef = 07977E78195F236100B2C0C6 /* Message.m */; };
+		359EE6F01963591300088C2D /* SelectDareCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 359EE6EF1963591300088C2D /* SelectDareCell.m */; };
+		359EE6F21963593A00088C2D /* SelectDareCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 359EE6F11963593A00088C2D /* SelectDareCell.xib */; };
 		35F35F401961EA2F0002C7BC /* NewDareViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 35F35F3F1961EA2F0002C7BC /* NewDareViewController.m */; };
 		35F35F481961F23F0002C7BC /* cat.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 35F35F471961F23F0002C7BC /* cat.jpeg */; };
 		35F35F501961F89E0002C7BC /* CameraManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 35F35F4F1961F89E0002C7BC /* CameraManager.m */; };
@@ -82,6 +84,9 @@
 		07977E75195F235700B2C0C6 /* MessageThread.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageThread.m; sourceTree = "<group>"; };
 		07977E77195F236100B2C0C6 /* Message.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Message.h; sourceTree = "<group>"; };
 		07977E78195F236100B2C0C6 /* Message.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Message.m; sourceTree = "<group>"; };
+		359EE6EE1963591300088C2D /* SelectDareCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelectDareCell.h; sourceTree = "<group>"; };
+		359EE6EF1963591300088C2D /* SelectDareCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SelectDareCell.m; sourceTree = "<group>"; };
+		359EE6F11963593A00088C2D /* SelectDareCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SelectDareCell.xib; sourceTree = "<group>"; };
 		35F35F3E1961EA2F0002C7BC /* NewDareViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewDareViewController.h; sourceTree = "<group>"; };
 		35F35F3F1961EA2F0002C7BC /* NewDareViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewDareViewController.m; sourceTree = "<group>"; };
 		35F35F471961F23F0002C7BC /* cat.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = cat.jpeg; sourceTree = "<group>"; };
@@ -196,7 +201,10 @@
 				527FDAEA1960AEE50083D6F0 /* DareCell.xib */,
 				527FDB001960E5830083D6F0 /* FinalCell.xib */,
 				527FDAF71960C4650083D6F0 /* FriendListIcon.xib */,
+				359EE6F11963593A00088C2D /* SelectDareCell.xib */,
 				0719EAB7195F516E007C2983 /* Storyboard.storyboard */,
+				359EE6EE1963591300088C2D /* SelectDareCell.h */,
+				359EE6EF1963591300088C2D /* SelectDareCell.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -431,6 +439,7 @@
 				35F35F561962F5A10002C7BC /* angry.jpeg in Resources */,
 				527FDAE91960A2250083D6F0 /* icon-157351_640.png in Resources */,
 				35F35F521962F5910002C7BC /* kitten.jpeg in Resources */,
+				359EE6F21963593A00088C2D /* SelectDareCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -460,6 +469,7 @@
 				527FDAFB1960C6580083D6F0 /* FriendListIcon.m in Sources */,
 				527FDB041960E63E0083D6F0 /* FinalCell.m in Sources */,
 				527FDAEE1960B35C0083D6F0 /* DareCell.m in Sources */,
+				359EE6F01963591300088C2D /* SelectDareCell.m in Sources */,
 				4553B5A7195B944E005C6D1A /* AppDelegate.m in Sources */,
 				07977E79195F236100B2C0C6 /* Message.m in Sources */,
 				4553B5A3195B944E005C6D1A /* main.m in Sources */,

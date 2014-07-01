@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13D65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="49L-9A-Nai">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="12F45" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="j1D-eL-NGR">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
@@ -132,7 +132,7 @@
         <!--New Dare View Controller-->
         <scene sceneID="r8x-S7-gzf">
             <objects>
-                <viewController id="E0W-1D-j41" customClass="NewDareViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="NewDare" id="E0W-1D-j41" customClass="NewDareViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="lxA-Wh-N4U"/>
                         <viewControllerLayoutGuide type="bottom" id="QFr-7T-IKK"/>
@@ -141,8 +141,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Thh-yg-4ue">
-                                <rect key="frame" x="137" y="269" width="46" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Thh-yg-4ue">
+                                <rect key="frame" x="20" y="120" width="46" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Button">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -191,6 +191,8 @@
                         <constraints>
                             <constraint firstItem="9Za-hG-63x" firstAttribute="leading" secondItem="8yY-oN-wzh" secondAttribute="leading" id="7Lb-SZ-o0Z"/>
                             <constraint firstItem="EyM-1N-UfL" firstAttribute="top" secondItem="lxA-Wh-N4U" secondAttribute="bottom" constant="86" id="9Zc-Pc-LfI"/>
+                            <constraint firstItem="Thh-yg-4ue" firstAttribute="top" secondItem="EyM-1N-UfL" secondAttribute="top" constant="14" id="G98-tD-jiT"/>
+                            <constraint firstItem="Thh-yg-4ue" firstAttribute="leading" secondItem="EyM-1N-UfL" secondAttribute="leading" constant="20" id="IwL-eY-FHY"/>
                             <constraint firstAttribute="trailing" secondItem="9Za-hG-63x" secondAttribute="trailing" id="XH5-6y-m46"/>
                             <constraint firstItem="QFr-7T-IKK" firstAttribute="top" secondItem="EyM-1N-UfL" secondAttribute="bottom" constant="100" id="a9r-zr-pFN"/>
                             <constraint firstItem="EyM-1N-UfL" firstAttribute="top" secondItem="9Za-hG-63x" secondAttribute="bottom" id="aLq-bB-jOg"/>
@@ -200,6 +202,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="cameraButton" destination="Thh-yg-4ue" id="I8w-pJ-j8s"/>
                         <outlet property="cameraView" destination="EyM-1N-UfL" id="QlF-HF-lH8"/>
                         <outlet property="collectionView" destination="9Za-hG-63x" id="CvL-2I-Vxi"/>
                         <outlet property="imageView" destination="0mC-a8-Vn2" id="uqe-Jc-Ii7"/>

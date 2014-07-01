@@ -18,6 +18,7 @@
 @property (strong, nonatomic) CameraManager *cameraManager;
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 
+@property (weak, nonatomic) IBOutlet UIButton *cameraButton;
 
 
 @end
@@ -31,9 +32,7 @@
     [super viewDidLoad];
     self.cameraManager = [[CameraManager alloc]init];
     _imageView.backgroundColor = [UIColor DareBlue];
-    _cameraView.backgroundColor = [UIColor DareBlue];
-    
-    
+    _cameraView.backgroundColor = [UIColor DareBlue];    
 }
 
 

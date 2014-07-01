@@ -20,6 +20,7 @@
 @property (strong, nonatomic) NSSet *selectedFriends;
 @property (strong, nonatomic) NSMutableSet *selectedIndices;
 @property (strong, nonatomic) NSMutableArray *friends;
+@property (nonatomic) BOOL isArrow;
 
 @end
 
@@ -39,6 +40,7 @@
     [super viewDidLoad];
     
     self.friends = [[NSMutableArray alloc]init];
+    self.isArrow = NO;
     
     [ParseClient getUser:[PFUser currentUser] completion:^(User *loggedUser) {
         for (PFUser *friend in loggedUser.friends) {
@@ -100,8 +102,9 @@
             cell.cellLabel.text = @"＋";
             
         }else{
-             cell.cellLabel.font = [UIFont boldSystemFontOfSize:80];
+            cell.cellLabel.font = [UIFont boldSystemFontOfSize:80];
             cell.cellLabel.text = @"➡︎";
+            self.isArrow = YES;
         }
 
         return cell;
@@ -147,6 +150,11 @@
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
 #warning insert friends into set here
+    
+    if (indexPath.row == [self.friends count] && self.isArrow) {
+        <#statements#>
+    }
+    
     
     if (![_selectedIndices containsObject:@(indexPath.row)]) {
         [_selectedIndices addObject:@(indexPath.row)];

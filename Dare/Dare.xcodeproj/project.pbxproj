@@ -16,6 +16,9 @@
 		35F35F401961EA2F0002C7BC /* NewDareViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 35F35F3F1961EA2F0002C7BC /* NewDareViewController.m */; };
 		35F35F481961F23F0002C7BC /* cat.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 35F35F471961F23F0002C7BC /* cat.jpeg */; };
 		35F35F501961F89E0002C7BC /* CameraManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 35F35F4F1961F89E0002C7BC /* CameraManager.m */; };
+		35F35F521962F5910002C7BC /* kitten.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 35F35F511962F5910002C7BC /* kitten.jpeg */; };
+		35F35F541962F5990002C7BC /* tricolor.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 35F35F531962F5990002C7BC /* tricolor.jpeg */; };
+		35F35F561962F5A10002C7BC /* angry.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 35F35F551962F5A10002C7BC /* angry.jpeg */; };
 		4553B595195B944E005C6D1A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4553B594195B944E005C6D1A /* Foundation.framework */; };
 		4553B597195B944E005C6D1A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4553B596195B944E005C6D1A /* CoreGraphics.framework */; };
 		4553B599195B944E005C6D1A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4553B598195B944E005C6D1A /* UIKit.framework */; };
@@ -84,6 +87,9 @@
 		35F35F471961F23F0002C7BC /* cat.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = cat.jpeg; sourceTree = "<group>"; };
 		35F35F4E1961F89E0002C7BC /* CameraManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CameraManager.h; sourceTree = "<group>"; };
 		35F35F4F1961F89E0002C7BC /* CameraManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CameraManager.m; sourceTree = "<group>"; };
+		35F35F511962F5910002C7BC /* kitten.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = kitten.jpeg; sourceTree = "<group>"; };
+		35F35F531962F5990002C7BC /* tricolor.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = tricolor.jpeg; sourceTree = "<group>"; };
+		35F35F551962F5A10002C7BC /* angry.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = angry.jpeg; sourceTree = "<group>"; };
 		4553B591195B944E005C6D1A /* Dare.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Dare.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4553B594195B944E005C6D1A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		4553B596195B944E005C6D1A /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -326,6 +332,9 @@
 		456E6256195F29FA003CC220 /* Temp */ = {
 			isa = PBXGroup;
 			children = (
+				35F35F551962F5A10002C7BC /* angry.jpeg */,
+				35F35F531962F5990002C7BC /* tricolor.jpeg */,
+				35F35F511962F5910002C7BC /* kitten.jpeg */,
 				35F35F471961F23F0002C7BC /* cat.jpeg */,
 				456E6257195F2DB4003CC220 /* Temp.h */,
 				456E6258195F2DB4003CC220 /* Temp.m */,
@@ -416,9 +425,12 @@
 				4553B5A1195B944E005C6D1A /* InfoPlist.strings in Resources */,
 				4553B5AC195B944F005C6D1A /* Images.xcassets in Resources */,
 				35F35F481961F23F0002C7BC /* cat.jpeg in Resources */,
+				35F35F541962F5990002C7BC /* tricolor.jpeg in Resources */,
 				0719EAB8195F516E007C2983 /* Storyboard.storyboard in Resources */,
 				527FDB011960E5830083D6F0 /* FinalCell.xib in Resources */,
+				35F35F561962F5A10002C7BC /* angry.jpeg in Resources */,
 				527FDAE91960A2250083D6F0 /* icon-157351_640.png in Resources */,
+				35F35F521962F5910002C7BC /* kitten.jpeg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

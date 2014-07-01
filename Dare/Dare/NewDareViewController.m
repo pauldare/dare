@@ -39,6 +39,7 @@
     self.cameraManager = [[CameraManager alloc]init];
     _imageView.backgroundColor = [UIColor DareBlue];
     _cameraView.backgroundColor = [UIColor DareBlue];
+    self.friendsCollection.backgroundColor = [UIColor DareBlue];
     
     self.friendsCollection.delegate = self;
     self.textCollection.delegate = self;
@@ -66,6 +67,13 @@
     } else {
         return [self.messages count];
     }
+}
+
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    
+    CGFloat oneThirdOfDisplay = self.friendsCollection.frame.size.width/3;
+    return CGSizeMake(oneThirdOfDisplay, oneThirdOfDisplay);
 }
 
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath

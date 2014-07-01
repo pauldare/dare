@@ -116,7 +116,6 @@
         
         User *friend = self.friends[indexPath.row];
         ((FriendListIcon*)cell).friendImage.image = friend.profileImage;
-        
         return cell;
     }
     

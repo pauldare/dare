@@ -9,9 +9,10 @@
 #import "NewDareViewController.h"
 #import "CameraManager.h"
 #import "UIColor+DareColors.h"
+#import "CameraManager.h"
 
 
-@interface NewDareViewController ()
+@interface NewDareViewController () <UICollectionViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 
 @property (weak, nonatomic) IBOutlet UIView *cameraView;
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
@@ -19,8 +20,7 @@
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 
 @property (weak, nonatomic) IBOutlet UIButton *cameraButton;
-
-
+@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 
 
 @end
@@ -35,8 +35,9 @@
     self.cameraManager = [[CameraManager alloc]init];
     _imageView.backgroundColor = [UIColor DareBlue];
     _cameraView.backgroundColor = [UIColor DareBlue];
-    NSLog(@"%@", self.friends);
 }
+
+
 
 
 

@@ -186,19 +186,27 @@
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Dxx-rY-HRS">
+                                <rect key="frame" x="-5" y="468" width="325" height="100"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            </scrollView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="9Za-hG-63x" firstAttribute="leading" secondItem="8yY-oN-wzh" secondAttribute="leading" id="7Lb-SZ-o0Z"/>
                             <constraint firstItem="EyM-1N-UfL" firstAttribute="top" secondItem="lxA-Wh-N4U" secondAttribute="bottom" constant="86" id="9Zc-Pc-LfI"/>
                             <constraint firstItem="Thh-yg-4ue" firstAttribute="top" secondItem="EyM-1N-UfL" secondAttribute="top" constant="14" id="G98-tD-jiT"/>
+                            <constraint firstItem="Dxx-rY-HRS" firstAttribute="top" secondItem="EyM-1N-UfL" secondAttribute="bottom" id="HPj-xu-vOL"/>
                             <constraint firstItem="Thh-yg-4ue" firstAttribute="leading" secondItem="EyM-1N-UfL" secondAttribute="leading" constant="20" id="IwL-eY-FHY"/>
+                            <constraint firstItem="Dxx-rY-HRS" firstAttribute="trailing" secondItem="EyM-1N-UfL" secondAttribute="trailing" id="RoJ-GX-Kzf"/>
                             <constraint firstAttribute="trailing" secondItem="9Za-hG-63x" secondAttribute="trailing" id="XH5-6y-m46"/>
                             <constraint firstItem="QFr-7T-IKK" firstAttribute="top" secondItem="EyM-1N-UfL" secondAttribute="bottom" constant="100" id="a9r-zr-pFN"/>
                             <constraint firstItem="EyM-1N-UfL" firstAttribute="top" secondItem="9Za-hG-63x" secondAttribute="bottom" id="aLq-bB-jOg"/>
+                            <constraint firstItem="Dxx-rY-HRS" firstAttribute="leading" secondItem="8yY-oN-wzh" secondAttribute="leading" constant="-5" id="hG3-v0-bEl"/>
                             <constraint firstItem="9Za-hG-63x" firstAttribute="top" secondItem="8yY-oN-wzh" secondAttribute="top" id="m8H-gC-pIL"/>
                             <constraint firstAttribute="trailing" secondItem="EyM-1N-UfL" secondAttribute="trailing" id="t0l-uu-Zvw"/>
                             <constraint firstItem="EyM-1N-UfL" firstAttribute="leading" secondItem="8yY-oN-wzh" secondAttribute="leading" id="thG-Og-9RA"/>
+                            <constraint firstItem="QFr-7T-IKK" firstAttribute="top" secondItem="Dxx-rY-HRS" secondAttribute="bottom" id="ycO-Zm-S8u"/>
                         </constraints>
                     </view>
                     <connections>
@@ -206,6 +214,7 @@
                         <outlet property="cameraView" destination="EyM-1N-UfL" id="QlF-HF-lH8"/>
                         <outlet property="collectionView" destination="9Za-hG-63x" id="CvL-2I-Vxi"/>
                         <outlet property="imageView" destination="0mC-a8-Vn2" id="uqe-Jc-Ii7"/>
+                        <outlet property="scrollView" destination="Dxx-rY-HRS" id="Ca7-xx-yH6"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dY5-qt-ZtF" userLabel="First Responder" sceneMemberID="firstResponder"/>

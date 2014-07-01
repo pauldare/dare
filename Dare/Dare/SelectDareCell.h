@@ -11,6 +11,9 @@
 @interface SelectDareCell : UICollectionViewCell
 
 @property (weak, nonatomic) IBOutlet UILabel *messageLabel;
+@property (weak, nonatomic) IBOutlet UIButton *forwardButton;
+@property (weak, nonatomic) IBOutlet UIButton *backButton;
+
 
 
 

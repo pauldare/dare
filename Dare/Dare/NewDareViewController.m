@@ -43,8 +43,9 @@
     self.imageView.hidden = YES;
     self.friendsCollection.backgroundColor = [UIColor DareBlue];
     [self.view bringSubviewToFront:self.cameraButton];
-
-        
+    
+    [self.cameraManager initializeCameraForImageView:self.imageView isFront:YES view:self.cameraView failure:nil];
+    
     self.friendsCollection.delegate = self;
     self.textCollection.delegate = self;
     self.friendsCollection.dataSource = self;

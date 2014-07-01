@@ -91,8 +91,8 @@
     if (self.captureSessionIsActive) {
         NSOperationQueue *sessionQueue = [[NSOperationQueue alloc]init];
         
-        [sessionQueue addOperationWithBlock:^{
-            
+//        [sessionQueue addOperationWithBlock:^{
+        
             //[[[self stillImageOutput] connectionWithMediaType:AVMediaTypeVideo] setVideoOrientation:[[(AVCaptureVideoPreviewLayer *)[[self cameraView] layer] connection] videoOrientation]];
             
             // Flash set to Auto for Still Capture
@@ -117,7 +117,7 @@
                     });
                 }
             }];
-        }];
+//        }];
     }else{
         [self initializeCameraForImageView:imageView
                                    isFront:isFront

@@ -12,12 +12,13 @@
 #import "FinalCell.h"
 #import "User.h"
 #import "ParseClient.h"
+#import "NewDareViewController.h"
 
 @interface FriendsListViewController ()<UICollectionViewDelegate>
 
 @property (strong, nonatomic) UINib *friendNib;
 @property (strong, nonatomic) UINib *finalCellNib;
-@property (strong, nonatomic) NSSet *selectedFriends;
+@property (strong, nonatomic) NSMutableSet *selectedFriends;
 @property (strong, nonatomic) NSMutableSet *selectedIndices;
 @property (strong, nonatomic) NSMutableArray *friends;
 @property (nonatomic) BOOL isArrow;
@@ -62,7 +63,7 @@
     
 #warning Remove this! It's for testing
     _friendsArray = @[@1, @2, @3, @4, @5, @6];
-    _selectedFriends = [[NSSet alloc]init];
+    _selectedFriends = [[NSMutableSet alloc]init];
     _selectedIndices = [[NSMutableSet alloc]init];
     
     
@@ -149,12 +150,6 @@
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-#warning insert friends into set here
-    
-    if (indexPath.row == [self.friends count] && self.isArrow) {
-        <#statements#>
-    }
-    
     
     if (![_selectedIndices containsObject:@(indexPath.row)]) {
         [_selectedIndices addObject:@(indexPath.row)];
@@ -163,17 +158,22 @@
     }
     [collectionView reloadData];
     
+    for (NSNumber *index in _selectedIndices) {
+        if ([index integerValue] < [self.friends count]) {
+            [self.selectedFriends addObject:[self.friends objectAtIndex:[index integerValue]]];
+        }
+    }
+    
+    NSLog(@"%@", self.selectedFriends);
+    
+    if (indexPath.row == [self.friends count] && self.isArrow) {
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];
+        NewDareViewController *viewController = (NewDareViewController *)[storyboard instantiateViewControllerWithIdentifier:@"NewDare"];
+        viewController.friends = self.selectedFriends;
+        [self presentViewController:viewController animated:YES completion:nil];
+    }    
 }
 
-/*
- #pragma mark - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
- {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
- }
- */
+
 
 @end

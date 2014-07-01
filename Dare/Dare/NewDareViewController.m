@@ -40,7 +40,8 @@
     _imageView.backgroundColor = [UIColor DareBlue];
     _cameraView.backgroundColor = [UIColor DareBlue];
     self.friendsCollection.backgroundColor = [UIColor DareBlue];
-    
+    [self.view bringSubviewToFront:self.cameraButton];
+        
     self.friendsCollection.delegate = self;
     self.textCollection.delegate = self;
     self.friendsCollection.dataSource = self;
@@ -52,9 +53,37 @@
     
     UINib *friendNib = [UINib nibWithNibName:@"FriendListIcon" bundle:nil];
     [self.friendsCollection registerNib:friendNib forCellWithReuseIdentifier:@"FriendCell"];
-
 }
 
+
+- (IBAction)cameraButtonPressed:(id)sender
+{
+    [self.cameraManager snapStillImageForImageView:self.imageView
+                                           isFront:YES
+                                              view:self.cameraView
+                                        completion:^(UIImage *image) {
+        NSLog(@"image snapped");
+    } failure:^{
+        [self selectPictureFromLibrary];
+    }];
+}
+
+
+- (void)selectPictureFromLibrary
+{
+    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary]) {
+        UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+        picker.delegate = self;
+        picker.allowsEditing = YES;
+        picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+        
+        [self presentViewController:picker animated:YES completion:NULL];
+    }
+}
+
+
+
+#pragma collection view delegate
 -(NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
 {
     return 1;
@@ -71,10 +100,21 @@
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    
     CGFloat oneThirdOfDisplay = self.friendsCollection.frame.size.width/3;
     return CGSizeMake(oneThirdOfDisplay, oneThirdOfDisplay);
 }
+
+
+- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section
+{
+    return 0;
+}
+
+- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section
+{
+    return 0;
+}
+
 
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -87,7 +127,6 @@
         UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"messageCell" forIndexPath:indexPath];
         return cell;
     }
-
 }
 
 

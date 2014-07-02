@@ -34,6 +34,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
     self.loggedUser = [PFUser currentUser];
     
     self.cameraManager = [[CameraManager alloc]init];

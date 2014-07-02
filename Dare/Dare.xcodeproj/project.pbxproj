@@ -48,6 +48,7 @@
 		4553B5E0195B9EDC005C6D1A /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4553B5DF195B9EDC005C6D1A /* FacebookSDK.framework */; };
 		456E6259195F2DB4003CC220 /* Temp.m in Sources */ = {isa = PBXBuildFile; fileRef = 456E6258195F2DB4003CC220 /* Temp.m */; };
 		456E625F195F67C5003CC220 /* ParseClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 456E625E195F67C5003CC220 /* ParseClient.m */; };
+		45740137196390470080895D /* MainScreenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 45740136196390470080895D /* MainScreenViewController.m */; };
 		5234BB1A19606D4C00850ECB /* DisplayNameSelectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5234BB1919606D4C00850ECB /* DisplayNameSelectViewController.m */; };
 		5234BB1D19606D8600850ECB /* UIColor+DareColors.m in Sources */ = {isa = PBXBuildFile; fileRef = 5234BB1C19606D8600850ECB /* UIColor+DareColors.m */; };
 		5234BB20196077AE00850ECB /* ChooseDisplayPhotoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5234BB1F196077AE00850ECB /* ChooseDisplayPhotoViewController.m */; };
@@ -128,6 +129,8 @@
 		456E6258195F2DB4003CC220 /* Temp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Temp.m; sourceTree = "<group>"; };
 		456E625D195F67C5003CC220 /* ParseClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ParseClient.h; path = ../ParseClient.h; sourceTree = "<group>"; };
 		456E625E195F67C5003CC220 /* ParseClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ParseClient.m; path = ../ParseClient.m; sourceTree = "<group>"; };
+		45740135196390470080895D /* MainScreenViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainScreenViewController.h; sourceTree = "<group>"; };
+		45740136196390470080895D /* MainScreenViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainScreenViewController.m; sourceTree = "<group>"; };
 		5234BB1819606D4C00850ECB /* DisplayNameSelectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DisplayNameSelectViewController.h; sourceTree = "<group>"; };
 		5234BB1919606D4C00850ECB /* DisplayNameSelectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DisplayNameSelectViewController.m; sourceTree = "<group>"; };
 		5234BB1B19606D8600850ECB /* UIColor+DareColors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+DareColors.h"; sourceTree = "<group>"; };
@@ -224,6 +227,8 @@
 				5234BB1F196077AE00850ECB /* ChooseDisplayPhotoViewController.m */,
 				35F35F3E1961EA2F0002C7BC /* NewDareViewController.h */,
 				35F35F3F1961EA2F0002C7BC /* NewDareViewController.m */,
+				45740135196390470080895D /* MainScreenViewController.h */,
+				45740136196390470080895D /* MainScreenViewController.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -398,7 +403,7 @@
 				ORGANIZATIONNAME = Dare;
 				TargetAttributes = {
 					4553B590195B944E005C6D1A = {
-						DevelopmentTeam = RRT3YS6M8P;
+						DevelopmentTeam = C7W24XSA25;
 					};
 					4553B5B0195B944F005C6D1A = {
 						TestTargetID = 4553B590195B944E005C6D1A;
@@ -458,6 +463,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				45740137196390470080895D /* MainScreenViewController.m in Sources */,
 				5234BB1A19606D4C00850ECB /* DisplayNameSelectViewController.m in Sources */,
 				0719EABB195F5599007C2983 /* LoginViewController.m in Sources */,
 				07977E73195F230100B2C0C6 /* User.m in Sources */,
@@ -596,8 +602,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Nadezda Yudina (996368BHDS)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Nadezda Yudina (996368BHDS)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -606,7 +612,7 @@
 				GCC_PREFIX_HEADER = "Dare/Dare-Prefix.pch";
 				INFOPLIST_FILE = "Dare/Dare-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "A5039141-279E-4B34-B6FE-C5820D41F6D5";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -616,8 +622,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Nadezda Yudina (996368BHDS)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Nadezda Yudina (996368BHDS)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -626,7 +632,7 @@
 				GCC_PREFIX_HEADER = "Dare/Dare-Prefix.pch";
 				INFOPLIST_FILE = "Dare/Dare-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "A5039141-279E-4B34-B6FE-C5820D41F6D5";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

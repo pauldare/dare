@@ -12,6 +12,7 @@
 #import "CameraManager.h"
 #import "FriendListIcon.h"
 #import "SelectDareCell.h"
+#import "ParseClient.h"
 
 
 @interface NewDareViewController () <UICollectionViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UICollectionViewDataSource>
@@ -27,6 +28,8 @@
 @property (weak, nonatomic) IBOutlet UICollectionView *textCollection;
 @property (strong, nonatomic) NSArray *images;
 @property (strong, nonatomic) NSArray *messages;
+@property (strong, nonatomic) NSArray *friends;
+
 
 
 @end
@@ -38,8 +41,22 @@
 {
     [super viewDidLoad];
     
+    PFObject *messageOne = [PFObject objectWithClassName:@"Message"];
+    [messageOne addObject:@"I DARE YOU\n to code the killer app" forKey:@"text"];
+    UIImage *imageOne = [UIImage imageNamed:@"mesOne.jpeg"];
+    NSData *imageDataOne = UIImagePNGRepresentation(imageOne);
+    PFFile *fileOne = [PFFile fileWithName:@"userPic" data:imageDataOne];
+    [fileOne saveInBackground];
+    [messageOne addObject:fileOne forKey:@"picture"];
+    [messageOne save];
+    
     self.images = @[[UIImage imageNamed:@"angry.jpeg"], [UIImage imageNamed:@"tricolor.jpeg"], [UIImage imageNamed:@"kitten.jpeg"], [UIImage imageNamed:@"cat.jpeg"]];
     self.messages = @[@"I DARE YOU\nto pet a cat", @"I DARE YOU\nto eat icecream", @"I DARE YOU\nto have fun"];
+    
+    [ParseClient getUser:[PFUser currentUser] completion:^(User *loggedUser) {
+        [ParseClient startMessageThreadForUsers:loggedUser.friends withMessage:messageOne withTitle:<#(NSString *)#> backroundImage:<#(UIImage *)#> completion:<#^(void)completion#>]
+    } failure:nil];
+    
     
     _imageView.backgroundColor = [UIColor DareBlue];
     _cameraView.backgroundColor = [UIColor DareBlue];
@@ -53,8 +70,6 @@
     [self.textCollection registerNib:dareNib forCellWithReuseIdentifier:@"SelectDareCell"];
     UINib *friendNib = [UINib nibWithNibName:@"FriendListIcon" bundle:nil];
     [self.friendsCollection registerNib:friendNib forCellWithReuseIdentifier:@"FriendCell"];
-    
-    
 }
 
 - (void)setupCamera

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13D65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="E0W-1D-j41">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13D65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="s7t-NZ-rvl">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
@@ -296,10 +296,14 @@
                     </view>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="645" height="568"/>
+                    <connections>
+                        <outlet property="collectionView" destination="Y2w-Vn-zAg" id="T5v-zD-9U5"/>
+                        <outlet property="tableView" destination="fFh-Yt-lRC" id="pu0-De-N65"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Q0G-PW-Hfg" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="45" y="192"/>
+            <point key="canvasLocation" x="259" y="174"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="Ddp-4x-aXB">
@@ -317,7 +321,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2xc-MQ-Wt0" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="822" y="204"/>
+            <point key="canvasLocation" x="956" y="162"/>
         </scene>
         <!--Display Name Select View Controller-->
         <scene sceneID="xzQ-zB-4uX">

@@ -20,6 +20,8 @@
 @property (strong, nonatomic) UINib *cellNib;
 @property (strong, nonatomic) NSArray *threads;
 @property (strong, nonatomic) User *loggedUser;
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 
 @end
 

@@ -37,28 +37,45 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.cameraManager = [[CameraManager alloc]init];
-    self.cameraManager.captureSessionIsActive = YES;
+    
+    self.images = @[[UIImage imageNamed:@"angry.jpeg"], [UIImage imageNamed:@"tricolor.jpeg"], [UIImage imageNamed:@"kitten.jpeg"], [UIImage imageNamed:@"cat.jpeg"]];
+    self.messages = @[@"I DARE YOU\nto pet a cat", @"I DARE YOU\nto eat icecream", @"I DARE YOU\nto have fun"];
+    
     _imageView.backgroundColor = [UIColor DareBlue];
     _cameraView.backgroundColor = [UIColor DareBlue];
     self.imageView.hidden = YES;
     [self.view bringSubviewToFront:self.cameraButton];
+    [self setupCamera];
+    [self setupFriendsCollection];
+    [self setupTextCollection];
     
-    //[self.cameraManager initializeCameraForImageView:self.imageView isFront:YES view:self.cameraView failure:nil];
-
     UINib *dareNib = [UINib nibWithNibName:@"SelectDareCell" bundle:nil];
     [self.textCollection registerNib:dareNib forCellWithReuseIdentifier:@"SelectDareCell"];
     UINib *friendNib = [UINib nibWithNibName:@"FriendListIcon" bundle:nil];
     [self.friendsCollection registerNib:friendNib forCellWithReuseIdentifier:@"FriendCell"];
+    
+    
+}
 
-    self.images = @[[UIImage imageNamed:@"angry.jpeg"], [UIImage imageNamed:@"tricolor.jpeg"], [UIImage imageNamed:@"kitten.jpeg"], [UIImage imageNamed:@"cat.jpeg"]];
-    self.messages = @[@"i like cats", @"i like icecream", @"i like fun"];
+- (void)setupCamera
+{
+    self.cameraManager = [[CameraManager alloc]init];
+    self.cameraManager.captureSessionIsActive = YES;
+    [self.cameraManager initializeCameraForImageView:self.imageView
+                                             isFront:YES view:self.cameraView
+                                             failure:^{[self selectPictureFromLibrary];}];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
 }
 
 
 - (void)setupFriendsCollection
 {
-    self.friendsCollection.backgroundColor = [UIColor DareBlue];
+    self.friendsCollection.backgroundColor = [UIColor blackColor];
+    self.friendsCollection.bounces = NO;
     self.friendsCollection.delegate = self;
     self.friendsCollection.dataSource = self;
     self.friendsCollection.showsHorizontalScrollIndicator = NO;
@@ -67,6 +84,7 @@
 - (void)setupTextCollection
 {
     self.textCollection.backgroundColor = [UIColor DareBlue];
+    self.textCollection.bounces = NO;
     self.textCollection.pagingEnabled = YES;
     self.textCollection.showsHorizontalScrollIndicator = NO;
     self.textCollection.delegate = self;

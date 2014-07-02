@@ -42,13 +42,9 @@
     _imageView.backgroundColor = [UIColor DareBlue];
     _cameraView.backgroundColor = [UIColor DareBlue];
     self.imageView.hidden = YES;
-    self.friendsCollection.backgroundColor = [UIColor DareBlue];
-    self.textCollection.backgroundColor = [UIColor DareBlue];
-    self.textCollection.pagingEnabled = YES;
-    self.textCollection.showsHorizontalScrollIndicator = NO;
-    self.friendsCollection.showsHorizontalScrollIndicator = NO;
     [self.view bringSubviewToFront:self.cameraButton];
     
+#warning add sanity check for camera existence
     [self.cameraManager initializeCameraForImageView:self.imageView isFront:YES view:self.cameraView failure:nil];
     
     self.friendsCollection.delegate = self;
@@ -56,16 +52,35 @@
     self.friendsCollection.dataSource = self;
     self.textCollection.dataSource = self;
     
+
+    //[self.cameraManager initializeCameraForImageView:self.imageView isFront:YES view:self.cameraView failure:nil];
+
+
     UINib *dareNib = [UINib nibWithNibName:@"SelectDareCell" bundle:nil];
     [self.textCollection registerNib:dareNib forCellWithReuseIdentifier:@"SelectDareCell"];
-
-    
-    self.images = @[[UIImage imageNamed:@"angry.jpeg"], [UIImage imageNamed:@"tricolor.jpeg"], [UIImage imageNamed:@"kitten.jpeg"], [UIImage imageNamed:@"cat.jpeg"]];
-    
-    self.messages = @[@"i like cats", @"i like icecream", @"i like fun"];
-    
     UINib *friendNib = [UINib nibWithNibName:@"FriendListIcon" bundle:nil];
     [self.friendsCollection registerNib:friendNib forCellWithReuseIdentifier:@"FriendCell"];
+
+    self.images = @[[UIImage imageNamed:@"angry.jpeg"], [UIImage imageNamed:@"tricolor.jpeg"], [UIImage imageNamed:@"kitten.jpeg"], [UIImage imageNamed:@"cat.jpeg"]];
+    self.messages = @[@"i like cats", @"i like icecream", @"i like fun"];
+}
+
+
+- (void)setupFriendsCollection
+{
+    self.friendsCollection.backgroundColor = [UIColor DareBlue];
+    self.friendsCollection.delegate = self;
+    self.friendsCollection.dataSource = self;
+    self.friendsCollection.showsHorizontalScrollIndicator = NO;
+}
+
+- (void)setupTextCollection
+{
+    self.textCollection.backgroundColor = [UIColor DareBlue];
+    self.textCollection.pagingEnabled = YES;
+    self.textCollection.showsHorizontalScrollIndicator = NO;
+    self.textCollection.delegate = self;
+    self.textCollection.dataSource = self;
 }
 
 

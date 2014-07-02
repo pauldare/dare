@@ -53,9 +53,9 @@
     self.images = @[[UIImage imageNamed:@"angry.jpeg"], [UIImage imageNamed:@"tricolor.jpeg"], [UIImage imageNamed:@"kitten.jpeg"], [UIImage imageNamed:@"cat.jpeg"]];
     self.messages = @[@"I DARE YOU\nto pet a cat", @"I DARE YOU\nto eat icecream", @"I DARE YOU\nto have fun"];
     
-    [ParseClient getUser:[PFUser currentUser] completion:^(User *loggedUser) {
-        [ParseClient startMessageThreadForUsers:loggedUser.friends withMessage:messageOne withTitle:<#(NSString *)#> backroundImage:<#(UIImage *)#> completion:<#^(void)completion#>]
-    } failure:nil];
+//    [ParseClient getUser:[PFUser currentUser] completion:^(User *loggedUser) {
+//        [ParseClient startMessageThreadForUsers:loggedUser.friends withMessage:messageOne withTitle:<#(NSString *)#> backroundImage:<#(UIImage *)#> completion:<#^(void)completion#>]
+//    } failure:nil];
     
     
     _imageView.backgroundColor = [UIColor DareBlue];

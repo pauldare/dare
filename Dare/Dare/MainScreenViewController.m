@@ -15,7 +15,7 @@
 #import "NewDareViewController.h"
 #import "DareCell.h"
 
-@interface MainScreenViewController ()<UIScrollViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UITableViewDataSource, UITableViewDelegate>
+@interface MainScreenViewController ()<UIScrollViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UITableViewDataSource, UITableViewDelegate, UIGestureRecognizerDelegate>
 
 @property (strong, nonatomic) UINib *friendNib;
 @property (strong, nonatomic) UINib *finalCellNib;
@@ -28,6 +28,8 @@
 @property (strong, nonatomic) User *loggedUser;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
+@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
+@property (strong, nonatomic) UIView *mainOverlay;
 
 @end
 
@@ -46,8 +48,45 @@
 {
     [super viewDidLoad];
     
-    self.friends = [[NSMutableArray alloc]init];
-    self.isArrow = NO;
+    _scrollView.contentSize = CGSizeMake(_collectionView.frame.size.width + _tableView.frame.size.width + 5, _scrollView.frame.size.height);
+    [_scrollView setContentOffset:CGPointMake(_collectionView.frame.size.width/2, 0)];
+    
+    _mainOverlay = [[UIView alloc]initWithFrame:self.view.frame];
+    _mainOverlay.backgroundColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:0.6];
+    [self.view addSubview:_mainOverlay];
+    _mainOverlay.userInteractionEnabled = YES;
+    UISwipeGestureRecognizer *rightSwipeOnMainView = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(rightSwipeOnOverlay)];
+    rightSwipeOnMainView.direction = UISwipeGestureRecognizerDirectionRight;
+    rightSwipeOnMainView.numberOfTouchesRequired = 1;
+    rightSwipeOnMainView.delegate = self;
+    [_mainOverlay addGestureRecognizer:rightSwipeOnMainView];
+    
+    UISwipeGestureRecognizer *leftSwipeOnMainView = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(leftSwipeOnOverlay)];
+    leftSwipeOnMainView.direction = UISwipeGestureRecognizerDirectionLeft;
+    leftSwipeOnMainView.numberOfTouchesRequired = 1;
+    leftSwipeOnMainView.delegate = self;
+    [_mainOverlay addGestureRecognizer:leftSwipeOnMainView];
+    
+    UISwipeGestureRecognizer *rightSwipeOnThreadList = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(rightSwipeOnThreadList)];
+    rightSwipeOnThreadList.direction = UISwipeGestureRecognizerDirectionRight;
+    rightSwipeOnThreadList.numberOfTouchesRequired = 1;
+    rightSwipeOnThreadList.delegate = self;
+    [_tableView addGestureRecognizer:rightSwipeOnThreadList];
+    
+    
+    UISwipeGestureRecognizer *leftSwipeOnFriendsList = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(leftSwipeOnFriendsList)];
+    leftSwipeOnFriendsList.direction = UISwipeGestureRecognizerDirectionLeft;
+    leftSwipeOnFriendsList.numberOfTouchesRequired = 1;
+    leftSwipeOnFriendsList.delegate = self;
+    [_collectionView addGestureRecognizer:leftSwipeOnFriendsList];
+    
+    NSLog(@"%f", _collectionView.frame.size.width);
+    NSLog(@"%f", _scrollView.contentSize.width);
+
+    _scrollView.scrollEnabled = NO;
+    
+    _friends = [[NSMutableArray alloc]init];
+    _isArrow = NO;
     
     [ParseClient getUser:[PFUser currentUser] completion:^(User *loggedUser) {
         for (PFUser *friend in loggedUser.friends) {
@@ -104,6 +143,53 @@
             }
         } failure:nil];
     } failure:nil];
+}
+
+-(void)rightSwipeOnOverlay
+{
+    //[_scrollView setContentOffset:CGPointMake(0, 0)];
+    [_scrollView setContentOffset:CGPointMake(0, 0) animated:YES];
+ [UIView animateWithDuration:0.2 animations:^{
+     _mainOverlay.alpha = 0;
+ } completion:^(BOOL finished) {
+     _mainOverlay.hidden = YES;
+ }];
+}
+
+-(void)leftSwipeOnOverlay
+{
+    [_scrollView setContentOffset:CGPointMake(_scrollView.contentSize.width - _tableView.frame.size.width, 0) animated:YES];
+    [UIView animateWithDuration:0.2 animations:^{
+        _mainOverlay.alpha = 0;
+    } completion:^(BOOL finished) {
+        _mainOverlay.hidden = YES;
+    }];
+
+}
+
+-(void)rightSwipeOnThreadList
+{
+    [_scrollView setContentOffset:CGPointMake(_collectionView.frame.size.width/2, 0) animated:YES];
+    
+    _mainOverlay.hidden = NO;
+    [UIView animateWithDuration:0.2 animations:^{
+        _mainOverlay.alpha = 0.6;
+    }];
+}
+
+-(void)leftSwipeOnFriendsList
+{
+    [_scrollView setContentOffset:CGPointMake(_collectionView.frame.size.width/2, 0) animated:YES];
+    
+    _mainOverlay.hidden = NO;
+    [UIView animateWithDuration:0.2 animations:^{
+        _mainOverlay.alpha = 0.6;
+    }];
+}
+
+-(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
+{
+    return YES;
 }
 
 -(NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView

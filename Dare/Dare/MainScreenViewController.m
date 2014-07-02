@@ -7,8 +7,19 @@
 //
 
 #import "MainScreenViewController.h"
+#import "User.h"
 
-@interface MainScreenViewController ()
+@interface MainScreenViewController ()<UIScrollViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UITableViewDataSource, UITableViewDelegate>
+
+@property (strong, nonatomic) UINib *friendNib;
+@property (strong, nonatomic) UINib *finalCellNib;
+@property (strong, nonatomic) NSMutableSet *selectedFriends;
+@property (strong, nonatomic) NSMutableSet *selectedIndices;
+@property (strong, nonatomic) NSMutableArray *friends;
+@property (nonatomic) BOOL isArrow;
+@property (strong, nonatomic) UINib *cellNib;
+@property (strong, nonatomic) NSArray *threads;
+@property (strong, nonatomic) User *loggedUser;
 
 @end
 

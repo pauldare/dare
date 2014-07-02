@@ -78,6 +78,20 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vv7-bf-TzR">
+                                <rect key="frame" x="20" y="498" width="46" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fXg-gh-KVy">
+                                <rect key="frame" x="254" y="498" width="46" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Thh-yg-4ue">
                                 <rect key="frame" x="20" y="130" width="55" height="34"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -155,11 +169,15 @@
                             <constraint firstItem="EyM-1N-UfL" firstAttribute="top" secondItem="lxA-Wh-N4U" secondAttribute="bottom" constant="96" id="9Zc-Pc-LfI"/>
                             <constraint firstItem="Thh-yg-4ue" firstAttribute="top" secondItem="EyM-1N-UfL" secondAttribute="top" constant="14" id="G98-tD-jiT"/>
                             <constraint firstItem="Thh-yg-4ue" firstAttribute="leading" secondItem="EyM-1N-UfL" secondAttribute="leading" constant="20" id="IwL-eY-FHY"/>
+                            <constraint firstAttribute="trailing" secondItem="fXg-gh-KVy" secondAttribute="trailing" constant="20" id="JLX-PH-W0c"/>
+                            <constraint firstItem="vv7-bf-TzR" firstAttribute="leading" secondItem="8yY-oN-wzh" secondAttribute="leading" constant="20" id="LWO-pG-ays"/>
                             <constraint firstAttribute="trailing" secondItem="9Za-hG-63x" secondAttribute="trailing" id="XH5-6y-m46"/>
                             <constraint firstItem="ODS-Ap-Ui2" firstAttribute="top" secondItem="EyM-1N-UfL" secondAttribute="bottom" id="Yci-rA-NKw"/>
+                            <constraint firstItem="QFr-7T-IKK" firstAttribute="top" secondItem="vv7-bf-TzR" secondAttribute="bottom" constant="40" id="YnP-QC-kew"/>
                             <constraint firstItem="QFr-7T-IKK" firstAttribute="top" secondItem="EyM-1N-UfL" secondAttribute="bottom" constant="110" id="a9r-zr-pFN"/>
                             <constraint firstItem="EyM-1N-UfL" firstAttribute="top" secondItem="9Za-hG-63x" secondAttribute="bottom" id="aLq-bB-jOg"/>
                             <constraint firstAttribute="trailing" secondItem="ODS-Ap-Ui2" secondAttribute="trailing" id="baU-0m-QYV"/>
+                            <constraint firstItem="QFr-7T-IKK" firstAttribute="top" secondItem="fXg-gh-KVy" secondAttribute="bottom" constant="40" id="d2d-wn-KX9"/>
                             <constraint firstItem="QFr-7T-IKK" firstAttribute="top" secondItem="ODS-Ap-Ui2" secondAttribute="bottom" id="lX0-9W-aaq"/>
                             <constraint firstItem="9Za-hG-63x" firstAttribute="top" secondItem="8yY-oN-wzh" secondAttribute="top" id="m8H-gC-pIL"/>
                             <constraint firstItem="ODS-Ap-Ui2" firstAttribute="top" secondItem="EyM-1N-UfL" secondAttribute="bottom" id="rXQ-g1-9UQ"/>

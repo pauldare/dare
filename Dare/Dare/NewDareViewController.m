@@ -28,7 +28,6 @@
 @property (weak, nonatomic) IBOutlet UICollectionView *textCollection;
 @property (strong, nonatomic) NSArray *images;
 @property (strong, nonatomic) NSArray *messages;
-@property (strong, nonatomic) NSArray *friends;
 
 
 

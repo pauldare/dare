@@ -28,6 +28,8 @@
 @property (weak, nonatomic) IBOutlet UICollectionView *textCollection;
 @property (strong, nonatomic) NSArray *images;
 @property (strong, nonatomic) NSArray *messages;
+@property (weak, nonatomic) IBOutlet UIButton *forwardButton;
+@property (weak, nonatomic) IBOutlet UIButton *backButton;
 
 
 

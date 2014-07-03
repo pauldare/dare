@@ -381,6 +381,7 @@
 {
     [_scrollView setContentOffset:CGPointMake(_scrollView.contentSize.width - _tableView.frame.size.width, 0) animated:YES];
     [self hideMainPage];
+    _friendsCornerButton.hidden = YES;
 }
 
 -(void)scrollToMainScreen

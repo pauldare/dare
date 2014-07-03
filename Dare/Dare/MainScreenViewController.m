@@ -79,7 +79,7 @@
     _collectionViewFriendWidth= _collectionView.frame.size.width/3;
     
     _collectionViewFriendHeight = self.view.frame.size.height/5;
-    _scrollView.contentSize = CGSizeMake(_collectionView.frame.size.width + _tableView.frame.size.width + 5, _scrollView.frame.size.height);
+    _scrollView.contentSize = CGSizeMake(_collectionView.frame.size.width + _tableView.frame.size.width, _scrollView.frame.size.height);
     //[_scrollView setContentOffset:CGPointMake(_collectionView.frame.size.width/2, 0)];
     
     UISwipeGestureRecognizer *rightSwipeOnThreadList = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(scrollToMainScreen)];

@@ -298,6 +298,7 @@
                     <size key="freeformSize" width="645" height="568"/>
                     <connections>
                         <outlet property="collectionView" destination="Y2w-Vn-zAg" id="T5v-zD-9U5"/>
+                        <outlet property="scrollContainerView" destination="wZk-ZM-03Q" id="ZN9-fJ-dFO"/>
                         <outlet property="scrollView" destination="Ldg-ht-QvD" id="fJS-hQ-A9A"/>
                         <outlet property="tableView" destination="fFh-Yt-lRC" id="pu0-De-N65"/>
                     </connections>

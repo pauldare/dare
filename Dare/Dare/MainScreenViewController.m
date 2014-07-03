@@ -30,7 +30,13 @@
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (strong, nonatomic) UIView *mainOverlay;
-
+@property (nonatomic) CGFloat collectionViewSquareSize;
+@property (strong, nonatomic) UIButton *friendsCornerButton;
+@property (weak, nonatomic) IBOutlet UIView *scrollContainerView;
+@property (strong, nonatomic) UILabel *dareLabel;
+@property (strong, nonatomic) UIView *centerLine;
+@property (strong, nonatomic) UILabel *dareLabelRightArrows;
+@property (strong, nonatomic) UILabel *dareLabelLeftArrows;
 @end
 
 @implementation MainScreenViewController
@@ -48,11 +54,12 @@
 {
     [super viewDidLoad];
     
+    _collectionViewSquareSize = _collectionView.frame.size.width/3;
     _scrollView.contentSize = CGSizeMake(_collectionView.frame.size.width + _tableView.frame.size.width + 5, _scrollView.frame.size.height);
     [_scrollView setContentOffset:CGPointMake(_collectionView.frame.size.width/2, 0)];
     
     _mainOverlay = [[UIView alloc]initWithFrame:self.view.frame];
-    _mainOverlay.backgroundColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:0.6];
+    _mainOverlay.backgroundColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:0.8];
     [self.view addSubview:_mainOverlay];
     _mainOverlay.userInteractionEnabled = YES;
     UISwipeGestureRecognizer *rightSwipeOnMainView = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(rightSwipeOnOverlay)];
@@ -61,6 +68,35 @@
     rightSwipeOnMainView.delegate = self;
     [_mainOverlay addGestureRecognizer:rightSwipeOnMainView];
     
+    _dareLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 130, 50)];
+    [_dareLabel setCenter:CGPointMake(_mainOverlay.center.x, _mainOverlay.center.y)];
+    _dareLabel.text = @"DARE";
+    _dareLabel.textAlignment = NSTextAlignmentCenter;
+    _dareLabel.backgroundColor = [UIColor DareBlue];
+    _dareLabel.font = [UIFont boldSystemFontOfSize:40];
+    _dareLabel.textColor = [UIColor whiteColor];
+    [self.view addSubview:_dareLabel];
+    
+    
+    _centerLine = [[UIView alloc]initWithFrame:CGRectMake(self.view.center.x - 5, 0, 10.0, self.view.frame.size.height)];
+    _centerLine .backgroundColor = [UIColor DareBlue];
+    [self.view addSubview:_centerLine];
+    [self.view bringSubviewToFront:_dareLabel];
+    
+    _dareLabelRightArrows = [[UILabel alloc]initWithFrame:CGRectMake(_dareLabel.center.x + (_dareLabel.frame.size.width/2) -12, _dareLabel.frame.origin.y-4, (_mainOverlay.frame.size.width/2)+10 - (_dareLabel.frame.size.width/2), _dareLabel.frame.size.height+10)];
+    _dareLabelRightArrows.text = @"▶︎▶︎";
+    _dareLabelRightArrows.font = [UIFont boldSystemFontOfSize:52];
+    _dareLabelRightArrows.textAlignment = NSTextAlignmentLeft;
+    _dareLabelRightArrows.textColor = [UIColor DareBlue];
+    [self.view addSubview:_dareLabelRightArrows];
+    
+    _dareLabelLeftArrows = [[UILabel alloc]initWithFrame:CGRectMake(_dareLabel.center.x - (_dareLabel.frame.size.width/2) -93, _dareLabel.frame.origin.y-4, (_mainOverlay.frame.size.width/2)+10 - (_dareLabel.frame.size.width/2), _dareLabel.frame.size.height+10)];
+    _dareLabelLeftArrows.text = @"◀︎◀︎";
+    _dareLabelLeftArrows.font = [UIFont boldSystemFontOfSize:52];
+    _dareLabelLeftArrows.textAlignment = NSTextAlignmentLeft;
+    _dareLabelLeftArrows.textColor = [UIColor DareBlue];
+    [self.view addSubview:_dareLabelLeftArrows];
+
     UISwipeGestureRecognizer *leftSwipeOnMainView = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(leftSwipeOnOverlay)];
     leftSwipeOnMainView.direction = UISwipeGestureRecognizerDirectionLeft;
     leftSwipeOnMainView.numberOfTouchesRequired = 1;
@@ -79,6 +115,23 @@
     leftSwipeOnFriendsList.numberOfTouchesRequired = 1;
     leftSwipeOnFriendsList.delegate = self;
     [_collectionView addGestureRecognizer:leftSwipeOnFriendsList];
+    
+    _friendsCornerButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    _friendsCornerButton.backgroundColor = [UIColor clearColor];
+    _friendsCornerButton.translatesAutoresizingMaskIntoConstraints = NO;
+    [_friendsCornerButton setTitle:@"➡︎" forState:UIControlStateNormal];
+    _friendsCornerButton.titleLabel.font = [UIFont systemFontOfSize:100];
+    [_friendsCornerButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [_scrollContainerView addSubview:_friendsCornerButton];
+    
+    [_scrollContainerView addConstraint:[NSLayoutConstraint constraintWithItem:_friendsCornerButton attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeHeight multiplier:1.0 constant:_collectionViewSquareSize]];
+     [_scrollContainerView addConstraint:[NSLayoutConstraint constraintWithItem:_friendsCornerButton attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeWidth multiplier:1.0 constant:_collectionViewSquareSize]];
+     [_scrollContainerView addConstraint:[NSLayoutConstraint constraintWithItem:_friendsCornerButton attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:_collectionView attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:0]];
+    [_scrollContainerView addConstraint:[NSLayoutConstraint constraintWithItem:_friendsCornerButton attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:_collectionView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0]];
+    
+    
+    
+    
     
     NSLog(@"%f", _collectionView.frame.size.width);
     NSLog(@"%f", _scrollView.contentSize.width);
@@ -102,6 +155,8 @@
     
     _finalCellNib = [UINib nibWithNibName:@"FinalCell" bundle:nil];
     [_collectionView registerNib:_finalCellNib forCellWithReuseIdentifier:@"FinalCell"];
+    
+    
 
     
     _collectionView.delegate = self;
@@ -151,8 +206,12 @@
     [_scrollView setContentOffset:CGPointMake(0, 0) animated:YES];
  [UIView animateWithDuration:0.2 animations:^{
      _mainOverlay.alpha = 0;
+     _dareLabel.alpha = 0;
+     _centerLine.alpha = 0;
  } completion:^(BOOL finished) {
      _mainOverlay.hidden = YES;
+     _dareLabel.hidden = YES;
+     _centerLine.hidden = YES;
  }];
 }
 
@@ -161,8 +220,12 @@
     [_scrollView setContentOffset:CGPointMake(_scrollView.contentSize.width - _tableView.frame.size.width, 0) animated:YES];
     [UIView animateWithDuration:0.2 animations:^{
         _mainOverlay.alpha = 0;
+        _dareLabel.alpha = 0;
+        _centerLine.alpha = 0;
     } completion:^(BOOL finished) {
         _mainOverlay.hidden = YES;
+        _dareLabel.hidden = YES;
+        _centerLine.hidden = YES;
     }];
 
 }
@@ -172,8 +235,13 @@
     [_scrollView setContentOffset:CGPointMake(_collectionView.frame.size.width/2, 0) animated:YES];
     
     _mainOverlay.hidden = NO;
+    _dareLabel.hidden = NO;
+    _centerLine.hidden = NO;
     [UIView animateWithDuration:0.2 animations:^{
-        _mainOverlay.alpha = 0.6;
+        _mainOverlay.alpha = 0.8;
+        [_mainOverlay bringSubviewToFront:_dareLabel];
+        _dareLabel.alpha = 1.0;
+        _centerLine.alpha = 1.0;
     }];
 }
 
@@ -182,8 +250,13 @@
     [_scrollView setContentOffset:CGPointMake(_collectionView.frame.size.width/2, 0) animated:YES];
     
     _mainOverlay.hidden = NO;
+    _dareLabel.hidden = NO;
+    _centerLine.hidden = NO;
     [UIView animateWithDuration:0.2 animations:^{
-        _mainOverlay.alpha = 0.6;
+        _mainOverlay.alpha = 0.8;
+        [_mainOverlay bringSubviewToFront:_dareLabel];
+        _dareLabel.alpha = 1.0;
+        _centerLine.alpha = 1.0;
     }];
 }
 
@@ -211,16 +284,19 @@
     if (indexPath.row == [self.friends count]) {
         
         FinalCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"FinalCell" forIndexPath:indexPath];
-        cell.cellLabel.backgroundColor = [UIColor DareBlue];
-        if ([_selectedIndices count] == 0) {
-            cell.cellLabel.font = [UIFont boldSystemFontOfSize:120];
-            cell.cellLabel.text = @"＋";
-            
-        }else{
-            cell.cellLabel.font = [UIFont boldSystemFontOfSize:80];
-            cell.cellLabel.text = @"➡︎";
-            self.isArrow = YES;
-        }
+        cell.backgroundColor = [UIColor clearColor];
+        cell.cellLabel.text = @"";
+        
+//        cell.cellLabel.backgroundColor = [UIColor DareBlue];
+//        if ([_selectedIndices count] == 0) {
+//            cell.cellLabel.font = [UIFont boldSystemFontOfSize:120];
+//            cell.cellLabel.text = @"＋";
+//            
+//        }else{
+//            cell.cellLabel.font = [UIFont boldSystemFontOfSize:80];
+//            cell.cellLabel.text = @"➡︎";
+//            self.isArrow = YES;
+//        }
         
         return cell;
         
@@ -245,8 +321,7 @@
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     
-    CGFloat oneThirdOfDisplay = self.collectionView.frame.size.width/3;
-    return CGSizeMake(oneThirdOfDisplay, oneThirdOfDisplay);
+    return CGSizeMake(_collectionViewSquareSize, _collectionViewSquareSize);
 }
 
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section

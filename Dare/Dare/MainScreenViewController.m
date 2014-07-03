@@ -467,27 +467,27 @@
 
 -(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
-    [UIView animateWithDuration:0.5 animations:^{
-        _friendsCornerButton.alpha = 1.0;
-    }];
+//    [UIView animateWithDuration:0.5 animations:^{
+//        _friendsCornerButton.alpha = 1.0;
+//    }];
 }
 
 -(void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
 {
-    if (!decelerate) {
-        [UIView animateWithDuration:0.5 animations:^{
-            _friendsCornerButton.alpha = 1.0;
-        }];
-    }
+//    if (!decelerate) {
+//        [UIView animateWithDuration:0.5 animations:^{
+//            _friendsCornerButton.alpha = 1.0;
+//        }];
+//    }
 }
 
 
 
 -(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
 {
-    [UIView animateWithDuration:0.5 animations:^{
-        _friendsCornerButton.alpha = 0;
-    }];
+//    [UIView animateWithDuration:0.5 animations:^{
+//        _friendsCornerButton.alpha = 0;
+//    }];
 }
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath

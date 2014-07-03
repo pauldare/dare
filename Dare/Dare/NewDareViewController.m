@@ -43,15 +43,14 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    
-    
+
     self.images = @[[UIImage imageNamed:@"angry.jpeg"], [UIImage imageNamed:@"tricolor.jpeg"], [UIImage imageNamed:@"kitten.jpeg"], [UIImage imageNamed:@"cat.jpeg"]];
     self.messages = @[@"I DARE YOU\nto pet a cat", @"I DARE YOU\nto eat icecream", @"I DARE YOU\nto have fun"];
 
     _imageView.backgroundColor = [UIColor DareBlue];
     _cameraView.backgroundColor = [UIColor DareBlue];
     self.imageView.hidden = YES;
+    
     [self.view bringSubviewToFront:self.cameraButton];
     [self setupCamera];
     [self setupFriendsCollection];
@@ -72,7 +71,21 @@
     [self.textCollection registerNib:dareNib forCellWithReuseIdentifier:@"SelectDareCell"];
     UINib *friendNib = [UINib nibWithNibName:@"FriendListIcon" bundle:nil];
     [self.friendsCollection registerNib:friendNib forCellWithReuseIdentifier:@"FriendCell"];
+    
+    [self.view bringSubviewToFront:self.forwardButton];
+    [self.view bringSubviewToFront:self.backButton];
 }
+
+
+- (IBAction)forwardButtonPressed:(id)sender
+{
+    
+}
+
+- (IBAction)backButtonPressed:(id)sender
+{
+}
+
 
 - (void)setupCamera
 {

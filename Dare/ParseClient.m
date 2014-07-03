@@ -351,24 +351,44 @@
         [message saveInBackground];
         
         for (PFUser *participant in participants) {
-            PFQuery *query = [PFUser query];
-            [query whereKey:@"fbId" equalTo:participant[@"fbId"]];
-            NSArray *parseUsers = [query findObjects];
-            for (PFObject *user in parseUsers) {
-//                PFRelation *userToThread = [user relationForKey:@"messageThreads"];
-//                [userToThread addObject:messageThread];
-//                [user saveInBackground];
-                PFRelation *threadToUser = [messageThread relationForKey:@"Users"];
-                [threadToUser addObject:user];
-                [messageThread saveInBackground];
-            }
-        }    
+            [self storeRelation:participant toMessageThread:messageThread completion:^{
+                NSLog(@"created proxy");
+            }];
+        }
         completion();
-
     }];
-    
-    
 }
+
+//uniq check for users to prevent multiplying them, no check for threads, because when the thread is created, it doesn't exist in any user
++ (void)storeRelation: (PFUser *)parseUser
+      toMessageThread: (PFObject *)messageThread
+           completion: (void(^)())completion
+
+{
+    PFRelation *relation = [messageThread relationforKey:@"proxyUsers"];
+    [relation addObject:parseUser];
+    [messageThread saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        PFQuery *proxyQuery = [PFQuery queryWithClassName:@"UserProxy"];
+        [proxyQuery whereKey:@"identifier" equalTo:[parseUser objectForKey:@"fbId"]];
+        [proxyQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+            NSArray *foundProxies = objects;
+            PFObject *userProxy;
+            if ([foundProxies count] > 0) {
+                userProxy = foundProxies[0];
+            } else {
+                userProxy = [PFObject objectWithClassName:@"UserProxy"];
+            }
+            [userProxy setObject:[parseUser objectForKey:@"fbId"] forKey:@"identifier"];
+            PFRelation *inverseRelation = [userProxy relationForKey:@"threads"];
+            [inverseRelation addObject:messageThread];
+            [userProxy saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                        NSLog(@"proxy saved");
+                        completion();
+            }];
+        }];
+    }];
+}
+
 
 
 

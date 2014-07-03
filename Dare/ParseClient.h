@@ -55,13 +55,18 @@
 + (void)addMessageToThread: (MessageThread *)thread
                   withText: (NSString *)text
                    picture: (UIImage *)picture
-                completion: (void(^)())completion; //not tested
+                completion: (void(^)())completion;
 
 + (void)startMessageThreadForUsers: (NSArray *)participants
                        withMessage: (PFObject *) message
                          withTitle: (NSString *)title
                     backroundImage: (UIImage *)backgroundImage
-                        completion: (void(^)())completion; //not tested
+                        completion: (void(^)())completion;
+
+//store mutual relation users-threads with proxy user PFObject for later retrieval
++ (void)storeRelation: (PFUser *)parseUser
+      toMessageThread: (PFObject *)messageThread
+           completion: (void(^)())completion;
 
 
 @end

@@ -34,21 +34,17 @@
     PFRelation *messageThreadRelation = [currentUser relationForKey:@"messageThreads"];
     PFRelation *friendsRelation = [currentUser relationForKey:@"friends"];
     PFRelation *messagesRelation = [currentUser relationForKey:@"messages"];
-    
     PFQuery *messageThreadQuery = [messageThreadRelation query]; //config to limit amount of queries
     PFQuery *friendsQuery = [friendsRelation query];
     PFQuery *messagesQuery =[messagesRelation query];
-    
     [messageThreadQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         NSArray *messageThreads = objects;
         [friendsQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
             NSArray *friends = objects;
             [messagesQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
                 NSMutableArray *messages = [objects mutableCopy];
-                
                 PFFile *imageFile = currentUser[@"image"];
                 UIImage *userPic = [self imageFileToImage:imageFile];
-                
                 User *loggedUser = [[User alloc]initWithDisplayName:currentUser[@"displayName"]
                                          messageThreads:messageThreads //PFObjects
                                                 friends:friends //PFObjects
@@ -91,20 +87,16 @@
                         [currentUser saveInBackground];
                         // Store the current user's Facebook ID, userName and photo on the user
                         [self fetchUserProfilePicture:^(NSData *imageData) { //if fails should handle offer to take a picture from camera of device library
-                            
                             PFFile *file = [PFFile fileWithName:@"userPic" data:imageData];
                             [file saveInBackground];
                             [currentUser setObject:file forKey:@"image"];
                             [currentUser saveInBackground];
-                            
                             isNEW = YES;
-                            
                             completion(isNEW);
                         }];
                     }
                 }];
             } else {
-                
                 NSLog(@"Existing user logged in through Facebook!");
                 completion(isNEW);
             }
@@ -133,17 +125,11 @@
 {
     NSMutableArray *userThreads = [[NSMutableArray alloc]init];
     __block NSInteger count = 0;
-    
-    
     for (PFObject *parseThread in user.messageThreads) {
-
         PFRelation *participantsRelation = [parseThread relationForKey:@"Users"];
         PFQuery *participantsQuery = [participantsRelation query];
-        
-        
         [participantsQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
             NSArray *participants = objects;
-            
             MessageThread *thread = [[MessageThread alloc]initWithUser:user
                                                           participants:participants
                                                               messages:user.messages
@@ -152,12 +138,10 @@
                                                        backgroundImage:[self imageFileToImage:parseThread[@"backgroundImage"]]]; 
             [userThreads addObject:thread];
             count++;
-            
             bool isDone = NO;
             if (count == [user.messageThreads count]) {
                 isDone = YES;
             }
-            
             completion(userThreads, isDone);
         }];
     }
@@ -169,7 +153,6 @@
                    failure: (void(^)(NSError *))failure
 {
     NSMutableArray *threadMessages = [[NSMutableArray alloc]init];
-        
     PFQuery *threadQueryOnId = [PFQuery queryWithClassName:@"MessageThread"];
     [threadQueryOnId whereKey:@"objectId" equalTo:thread.identifier];
     [threadQueryOnId findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
@@ -177,7 +160,6 @@
             PFObject *parseThread = objects[0];
             PFRelation *threadRelation = [parseThread relationForKey:@"messages"];
             PFQuery *threadQuery = [threadRelation query];
-            
             [threadQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
                 NSArray *parseMessages = objects;
                 for (PFObject *parseMessage in parseMessages) {
@@ -187,7 +169,6 @@
                     }
                     PFFile *imageFile = parseMessage[@"picture"][0];//bad fake data, parse message is set to an array with PFFile in it
                     UIImage *picture = [self imageFileToImage:imageFile];
-                    
                     Message *message = [[Message alloc]initWithText:parseMessage[@"text"]
                                                                user: user
                                                              thread:thread
@@ -197,7 +178,6 @@
                 }
                 completion(threadMessages);
             }];
-
         } else {
             failure(error);
         }
@@ -213,24 +193,19 @@
     [threadQuery whereKey:@"id" equalTo:thread.identifier];
     [threadQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         PFObject *parseThread = objects[0];
-        
         PFObject *parseMessage = [PFObject objectWithClassName:@"Message"];
         [parseMessage addObject:text forKey:@"text"];
-        
         NSData *imageData = UIImagePNGRepresentation(picture);
         PFFile *file = [PFFile fileWithName:@"picture" data:imageData];
         [file saveInBackground];
         [parseMessage setObject:file forKey:@"picture"];
         [parseMessage addObject:@"NO" forKey:@"isRead"];
-        
         PFRelation *messageToThread = [parseMessage relationForKey:@"messageThreads"];
         [messageToThread addObject:parseThread];
-        
         [parseMessage saveInBackground];
         PFRelation *threadToMessage = [parseThread relationForKey:@"messages"];
         [threadToMessage addObject:parseMessage];
         [parseThread saveInBackground];
-        
         completion();
     }];
 }
@@ -307,7 +282,6 @@
             __block NSInteger count = 0;
             if (data) {
                 for (NSMutableDictionary *friendData in data) {
-                    
                     [self findPFUserByFacebookId:friendData[@"id"] completion:^(PFUser *foundUser) {
                         [self relateFriend:foundUser completion:^{
                             count++;
@@ -339,36 +313,51 @@
     PFFile *file = [PFFile fileWithName:@"backroundImage" data:imageData];
     [file saveInBackground];
     [messageThread setObject:file forKey:@"backgroundImage"];
-    
-//    PFRelation *threadToMessage = [messageThread relationForKey:@"messages"];
-//    [threadToMessage addObject:message];
     [messageThread saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         PFRelation *threadToMessage = [messageThread relationForKey:@"messages"];
         [threadToMessage addObject:message];
-        
         PFRelation *messageToThread = [message relationForKey:@"messageThreads"];
         [messageToThread addObject:messageThread];
         [message saveInBackground];
-        
         for (PFUser *participant in participants) {
-            PFQuery *query = [PFUser query];
-            [query whereKey:@"fbId" equalTo:participant[@"fbId"]];
-            NSArray *parseUsers = [query findObjects];
-            for (PFObject *user in parseUsers) {
-//                PFRelation *userToThread = [user relationForKey:@"messageThreads"];
-//                [userToThread addObject:messageThread];
-//                [user saveInBackground];
-                PFRelation *threadToUser = [messageThread relationForKey:@"Users"];
-                [threadToUser addObject:user];
-                [messageThread saveInBackground];
-            }
-        }    
+            [self storeRelation:participant toMessageThread:messageThread completion:^{
+                NSLog(@"created proxy");
+            }];
+        }
         completion();
-
     }];
-    
-    
 }
+
+//uniq check for users to prevent multiplying them, no check for threads, because when the thread is created, it doesn't exist in any user
++ (void)storeRelation: (PFUser *)parseUser
+      toMessageThread: (PFObject *)messageThread
+           completion: (void(^)())completion
+
+{
+    PFRelation *relation = [messageThread relationforKey:@"proxyUsers"];
+    [relation addObject:parseUser];
+    [messageThread saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        PFQuery *proxyQuery = [PFQuery queryWithClassName:@"UserProxy"];
+        [proxyQuery whereKey:@"identifier" equalTo:[parseUser objectForKey:@"fbId"]];
+        [proxyQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+            NSArray *foundProxies = objects;
+            PFObject *userProxy;
+            if ([foundProxies count] > 0) {
+                userProxy = foundProxies[0];
+            } else {
+                userProxy = [PFObject objectWithClassName:@"UserProxy"];
+            }
+            [userProxy setObject:[parseUser objectForKey:@"fbId"] forKey:@"identifier"];
+            PFRelation *inverseRelation = [userProxy relationForKey:@"threads"];
+            [inverseRelation addObject:messageThread];
+            [userProxy saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                        NSLog(@"proxy saved");
+                        completion();
+            }];
+        }];
+    }];
+}
+
 
 
 

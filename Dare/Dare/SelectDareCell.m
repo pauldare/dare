@@ -20,13 +20,7 @@
 }
 
 
-- (void)awakeFromNib
-{
-    [self addSubview:self.forwardButton];
-    [self addSubview:self.backButton];
-    [self bringSubviewToFront:self.forwardButton];
-    [self bringSubviewToFront:self.backButton];
-}
+
 
 
 

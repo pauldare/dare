@@ -14,6 +14,7 @@
 #import "FinalCell.h"
 #import "NewDareViewController.h"
 #import "DareCell.h"
+#import <FontAwesomeKit/FontAwesomeKit.h>
 
 @interface MainScreenViewController ()<UIScrollViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UITableViewDataSource, UITableViewDelegate, UIGestureRecognizerDelegate>
 
@@ -84,6 +85,7 @@
     [self.view bringSubviewToFront:_dareLabel];
     
     _dareLabelRightArrows = [[UILabel alloc]initWithFrame:CGRectMake(_dareLabel.center.x + (_dareLabel.frame.size.width/2) -12, _dareLabel.frame.origin.y-4, (_mainOverlay.frame.size.width/2)+10 - (_dareLabel.frame.size.width/2), _dareLabel.frame.size.height+10)];
+    
     _dareLabelRightArrows.text = @"▶︎▶︎";
     _dareLabelRightArrows.font = [UIFont boldSystemFontOfSize:52];
     _dareLabelRightArrows.textAlignment = NSTextAlignmentLeft;

@@ -31,7 +31,8 @@
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (strong, nonatomic) UIView *mainOverlay;
-@property (nonatomic) CGFloat collectionViewSquareSize;
+@property (nonatomic) CGFloat collectionViewFriendWidth;
+@property (nonatomic) CGFloat collectionViewFriendHeight;
 @property (strong, nonatomic) UIButton *friendsCornerButton;
 @property (weak, nonatomic) IBOutlet UIView *scrollContainerView;
 @property (strong, nonatomic) UILabel *dareLabel;
@@ -40,6 +41,9 @@
 @property (strong, nonatomic) UILabel *dareLabelLeftArrows;
 @property (strong, nonatomic) UIButton *settingsButton;
 @property (strong, nonatomic) UILabel *overlayUnreadBadge;
+@property (strong, nonatomic) UIImage *testFriendImage;
+@property (strong, nonatomic) UIRefreshControl *tableViewRefreshControl;
+@property (strong, nonatomic) UIRefreshControl *collectionViewRefreshControl;
 @end
 
 @implementation MainScreenViewController
@@ -57,11 +61,26 @@
 {
     [super viewDidLoad];
     
-    [self configureMainScreen];
     
-    _collectionViewSquareSize = _collectionView.frame.size.width/3;
+    _tableViewRefreshControl = [[UIRefreshControl alloc] init];
+    [_tableViewRefreshControl addTarget:self action:@selector(refreshFeeds) forControlEvents:UIControlEventValueChanged];
+    [_tableView addSubview:_tableViewRefreshControl];
+    
+    _collectionViewRefreshControl = [[UIRefreshControl alloc]init];
+    [_collectionViewRefreshControl addTarget:self action:@selector(refreshFriends) forControlEvents:UIControlEventValueChanged];
+    [_collectionView addSubview:_collectionViewRefreshControl];
+    
+    
+    NSURL *imageURL = [NSURL URLWithString:@"http://ibmsmartercommerce.sourceforge.net/wp-content/uploads/2012/09/Roses_Bunch_Of_Flowers.jpeg"];
+    NSData *imageData = [NSData dataWithContentsOfURL:imageURL];
+    _testFriendImage = [UIImage imageWithData:imageData];
+    
+    _collectionView.alwaysBounceVertical = YES;
+    _collectionViewFriendWidth= _collectionView.frame.size.width/3;
+    
+    _collectionViewFriendHeight = self.view.frame.size.height/5;
     _scrollView.contentSize = CGSizeMake(_collectionView.frame.size.width + _tableView.frame.size.width + 5, _scrollView.frame.size.height);
-    [_scrollView setContentOffset:CGPointMake(_collectionView.frame.size.width/2, 0)];
+    //[_scrollView setContentOffset:CGPointMake(_collectionView.frame.size.width/2, 0)];
     
     UISwipeGestureRecognizer *rightSwipeOnThreadList = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(scrollToMainScreen)];
     rightSwipeOnThreadList.direction = UISwipeGestureRecognizerDirectionRight;
@@ -78,15 +97,16 @@
     
     
     _friendsCornerButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    _friendsCornerButton.backgroundColor = [UIColor clearColor];
+    _friendsCornerButton.backgroundColor = [UIColor DareBlue];
+    [_friendsCornerButton addTarget:self action:@selector(friendsCornerButtonPressed) forControlEvents:UIControlEventTouchUpInside];
     _friendsCornerButton.translatesAutoresizingMaskIntoConstraints = NO;
-    [_friendsCornerButton setTitle:@"➡︎" forState:UIControlStateNormal];
+    [_friendsCornerButton setTitle:@"＋" forState:UIControlStateNormal];
     _friendsCornerButton.titleLabel.font = [UIFont systemFontOfSize:100];
     [_friendsCornerButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [_scrollContainerView addSubview:_friendsCornerButton];
     
-    [_scrollContainerView addConstraint:[NSLayoutConstraint constraintWithItem:_friendsCornerButton attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeHeight multiplier:1.0 constant:_collectionViewSquareSize]];
-     [_scrollContainerView addConstraint:[NSLayoutConstraint constraintWithItem:_friendsCornerButton attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeWidth multiplier:1.0 constant:_collectionViewSquareSize]];
+    [_scrollContainerView addConstraint:[NSLayoutConstraint constraintWithItem:_friendsCornerButton attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeHeight multiplier:1.0 constant:_collectionViewFriendHeight]];
+     [_scrollContainerView addConstraint:[NSLayoutConstraint constraintWithItem:_friendsCornerButton attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeWidth multiplier:1.0 constant:_collectionViewFriendWidth]];
      [_scrollContainerView addConstraint:[NSLayoutConstraint constraintWithItem:_friendsCornerButton attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:_collectionView attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:0]];
     [_scrollContainerView addConstraint:[NSLayoutConstraint constraintWithItem:_friendsCornerButton attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:_collectionView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0]];
     
@@ -127,7 +147,9 @@
     _tableView.delegate = self;
     _tableView.dataSource = self;
 #warning Remove this! It's for testing
-    _friendsArray = @[@1, @2, @3, @4, @5, @6];
+    _friendsArray = @[@1, @2, @3, @4, @5, @6, @7, @8, @9, @10, @11, @12, @13, @14, @15, @16, @17, @18, @19, @20, @21, @22, @23, @24, @25, @26, @27, @28, @29, @30];
+   // _friendsArray = @[@1, @2, @3];
+    _friends = [_friendsArray mutableCopy];
     _selectedFriends = [[NSMutableSet alloc]init];
     _selectedIndices = [[NSMutableSet alloc]init];
     
@@ -158,6 +180,18 @@
             }
         } failure:nil];
     } failure:nil];
+    
+    [self configureMainScreen];
+}
+
+-(void)refreshFeeds
+{
+    [_tableViewRefreshControl performSelector:@selector(endRefreshing) withObject:self afterDelay:3.0];
+}
+
+-(void)refreshFriends
+{
+    [_collectionViewRefreshControl performSelector:@selector(endRefreshing) withObject:self afterDelay:3.0];
 }
 
 -(void)configureMainScreen
@@ -280,6 +314,9 @@
     rightSwipeOnMainView.numberOfTouchesRequired = 1;
     rightSwipeOnMainView.delegate = self;
     [_mainOverlay addGestureRecognizer:rightSwipeOnMainView];
+    
+    [self scrollToMainScreen];
+    [self showMainPage];
 
 }
 
@@ -292,6 +329,7 @@
     _dareLabelRightArrows.hidden = NO;
     _settingsButton.hidden = NO;
     _overlayUnreadBadge.hidden = NO;
+    
     [UIView animateWithDuration:0.2 animations:^{
         _mainOverlay.alpha = 0.8;
         [_mainOverlay bringSubviewToFront:_dareLabel];
@@ -301,12 +339,16 @@
         _dareLabelLeftArrows.alpha = 1.0;
         _settingsButton.alpha = 1.0;
         _overlayUnreadBadge.alpha = 1.0;
+        _friendsCornerButton.alpha = 0;
+    }completion:^(BOOL finished) {
+        _friendsCornerButton.hidden = YES;
     }];
 
 }
 
 -(void)hideMainPage
 {
+    _friendsCornerButton.hidden = NO;
     [UIView animateWithDuration:0.2 animations:^{
         _mainOverlay.alpha = 0;
         _dareLabel.alpha = 0;
@@ -315,6 +357,7 @@
         _dareLabelLeftArrows.alpha = 0;
         _settingsButton.alpha = 0;
         _overlayUnreadBadge.alpha = 0;
+        _friendsCornerButton.alpha = 1;
     } completion:^(BOOL finished) {
         _mainOverlay.hidden = YES;
         _dareLabel.hidden = YES;
@@ -363,8 +406,8 @@
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
     //this adds a final selection cell
-    //return 50;
-    return [self.friends count] + 1;
+    return [_friendsArray count]+1;
+   // return [self.friends count] + 1;
 }
 
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
@@ -376,17 +419,7 @@
         FinalCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"FinalCell" forIndexPath:indexPath];
         cell.backgroundColor = [UIColor clearColor];
         cell.cellLabel.text = @"";
-        
-//        cell.cellLabel.backgroundColor = [UIColor DareBlue];
-//        if ([_selectedIndices count] == 0) {
-//            cell.cellLabel.font = [UIFont boldSystemFontOfSize:120];
-//            cell.cellLabel.text = @"＋";
-//            
-//        }else{
-//            cell.cellLabel.font = [UIFont boldSystemFontOfSize:80];
-//            cell.cellLabel.text = @"➡︎";
-//            self.isArrow = YES;
-//        }
+        cell.userInteractionEnabled = NO;
         
         return cell;
         
@@ -399,8 +432,14 @@
             cell.selectedOverlay.backgroundColor = [UIColor clearColor];
         }
         
-        User *friend = self.friends[indexPath.row];
-        ((FriendListIcon*)cell).friendImage.image = friend.profileImage;
+        //User *friend = self.friends[indexPath.row];
+        //((FriendListIcon*)cell).friendImage.image = friend.profileImage;
+//        NSURL *imageURL = [NSURL URLWithString:@"http://ibmsmartercommerce.sourceforge.net/wp-content/uploads/2012/09/Roses_Bunch_Of_Flowers.jpeg"];
+//        NSData *imageData = [NSData dataWithContentsOfURL:imageURL];
+//        UIImage *image = [UIImage imageWithData:imageData];
+
+        ((FriendListIcon*)cell).friendImage.image = _testFriendImage;
+        
         return cell;
     }
     
@@ -411,7 +450,8 @@
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     
-    return CGSizeMake(_collectionViewSquareSize, _collectionViewSquareSize);
+    return CGSizeMake(_collectionViewFriendWidth, _collectionViewFriendHeight);
+    
 }
 
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section
@@ -434,6 +474,14 @@
     }else{
         [_selectedIndices removeObject:@(indexPath.row)];
     }
+    
+    if ([_selectedIndices count]>0) {
+        _isArrow = YES;
+        _friendsCornerButton.titleLabel.text = @"➡︎";
+    }else{
+        _friendsCornerButton.titleLabel.text = @"＋";
+        _isArrow = NO;
+    }
     [collectionView reloadData];
     
     for (NSNumber *index in _selectedIndices) {
@@ -442,14 +490,20 @@
         }
     }
     
-    NSLog(@"%@", self.selectedFriends);
+    NSLog(@"%@", _selectedIndices);
+    [collectionView reloadData];
     
-    if (indexPath.row == [self.friends count] && self.isArrow) {
+}
+
+-(void)friendsCornerButtonPressed
+{
+    if (_isArrow) {
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];
         NewDareViewController *viewController = (NewDareViewController *)[storyboard instantiateViewControllerWithIdentifier:@"NewDare"];
-        viewController.friends = [self.selectedFriends allObjects];
+        viewController.friends = [[self.selectedFriends allObjects]mutableCopy];
         [self presentViewController:viewController animated:YES completion:nil];
     }
+
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView

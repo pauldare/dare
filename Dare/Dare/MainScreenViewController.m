@@ -38,6 +38,8 @@
 @property (strong, nonatomic) UIView *centerLine;
 @property (strong, nonatomic) UILabel *dareLabelRightArrows;
 @property (strong, nonatomic) UILabel *dareLabelLeftArrows;
+@property (strong, nonatomic) UIButton *settingsButton;
+@property (strong, nonatomic) UILabel *overlayUnreadBadge;
 @end
 
 @implementation MainScreenViewController
@@ -55,68 +57,25 @@
 {
     [super viewDidLoad];
     
+    [self configureMainScreen];
+    
     _collectionViewSquareSize = _collectionView.frame.size.width/3;
     _scrollView.contentSize = CGSizeMake(_collectionView.frame.size.width + _tableView.frame.size.width + 5, _scrollView.frame.size.height);
     [_scrollView setContentOffset:CGPointMake(_collectionView.frame.size.width/2, 0)];
     
-    _mainOverlay = [[UIView alloc]initWithFrame:self.view.frame];
-    _mainOverlay.backgroundColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:0.8];
-    [self.view addSubview:_mainOverlay];
-    _mainOverlay.userInteractionEnabled = YES;
-    UISwipeGestureRecognizer *rightSwipeOnMainView = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(rightSwipeOnOverlay)];
-    rightSwipeOnMainView.direction = UISwipeGestureRecognizerDirectionRight;
-    rightSwipeOnMainView.numberOfTouchesRequired = 1;
-    rightSwipeOnMainView.delegate = self;
-    [_mainOverlay addGestureRecognizer:rightSwipeOnMainView];
-    
-    _dareLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 130, 50)];
-    [_dareLabel setCenter:CGPointMake(_mainOverlay.center.x, _mainOverlay.center.y)];
-    _dareLabel.text = @"DARE";
-    _dareLabel.textAlignment = NSTextAlignmentCenter;
-    _dareLabel.backgroundColor = [UIColor DareBlue];
-    _dareLabel.font = [UIFont boldSystemFontOfSize:40];
-    _dareLabel.textColor = [UIColor whiteColor];
-    [self.view addSubview:_dareLabel];
-    
-    
-    _centerLine = [[UIView alloc]initWithFrame:CGRectMake(self.view.center.x - 5, 0, 10.0, self.view.frame.size.height)];
-    _centerLine .backgroundColor = [UIColor DareBlue];
-    [self.view addSubview:_centerLine];
-    [self.view bringSubviewToFront:_dareLabel];
-    
-    _dareLabelRightArrows = [[UILabel alloc]initWithFrame:CGRectMake(_dareLabel.center.x + (_dareLabel.frame.size.width/2) -12, _dareLabel.frame.origin.y-4, (_mainOverlay.frame.size.width/2)+10 - (_dareLabel.frame.size.width/2), _dareLabel.frame.size.height+10)];
-    
-    _dareLabelRightArrows.text = @"▶︎▶︎";
-    _dareLabelRightArrows.font = [UIFont boldSystemFontOfSize:52];
-    _dareLabelRightArrows.textAlignment = NSTextAlignmentLeft;
-    _dareLabelRightArrows.textColor = [UIColor DareBlue];
-    [self.view addSubview:_dareLabelRightArrows];
-    
-    _dareLabelLeftArrows = [[UILabel alloc]initWithFrame:CGRectMake(_dareLabel.center.x - (_dareLabel.frame.size.width/2) -93, _dareLabel.frame.origin.y-4, (_mainOverlay.frame.size.width/2)+10 - (_dareLabel.frame.size.width/2), _dareLabel.frame.size.height+10)];
-    _dareLabelLeftArrows.text = @"◀︎◀︎";
-    _dareLabelLeftArrows.font = [UIFont boldSystemFontOfSize:52];
-    _dareLabelLeftArrows.textAlignment = NSTextAlignmentLeft;
-    _dareLabelLeftArrows.textColor = [UIColor DareBlue];
-    [self.view addSubview:_dareLabelLeftArrows];
-
-    UISwipeGestureRecognizer *leftSwipeOnMainView = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(leftSwipeOnOverlay)];
-    leftSwipeOnMainView.direction = UISwipeGestureRecognizerDirectionLeft;
-    leftSwipeOnMainView.numberOfTouchesRequired = 1;
-    leftSwipeOnMainView.delegate = self;
-    [_mainOverlay addGestureRecognizer:leftSwipeOnMainView];
-    
-    UISwipeGestureRecognizer *rightSwipeOnThreadList = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(rightSwipeOnThreadList)];
+    UISwipeGestureRecognizer *rightSwipeOnThreadList = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(scrollToMainScreen)];
     rightSwipeOnThreadList.direction = UISwipeGestureRecognizerDirectionRight;
     rightSwipeOnThreadList.numberOfTouchesRequired = 1;
     rightSwipeOnThreadList.delegate = self;
     [_tableView addGestureRecognizer:rightSwipeOnThreadList];
     
     
-    UISwipeGestureRecognizer *leftSwipeOnFriendsList = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(leftSwipeOnFriendsList)];
+    UISwipeGestureRecognizer *leftSwipeOnFriendsList = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(scrollToMainScreen)];
     leftSwipeOnFriendsList.direction = UISwipeGestureRecognizerDirectionLeft;
     leftSwipeOnFriendsList.numberOfTouchesRequired = 1;
     leftSwipeOnFriendsList.delegate = self;
     [_collectionView addGestureRecognizer:leftSwipeOnFriendsList];
+    
     
     _friendsCornerButton = [UIButton buttonWithType:UIButtonTypeCustom];
     _friendsCornerButton.backgroundColor = [UIColor clearColor];
@@ -202,66 +161,196 @@
     } failure:nil];
 }
 
--(void)rightSwipeOnOverlay
+-(void)configureMainScreen
 {
-    //[_scrollView setContentOffset:CGPointMake(0, 0)];
-    [_scrollView setContentOffset:CGPointMake(0, 0) animated:YES];
- [UIView animateWithDuration:0.2 animations:^{
-     _mainOverlay.alpha = 0;
-     _dareLabel.alpha = 0;
-     _centerLine.alpha = 0;
- } completion:^(BOOL finished) {
-     _mainOverlay.hidden = YES;
-     _dareLabel.hidden = YES;
-     _centerLine.hidden = YES;
- }];
+    _mainOverlay = [[UIView alloc]initWithFrame:self.view.frame];
+    _mainOverlay.backgroundColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:0.8];
+    [self.view addSubview:_mainOverlay];
+    _mainOverlay.userInteractionEnabled = YES;
+
+    _dareLabel = [[UILabel alloc]init];
+     [self.view addSubview:_dareLabel];
+    _dareLabel.translatesAutoresizingMaskIntoConstraints = NO;
+    
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_dareLabel attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0]];
+    
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_dareLabel attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0]];
+    
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_dareLabel attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeHeight multiplier:1.0 constant:42]];
+    
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_dareLabel attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeWidth multiplier:1.0 constant:130]];
+    
+    
+    _dareLabel.text = @"DARE";
+    _dareLabel.textAlignment = NSTextAlignmentCenter;
+    _dareLabel.backgroundColor = [UIColor DareBlue];
+    _dareLabel.font = [UIFont boldSystemFontOfSize:40];
+    _dareLabel.textColor = [UIColor whiteColor];
+   
+    
+    _centerLine = [[UIView alloc]init];
+    _centerLine.translatesAutoresizingMaskIntoConstraints = NO;
+    _centerLine .backgroundColor = [UIColor DareBlue];
+    [self.view addSubview:_centerLine];
+    [self.view bringSubviewToFront:_dareLabel];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_centerLine attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_centerLine attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTop multiplier:1.0 constant:0]];
+      [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_centerLine attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0]];
+      [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_centerLine attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeWidth multiplier:1.0 constant:10]];
+    
+    
+    
+    _dareLabelRightArrows = [[UILabel alloc]init];
+    _dareLabelRightArrows.translatesAutoresizingMaskIntoConstraints = NO;
+    [self.view addSubview:_dareLabelRightArrows];
+    
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_dareLabelRightArrows attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:_dareLabel attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:0]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_dareLabelRightArrows attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:0]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_dareLabelRightArrows attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:_dareLabel attribute:NSLayoutAttributeTop multiplier:1.0 constant:-5]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_dareLabelRightArrows attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:_dareLabel attribute:NSLayoutAttributeBottom multiplier:1.0 constant:5]];
+    
+    
+    _dareLabelRightArrows.backgroundColor = [UIColor clearColor];
+    FAKFontAwesome *rightLabel = [FAKFontAwesome forwardIconWithSize:48];
+    NSMutableAttributedString *rightMutString = [[NSMutableAttributedString alloc]init];
+    [rightMutString appendAttributedString:[rightLabel attributedString]];
+    [rightMutString appendAttributedString:[rightLabel attributedString]];
+    
+    _dareLabelRightArrows.textColor = [UIColor DareBlue];
+    [_dareLabelRightArrows setAttributedText:rightMutString];
+    _dareLabelRightArrows.textAlignment = NSTextAlignmentLeft;
+
+    _dareLabelLeftArrows = [[UILabel alloc]init];
+    _dareLabelLeftArrows.translatesAutoresizingMaskIntoConstraints = NO;
+    [self.view addSubview:_dareLabelLeftArrows];
+    
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_dareLabelLeftArrows attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeLeading multiplier:1.0 constant:0]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_dareLabelLeftArrows attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:_dareLabel attribute:NSLayoutAttributeLeading multiplier:1.0 constant:1]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_dareLabelLeftArrows attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:_dareLabel attribute:NSLayoutAttributeTop multiplier:1.0 constant:-5]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_dareLabelLeftArrows attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:_dareLabel attribute:NSLayoutAttributeBottom multiplier:1.0 constant:5]];
+    
+    _dareLabelLeftArrows.backgroundColor = [UIColor clearColor];
+    FAKFontAwesome *leftLabel = [FAKFontAwesome backwardIconWithSize:48];
+    NSMutableAttributedString *leftMutString = [[NSMutableAttributedString alloc]init];
+    [leftMutString appendAttributedString:[leftLabel attributedString]];
+    [leftMutString appendAttributedString:[leftLabel attributedString]];
+    
+    _dareLabelLeftArrows.textColor = [UIColor DareBlue];
+    [_dareLabelLeftArrows setAttributedText:leftMutString];
+    _dareLabelLeftArrows.textAlignment = NSTextAlignmentRight;
+    
+    _settingsButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    [_settingsButton addTarget:self action:@selector(settingsButtonPressed) forControlEvents:UIControlEventTouchUpInside];
+    _settingsButton.translatesAutoresizingMaskIntoConstraints = NO;
+    FAKFontAwesome *settingsIcon = [FAKFontAwesome gearIconWithSize:100];
+    [_settingsButton setImage:[settingsIcon imageWithSize:CGSizeMake(100, 100)] forState:UIControlStateNormal];
+    [_settingsButton setTintColor:[UIColor DareUnreadBadge]];
+    [self.view addSubview:_settingsButton];
+    
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_settingsButton attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-50.0]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_settingsButton attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeLeading multiplier:1.0 constant:40.0]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_settingsButton attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeHeight multiplier:1.0 constant:100]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_settingsButton attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeWidth multiplier:1.0 constant:100]];
+    
+    _overlayUnreadBadge = [[UILabel alloc]init];
+    _overlayUnreadBadge.translatesAutoresizingMaskIntoConstraints = NO;
+    _overlayUnreadBadge.textColor = [UIColor DareUnreadBadge];
+    _overlayUnreadBadge.font = [UIFont boldSystemFontOfSize:130];
+    _overlayUnreadBadge.textAlignment = NSTextAlignmentRight;
+#warning comment out .text property after testing
+    _overlayUnreadBadge.text = @"6";
+    [self.view addSubview:_overlayUnreadBadge];
+    
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_overlayUnreadBadge attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTop multiplier:1.0 constant:50]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_overlayUnreadBadge attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:-20]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_overlayUnreadBadge attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeHeight multiplier:1.0 constant:150]];
+        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_overlayUnreadBadge attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeLeading multiplier:1.0 constant:0]];
+    
+    
+    
+
+    
+    UISwipeGestureRecognizer *leftSwipeOnMainView = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(scrollToMessages)];
+    leftSwipeOnMainView.direction = UISwipeGestureRecognizerDirectionLeft;
+    leftSwipeOnMainView.numberOfTouchesRequired = 1;
+    leftSwipeOnMainView.delegate = self;
+    [_mainOverlay addGestureRecognizer:leftSwipeOnMainView];
+    
+    UISwipeGestureRecognizer *rightSwipeOnMainView = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(scrollToFriends)];
+    rightSwipeOnMainView.direction = UISwipeGestureRecognizerDirectionRight;
+    rightSwipeOnMainView.numberOfTouchesRequired = 1;
+    rightSwipeOnMainView.delegate = self;
+    [_mainOverlay addGestureRecognizer:rightSwipeOnMainView];
+
 }
 
--(void)leftSwipeOnOverlay
+-(void)showMainPage
 {
-    [_scrollView setContentOffset:CGPointMake(_scrollView.contentSize.width - _tableView.frame.size.width, 0) animated:YES];
+    _mainOverlay.hidden = NO;
+    _dareLabel.hidden = NO;
+    _centerLine.hidden = NO;
+    _dareLabelLeftArrows.hidden = NO;
+    _dareLabelRightArrows.hidden = NO;
+    _settingsButton.hidden = NO;
+    _overlayUnreadBadge.hidden = NO;
+    [UIView animateWithDuration:0.2 animations:^{
+        _mainOverlay.alpha = 0.8;
+        [_mainOverlay bringSubviewToFront:_dareLabel];
+        _dareLabel.alpha = 1.0;
+        _centerLine.alpha = 1.0;
+        _dareLabelRightArrows.alpha = 1.0;
+        _dareLabelLeftArrows.alpha = 1.0;
+        _settingsButton.alpha = 1.0;
+        _overlayUnreadBadge.alpha = 1.0;
+    }];
+
+}
+
+-(void)hideMainPage
+{
     [UIView animateWithDuration:0.2 animations:^{
         _mainOverlay.alpha = 0;
         _dareLabel.alpha = 0;
         _centerLine.alpha = 0;
+        _dareLabelRightArrows.alpha = 0;
+        _dareLabelLeftArrows.alpha = 0;
+        _settingsButton.alpha = 0;
+        _overlayUnreadBadge.alpha = 0;
     } completion:^(BOOL finished) {
         _mainOverlay.hidden = YES;
         _dareLabel.hidden = YES;
         _centerLine.hidden = YES;
+        _dareLabelRightArrows.hidden = YES;
+        _dareLabelLeftArrows.hidden = YES;
+        _settingsButton.hidden = YES;
+        _overlayUnreadBadge.hidden = YES;
+        
     }];
 
 }
+-(void)scrollToFriends
+{
+    //[_scrollView setContentOffset:CGPointMake(0, 0)];
+    [_scrollView setContentOffset:CGPointMake(0, 0) animated:YES];
+    [self hideMainPage];
+ }
 
--(void)rightSwipeOnThreadList
+-(void)scrollToMessages
+{
+    [_scrollView setContentOffset:CGPointMake(_scrollView.contentSize.width - _tableView.frame.size.width, 0) animated:YES];
+    [self hideMainPage];
+}
+
+-(void)scrollToMainScreen
 {
     [_scrollView setContentOffset:CGPointMake(_collectionView.frame.size.width/2, 0) animated:YES];
-    
-    _mainOverlay.hidden = NO;
-    _dareLabel.hidden = NO;
-    _centerLine.hidden = NO;
-    [UIView animateWithDuration:0.2 animations:^{
-        _mainOverlay.alpha = 0.8;
-        [_mainOverlay bringSubviewToFront:_dareLabel];
-        _dareLabel.alpha = 1.0;
-        _centerLine.alpha = 1.0;
-    }];
+    [self showMainPage];
 }
 
--(void)leftSwipeOnFriendsList
+-(void)settingsButtonPressed
 {
-    [_scrollView setContentOffset:CGPointMake(_collectionView.frame.size.width/2, 0) animated:YES];
     
-    _mainOverlay.hidden = NO;
-    _dareLabel.hidden = NO;
-    _centerLine.hidden = NO;
-    [UIView animateWithDuration:0.2 animations:^{
-        _mainOverlay.alpha = 0.8;
-        [_mainOverlay bringSubviewToFront:_dareLabel];
-        _dareLabel.alpha = 1.0;
-        _centerLine.alpha = 1.0;
-    }];
 }
-
 -(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
 {
     return YES;

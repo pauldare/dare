@@ -44,23 +44,11 @@
 {
     [super viewDidLoad];
     
-    PFObject *messageOne = [PFObject objectWithClassName:@"Message"];
-    [messageOne addObject:@"I DARE YOU\n to code the killer app" forKey:@"text"];
-    UIImage *imageOne = [UIImage imageNamed:@"mesOne.jpeg"];
-    NSData *imageDataOne = UIImagePNGRepresentation(imageOne);
-    PFFile *fileOne = [PFFile fileWithName:@"userPic" data:imageDataOne];
-    [fileOne saveInBackground];
-    [messageOne addObject:fileOne forKey:@"picture"];
-    [messageOne save];
+    
     
     self.images = @[[UIImage imageNamed:@"angry.jpeg"], [UIImage imageNamed:@"tricolor.jpeg"], [UIImage imageNamed:@"kitten.jpeg"], [UIImage imageNamed:@"cat.jpeg"]];
     self.messages = @[@"I DARE YOU\nto pet a cat", @"I DARE YOU\nto eat icecream", @"I DARE YOU\nto have fun"];
-    
-//    [ParseClient getUser:[PFUser currentUser] completion:^(User *loggedUser) {
-//        [ParseClient startMessageThreadForUsers:loggedUser.friends withMessage:messageOne withTitle:<#(NSString *)#> backroundImage:<#(UIImage *)#> completion:<#^(void)completion#>]
-//    } failure:nil];
-    
-    
+
     _imageView.backgroundColor = [UIColor DareBlue];
     _cameraView.backgroundColor = [UIColor DareBlue];
     self.imageView.hidden = YES;
@@ -69,6 +57,17 @@
     [self setupFriendsCollection];
     [self setupTextCollection];
     
+    
+    [ParseClient getUser:[PFUser currentUser] completion:^(User *loggedUser) {
+        self.friends = [[NSMutableArray alloc]initWithObjects:[PFUser currentUser], nil];
+        [self.friends addObjectsFromArray:loggedUser.friends];
+        NSLog(@"%@", self.friends);
+        [self beginThread:^{
+            NSLog(@"thread started");
+        }];
+    } failure:nil];
+
+
     UINib *dareNib = [UINib nibWithNibName:@"SelectDareCell" bundle:nil];
     [self.textCollection registerNib:dareNib forCellWithReuseIdentifier:@"SelectDareCell"];
     UINib *friendNib = [UINib nibWithNibName:@"FriendListIcon" bundle:nil];
@@ -84,9 +83,25 @@
                                              failure:^{[self selectPictureFromLibrary];}];
 }
 
-- (void)viewWillAppear:(BOOL)animated
+- (void)beginThread: (void(^)())completion
 {
-    [super viewWillAppear:animated];
+    PFObject *messageOne = [PFObject objectWithClassName:@"Message"];
+    [messageOne addObject:@"I DARE YOU\n to pet a dog" forKey:@"text"];
+    UIImage *imageOne = [UIImage imageNamed:@"retriever.jpeg"];
+    NSData *imageDataOne = UIImagePNGRepresentation(imageOne);
+    PFFile *fileOne = [PFFile fileWithName:@"userPic" data:imageDataOne];
+    [fileOne saveInBackground];
+    [messageOne addObject:fileOne forKey:@"picture"];
+    [messageOne saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        [ParseClient startMessageThreadForUsers:self.friends
+                                    withMessage:messageOne
+                                      withTitle:messageOne[@"text"]
+                                 backroundImage:imageOne
+                                     completion:^{
+                                     completion();
+            
+        }];
+    }];
 }
 
 

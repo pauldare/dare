@@ -10,6 +10,6 @@
 
 @interface NewDareViewController : UIViewController
 
-@property (strong, nonatomic) NSArray *friends;
+@property (strong, nonatomic) NSMutableArray *friends;
 
 @end

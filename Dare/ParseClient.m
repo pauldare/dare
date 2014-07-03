@@ -340,28 +340,34 @@
     [file saveInBackground];
     [messageThread setObject:file forKey:@"backgroundImage"];
     
-    PFRelation *threadToMessage = [messageThread relationForKey:@"messages"];
-    [threadToMessage addObject:message];
-    [messageThread saveInBackground];
+//    PFRelation *threadToMessage = [messageThread relationForKey:@"messages"];
+//    [threadToMessage addObject:message];
+    [messageThread saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        PFRelation *threadToMessage = [messageThread relationForKey:@"messages"];
+        [threadToMessage addObject:message];
+        
+        PFRelation *messageToThread = [message relationForKey:@"messageThreads"];
+        [messageToThread addObject:messageThread];
+        [message saveInBackground];
+        
+        for (PFUser *participant in participants) {
+            PFQuery *query = [PFUser query];
+            [query whereKey:@"fbId" equalTo:participant[@"fbId"]];
+            NSArray *parseUsers = [query findObjects];
+            for (PFObject *user in parseUsers) {
+//                PFRelation *userToThread = [user relationForKey:@"messageThreads"];
+//                [userToThread addObject:messageThread];
+//                [user saveInBackground];
+                PFRelation *threadToUser = [messageThread relationForKey:@"Users"];
+                [threadToUser addObject:user];
+                [messageThread saveInBackground];
+            }
+        }    
+        completion();
+
+    }];
     
-    PFRelation *messageToThread = [message relationForKey:@"messageThreads"];
-    [messageToThread addObject:messageThread];
-    [message saveInBackground];
     
-    for (User *participant in participants) {
-        PFQuery *query = [PFUser query];
-        [query whereKey:@"fbId" equalTo:participant.identifier];
-        NSArray *parseUsers = [query findObjects];
-        for (PFObject *user in parseUsers) {
-            PFRelation *userToThread = [user relationForKey:@"messageThreads"];
-            [userToThread addObject:messageThread];
-            [user saveInBackground];
-            PFRelation *threadToUser = [messageThread relationForKey:@"Users"];
-            [threadToUser addObject:user];
-            [messageThread saveInBackground];
-        }
-    }    
-    completion();
 }
 
 

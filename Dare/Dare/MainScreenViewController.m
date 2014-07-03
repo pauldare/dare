@@ -126,7 +126,6 @@
     
     _tableView.delegate = self;
     _tableView.dataSource = self;
-    _tableView.bounces = NO;
 #warning Remove this! It's for testing
     _friendsArray = @[@1, @2, @3, @4, @5, @6];
     _selectedFriends = [[NSMutableSet alloc]init];

@@ -12,6 +12,8 @@
 #import "ParseClient.h"
 #import "Message.h"
 #import "MessageThread.h"
+#import "DareDataStore.h"
+#import "Friend+Methods.h"
 
 
 
@@ -28,6 +30,12 @@
 {
     [Parse setApplicationId:ParseAppID
                   clientKey:ParseClientKey];
+    
+    //[[DareDataStore sharedDataStore]cleanCoreData];
+    
+//    [[DareDataStore sharedDataStore]populateCoreData:^{
+//        NSLog(@"done");
+//    }];
     
 #warning comment out for making other VC root
 //    [PFFacebookUtils initializeFacebook];

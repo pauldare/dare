@@ -1,5 +1,5 @@
 //
-//  Message.h
+//  Friend.h
 //  Dare
 //
 //  Created by Nadia on 7/4/14.
@@ -11,13 +11,12 @@
 
 @class MessageThread, User;
 
-@interface Message : NSManagedObject
+@interface Friend : NSManagedObject
 
-@property (nonatomic, retain) NSString * text;
-@property (nonatomic, retain) NSData * picture;
-@property (nonatomic, retain) NSNumber * isRead;
+@property (nonatomic, retain) NSData * image;
+@property (nonatomic, retain) NSString * displayName;
 @property (nonatomic, retain) NSString * identifier;
 @property (nonatomic, retain) User *user;
-@property (nonatomic, retain) MessageThread *thread;
+@property (nonatomic, retain) MessageThread *threads;
 
 @end

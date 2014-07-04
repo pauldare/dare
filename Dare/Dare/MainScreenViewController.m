@@ -16,6 +16,8 @@
 #import "DareCell.h"
 #import <FontAwesomeKit/FontAwesomeKit.h>
 #import "SettingsViewController.h"
+#import "DareDataStore.h"
+#import "Friend+Methods.h"
 
 @interface MainScreenViewController ()<UIScrollViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UITableViewDataSource, UITableViewDelegate, UIGestureRecognizerDelegate>
 
@@ -23,7 +25,7 @@
 @property (strong, nonatomic) UINib *finalCellNib;
 @property (strong, nonatomic) NSMutableSet *selectedFriends;
 @property (strong, nonatomic) NSMutableSet *selectedIndices;
-@property (strong, nonatomic) NSMutableArray *friends;
+@property (strong, nonatomic) NSArray *friends;
 @property (nonatomic) BOOL isArrow;
 @property (strong, nonatomic) UINib *cellNib;
 @property (strong, nonatomic) NSArray *threads;
@@ -45,6 +47,8 @@
 @property (strong, nonatomic) UIImage *testFriendImage;
 @property (strong, nonatomic) UIRefreshControl *tableViewRefreshControl;
 @property (strong, nonatomic) UIRefreshControl *collectionViewRefreshControl;
+@property (strong, nonatomic) DareDataStore *dataStore;
+
 @end
 
 @implementation MainScreenViewController
@@ -62,6 +66,7 @@
 {
     [super viewDidLoad];
     
+    self.dataStore = [DareDataStore sharedDataStore];
     
     _tableViewRefreshControl = [[UIRefreshControl alloc] init];
     [_tableViewRefreshControl addTarget:self action:@selector(refreshFeeds) forControlEvents:UIControlEventValueChanged];
@@ -110,11 +115,7 @@
     [_scrollContainerView addConstraint:[NSLayoutConstraint constraintWithItem:_friendsCornerButton attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeWidth multiplier:1.0 constant:_collectionViewFriendWidth]];
     [_scrollContainerView addConstraint:[NSLayoutConstraint constraintWithItem:_friendsCornerButton attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:_collectionView attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:0]];
     [_scrollContainerView addConstraint:[NSLayoutConstraint constraintWithItem:_friendsCornerButton attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:_collectionView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0]];
-    
-    
-    
-    
-    
+ 
     NSLog(@"%f", _collectionView.frame.size.width);
     NSLog(@"%f", _scrollView.contentSize.width);
     
@@ -123,14 +124,6 @@
     _friends = [[NSMutableArray alloc]init];
     _isArrow = NO;
     
-    [ParseClient getUser:[PFUser currentUser] completion:^(User *loggedUser) {
-        for (PFUser *friend in loggedUser.friends) {
-            [ParseClient getUser:friend completion:^(User *friend) {
-                [self.friends addObject:friend];
-                [self.collectionView reloadData];
-            } failure:nil];
-        }
-    } failure:nil];
     
     _friendNib = [UINib nibWithNibName:@"FriendListIcon" bundle:nil];
     [_collectionView registerNib:_friendNib forCellWithReuseIdentifier:@"FriendCell"];
@@ -148,9 +141,9 @@
     _tableView.delegate = self;
     _tableView.dataSource = self;
 #warning Remove this! It's for testing
-    _friendsArray = @[@1, @2, @3, @4, @5, @6, @7, @8, @9, @10, @11, @12, @13, @14, @15, @16, @17, @18, @19, @20, @21, @22, @23, @24, @25, @26, @27, @28, @29, @30];
+//    _friendsArray = @[@1, @2, @3, @4, @5, @6, @7, @8, @9, @10, @11, @12, @13, @14, @15, @16, @17, @18, @19, @20, @21, @22, @23, @24, @25, @26, @27, @28, @29, @30];
     // _friendsArray = @[@1, @2, @3];
-    _friends = [_friendsArray mutableCopy];
+    //_friends = [_friendsArray mutableCopy];
     _selectedFriends = [[NSMutableSet alloc]init];
     _selectedIndices = [[NSMutableSet alloc]init];
     
@@ -160,32 +153,58 @@
     [_tableView registerNib:_cellNib forCellReuseIdentifier:@"DareCell"];
     _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
-    PFUser *currentUser = [PFUser currentUser];
-    if (currentUser) {
-        [ParseClient getUser:currentUser completion:^(User *loggedUser) {
-            [ParseClient getMessageThreadsForUser:loggedUser completion:^(NSArray *threads, bool isDone) {
-                if (isDone) {
-                    _threads = threads;
-                    //[self.tableView reloadData];
-                    for (MessageThread *thread in _threads) {
-                        [ParseClient getMessagesForThread:thread user:loggedUser completion:^(NSArray *messages) {
-                            thread.unreadMessages = 0;
-                            for (Message *message in messages) {
-                                if (!message.isRead) {
-                                    thread.unreadMessages++;
-                                }
-                            }
-                            [_tableView reloadData];
-                        } failure:nil];
-                    }
-                }
-            } failure:nil];
-        } failure:nil];
-    } else {
-        NSLog(@"no one is logged");
-    }
+    [self fetchFriends:^{
+        [self.collectionView reloadData];
+    }];
+    
+    [self fetchthreads:^{
+        [self.tableView reloadData];
+    }];
+    
     [self configureMainScreen];
 }
+
+//    PFUser *currentUser = [PFUser currentUser];
+//    if (currentUser) {
+//        [ParseClient getUser:currentUser completion:^(User *loggedUser) {
+//            [ParseClient getMessageThreadsForUser:loggedUser completion:^(NSArray *threads, bool isDone) {
+//                if (isDone) {
+//                    _threads = threads;
+//                    //[self.tableView reloadData];
+//                    for (MessageThread *thread in _threads) {
+//                        [ParseClient getMessagesForThread:thread user:loggedUser completion:^(NSArray *messages) {
+//                            thread.unreadMessages = 0;
+//                            for (Message *message in messages) {
+//                                if (!message.isRead) {
+//                                    thread.unreadMessages++;
+//                                }
+//                            }
+//                            [_tableView reloadData];
+//                        } failure:nil];
+//                    }
+//                }
+//            } failure:nil];
+//        } failure:nil];
+//    } else {
+//        NSLog(@"no one is logged");
+//    }
+//
+//}
+
+- (void)fetchFriends: (void(^)())completion
+{
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Friend"];
+    self.friends = [self.dataStore.managedObjectContext executeFetchRequest:fetchRequest error:nil];
+    completion();
+}
+
+- (void)fetchthreads: (void(^)())completion
+{
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"MessageThread"];
+    self.threads = [self.dataStore.managedObjectContext executeFetchRequest:fetchRequest error:nil];
+    completion();
+}
+
 
 -(void)refreshFeeds
 {
@@ -413,9 +432,9 @@
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
     //this adds a final selection cell
-    return 5;
-    return [_friendsArray count]+1;
-    // return [self.friends count] + 1;
+    //return 5;
+    //return [_friendsArray count]+1;
+    return [self.friends count] + 1;
 }
 
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
@@ -440,13 +459,14 @@
             cell.selectedOverlay.backgroundColor = [UIColor clearColor];
         }
         
-        //User *friend = self.friends[indexPath.row];
-        //((FriendListIcon*)cell).friendImage.image = friend.profileImage;
+        Friend *friend = self.friends[indexPath.row];
+        UIImage *friendImage = [UIImage imageWithData:friend.image];
+        ((FriendListIcon*)cell).friendImage.image = friendImage;
         //        NSURL *imageURL = [NSURL URLWithString:@"http://ibmsmartercommerce.sourceforge.net/wp-content/uploads/2012/09/Roses_Bunch_Of_Flowers.jpeg"];
         //        NSData *imageData = [NSData dataWithContentsOfURL:imageURL];
         //        UIImage *image = [UIImage imageWithData:imageData];
         
-        ((FriendListIcon*)cell).friendImage.image = _testFriendImage;
+        //((FriendListIcon*)cell).friendImage.image = _testFriendImage;
         
         return cell;
     }
@@ -558,12 +578,18 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"DareCell" forIndexPath:indexPath];
-    
 
-        MessageThread *thread = self.threads[indexPath.row];
-        ((DareCell *)cell).backgroundImageView.image = thread.backgroundImage;
-        ((DareCell *)cell).titleLabel.text = [NSString stringWithFormat:@"I DARE YOU TO\n%@", thread.title];
-        ((DareCell *)cell).unreadCountLabel.text = [NSString stringWithFormat:@"%ld", (long)thread.unreadMessages];
+    MessageThread *thread = self.threads[indexPath.row];
+    UIImage *background = [UIImage imageWithData:thread.backgroundPicture];
+    ((DareCell *)cell).backgroundImageView.image = background;
+    ((DareCell *)cell).titleLabel.text = [NSString stringWithFormat:@"I DARE YOU TO\n%@", thread.title];
+    NSInteger unreadCount = 0;
+    for (Message *message in thread.messages) {
+        if ([message.isRead integerValue] == 0) {
+                unreadCount++;
+        }
+    }
+    ((DareCell *)cell).unreadCountLabel.text = [NSString stringWithFormat:@"%d", unreadCount];
     
     
 //    ((DareCell *)cell).unreadCountLabel.text = @"6";
@@ -582,6 +608,8 @@
 //    }];
     return cell;
 }
+
+
 
 
 

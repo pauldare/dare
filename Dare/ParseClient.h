@@ -16,18 +16,15 @@
 
 @interface ParseClient : NSObject
 
-+ (void)loginUser: (NSString *)userName
-       completion: (void(^)())completion
-          failure: (void(^)())failure;
++ (void)getFriendsForThread: (PFObject *) thread
+                 completion: (void(^)(NSArray *))completion;
 
-+ (void)getUser: (PFUser *)currentUser
-     completion:(void(^)(User *))completion
-        failure: (void(^)())failure;
++ (void)queryForFriends: (void(^)(NSArray *))completion;
 
 + (void)loginWithFB: (void(^)(BOOL))completion;
 
 + (void)getMessageThreadsForUser: (User *)user
-                     completion: (void(^)(NSArray *, bool))completion
+                     completion: (void(^)(NSArray *))completion
                      failure: (void(^)())failure;
 
 + (void)getMessagesForThread: (MessageThread *)thread

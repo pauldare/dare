@@ -1,24 +1,22 @@
 //
-//  User.m
+//  Friend.m
 //  Dare
 //
 //  Created by Nadia on 7/4/14.
 //  Copyright (c) 2014 Dare. All rights reserved.
 //
 
-#import "User.h"
 #import "Friend.h"
-#import "Message.h"
 #import "MessageThread.h"
+#import "User.h"
 
 
-@implementation User
+@implementation Friend
 
+@dynamic image;
 @dynamic displayName;
 @dynamic identifier;
-@dynamic profileImage;
+@dynamic user;
 @dynamic threads;
-@dynamic messages;
-@dynamic friends;
 
 @end

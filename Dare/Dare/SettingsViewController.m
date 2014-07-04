@@ -40,12 +40,12 @@
     
     self.view.backgroundColor = [UIColor DareBlue];
     
-    [ParseClient getUser:[PFUser currentUser] completion:^(User *loggedUser) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            _profilePhoto.image = loggedUser.profileImage;
-        });
-        
-    } failure:nil];
+//    [ParseClient getUser:[PFUser currentUser] completion:^(User *loggedUser) {
+//        dispatch_async(dispatch_get_main_queue(), ^{
+//            _profilePhoto.image = loggedUser.profileImage;
+//        });
+//        
+//    } failure:nil];
     
     [_unblockButton addTarget:self action:@selector(unblockUsers) forControlEvents:UIControlEventTouchUpInside];
     

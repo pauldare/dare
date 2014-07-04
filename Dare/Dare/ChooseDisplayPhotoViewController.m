@@ -56,10 +56,10 @@
     swipeGesture.direction = UISwipeGestureRecognizerDirectionLeft;
     [self.view addGestureRecognizer:swipeGesture];
 
-    
-    [ParseClient getUser:self.loggedUser completion:^(User *loggedUser) {
-        _imageView.image = loggedUser.profileImage;
-    } failure:nil];
+//    
+//    [ParseClient getUser:self.loggedUser completion:^(User *loggedUser) {
+//        _imageView.image = loggedUser.profileImage;
+//    } failure:nil];
 }
 
 

@@ -122,6 +122,7 @@
     //    } failure:nil];
     
     
+
     UINib *dareNib = [UINib nibWithNibName:@"SelectDareCell" bundle:nil];
     [self.textCollection registerNib:dareNib forCellWithReuseIdentifier:@"SelectDareCell"];
     UINib *friendNib = [UINib nibWithNibName:@"FriendListIcon" bundle:nil];

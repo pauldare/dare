@@ -110,11 +110,7 @@
     [_scrollContainerView addConstraint:[NSLayoutConstraint constraintWithItem:_friendsCornerButton attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeWidth multiplier:1.0 constant:_collectionViewFriendWidth]];
     [_scrollContainerView addConstraint:[NSLayoutConstraint constraintWithItem:_friendsCornerButton attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:_collectionView attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:0]];
     [_scrollContainerView addConstraint:[NSLayoutConstraint constraintWithItem:_friendsCornerButton attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:_collectionView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0]];
-    
-    
-    
-    
-    
+ 
     NSLog(@"%f", _collectionView.frame.size.width);
     NSLog(@"%f", _scrollView.contentSize.width);
     
@@ -148,9 +144,9 @@
     _tableView.delegate = self;
     _tableView.dataSource = self;
 #warning Remove this! It's for testing
-    _friendsArray = @[@1, @2, @3, @4, @5, @6, @7, @8, @9, @10, @11, @12, @13, @14, @15, @16, @17, @18, @19, @20, @21, @22, @23, @24, @25, @26, @27, @28, @29, @30];
+//    _friendsArray = @[@1, @2, @3, @4, @5, @6, @7, @8, @9, @10, @11, @12, @13, @14, @15, @16, @17, @18, @19, @20, @21, @22, @23, @24, @25, @26, @27, @28, @29, @30];
     // _friendsArray = @[@1, @2, @3];
-    _friends = [_friendsArray mutableCopy];
+    //_friends = [_friendsArray mutableCopy];
     _selectedFriends = [[NSMutableSet alloc]init];
     _selectedIndices = [[NSMutableSet alloc]init];
     
@@ -413,9 +409,9 @@
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
     //this adds a final selection cell
-    return 5;
-    return [_friendsArray count]+1;
-    // return [self.friends count] + 1;
+    //return 5;
+    //return [_friendsArray count]+1;
+    return [self.friends count] + 1;
 }
 
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
@@ -440,13 +436,13 @@
             cell.selectedOverlay.backgroundColor = [UIColor clearColor];
         }
         
-        //User *friend = self.friends[indexPath.row];
-        //((FriendListIcon*)cell).friendImage.image = friend.profileImage;
+        User *friend = self.friends[indexPath.row];
+        ((FriendListIcon*)cell).friendImage.image = friend.profileImage;
         //        NSURL *imageURL = [NSURL URLWithString:@"http://ibmsmartercommerce.sourceforge.net/wp-content/uploads/2012/09/Roses_Bunch_Of_Flowers.jpeg"];
         //        NSData *imageData = [NSData dataWithContentsOfURL:imageURL];
         //        UIImage *image = [UIImage imageWithData:imageData];
         
-        ((FriendListIcon*)cell).friendImage.image = _testFriendImage;
+        //((FriendListIcon*)cell).friendImage.image = _testFriendImage;
         
         return cell;
     }

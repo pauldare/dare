@@ -186,6 +186,7 @@
 
 -(void)refreshFeeds
 {
+    
     [_tableViewRefreshControl performSelector:@selector(endRefreshing) withObject:self afterDelay:3.0];
 }
 
@@ -407,6 +408,7 @@
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
     //this adds a final selection cell
+    return 5;
     return [_friendsArray count]+1;
    // return [self.friends count] + 1;
 }
@@ -539,7 +541,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    return 50;
+    return 3;
     return [self.threads count];
 }
 

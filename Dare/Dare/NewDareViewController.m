@@ -58,14 +58,18 @@
     
     
     
-//    [ParseClient getUser:[PFUser currentUser] completion:^(User *loggedUser) {
-//        self.friends = [[NSMutableArray alloc]initWithObjects:[PFUser currentUser], nil];
-//        [self.friends addObjectsFromArray:loggedUser.friends];
-//        NSLog(@"%@", self.friends);
-//        [self beginThread:^(PFObject *messageThread) {
-//            NSLog(@"thread begun");
-//        }];
-//    } failure:nil];
+    [ParseClient getUser:[PFUser currentUser] completion:^(User *loggedUser) {
+        self.friends = [[NSMutableArray alloc]initWithObjects:[PFUser currentUser], nil];
+        [self.friends addObjectsFromArray:loggedUser.friends];
+        NSLog(@"%@", self.friends);
+        [self beginThread:^(PFObject *messageThread) {
+            NSLog(@"thread begun");
+//            [ParseClient addMessageToThread:messageThread
+//                                   withText:@"give flowers"
+//                                    picture:<#(UIImage *)#>
+//                                 completion:<#^(void)completion#>]
+        }];
+    } failure:nil];
 
 
     UINib *dareNib = [UINib nibWithNibName:@"SelectDareCell" bundle:nil];
@@ -99,7 +103,7 @@
 
 - (void)beginThread: (void(^)(PFObject *messageThread))completion
 {
-    [ParseClient createMessage:@"text" picture:[UIImage imageNamed:@"retriever.jpeg"] completion:^(PFObject *message) {
+    [ParseClient createMessage:@"pet a dog" picture:[UIImage imageNamed:@"retriever.jpeg"] completion:^(PFObject *message) {
         [ParseClient startMessageThreadForUsers:self.friends
                                     withMessage:message
                                       withTitle:message[@"text"]

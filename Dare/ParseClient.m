@@ -190,22 +190,14 @@
                    picture: (UIImage *)picture
                 completion: (void(^)())completion
 {
-    PFObject *parseMessage = [PFObject objectWithClassName:@"Message"];
-    [parseMessage addObject:text forKey:@"text"];
-    NSData *imageData = UIImagePNGRepresentation(picture);
-    PFFile *file = [PFFile fileWithName:@"picture" data:imageData];
-    [file saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-        [parseMessage setObject:file forKey:@"picture"];
-        [parseMessage addObject:@"NO" forKey:@"isRead"];
-        [parseMessage saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-            PFRelation *messageToThread = [parseMessage relationForKey:@"messageThreads"];
-            [messageToThread addObject:thread];
-            [parseMessage saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-                PFRelation *threadToMessage = [thread relationForKey:@"messages"];
-                [threadToMessage addObject:parseMessage];
-                [thread saveInBackground];
-                completion();
-            }];
+    [self createMessage:text picture:picture completion:^(PFObject *message) {
+        PFRelation *messageToThread = [message relationForKey:@"messageThreads"];
+        [messageToThread addObject:thread];
+        [message saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+            PFRelation *threadToMessage = [thread relationForKey:@"messages"];
+            [threadToMessage addObject:message];
+            [thread saveInBackground];
+            completion();
         }];
     }];
 }

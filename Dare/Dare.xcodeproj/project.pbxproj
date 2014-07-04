@@ -11,11 +11,16 @@
 		05984F4E1966F7A300DAE025 /* shoes.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 05984F4D1966F7A300DAE025 /* shoes.jpeg */; };
 		05984F51196731DD00DAE025 /* Dare.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 05984F4F196731DD00DAE025 /* Dare.xcdatamodeld */; };
 		05984F541967323A00DAE025 /* DareDataStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 05984F531967323A00DAE025 /* DareDataStore.m */; };
+		05984F601967395800DAE025 /* Message+Methods.m in Sources */ = {isa = PBXBuildFile; fileRef = 05984F5F1967395800DAE025 /* Message+Methods.m */; };
+		05984F631967398100DAE025 /* MessageThread+Methods.m in Sources */ = {isa = PBXBuildFile; fileRef = 05984F621967398100DAE025 /* MessageThread+Methods.m */; };
+		05984F66196739B100DAE025 /* User+Methods.m in Sources */ = {isa = PBXBuildFile; fileRef = 05984F65196739B100DAE025 /* User+Methods.m */; };
+		05984F871967421700DAE025 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 05984F861967421700DAE025 /* User.m */; };
+		05984F8D1967421800DAE025 /* MessageThread.m in Sources */ = {isa = PBXBuildFile; fileRef = 05984F8C1967421800DAE025 /* MessageThread.m */; };
+		05984F931967424800DAE025 /* Friend+Methods.m in Sources */ = {isa = PBXBuildFile; fileRef = 05984F921967424800DAE025 /* Friend+Methods.m */; };
+		05984F96196743F400DAE025 /* Friend.m in Sources */ = {isa = PBXBuildFile; fileRef = 05984F95196743F400DAE025 /* Friend.m */; };
+		05984F991967483F00DAE025 /* Message.m in Sources */ = {isa = PBXBuildFile; fileRef = 05984F981967483F00DAE025 /* Message.m */; };
 		05FA70ED195FA75E00C057D4 /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = 05FA70EC195FA75E00C057D4 /* Constants.m */; };
 		0719EAB8195F516E007C2983 /* Storyboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0719EAB7195F516E007C2983 /* Storyboard.storyboard */; };
-		07977E73195F230100B2C0C6 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 07977E72195F230100B2C0C6 /* User.m */; };
-		07977E76195F235700B2C0C6 /* MessageThread.m in Sources */ = {isa = PBXBuildFile; fileRef = 07977E75195F235700B2C0C6 /* MessageThread.m */; };
-		07977E79195F236100B2C0C6 /* Message.m in Sources */ = {isa = PBXBuildFile; fileRef = 07977E78195F236100B2C0C6 /* Message.m */; };
 		359EE6F01963591300088C2D /* SelectDareCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 359EE6EF1963591300088C2D /* SelectDareCell.m */; };
 		359EE6F21963593A00088C2D /* SelectDareCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 359EE6F11963593A00088C2D /* SelectDareCell.xib */; };
 		35F35F401961EA2F0002C7BC /* NewDareViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 35F35F3F1961EA2F0002C7BC /* NewDareViewController.m */; };
@@ -87,14 +92,24 @@
 		05984F50196731DD00DAE025 /* Dare.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Dare.xcdatamodel; sourceTree = "<group>"; };
 		05984F521967323A00DAE025 /* DareDataStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DareDataStore.h; sourceTree = "<group>"; };
 		05984F531967323A00DAE025 /* DareDataStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DareDataStore.m; sourceTree = "<group>"; };
+		05984F5E1967395800DAE025 /* Message+Methods.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Message+Methods.h"; sourceTree = "<group>"; };
+		05984F5F1967395800DAE025 /* Message+Methods.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Message+Methods.m"; sourceTree = "<group>"; };
+		05984F611967398100DAE025 /* MessageThread+Methods.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MessageThread+Methods.h"; sourceTree = "<group>"; };
+		05984F621967398100DAE025 /* MessageThread+Methods.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MessageThread+Methods.m"; sourceTree = "<group>"; };
+		05984F64196739B100DAE025 /* User+Methods.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "User+Methods.h"; sourceTree = "<group>"; };
+		05984F65196739B100DAE025 /* User+Methods.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "User+Methods.m"; sourceTree = "<group>"; };
+		05984F851967421700DAE025 /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
+		05984F861967421700DAE025 /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
+		05984F8B1967421800DAE025 /* MessageThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageThread.h; sourceTree = "<group>"; };
+		05984F8C1967421800DAE025 /* MessageThread.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageThread.m; sourceTree = "<group>"; };
+		05984F911967424800DAE025 /* Friend+Methods.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Friend+Methods.h"; sourceTree = "<group>"; };
+		05984F921967424800DAE025 /* Friend+Methods.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Friend+Methods.m"; sourceTree = "<group>"; };
+		05984F94196743F400DAE025 /* Friend.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Friend.h; sourceTree = "<group>"; };
+		05984F95196743F400DAE025 /* Friend.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Friend.m; sourceTree = "<group>"; };
+		05984F971967483F00DAE025 /* Message.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Message.h; sourceTree = "<group>"; };
+		05984F981967483F00DAE025 /* Message.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Message.m; sourceTree = "<group>"; };
 		05FA70EC195FA75E00C057D4 /* Constants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Constants.m; path = ../Constants.m; sourceTree = "<group>"; };
 		0719EAB7195F516E007C2983 /* Storyboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Storyboard.storyboard; sourceTree = "<group>"; };
-		07977E71195F230100B2C0C6 /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
-		07977E72195F230100B2C0C6 /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
-		07977E74195F235700B2C0C6 /* MessageThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageThread.h; sourceTree = "<group>"; };
-		07977E75195F235700B2C0C6 /* MessageThread.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageThread.m; sourceTree = "<group>"; };
-		07977E77195F236100B2C0C6 /* Message.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Message.h; sourceTree = "<group>"; };
-		07977E78195F236100B2C0C6 /* Message.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Message.m; sourceTree = "<group>"; };
 		359EE6EE1963591300088C2D /* SelectDareCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelectDareCell.h; sourceTree = "<group>"; };
 		359EE6EF1963591300088C2D /* SelectDareCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SelectDareCell.m; sourceTree = "<group>"; };
 		359EE6F11963593A00088C2D /* SelectDareCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SelectDareCell.xib; sourceTree = "<group>"; };
@@ -365,18 +380,28 @@
 			isa = PBXGroup;
 			children = (
 				05984F4F196731DD00DAE025 /* Dare.xcdatamodeld */,
+				05984F971967483F00DAE025 /* Message.h */,
+				05984F981967483F00DAE025 /* Message.m */,
+				05984F94196743F400DAE025 /* Friend.h */,
+				05984F95196743F400DAE025 /* Friend.m */,
+				05984F851967421700DAE025 /* User.h */,
+				05984F861967421700DAE025 /* User.m */,
+				05984F8B1967421800DAE025 /* MessageThread.h */,
+				05984F8C1967421800DAE025 /* MessageThread.m */,
 				35F35F4E1961F89E0002C7BC /* CameraManager.h */,
 				35F35F4F1961F89E0002C7BC /* CameraManager.m */,
 				5234BB1B19606D8600850ECB /* UIColor+DareColors.h */,
 				5234BB1C19606D8600850ECB /* UIColor+DareColors.m */,
 				456E625D195F67C5003CC220 /* ParseClient.h */,
 				456E625E195F67C5003CC220 /* ParseClient.m */,
-				07977E71195F230100B2C0C6 /* User.h */,
-				07977E72195F230100B2C0C6 /* User.m */,
-				07977E74195F235700B2C0C6 /* MessageThread.h */,
-				07977E75195F235700B2C0C6 /* MessageThread.m */,
-				07977E77195F236100B2C0C6 /* Message.h */,
-				07977E78195F236100B2C0C6 /* Message.m */,
+				05984F611967398100DAE025 /* MessageThread+Methods.h */,
+				05984F621967398100DAE025 /* MessageThread+Methods.m */,
+				05984F5E1967395800DAE025 /* Message+Methods.h */,
+				05984F5F1967395800DAE025 /* Message+Methods.m */,
+				05984F64196739B100DAE025 /* User+Methods.h */,
+				05984F65196739B100DAE025 /* User+Methods.m */,
+				05984F911967424800DAE025 /* Friend+Methods.h */,
+				05984F921967424800DAE025 /* Friend+Methods.m */,
 				05984F521967323A00DAE025 /* DareDataStore.h */,
 				05984F531967323A00DAE025 /* DareDataStore.m */,
 			);
@@ -540,23 +565,28 @@
 			files = (
 				4512E4141966FE0D000A8C15 /* SignInViewController.m in Sources */,
 				45740137196390470080895D /* MainScreenViewController.m in Sources */,
+				05984F871967421700DAE025 /* User.m in Sources */,
 				5234BB1A19606D4C00850ECB /* DisplayNameSelectViewController.m in Sources */,
-				07977E73195F230100B2C0C6 /* User.m in Sources */,
-				07977E76195F235700B2C0C6 /* MessageThread.m in Sources */,
 				5234BB1D19606D8600850ECB /* UIColor+DareColors.m in Sources */,
 				4512E41A1967138C000A8C15 /* SettingsViewController.m in Sources */,
 				5234BB20196077AE00850ECB /* ChooseDisplayPhotoViewController.m in Sources */,
+				05984F631967398100DAE025 /* MessageThread+Methods.m in Sources */,
+				05984F601967395800DAE025 /* Message+Methods.m in Sources */,
 				456E625F195F67C5003CC220 /* ParseClient.m in Sources */,
 				05FA70ED195FA75E00C057D4 /* Constants.m in Sources */,
 				527FDAFB1960C6580083D6F0 /* FriendListIcon.m in Sources */,
 				527FDB041960E63E0083D6F0 /* FinalCell.m in Sources */,
 				527FDAEE1960B35C0083D6F0 /* DareCell.m in Sources */,
 				05984F51196731DD00DAE025 /* Dare.xcdatamodeld in Sources */,
+				05984F96196743F400DAE025 /* Friend.m in Sources */,
 				359EE6F01963591300088C2D /* SelectDareCell.m in Sources */,
+				05984F991967483F00DAE025 /* Message.m in Sources */,
 				4553B5A7195B944E005C6D1A /* AppDelegate.m in Sources */,
 				05984F541967323A00DAE025 /* DareDataStore.m in Sources */,
-				07977E79195F236100B2C0C6 /* Message.m in Sources */,
+				05984F66196739B100DAE025 /* User+Methods.m in Sources */,
 				4512E417196702FF000A8C15 /* LogInWithFacebookViewController.m in Sources */,
+				05984F931967424800DAE025 /* Friend+Methods.m in Sources */,
+				05984F8D1967421800DAE025 /* MessageThread.m in Sources */,
 				4553B5A3195B944E005C6D1A /* main.m in Sources */,
 				35F35F501961F89E0002C7BC /* CameraManager.m in Sources */,
 				35F35F401961EA2F0002C7BC /* NewDareViewController.m in Sources */,

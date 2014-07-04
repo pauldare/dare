@@ -2,29 +2,40 @@
 //  User.h
 //  Dare
 //
-//  Created by Carlos Meirin on 6/28/14.
+//  Created by Nadia on 7/4/14.
 //  Copyright (c) 2014 Dare. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
-#import <Parse/Parse.h>
+#import <CoreData/CoreData.h>
 
+@class Friend, Message, MessageThread;
 
-@interface User : NSObject
-@property (strong, nonatomic) NSString *displayName; //choose, set to fb by default
-@property (strong, nonatomic) NSString *identifier; //comes from Parse
-@property (strong, nonatomic) NSArray *facebookDisplayName; 
-@property (strong, nonatomic) NSArray *messageThreads;
-@property (strong, nonatomic) UIImage *profileImage;
-@property (strong, nonatomic) NSArray *friends;
-@property (strong, nonatomic) NSMutableArray *messages;
-@property (strong, nonatomic) PFUser *parseObject;
-@property (strong, nonatomic) NSString *fbId;
+@interface User : NSManagedObject
 
-- (instancetype)initWithDisplayName: (NSString *)displayName
-                            friends: (NSArray *)friends
-                           messages: (NSMutableArray *)messages
-                         identifier: (NSString *)identifier
-                       profileImage: (UIImage *)profileImage;
+@property (nonatomic, retain) NSString * displayName;
+@property (nonatomic, retain) NSString * identifier;
+@property (nonatomic, retain) NSData * profileImage;
+@property (nonatomic, retain) NSSet *threads;
+@property (nonatomic, retain) NSSet *messages;
+@property (nonatomic, retain) NSSet *friends;
+@end
+
+@interface User (CoreDataGeneratedAccessors)
+
+- (void)addThreadsObject:(MessageThread *)value;
+- (void)removeThreadsObject:(MessageThread *)value;
+- (void)addThreads:(NSSet *)values;
+- (void)removeThreads:(NSSet *)values;
+
+- (void)addMessagesObject:(Message *)value;
+- (void)removeMessagesObject:(Message *)value;
+- (void)addMessages:(NSSet *)values;
+- (void)removeMessages:(NSSet *)values;
+
+- (void)addFriendsObject:(Friend *)value;
+- (void)removeFriendsObject:(Friend *)value;
+- (void)addFriends:(NSSet *)values;
+- (void)removeFriends:(NSSet *)values;
 
 @end

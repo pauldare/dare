@@ -2,39 +2,34 @@
 //  MessageThread.h
 //  Dare
 //
-//  Created by Carlos Meirin on 6/28/14.
+//  Created by Nadia on 7/4/14.
 //  Copyright (c) 2014 Dare. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
-#import <Parse/Parse.h>
-#import "User.h"
+#import <CoreData/CoreData.h>
 
+@class Message, User;
 
+@interface MessageThread : NSManagedObject
 
-@interface MessageThread : NSObject
+@property (nonatomic, retain) NSString * identifier;
+@property (nonatomic, retain) NSString * title;
+@property (nonatomic, retain) NSData * backgroundPicture;
+@property (nonatomic, retain) NSSet *users;
+@property (nonatomic, retain) NSSet *messages;
+@end
 
-@property (strong, nonatomic) NSMutableArray *messages;
-@property (strong, nonatomic) NSString *identifier;
-@property (strong, nonatomic) NSArray *participants;
-@property (strong, nonatomic) PFObject *parseObject;
-@property (strong, nonatomic) User *user;
-@property (strong, nonatomic) NSString *title;
-@property (strong, nonatomic) UIImage *backgroundImage;
-@property (nonatomic) NSInteger unreadMessages;
+@interface MessageThread (CoreDataGeneratedAccessors)
 
-- (instancetype)initWithUser: (User *)user
-                participants: (NSArray *)participants
-                    messages: (NSMutableArray *)messages
-                  identifier: (NSString *)identifier
-                       title: (NSString *)title
-             backgroundImage: (UIImage *)image;
+- (void)addUsersObject:(User *)value;
+- (void)removeUsersObject:(User *)value;
+- (void)addUsers:(NSSet *)values;
+- (void)removeUsers:(NSSet *)values;
 
-
-//-(void)addUserToThread:(User*)user;
-//
-//-(void)postMessgeToThread:(Message *)message;
-//
-//-(void)postMessageThreadToParse;
+- (void)addMessagesObject:(Message *)value;
+- (void)removeMessagesObject:(Message *)value;
+- (void)addMessages:(NSSet *)values;
+- (void)removeMessages:(NSSet *)values;
 
 @end

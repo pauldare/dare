@@ -159,27 +159,31 @@
     [_tableView registerNib:_cellNib forCellReuseIdentifier:@"DareCell"];
     _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
-    [ParseClient getUser:[PFUser currentUser] completion:^(User *loggedUser) {
-        _loggedUser = loggedUser;
-        
-        [ParseClient getMessageThreadsForUser:self.loggedUser completion:^(NSArray *threads, bool isDone) {
-            if (isDone) {
-                _threads = threads;
-                //[self.tableView reloadData];
-                for (MessageThread *thread in _threads) {
-                    [ParseClient getMessagesForThread:thread user:loggedUser completion:^(NSArray *messages) {
-                        thread.unreadMessages = 0;
-                        for (Message *message in messages) {
-                            if (!message.isRead) {
-                                thread.unreadMessages++;
+    PFUser *currentUser = [PFUser currentUser];
+    if (currentUser) {
+        [ParseClient getUser:currentUser completion:^(User *loggedUser) {            
+            [ParseClient getMessageThreadsForUser:loggedUser completion:^(NSArray *threads, bool isDone) {
+                if (isDone) {
+                    _threads = threads;
+                    //[self.tableView reloadData];
+                    for (MessageThread *thread in _threads) {
+                        [ParseClient getMessagesForThread:thread user:loggedUser completion:^(NSArray *messages) {
+                            thread.unreadMessages = 0;
+                            for (Message *message in messages) {
+                                if (!message.isRead) {
+                                    thread.unreadMessages++;
+                                }
                             }
-                        }
-                        [_tableView reloadData];
-                    } failure:nil];
+                            [_tableView reloadData];
+                        } failure:nil];
+                    }
                 }
-            }
+            } failure:nil];
         } failure:nil];
-    } failure:nil];
+    } else {
+        NSLog(@"no one is logged");
+    }
+    
     
     [self configureMainScreen];
 }

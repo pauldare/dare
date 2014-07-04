@@ -30,6 +30,7 @@
     if (self) {
         self.displayName = displayName;
         self.friends = friends;
+        self.identifier = identifier;
         self.messages = messages;
         self.profileImage = profileImage;
     }

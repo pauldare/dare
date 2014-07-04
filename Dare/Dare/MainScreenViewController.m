@@ -546,7 +546,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    return 3;
+    //return 3;
     return [self.threads count];
 }
 
@@ -558,26 +558,26 @@
 {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"DareCell" forIndexPath:indexPath];
     
-//    MessageThread *thread = self.threads[indexPath.row];
-//    ((DareCell *)cell).backgroundImageView.image = thread.backgroundImage;
-//    ((DareCell *)cell).titleLabel.text = [NSString stringWithFormat:@"I DARE YOU TO\n%@", thread.title];
-//    ((DareCell *)cell).unreadCountLabel.text = [NSString stringWithFormat:@"%ld", (long)thread.unreadMessages];
+    MessageThread *thread = self.threads[indexPath.row];
+    ((DareCell *)cell).backgroundImageView.image = thread.backgroundImage;
+    ((DareCell *)cell).titleLabel.text = [NSString stringWithFormat:@"I DARE YOU TO\n%@", thread.title];
+    ((DareCell *)cell).unreadCountLabel.text = [NSString stringWithFormat:@"%ld", (long)thread.unreadMessages];
     
     
-    ((DareCell *)cell).unreadCountLabel.text = @"6";
-        NSOperationQueue *queue = [[NSOperationQueue alloc]init];
-        [queue addOperationWithBlock:^{
-    
-            NSURL *imageURL = [NSURL URLWithString:@"http://ibmsmartercommerce.sourceforge.net/wp-content/uploads/2012/09/Roses_Bunch_Of_Flowers.jpeg"];
-            NSData *imageData = [NSData dataWithContentsOfURL:imageURL];
-            UIImage *image = [UIImage imageWithData:imageData];
-    
-            dispatch_async(dispatch_get_main_queue(), ^{
-                ((DareCell *)cell).backgroundImageView.image = image;
-                ((DareCell *)cell).titleLabel.text = @"I DARE YOU TO WEAR PINK" ;
-                ((DareCell *)cell).unreadCountLabel.text = @"15";
-            });
-        }];
+//    ((DareCell *)cell).unreadCountLabel.text = @"6";
+//        NSOperationQueue *queue = [[NSOperationQueue alloc]init];
+//        [queue addOperationWithBlock:^{
+//    
+//            NSURL *imageURL = [NSURL URLWithString:@"http://ibmsmartercommerce.sourceforge.net/wp-content/uploads/2012/09/Roses_Bunch_Of_Flowers.jpeg"];
+//            NSData *imageData = [NSData dataWithContentsOfURL:imageURL];
+//            UIImage *image = [UIImage imageWithData:imageData];
+//    
+//            dispatch_async(dispatch_get_main_queue(), ^{
+//                ((DareCell *)cell).backgroundImageView.image = image;
+//                ((DareCell *)cell).titleLabel.text = @"I DARE YOU TO WEAR PINK" ;
+//                ((DareCell *)cell).unreadCountLabel.text = @"15";
+//            });
+//        }];
     
     return cell;
 }

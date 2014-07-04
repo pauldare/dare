@@ -140,7 +140,7 @@
                         [userThreads addObject:thread];
                         count++;
                         bool isDone = NO;
-                        if (count == [user.messageThreads count]) {
+                        if (count == [threads count]) {
                             isDone = YES;
                         }
                         completion(userThreads, isDone);
@@ -173,7 +173,7 @@
                     if (![parseMessage[@"isRead"] isEqualToString:@"NO"]) {
                         isRead = YES;
                     }
-                    PFFile *imageFile = parseMessage[@"picture"][0];//bad fake data, parse message is set to an array with PFFile in it
+                    PFFile *imageFile = parseMessage[@"picture"];//bad fake data, parse message is set to an array with PFFile in it
                     UIImage *picture = [self imageFileToImage:imageFile];
                     Message *message = [[Message alloc]initWithText:parseMessage[@"text"]
                                                                user: user
@@ -187,7 +187,7 @@
         } else {
             failure(error);
         }
-            }];
+    }];
 }
 
 + (void)addMessageToThread: (PFObject *)thread

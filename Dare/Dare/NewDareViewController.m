@@ -57,17 +57,18 @@
     [self setupTextCollection];
     
     
-    
     [ParseClient getUser:[PFUser currentUser] completion:^(User *loggedUser) {
         self.friends = [[NSMutableArray alloc]initWithObjects:[PFUser currentUser], nil];
         [self.friends addObjectsFromArray:loggedUser.friends];
         NSLog(@"%@", self.friends);
         [self beginThread:^(PFObject *messageThread) {
             NSLog(@"thread begun");
-//            [ParseClient addMessageToThread:messageThread
-//                                   withText:@"give flowers"
-//                                    picture:<#(UIImage *)#>
-//                                 completion:<#^(void)completion#>]
+            [ParseClient addMessageToThread:messageThread
+                                   withText:@"give flowers"
+                                    picture:[UIImage imageNamed:@"flower.jpeg"]
+                                 completion:^{
+                                     NSLog(@"fetched");
+                                 }];
         }];
     } failure:nil];
 

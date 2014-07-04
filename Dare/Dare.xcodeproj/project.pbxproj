@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		05984F4B1966F6F300DAE025 /* flower.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 05984F4A1966F6F300DAE025 /* flower.jpeg */; };
+		05984F4E1966F7A300DAE025 /* shoes.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 05984F4D1966F7A300DAE025 /* shoes.jpeg */; };
 		05FA70ED195FA75E00C057D4 /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = 05FA70EC195FA75E00C057D4 /* Constants.m */; };
 		0719EAB8195F516E007C2983 /* Storyboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0719EAB7195F516E007C2983 /* Storyboard.storyboard */; };
 		0719EABB195F5599007C2983 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0719EABA195F5599007C2983 /* LoginViewController.m */; };
@@ -78,6 +80,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		05984F4A1966F6F300DAE025 /* flower.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = flower.jpeg; sourceTree = "<group>"; };
+		05984F4D1966F7A300DAE025 /* shoes.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = shoes.jpeg; sourceTree = "<group>"; };
 		05FA70EC195FA75E00C057D4 /* Constants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Constants.m; path = ../Constants.m; sourceTree = "<group>"; };
 		0719EAB7195F516E007C2983 /* Storyboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Storyboard.storyboard; sourceTree = "<group>"; };
 		0719EAB9195F5599007C2983 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
@@ -203,6 +207,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		05984F4C1966F6FD00DAE025 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				05984F4D1966F7A300DAE025 /* shoes.jpeg */,
+				05984F4A1966F6F300DAE025 /* flower.jpeg */,
+				35F35F551962F5A10002C7BC /* angry.jpeg */,
+				35F35F531962F5990002C7BC /* tricolor.jpeg */,
+				35F35F511962F5910002C7BC /* kitten.jpeg */,
+				35F35F471961F23F0002C7BC /* cat.jpeg */,
+			);
+			name = Images;
+			sourceTree = "<group>";
+		};
 		35B041FA1961B4BA00FB741E /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -361,10 +378,7 @@
 		456E6256195F29FA003CC220 /* Temp */ = {
 			isa = PBXGroup;
 			children = (
-				35F35F551962F5A10002C7BC /* angry.jpeg */,
-				35F35F531962F5990002C7BC /* tricolor.jpeg */,
-				35F35F511962F5910002C7BC /* kitten.jpeg */,
-				35F35F471961F23F0002C7BC /* cat.jpeg */,
+				05984F4C1966F6FD00DAE025 /* Images */,
 				456E6257195F2DB4003CC220 /* Temp.h */,
 				456E6258195F2DB4003CC220 /* Temp.m */,
 			);
@@ -460,6 +474,8 @@
 				0719EAB8195F516E007C2983 /* Storyboard.storyboard in Resources */,
 				527FDB011960E5830083D6F0 /* FinalCell.xib in Resources */,
 				35F35F561962F5A10002C7BC /* angry.jpeg in Resources */,
+				05984F4B1966F6F300DAE025 /* flower.jpeg in Resources */,
+				05984F4E1966F7A300DAE025 /* shoes.jpeg in Resources */,
 				527FDAE91960A2250083D6F0 /* icon-157351_640.png in Resources */,
 				35F35F521962F5910002C7BC /* kitten.jpeg in Resources */,
 				359EE6F21963593A00088C2D /* SelectDareCell.xib in Resources */,

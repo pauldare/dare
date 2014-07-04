@@ -52,7 +52,7 @@
 
 + (void)fetchUserProfilePicture: (void(^)(NSData *))completion;
 
-+ (void)addMessageToThread: (MessageThread *)thread
++ (void)addMessageToThread: (PFObject *)thread
                   withText: (NSString *)text
                    picture: (UIImage *)picture
                 completion: (void(^)())completion;
@@ -61,12 +61,16 @@
                        withMessage: (PFObject *) message
                          withTitle: (NSString *)title
                     backroundImage: (UIImage *)backgroundImage
-                        completion: (void(^)())completion;
+                        completion: (void(^)(PFObject *))completion;
 
 //store mutual relation users-threads with proxy user PFObject for later retrieval
 + (void)storeRelation: (PFUser *)parseUser
       toMessageThread: (PFObject *)messageThread
            completion: (void(^)())completion;
+
++ (void)createMessage: (NSString *)text
+              picture: (UIImage *) picture
+           completion: (void(^)(PFObject *))completion;
 
 
 @end

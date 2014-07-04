@@ -19,12 +19,13 @@
 @property (strong, nonatomic) NSArray *friends;
 @property (strong, nonatomic) NSMutableArray *messages;
 @property (strong, nonatomic) PFUser *parseObject;
+@property (strong, nonatomic) NSString *fbId;
 
 - (instancetype)initWithDisplayName: (NSString *)displayName
                      messageThreads: (NSArray *)messageThreads
                             friends: (NSArray *)friends
                            messages: (NSMutableArray *)messages
                          identifier: (NSString *)identifier
-                        profileImage: (UIImage *)profileImage;
+                       profileImage: (UIImage *)profileImage;
 
 @end

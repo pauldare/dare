@@ -13,10 +13,5 @@
 + (Message *)fetchMessageFromParseMessages: (PFObject *)message
                                  inContext: (NSManagedObjectContext *)context;
 
-//- (instancetype)initWithText: (NSString *)text
-//                        user: (User *) user
-//                      thread: (MessageThread *)thread
-//                     picture: (UIImage *)picture
-//                      isRead: (BOOL) isRead;
 
 @end

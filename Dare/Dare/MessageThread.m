@@ -21,4 +21,6 @@
 @dynamic messages;
 @dynamic friends;
 
+
+
 @end

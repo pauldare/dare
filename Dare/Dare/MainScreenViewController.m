@@ -16,6 +16,8 @@
 #import "DareCell.h"
 #import <FontAwesomeKit/FontAwesomeKit.h>
 #import "SettingsViewController.h"
+#import "DareDataStore.h"
+#import "Friend+Methods.h"
 
 @interface MainScreenViewController ()<UIScrollViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UITableViewDataSource, UITableViewDelegate, UIGestureRecognizerDelegate>
 
@@ -23,7 +25,7 @@
 @property (strong, nonatomic) UINib *finalCellNib;
 @property (strong, nonatomic) NSMutableSet *selectedFriends;
 @property (strong, nonatomic) NSMutableSet *selectedIndices;
-@property (strong, nonatomic) NSMutableArray *friends;
+@property (strong, nonatomic) NSArray *friends;
 @property (nonatomic) BOOL isArrow;
 @property (strong, nonatomic) UINib *cellNib;
 @property (strong, nonatomic) NSArray *threads;
@@ -45,6 +47,8 @@
 @property (strong, nonatomic) UIImage *testFriendImage;
 @property (strong, nonatomic) UIRefreshControl *tableViewRefreshControl;
 @property (strong, nonatomic) UIRefreshControl *collectionViewRefreshControl;
+@property (strong, nonatomic) DareDataStore *dataStore;
+
 @end
 
 @implementation MainScreenViewController
@@ -62,6 +66,7 @@
 {
     [super viewDidLoad];
     
+    self.dataStore = [DareDataStore sharedDataStore];
     
     _tableViewRefreshControl = [[UIRefreshControl alloc] init];
     [_tableViewRefreshControl addTarget:self action:@selector(refreshFeeds) forControlEvents:UIControlEventValueChanged];
@@ -147,6 +152,16 @@
     _cellNib = [UINib nibWithNibName:@"DareCell" bundle:nil];
     [_tableView registerNib:_cellNib forCellReuseIdentifier:@"DareCell"];
     _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    
+    [self fetchFriends:^{
+        [self.collectionView reloadData];
+    }];
+    
+    [self fetchthreads:^{
+        [self.tableView reloadData];
+    }];
+    
+    [self configureMainScreen];
 }
 
 //    PFUser *currentUser = [PFUser currentUser];
@@ -173,10 +188,22 @@
 //    } else {
 //        NSLog(@"no one is logged");
 //    }
-//    [self configureMainScreen];
+//
 //}
 
+- (void)fetchFriends: (void(^)())completion
+{
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Friend"];
+    self.friends = [self.dataStore.managedObjectContext executeFetchRequest:fetchRequest error:nil];
+    completion();
+}
 
+- (void)fetchthreads: (void(^)())completion
+{
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"MessageThread"];
+    self.threads = [self.dataStore.managedObjectContext executeFetchRequest:fetchRequest error:nil];
+    completion();
+}
 
 
 -(void)refreshFeeds
@@ -432,8 +459,9 @@
             cell.selectedOverlay.backgroundColor = [UIColor clearColor];
         }
         
-        User *friend = self.friends[indexPath.row];
-        ((FriendListIcon*)cell).friendImage.image = friend.profileImage;
+        Friend *friend = self.friends[indexPath.row];
+        UIImage *friendImage = [UIImage imageWithData:friend.image];
+        ((FriendListIcon*)cell).friendImage.image = friendImage;
         //        NSURL *imageURL = [NSURL URLWithString:@"http://ibmsmartercommerce.sourceforge.net/wp-content/uploads/2012/09/Roses_Bunch_Of_Flowers.jpeg"];
         //        NSData *imageData = [NSData dataWithContentsOfURL:imageURL];
         //        UIImage *image = [UIImage imageWithData:imageData];
@@ -550,12 +578,18 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"DareCell" forIndexPath:indexPath];
-    
 
-//        MessageThread *thread = self.threads[indexPath.row];
-//        ((DareCell *)cell).backgroundImageView.image = thread.backgroundImage;
-//        ((DareCell *)cell).titleLabel.text = [NSString stringWithFormat:@"I DARE YOU TO\n%@", thread.title];
-//        ((DareCell *)cell).unreadCountLabel.text = [NSString stringWithFormat:@"%ld", (long)thread.unreadMessages];
+    MessageThread *thread = self.threads[indexPath.row];
+    UIImage *background = [UIImage imageWithData:thread.backgroundPicture];
+    ((DareCell *)cell).backgroundImageView.image = background;
+    ((DareCell *)cell).titleLabel.text = [NSString stringWithFormat:@"I DARE YOU TO\n%@", thread.title];
+    NSInteger unreadCount = 0;
+    for (Message *message in thread.messages) {
+        if ([message.isRead integerValue] == 0) {
+                unreadCount++;
+        }
+    }
+    ((DareCell *)cell).unreadCountLabel.text = [NSString stringWithFormat:@"%d", unreadCount];
     
     
 //    ((DareCell *)cell).unreadCountLabel.text = @"6";
@@ -574,6 +608,8 @@
 //    }];
     return cell;
 }
+
+
 
 
 

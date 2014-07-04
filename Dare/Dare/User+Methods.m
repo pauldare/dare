@@ -32,39 +32,4 @@
     }    
 }
 
-
-
-
-//- (instancetype)init
-//{
-//    return [self initWithDisplayName:nil
-//                             friends:nil
-//                            messages:nil
-//                          identifier:nil
-//                        profileImage:nil];
-//}
-//
-//- (instancetype)initWithDisplayName: (NSString *)displayName
-//                            friends: (NSArray *)friends
-//                           messages: (NSMutableArray *)messages
-//                         identifier: (NSString *)identifier
-//                       profileImage: (UIImage *)profileImage
-//
-//{
-//    self = [super init];
-//    if (self) {
-//        self.displayName = displayName;
-//        self.friends = friends;
-//        self.identifier = identifier;
-//        self.messages = messages;
-//        self.profileImage = profileImage;
-//    }
-//    return self;
-//}
-//
-//- (NSString *)description
-//{
-//    return [NSString stringWithFormat:@"The user is: %@", self.displayName];
-//}
-
 @end

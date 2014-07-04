@@ -13,11 +13,4 @@
 + (MessageThread *)fetchThreadFromParseThreads: (PFObject *)thread
                            inContext: (NSManagedObjectContext *)context;
 
-//- (instancetype)initWithUser: (User *)user
-//                participants: (NSArray *)participants
-//                    messages: (NSMutableArray *)messages
-//                  identifier: (NSString *)identifier
-//                       title: (NSString *)title
-//             backgroundImage: (UIImage *)image;
-
 @end

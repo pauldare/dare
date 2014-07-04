@@ -33,9 +33,9 @@
     
     //[[DareDataStore sharedDataStore]cleanCoreData];
     
-    [[DareDataStore sharedDataStore]populateCoreData:^{
-        NSLog(@"done");
-    }];
+//    [[DareDataStore sharedDataStore]populateCoreData:^{
+//        NSLog(@"done");
+//    }];
     
 #warning comment out for making other VC root
 //    [PFFacebookUtils initializeFacebook];

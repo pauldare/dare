@@ -19,6 +19,8 @@
 @property (nonatomic, retain) User *users;
 @property (nonatomic, retain) NSSet *messages;
 @property (nonatomic, retain) NSSet *friends;
+
+
 @end
 
 @interface MessageThread (CoreDataGeneratedAccessors)

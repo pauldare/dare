@@ -13,10 +13,4 @@
 + (User *)fetchUserFromCurrentUser: (PFUser *)user
                          inContext: (NSManagedObjectContext *)context;
 
-//- (instancetype)initWithDisplayName: (NSString *)displayName
-//                            friends: (NSArray *)friends
-//                           messages: (NSMutableArray *)messages
-//                         identifier: (NSString *)identifier
-//                       profileImage: (UIImage *)profileImage;
-
 @end

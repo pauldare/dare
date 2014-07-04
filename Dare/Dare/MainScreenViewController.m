@@ -183,9 +183,6 @@
     } else {
         NSLog(@"no one is logged");
     }
-    
-
-    
     [self configureMainScreen];
 }
 

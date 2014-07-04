@@ -135,7 +135,7 @@
                                                                       participants:participants
                                                                           messages:user.messages
                                                                         identifier:[parseThread objectId]
-                                                                             title:parseThread[@"title"][0] //for debug purpose because I have set message text to array in fake data
+                                                                             title:parseThread[@"title"] 
                                                                    backgroundImage:[self imageFileToImage:parseThread[@"backgroundImage"]]];
                         [userThreads addObject:thread];
                         count++;
@@ -217,7 +217,8 @@
     [userQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         PFObject *proxyUser = objects[0];
         PFObject *message = [PFObject objectWithClassName:@"Message"];
-        [message addObject:text forKey:@"text"];
+        [message setObject:text forKey:@"text"];
+        [message setObject:@"NO" forKey:@"isRead"];
         NSData *imageData = UIImagePNGRepresentation(picture);
         PFFile *file = [PFFile fileWithData:imageData];
         [file saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {

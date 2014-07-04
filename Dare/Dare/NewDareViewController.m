@@ -104,11 +104,11 @@
 
 - (void)beginThread: (void(^)(PFObject *messageThread))completion
 {
-    [ParseClient createMessage:@"pet a dog" picture:[UIImage imageNamed:@"retriever.jpeg"] completion:^(PFObject *message) {
+    [ParseClient createMessage:@"pet a dog" picture:[UIImage imageNamed:@"kitten.jpeg"] completion:^(PFObject *message) {
         [ParseClient startMessageThreadForUsers:self.friends
                                     withMessage:message
                                       withTitle:message[@"text"]
-                                 backroundImage:[UIImage imageNamed:@"retriever.jpeg"]
+                                 backroundImage:[UIImage imageNamed:@"kitten.jpeg"]
                                      completion:^(PFObject *messageThread) {
                                          completion(messageThread);
                                      }];

@@ -142,7 +142,6 @@
     UIImage *cropped = [UIImage imageWithCGImage:imageRef];
     CGImageRelease(imageRef);
     
-    UIImageWriteToSavedPhotosAlbum(cropped, nil, nil, nil);
     _dareTextImageOverlay.hidden = NO;
     return cropped;
 }

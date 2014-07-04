@@ -122,28 +122,33 @@
     [userQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if ([objects count] != 0) {
             PFObject *userProxy = objects[0];
-            for (PFObject *parseThread in userProxy[@"threads"]) {
-                PFRelation *participantsRelation = [parseThread relationForKey:@"Users"];
-                PFQuery *participantsQuery = [participantsRelation query];
-                [participantsQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-                    NSArray *participants = objects;
-                    MessageThread *thread = [[MessageThread alloc]initWithUser:user
-                                                                  participants:participants
-                                                                      messages:user.messages
-                                                                    identifier:[parseThread objectId]
-                                                                         title:parseThread[@"title"][0] //for debug purpose because I have set message text to array in fake data
-                                                               backgroundImage:[self imageFileToImage:parseThread[@"backgroundImage"]]];
-                    [userThreads addObject:thread];
-                    count++;
-                    bool isDone = NO;
-                    if (count == [user.messageThreads count]) {
-                        isDone = YES;
-                    }
-                    completion(userThreads, isDone);
-                }];
-            }
+            PFRelation *proxyToThreads = [userProxy relationForKey:@"threads"];
+            PFQuery *proxyToThreadsQuery = [proxyToThreads query];
+            [proxyToThreadsQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+                NSArray *threads = objects;
+                for (PFObject *parseThread in threads) {
+                    PFRelation *participantsRelation = [parseThread relationForKey:@"Users"];
+                    PFQuery *participantsQuery = [participantsRelation query];
+                    [participantsQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+                        NSArray *participants = objects;
+                        MessageThread *thread = [[MessageThread alloc]initWithUser:user
+                                                                      participants:participants
+                                                                          messages:user.messages
+                                                                        identifier:[parseThread objectId]
+                                                                             title:parseThread[@"title"][0] //for debug purpose because I have set message text to array in fake data
+                                                                   backgroundImage:[self imageFileToImage:parseThread[@"backgroundImage"]]];
+                        [userThreads addObject:thread];
+                        count++;
+                        bool isDone = NO;
+                        if (count == [user.messageThreads count]) {
+                            isDone = YES;
+                        }
+                        completion(userThreads, isDone);
+                    }];
+                }
+            }];
         } else {
-            failure();
+            NSLog(@"no proxy found");
         }
     }];
 }

@@ -12,4 +12,6 @@
 
 @property (strong, nonatomic) NSMutableArray *friends;
 
+@property (nonatomic) CGPoint lastLocation;
+
 @end

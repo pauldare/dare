@@ -178,7 +178,9 @@
                     } failure:nil];
                 }
             }
-        } failure:nil];
+        } failure:^{
+            NSLog(@"No proxy");
+        }];
     } failure:nil];
     
     [self configureMainScreen];

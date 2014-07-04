@@ -58,6 +58,17 @@
     
     [_logOutButton setTitleColor:[UIColor DareUnreadBadge] forState:UIControlStateNormal];
 
+    UITapGestureRecognizer *tapOnArrow = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(backToMainPage)];
+    tapOnArrow.numberOfTapsRequired = 1;
+    [_backArrowLabel addGestureRecognizer:tapOnArrow];
+    
+    UITapGestureRecognizer *tapOnBack = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(backToMainPage)];
+    tapOnBack.numberOfTapsRequired = 1;
+    [_backLabel addGestureRecognizer:tapOnBack];
+    
+    UISwipeGestureRecognizer *swipeToGoBack = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(backToMainPage)];
+    swipeToGoBack.direction = UISwipeGestureRecognizerDirectionRight;
+    [self.view addGestureRecognizer:swipeToGoBack];
     
     // Do any additional setup after loading the view.
 }
@@ -66,6 +77,11 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+-(void)backToMainPage
+{
+    
 }
 
 -(void)unblockUsers

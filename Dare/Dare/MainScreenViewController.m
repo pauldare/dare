@@ -400,8 +400,8 @@
 -(void)settingsButtonPressed
 {
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];
-    SettingsViewController *settingsVC = [storyboard instantiateViewControllerWithIdentifier:@"SettingsVC"];
-    [self presentViewController:settingsVC animated:YES completion:nil];
+    UINavigationController *settingsNavController = [storyboard instantiateViewControllerWithIdentifier:@"SettingsNavController"];
+    [self presentViewController:settingsNavController animated:YES completion:nil];
 }
 -(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
 {

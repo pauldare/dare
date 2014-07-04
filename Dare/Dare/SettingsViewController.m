@@ -11,6 +11,7 @@
 #import "ParseClient.h"
 #import "SignInViewController.h"
 #import <FontAwesomeKit/FontAwesomeKit.h>
+#import "MainScreenViewController.h"
 
 @interface SettingsViewController ()
 @property (weak, nonatomic) IBOutlet UIImageView *profilePhoto;
@@ -72,6 +73,8 @@
     swipeToGoBack.direction = UISwipeGestureRecognizerDirectionRight;
     [self.view addGestureRecognizer:swipeToGoBack];
     
+    self.navigationController.navigationBarHidden = YES;
+    
     
     // Do any additional setup after loading the view.
 }
@@ -84,7 +87,11 @@
 
 -(void)backToMainPage
 {
-    [self dismissViewControllerAnimated:YES completion:nil];
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];
+    MainScreenViewController *mainVC = [storyboard instantiateViewControllerWithIdentifier:@"MainScreen"];
+    
+    [self.navigationController popToViewController:mainVC animated:YES];
+
 }
 
 -(void)unblockUsers
@@ -98,9 +105,10 @@
    //[PFUser logOut];
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];
     
-   SignInViewController *signInVC = [storyboard instantiateViewControllerWithIdentifier:@"SignInVC"];
+   UINavigationController *initialNavController = [storyboard instantiateViewControllerWithIdentifier:@"InitialNavController"];
     
-    [self presentViewController:signInVC animated:YES completion:nil];
+    
+    [self presentViewController:initialNavController animated:YES completion:nil];
 }
 
 /*

@@ -549,7 +549,8 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-   // return 3;
+
+    //return 3;
     return [self.threads count];
 }
 
@@ -561,6 +562,7 @@
 {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"DareCell" forIndexPath:indexPath];
     
+
         MessageThread *thread = self.threads[indexPath.row];
         ((DareCell *)cell).backgroundImageView.image = thread.backgroundImage;
         ((DareCell *)cell).titleLabel.text = [NSString stringWithFormat:@"I DARE YOU TO\n%@", thread.title];
@@ -581,7 +583,6 @@
 //            ((DareCell *)cell).unreadCountLabel.text = @"15";
 //        });
 //    }];
-    
     return cell;
 }
 

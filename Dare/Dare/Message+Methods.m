@@ -27,6 +27,11 @@
         PFFile *imageFile = message[@"picture"];
         NSData *imageData = [imageFile getData];
         newMessage.picture = imageData;
+        if ([message[@"isRead"] isEqualToString:@"NO"]) {
+            newMessage.isRead = @0;
+        } else {
+            newMessage.isRead = @1;
+        }        
         return newMessage;
     } else {
         return messages[0];

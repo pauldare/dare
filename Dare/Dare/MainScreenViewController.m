@@ -15,6 +15,7 @@
 #import "NewDareViewController.h"
 #import "DareCell.h"
 #import <FontAwesomeKit/FontAwesomeKit.h>
+#import "SettingsViewController.h"
 
 @interface MainScreenViewController ()<UIScrollViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UITableViewDataSource, UITableViewDelegate, UIGestureRecognizerDelegate>
 
@@ -106,8 +107,8 @@
     [_scrollContainerView addSubview:_friendsCornerButton];
     
     [_scrollContainerView addConstraint:[NSLayoutConstraint constraintWithItem:_friendsCornerButton attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeHeight multiplier:1.0 constant:_collectionViewFriendHeight]];
-     [_scrollContainerView addConstraint:[NSLayoutConstraint constraintWithItem:_friendsCornerButton attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeWidth multiplier:1.0 constant:_collectionViewFriendWidth]];
-     [_scrollContainerView addConstraint:[NSLayoutConstraint constraintWithItem:_friendsCornerButton attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:_collectionView attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:0]];
+    [_scrollContainerView addConstraint:[NSLayoutConstraint constraintWithItem:_friendsCornerButton attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeWidth multiplier:1.0 constant:_collectionViewFriendWidth]];
+    [_scrollContainerView addConstraint:[NSLayoutConstraint constraintWithItem:_friendsCornerButton attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:_collectionView attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:0]];
     [_scrollContainerView addConstraint:[NSLayoutConstraint constraintWithItem:_friendsCornerButton attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:_collectionView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0]];
     
     
@@ -116,7 +117,7 @@
     
     NSLog(@"%f", _collectionView.frame.size.width);
     NSLog(@"%f", _scrollView.contentSize.width);
-
+    
     _scrollView.scrollEnabled = NO;
     
     _friends = [[NSMutableArray alloc]init];
@@ -138,7 +139,7 @@
     [_collectionView registerNib:_finalCellNib forCellWithReuseIdentifier:@"FinalCell"];
     
     
-
+    
     
     _collectionView.delegate = self;
     _collectionView.dataSource = self;
@@ -148,7 +149,7 @@
     _tableView.dataSource = self;
 #warning Remove this! It's for testing
     _friendsArray = @[@1, @2, @3, @4, @5, @6, @7, @8, @9, @10, @11, @12, @13, @14, @15, @16, @17, @18, @19, @20, @21, @22, @23, @24, @25, @26, @27, @28, @29, @30];
-   // _friendsArray = @[@1, @2, @3];
+    // _friendsArray = @[@1, @2, @3];
     _friends = [_friendsArray mutableCopy];
     _selectedFriends = [[NSMutableSet alloc]init];
     _selectedIndices = [[NSMutableSet alloc]init];
@@ -161,7 +162,7 @@
     
     PFUser *currentUser = [PFUser currentUser];
     if (currentUser) {
-        [ParseClient getUser:currentUser completion:^(User *loggedUser) {            
+        [ParseClient getUser:currentUser completion:^(User *loggedUser) {
             [ParseClient getMessageThreadsForUser:loggedUser completion:^(NSArray *threads, bool isDone) {
                 if (isDone) {
                     _threads = threads;
@@ -184,7 +185,7 @@
         NSLog(@"no one is logged");
     }
     
-
+    
     
     [self configureMainScreen];
 }
@@ -206,9 +207,9 @@
     _mainOverlay.backgroundColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:0.8];
     [self.view addSubview:_mainOverlay];
     _mainOverlay.userInteractionEnabled = YES;
-
+    
     _dareLabel = [[UILabel alloc]init];
-     [self.view addSubview:_dareLabel];
+    [self.view addSubview:_dareLabel];
     _dareLabel.translatesAutoresizingMaskIntoConstraints = NO;
     
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_dareLabel attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0]];
@@ -225,7 +226,7 @@
     _dareLabel.backgroundColor = [UIColor DareBlue];
     _dareLabel.font = [UIFont boldSystemFontOfSize:40];
     _dareLabel.textColor = [UIColor whiteColor];
-   
+    
     
     _centerLine = [[UIView alloc]init];
     _centerLine.translatesAutoresizingMaskIntoConstraints = NO;
@@ -234,8 +235,8 @@
     [self.view bringSubviewToFront:_dareLabel];
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_centerLine attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0]];
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_centerLine attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTop multiplier:1.0 constant:0]];
-      [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_centerLine attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0]];
-      [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_centerLine attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeWidth multiplier:1.0 constant:10]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_centerLine attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_centerLine attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeWidth multiplier:1.0 constant:10]];
     
     
     
@@ -258,7 +259,7 @@
     _dareLabelRightArrows.textColor = [UIColor DareBlue];
     [_dareLabelRightArrows setAttributedText:rightMutString];
     _dareLabelRightArrows.textAlignment = NSTextAlignmentLeft;
-
+    
     _dareLabelLeftArrows = [[UILabel alloc]init];
     _dareLabelLeftArrows.translatesAutoresizingMaskIntoConstraints = NO;
     [self.view addSubview:_dareLabelLeftArrows];
@@ -303,11 +304,11 @@
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_overlayUnreadBadge attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTop multiplier:1.0 constant:50]];
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_overlayUnreadBadge attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:-20]];
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_overlayUnreadBadge attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeHeight multiplier:1.0 constant:150]];
-        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_overlayUnreadBadge attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeLeading multiplier:1.0 constant:0]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_overlayUnreadBadge attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeLeading multiplier:1.0 constant:0]];
     
     
     
-
+    
     
     UISwipeGestureRecognizer *leftSwipeOnMainView = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(scrollToMessages)];
     leftSwipeOnMainView.direction = UISwipeGestureRecognizerDirectionLeft;
@@ -323,7 +324,7 @@
     
     [self scrollToMainScreen];
     [self showMainPage];
-
+    
 }
 
 -(void)showMainPage
@@ -349,7 +350,7 @@
     }completion:^(BOOL finished) {
         _friendsCornerButton.hidden = YES;
     }];
-
+    
 }
 
 -(void)hideMainPage
@@ -374,14 +375,14 @@
         _overlayUnreadBadge.hidden = YES;
         
     }];
-
+    
 }
 -(void)scrollToFriends
 {
     //[_scrollView setContentOffset:CGPointMake(0, 0)];
     [_scrollView setContentOffset:CGPointMake(0, 0) animated:YES];
     [self hideMainPage];
- }
+}
 
 -(void)scrollToMessages
 {
@@ -398,7 +399,9 @@
 
 -(void)settingsButtonPressed
 {
-    
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];
+    SettingsViewController *settingsVC = [storyboard instantiateViewControllerWithIdentifier:@"SettingsVC"];
+    [self presentViewController:settingsVC animated:YES completion:nil];
 }
 -(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
 {
@@ -415,7 +418,7 @@
     //this adds a final selection cell
     return 5;
     return [_friendsArray count]+1;
-   // return [self.friends count] + 1;
+    // return [self.friends count] + 1;
 }
 
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
@@ -442,10 +445,10 @@
         
         //User *friend = self.friends[indexPath.row];
         //((FriendListIcon*)cell).friendImage.image = friend.profileImage;
-//        NSURL *imageURL = [NSURL URLWithString:@"http://ibmsmartercommerce.sourceforge.net/wp-content/uploads/2012/09/Roses_Bunch_Of_Flowers.jpeg"];
-//        NSData *imageData = [NSData dataWithContentsOfURL:imageURL];
-//        UIImage *image = [UIImage imageWithData:imageData];
-
+        //        NSURL *imageURL = [NSURL URLWithString:@"http://ibmsmartercommerce.sourceforge.net/wp-content/uploads/2012/09/Roses_Bunch_Of_Flowers.jpeg"];
+        //        NSData *imageData = [NSData dataWithContentsOfURL:imageURL];
+        //        UIImage *image = [UIImage imageWithData:imageData];
+        
         ((FriendListIcon*)cell).friendImage.image = _testFriendImage;
         
         return cell;
@@ -474,27 +477,27 @@
 
 -(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
-//    [UIView animateWithDuration:0.5 animations:^{
-//        _friendsCornerButton.alpha = 1.0;
-//    }];
+    //    [UIView animateWithDuration:0.5 animations:^{
+    //        _friendsCornerButton.alpha = 1.0;
+    //    }];
 }
 
 -(void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
 {
-//    if (!decelerate) {
-//        [UIView animateWithDuration:0.5 animations:^{
-//            _friendsCornerButton.alpha = 1.0;
-//        }];
-//    }
+    //    if (!decelerate) {
+    //        [UIView animateWithDuration:0.5 animations:^{
+    //            _friendsCornerButton.alpha = 1.0;
+    //        }];
+    //    }
 }
 
 
 
 -(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
 {
-//    [UIView animateWithDuration:0.5 animations:^{
-//        _friendsCornerButton.alpha = 0;
-//    }];
+    //    [UIView animateWithDuration:0.5 animations:^{
+    //        _friendsCornerButton.alpha = 0;
+    //    }];
 }
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
@@ -534,7 +537,7 @@
         viewController.friends = [[self.selectedFriends allObjects]mutableCopy];
         [self presentViewController:viewController animated:YES completion:nil];
     }
-
+    
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -546,7 +549,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    return 3;
+   // return 3;
     return [self.threads count];
 }
 
@@ -558,26 +561,26 @@
 {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"DareCell" forIndexPath:indexPath];
     
-//    MessageThread *thread = self.threads[indexPath.row];
-//    ((DareCell *)cell).backgroundImageView.image = thread.backgroundImage;
-//    ((DareCell *)cell).titleLabel.text = [NSString stringWithFormat:@"I DARE YOU TO\n%@", thread.title];
-//    ((DareCell *)cell).unreadCountLabel.text = [NSString stringWithFormat:@"%ld", (long)thread.unreadMessages];
+        MessageThread *thread = self.threads[indexPath.row];
+        ((DareCell *)cell).backgroundImageView.image = thread.backgroundImage;
+        ((DareCell *)cell).titleLabel.text = [NSString stringWithFormat:@"I DARE YOU TO\n%@", thread.title];
+        ((DareCell *)cell).unreadCountLabel.text = [NSString stringWithFormat:@"%ld", (long)thread.unreadMessages];
     
     
-    ((DareCell *)cell).unreadCountLabel.text = @"6";
-        NSOperationQueue *queue = [[NSOperationQueue alloc]init];
-        [queue addOperationWithBlock:^{
-    
-            NSURL *imageURL = [NSURL URLWithString:@"http://ibmsmartercommerce.sourceforge.net/wp-content/uploads/2012/09/Roses_Bunch_Of_Flowers.jpeg"];
-            NSData *imageData = [NSData dataWithContentsOfURL:imageURL];
-            UIImage *image = [UIImage imageWithData:imageData];
-    
-            dispatch_async(dispatch_get_main_queue(), ^{
-                ((DareCell *)cell).backgroundImageView.image = image;
-                ((DareCell *)cell).titleLabel.text = @"I DARE YOU TO WEAR PINK" ;
-                ((DareCell *)cell).unreadCountLabel.text = @"15";
-            });
-        }];
+//    ((DareCell *)cell).unreadCountLabel.text = @"6";
+//    NSOperationQueue *queue = [[NSOperationQueue alloc]init];
+//    [queue addOperationWithBlock:^{
+//        
+//        NSURL *imageURL = [NSURL URLWithString:@"http://ibmsmartercommerce.sourceforge.net/wp-content/uploads/2012/09/Roses_Bunch_Of_Flowers.jpeg"];
+//        NSData *imageData = [NSData dataWithContentsOfURL:imageURL];
+//        UIImage *image = [UIImage imageWithData:imageData];
+//        
+//        dispatch_async(dispatch_get_main_queue(), ^{
+//            ((DareCell *)cell).backgroundImageView.image = image;
+//            ((DareCell *)cell).titleLabel.text = @"I DARE YOU TO WEAR PINK" ;
+//            ((DareCell *)cell).unreadCountLabel.text = @"15";
+//        });
+//    }];
     
     return cell;
 }

@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		05984F4B1966F6F300DAE025 /* flower.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 05984F4A1966F6F300DAE025 /* flower.jpeg */; };
 		05984F4E1966F7A300DAE025 /* shoes.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 05984F4D1966F7A300DAE025 /* shoes.jpeg */; };
+		05984F51196731DD00DAE025 /* Dare.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 05984F4F196731DD00DAE025 /* Dare.xcdatamodeld */; };
+		05984F541967323A00DAE025 /* DareDataStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 05984F531967323A00DAE025 /* DareDataStore.m */; };
 		05FA70ED195FA75E00C057D4 /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = 05FA70EC195FA75E00C057D4 /* Constants.m */; };
 		0719EAB8195F516E007C2983 /* Storyboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0719EAB7195F516E007C2983 /* Storyboard.storyboard */; };
 		07977E73195F230100B2C0C6 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 07977E72195F230100B2C0C6 /* User.m */; };
@@ -82,6 +84,9 @@
 /* Begin PBXFileReference section */
 		05984F4A1966F6F300DAE025 /* flower.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = flower.jpeg; sourceTree = "<group>"; };
 		05984F4D1966F7A300DAE025 /* shoes.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = shoes.jpeg; sourceTree = "<group>"; };
+		05984F50196731DD00DAE025 /* Dare.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Dare.xcdatamodel; sourceTree = "<group>"; };
+		05984F521967323A00DAE025 /* DareDataStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DareDataStore.h; sourceTree = "<group>"; };
+		05984F531967323A00DAE025 /* DareDataStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DareDataStore.m; sourceTree = "<group>"; };
 		05FA70EC195FA75E00C057D4 /* Constants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Constants.m; path = ../Constants.m; sourceTree = "<group>"; };
 		0719EAB7195F516E007C2983 /* Storyboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Storyboard.storyboard; sourceTree = "<group>"; };
 		07977E71195F230100B2C0C6 /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
@@ -171,6 +176,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4553B59B195B944E005C6D1A /* CoreData.framework in Frameworks */,
 				4512E4111965B321000A8C15 /* Social.framework in Frameworks */,
 				45A72F361965B18500A187B7 /* Twitter.framework in Frameworks */,
 				45A72F341965B17C00A187B7 /* libPods.a in Frameworks */,
@@ -185,7 +191,6 @@
 				4553B5D0195B97E7005C6D1A /* CFNetwork.framework in Frameworks */,
 				4553B5CE195B97DD005C6D1A /* AudioToolbox.framework in Frameworks */,
 				4553B597195B944E005C6D1A /* CoreGraphics.framework in Frameworks */,
-				4553B59B195B944E005C6D1A /* CoreData.framework in Frameworks */,
 				4553B5E0195B9EDC005C6D1A /* FacebookSDK.framework in Frameworks */,
 				4553B599195B944E005C6D1A /* UIKit.framework in Frameworks */,
 				4553B595195B944E005C6D1A /* Foundation.framework in Frameworks */,
@@ -359,6 +364,7 @@
 		456E6252195F27F4003CC220 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				05984F4F196731DD00DAE025 /* Dare.xcdatamodeld */,
 				35F35F4E1961F89E0002C7BC /* CameraManager.h */,
 				35F35F4F1961F89E0002C7BC /* CameraManager.m */,
 				5234BB1B19606D8600850ECB /* UIColor+DareColors.h */,
@@ -371,6 +377,8 @@
 				07977E75195F235700B2C0C6 /* MessageThread.m */,
 				07977E77195F236100B2C0C6 /* Message.h */,
 				07977E78195F236100B2C0C6 /* Message.m */,
+				05984F521967323A00DAE025 /* DareDataStore.h */,
+				05984F531967323A00DAE025 /* DareDataStore.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -543,8 +551,10 @@
 				527FDAFB1960C6580083D6F0 /* FriendListIcon.m in Sources */,
 				527FDB041960E63E0083D6F0 /* FinalCell.m in Sources */,
 				527FDAEE1960B35C0083D6F0 /* DareCell.m in Sources */,
+				05984F51196731DD00DAE025 /* Dare.xcdatamodeld in Sources */,
 				359EE6F01963591300088C2D /* SelectDareCell.m in Sources */,
 				4553B5A7195B944E005C6D1A /* AppDelegate.m in Sources */,
+				05984F541967323A00DAE025 /* DareDataStore.m in Sources */,
 				07977E79195F236100B2C0C6 /* Message.m in Sources */,
 				4512E417196702FF000A8C15 /* LogInWithFacebookViewController.m in Sources */,
 				4553B5A3195B944E005C6D1A /* main.m in Sources */,
@@ -785,6 +795,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		05984F4F196731DD00DAE025 /* Dare.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				05984F50196731DD00DAE025 /* Dare.xcdatamodel */,
+			);
+			currentVersion = 05984F50196731DD00DAE025 /* Dare.xcdatamodel */;
+			path = Dare.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 4553B589195B944E005C6D1A /* Project object */;
 }

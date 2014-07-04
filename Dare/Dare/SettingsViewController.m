@@ -90,7 +90,7 @@
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];
     MainScreenViewController *mainVC = [storyboard instantiateViewControllerWithIdentifier:@"MainScreen"];
     
-    [self.navigationController popToViewController:mainVC animated:YES];
+    [self dismissViewControllerAnimated:YES completion:nil];
 
 }
 

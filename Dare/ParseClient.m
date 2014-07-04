@@ -86,7 +86,7 @@
                  completion: (void(^)(NSArray *))completion
 {
     PFUser *currentUser = [PFUser currentUser];
-    PFRelation *friendsRelation = [thread relationForKey:@"proxyUsers"];
+    PFRelation *friendsRelation = [thread relationForKey:@"friends"];
     PFQuery *query = [friendsRelation query];
     [query whereKey:@"identifier" notEqualTo:currentUser[@"fbId"]];
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {

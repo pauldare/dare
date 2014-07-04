@@ -11,7 +11,6 @@
 		05984F4E1966F7A300DAE025 /* shoes.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 05984F4D1966F7A300DAE025 /* shoes.jpeg */; };
 		05FA70ED195FA75E00C057D4 /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = 05FA70EC195FA75E00C057D4 /* Constants.m */; };
 		0719EAB8195F516E007C2983 /* Storyboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0719EAB7195F516E007C2983 /* Storyboard.storyboard */; };
-		0719EABB195F5599007C2983 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0719EABA195F5599007C2983 /* LoginViewController.m */; };
 		07977E73195F230100B2C0C6 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 07977E72195F230100B2C0C6 /* User.m */; };
 		07977E76195F235700B2C0C6 /* MessageThread.m in Sources */ = {isa = PBXBuildFile; fileRef = 07977E75195F235700B2C0C6 /* MessageThread.m */; };
 		07977E79195F236100B2C0C6 /* Message.m in Sources */ = {isa = PBXBuildFile; fileRef = 07977E78195F236100B2C0C6 /* Message.m */; };
@@ -24,6 +23,9 @@
 		35F35F541962F5990002C7BC /* tricolor.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 35F35F531962F5990002C7BC /* tricolor.jpeg */; };
 		35F35F561962F5A10002C7BC /* angry.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 35F35F551962F5A10002C7BC /* angry.jpeg */; };
 		4512E4111965B321000A8C15 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4512E4101965B321000A8C15 /* Social.framework */; };
+		4512E4141966FE0D000A8C15 /* SignInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4512E4131966FE0D000A8C15 /* SignInViewController.m */; };
+		4512E417196702FF000A8C15 /* LogInWithFacebookViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4512E416196702FF000A8C15 /* LogInWithFacebookViewController.m */; };
+		4512E41A1967138C000A8C15 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4512E4191967138C000A8C15 /* SettingsViewController.m */; };
 		4553B595195B944E005C6D1A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4553B594195B944E005C6D1A /* Foundation.framework */; };
 		4553B597195B944E005C6D1A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4553B596195B944E005C6D1A /* CoreGraphics.framework */; };
 		4553B599195B944E005C6D1A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4553B598195B944E005C6D1A /* UIKit.framework */; };
@@ -61,8 +63,6 @@
 		527FDAE91960A2250083D6F0 /* icon-157351_640.png in Resources */ = {isa = PBXBuildFile; fileRef = 527FDAE81960A2250083D6F0 /* icon-157351_640.png */; };
 		527FDAEB1960AEE50083D6F0 /* DareCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 527FDAEA1960AEE50083D6F0 /* DareCell.xib */; };
 		527FDAEE1960B35C0083D6F0 /* DareCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 527FDAED1960B35C0083D6F0 /* DareCell.m */; };
-		527FDAF11960B7420083D6F0 /* DareTable.m in Sources */ = {isa = PBXBuildFile; fileRef = 527FDAF01960B7420083D6F0 /* DareTable.m */; };
-		527FDAF61960C3E10083D6F0 /* FriendsListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 527FDAF51960C3E10083D6F0 /* FriendsListViewController.m */; };
 		527FDAF81960C4650083D6F0 /* FriendListIcon.xib in Resources */ = {isa = PBXBuildFile; fileRef = 527FDAF71960C4650083D6F0 /* FriendListIcon.xib */; };
 		527FDAFB1960C6580083D6F0 /* FriendListIcon.m in Sources */ = {isa = PBXBuildFile; fileRef = 527FDAFA1960C6580083D6F0 /* FriendListIcon.m */; };
 		527FDB011960E5830083D6F0 /* FinalCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 527FDB001960E5830083D6F0 /* FinalCell.xib */; };
@@ -84,8 +84,6 @@
 		05984F4D1966F7A300DAE025 /* shoes.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = shoes.jpeg; sourceTree = "<group>"; };
 		05FA70EC195FA75E00C057D4 /* Constants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Constants.m; path = ../Constants.m; sourceTree = "<group>"; };
 		0719EAB7195F516E007C2983 /* Storyboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Storyboard.storyboard; sourceTree = "<group>"; };
-		0719EAB9195F5599007C2983 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
-		0719EABA195F5599007C2983 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		07977E71195F230100B2C0C6 /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
 		07977E72195F230100B2C0C6 /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
 		07977E74195F235700B2C0C6 /* MessageThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageThread.h; sourceTree = "<group>"; };
@@ -104,6 +102,12 @@
 		35F35F531962F5990002C7BC /* tricolor.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = tricolor.jpeg; sourceTree = "<group>"; };
 		35F35F551962F5A10002C7BC /* angry.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = angry.jpeg; sourceTree = "<group>"; };
 		4512E4101965B321000A8C15 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
+		4512E4121966FE0D000A8C15 /* SignInViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignInViewController.h; sourceTree = "<group>"; };
+		4512E4131966FE0D000A8C15 /* SignInViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SignInViewController.m; sourceTree = "<group>"; };
+		4512E415196702FF000A8C15 /* LogInWithFacebookViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LogInWithFacebookViewController.h; sourceTree = "<group>"; };
+		4512E416196702FF000A8C15 /* LogInWithFacebookViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LogInWithFacebookViewController.m; sourceTree = "<group>"; };
+		4512E4181967138C000A8C15 /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
+		4512E4191967138C000A8C15 /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
 		4553B591195B944E005C6D1A /* Dare.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Dare.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4553B594195B944E005C6D1A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		4553B596195B944E005C6D1A /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -152,10 +156,6 @@
 		527FDAEA1960AEE50083D6F0 /* DareCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DareCell.xib; sourceTree = "<group>"; };
 		527FDAEC1960B35C0083D6F0 /* DareCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DareCell.h; sourceTree = "<group>"; };
 		527FDAED1960B35C0083D6F0 /* DareCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DareCell.m; sourceTree = "<group>"; };
-		527FDAEF1960B7420083D6F0 /* DareTable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DareTable.h; sourceTree = "<group>"; };
-		527FDAF01960B7420083D6F0 /* DareTable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DareTable.m; sourceTree = "<group>"; };
-		527FDAF41960C3E10083D6F0 /* FriendsListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FriendsListViewController.h; sourceTree = "<group>"; };
-		527FDAF51960C3E10083D6F0 /* FriendsListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FriendsListViewController.m; sourceTree = "<group>"; };
 		527FDAF71960C4650083D6F0 /* FriendListIcon.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FriendListIcon.xib; sourceTree = "<group>"; };
 		527FDAF91960C6580083D6F0 /* FriendListIcon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FriendListIcon.h; sourceTree = "<group>"; };
 		527FDAFA1960C6580083D6F0 /* FriendListIcon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FriendListIcon.m; sourceTree = "<group>"; };
@@ -243,12 +243,10 @@
 		35B041FB1961B4CF00FB741E /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				527FDAF41960C3E10083D6F0 /* FriendsListViewController.h */,
-				527FDAF51960C3E10083D6F0 /* FriendsListViewController.m */,
-				527FDAEF1960B7420083D6F0 /* DareTable.h */,
-				527FDAF01960B7420083D6F0 /* DareTable.m */,
-				0719EAB9195F5599007C2983 /* LoginViewController.h */,
-				0719EABA195F5599007C2983 /* LoginViewController.m */,
+				4512E4121966FE0D000A8C15 /* SignInViewController.h */,
+				4512E4131966FE0D000A8C15 /* SignInViewController.m */,
+				4512E415196702FF000A8C15 /* LogInWithFacebookViewController.h */,
+				4512E416196702FF000A8C15 /* LogInWithFacebookViewController.m */,
 				5234BB1819606D4C00850ECB /* DisplayNameSelectViewController.h */,
 				5234BB1919606D4C00850ECB /* DisplayNameSelectViewController.m */,
 				5234BB1E196077AE00850ECB /* ChooseDisplayPhotoViewController.h */,
@@ -257,6 +255,8 @@
 				35F35F3F1961EA2F0002C7BC /* NewDareViewController.m */,
 				45740135196390470080895D /* MainScreenViewController.h */,
 				45740136196390470080895D /* MainScreenViewController.m */,
+				4512E4181967138C000A8C15 /* SettingsViewController.h */,
+				4512E4191967138C000A8C15 /* SettingsViewController.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -530,12 +530,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4512E4141966FE0D000A8C15 /* SignInViewController.m in Sources */,
 				45740137196390470080895D /* MainScreenViewController.m in Sources */,
 				5234BB1A19606D4C00850ECB /* DisplayNameSelectViewController.m in Sources */,
-				0719EABB195F5599007C2983 /* LoginViewController.m in Sources */,
 				07977E73195F230100B2C0C6 /* User.m in Sources */,
 				07977E76195F235700B2C0C6 /* MessageThread.m in Sources */,
 				5234BB1D19606D8600850ECB /* UIColor+DareColors.m in Sources */,
+				4512E41A1967138C000A8C15 /* SettingsViewController.m in Sources */,
 				5234BB20196077AE00850ECB /* ChooseDisplayPhotoViewController.m in Sources */,
 				456E625F195F67C5003CC220 /* ParseClient.m in Sources */,
 				05FA70ED195FA75E00C057D4 /* Constants.m in Sources */,
@@ -545,11 +546,10 @@
 				359EE6F01963591300088C2D /* SelectDareCell.m in Sources */,
 				4553B5A7195B944E005C6D1A /* AppDelegate.m in Sources */,
 				07977E79195F236100B2C0C6 /* Message.m in Sources */,
+				4512E417196702FF000A8C15 /* LogInWithFacebookViewController.m in Sources */,
 				4553B5A3195B944E005C6D1A /* main.m in Sources */,
 				35F35F501961F89E0002C7BC /* CameraManager.m in Sources */,
-				527FDAF61960C3E10083D6F0 /* FriendsListViewController.m in Sources */,
 				35F35F401961EA2F0002C7BC /* NewDareViewController.m in Sources */,
-				527FDAF11960B7420083D6F0 /* DareTable.m in Sources */,
 				456E6259195F2DB4003CC220 /* Temp.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

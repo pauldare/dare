@@ -13,7 +13,6 @@
 - (instancetype)init
 {
     return [self initWithDisplayName:nil
-                      messageThreads:nil
                              friends:nil
                             messages:nil
                           identifier:nil
@@ -21,7 +20,6 @@
 }
 
 - (instancetype)initWithDisplayName: (NSString *)displayName
-                     messageThreads: (NSArray *)messageThreads
                             friends: (NSArray *)friends
                            messages: (NSMutableArray *)messages
                          identifier: (NSString *)identifier
@@ -31,7 +29,6 @@
     self = [super init];
     if (self) {
         self.displayName = displayName;
-        self.messageThreads = messageThreads;
         self.friends = friends;
         self.messages = messages;
         self.profileImage = profileImage;

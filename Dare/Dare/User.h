@@ -22,7 +22,6 @@
 @property (strong, nonatomic) NSString *fbId;
 
 - (instancetype)initWithDisplayName: (NSString *)displayName
-                     messageThreads: (NSArray *)messageThreads
                             friends: (NSArray *)friends
                            messages: (NSMutableArray *)messages
                          identifier: (NSString *)identifier

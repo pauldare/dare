@@ -10,47 +10,6 @@
 
 @implementation ParseClient
 
-+ (void)loginUser: (NSString *)userName
-       completion: (void(^)())completion
-          failure: (void(^)())failure
-{
-    [PFUser logInWithUsernameInBackground:userName password:@"" block:^(PFUser *user, NSError *error) {
-        if (user) {
-            [self getUser:user completion:^(User *user) {
-                NSLog(@"%@", user.displayName);
-                completion();
-            } failure:nil];
-        } else {
-            failure();
-        }
-    }];
-}
-
-
-//+ (void)getUser: (PFUser *)currentUser
-//     completion:(void(^)(User *))completion
-//            failure: (void(^)())failure
-//{
-//    PFRelation *friendsRelation = [currentUser relationForKey:@"friends"];
-//    PFRelation *messagesRelation = [currentUser relationForKey:@"messages"];
-//    PFQuery *friendsQuery = [friendsRelation query];
-//    PFQuery *messagesQuery =[messagesRelation query];
-//    [friendsQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-//        NSArray *friends = objects;
-//        [messagesQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-//            NSMutableArray *messages = [objects mutableCopy];
-//            PFFile *imageFile = currentUser[@"image"];
-//            UIImage *userPic = [self imageFileToImage:imageFile];
-//            User *loggedUser = [[User alloc]initWithDisplayName:currentUser[@"displayName"]
-//                                                        friends:friends //PFObjects
-//                                                       messages:messages
-//                                                     identifier:currentUser[@"fbId"]
-//                                                   profileImage:userPic];
-//            completion(loggedUser);
-//        }];
-//    }];
-//}
-
 + (void)queryForFriends: (void(^)(NSArray *))completion
 {
     PFUser *currentUser = [PFUser currentUser];
@@ -123,12 +82,20 @@
     }];
 }
 
++ (void)getFriendsForThread: (PFObject *) thread
+                 completion: (void(^)(NSArray *))completion
+{
+    PFRelation *friendsRelation = [thread relationForKey:@"proxyUsers"];
+    PFQuery *query = [friendsRelation query];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        completion(objects);
+    }];
+}
+
 + (void)getMessageThreadsForUser: (User *)user
                      completion: (void(^)(NSArray *))completion
                      failure: (void(^)())failure
 {
-    NSMutableArray *userThreads = [[NSMutableArray alloc]init];
-    __block NSInteger count = 0;
     PFQuery *userQuery = [PFQuery queryWithClassName:@"UserProxy"];
     [userQuery whereKey:@"identifier" equalTo:user.identifier];
     [userQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
@@ -139,26 +106,6 @@
             [proxyToThreadsQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
                 NSArray *threads = objects;
                 completion(threads);
-//                for (PFObject *parseThread in threads) {
-//                    PFRelation *participantsRelation = [parseThread relationForKey:@"Users"];
-//                    PFQuery *participantsQuery = [participantsRelation query];
-//                    [participantsQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-//                        NSArray *participants = objects;
-//                        MessageThread *thread = [[MessageThread alloc]initWithUser:user
-//                                                                      participants:participants
-//                                                                          messages:user.messages
-//                                                                        identifier:[parseThread objectId]
-//                                                                             title:parseThread[@"title"] 
-//                                                                   backgroundImage:[self imageFileToImage:parseThread[@"backgroundImage"]]];
-//                        [userThreads addObject:thread];
-//                        count++;
-//                        bool isDone = NO;
-//                        if (count == [threads count]) {
-//                            isDone = YES;
-//                        }
-//                        completion(userThreads, isDone);
-//                    }];
-//                }
             }];
         } else {
             NSLog(@"no proxy found");
@@ -171,7 +118,6 @@
                 completion: (void(^)(NSArray *))completion
                    failure: (void(^)(NSError *))failure
 {
-    NSMutableArray *threadMessages = [[NSMutableArray alloc]init];
     PFQuery *threadQueryOnId = [PFQuery queryWithClassName:@"MessageThread"];
     [threadQueryOnId whereKey:@"objectId" equalTo:thread.identifier];
     [threadQueryOnId findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
@@ -183,22 +129,6 @@
                 NSArray *parseMessages = objects;
                 completion(parseMessages);
             }];
-//                for (PFObject *parseMessage in parseMessages) {
-//                    BOOL isRead = NO;
-//                    if (![parseMessage[@"isRead"] isEqualToString:@"NO"]) {
-//                        isRead = YES;
-//                    }
-//                    PFFile *imageFile = parseMessage[@"picture"];//bad fake data, parse message is set to an array with PFFile in it
-//                    UIImage *picture = [self imageFileToImage:imageFile];
-//                    Message *message = [[Message alloc]initWithText:parseMessage[@"text"]
-//                                                               user: user
-//                                                             thread:thread
-//                                                            picture:picture
-//                                                             isRead:isRead];
-//                    [threadMessages addObject:message];
-//                }
-//                completion(threadMessages);
-//            }];
         } else {
             failure(error);
         }
@@ -258,10 +188,7 @@
     NSArray *foundUsers = [userQuery findObjects];
     if ([foundUsers count] > 0) {
         PFUser *foundUser = foundUsers[0];
-        [self getUser:foundUser completion:^(User *searchResultUser) {
-            //NSLog(@"Search result user: %@", searchResultUser.displayName);
-            completion(searchResultUser);
-        } failure:nil];
+        //to finish when time comes
     } else {
         completion(nil);
     }

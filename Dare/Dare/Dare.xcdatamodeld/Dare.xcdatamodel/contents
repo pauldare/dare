@@ -4,6 +4,7 @@
         <attribute name="displayName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="identifier" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="image" optional="YES" attributeType="Binary" syncable="YES"/>
+        <relationship name="threads" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MessageThread" inverseName="friends" inverseEntity="MessageThread" syncable="YES"/>
         <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="friends" inverseEntity="User" syncable="YES"/>
     </entity>
     <entity name="Message" representedClassName="Message" syncable="YES">
@@ -18,8 +19,9 @@
         <attribute name="backgroundPicture" optional="YES" attributeType="Binary" syncable="YES"/>
         <attribute name="identifier" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="friends" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Friend" inverseName="threads" inverseEntity="Friend" syncable="YES"/>
         <relationship name="messages" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Message" inverseName="thread" inverseEntity="Message" syncable="YES"/>
-        <relationship name="users" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="User" inverseName="threads" inverseEntity="User" syncable="YES"/>
+        <relationship name="users" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="threads" inverseEntity="User" syncable="YES"/>
     </entity>
     <entity name="User" representedClassName="User" syncable="YES">
         <attribute name="displayName" optional="YES" attributeType="String" syncable="YES"/>
@@ -32,7 +34,7 @@
     <elements>
         <element name="User" positionX="-81" positionY="-9" width="128" height="133"/>
         <element name="Message" positionX="-234" positionY="-117" width="128" height="133"/>
-        <element name="MessageThread" positionX="-317" positionY="45" width="128" height="118"/>
-        <element name="Friend" positionX="7" positionY="-120" width="128" height="103"/>
+        <element name="MessageThread" positionX="-317" positionY="45" width="128" height="133"/>
+        <element name="Friend" positionX="-452" positionY="-175" width="128" height="118"/>
     </elements>
 </model>

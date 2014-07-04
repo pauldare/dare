@@ -16,13 +16,8 @@
 
 @interface ParseClient : NSObject
 
-+ (void)loginUser: (NSString *)userName
-       completion: (void(^)())completion
-          failure: (void(^)())failure;
-
-//+ (void)getUser: (PFUser *)currentUser
-//     completion:(void(^)(User *))completion
-//        failure: (void(^)())failure;
++ (void)getFriendsForThread: (PFObject *) thread
+                 completion: (void(^)(NSArray *))completion;
 
 + (void)queryForFriends: (void(^)(NSArray *))completion;
 

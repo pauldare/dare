@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
-@class User;
+@class MessageThread, User;
 
 @interface Friend : NSManagedObject
 
@@ -17,5 +17,6 @@
 @property (nonatomic, retain) NSString * displayName;
 @property (nonatomic, retain) NSString * identifier;
 @property (nonatomic, retain) User *user;
+@property (nonatomic, retain) MessageThread *threads;
 
 @end

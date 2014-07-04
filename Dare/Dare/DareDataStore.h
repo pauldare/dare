@@ -19,4 +19,8 @@
 
 +(DareDataStore *) sharedDataStore;
 
+- (void)populateCoreData: (void(^)())completion;
+
+- (void) cleanCoreData;
+
 @end

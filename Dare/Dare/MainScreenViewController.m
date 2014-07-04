@@ -119,14 +119,6 @@
     _friends = [[NSMutableArray alloc]init];
     _isArrow = NO;
     
-    [ParseClient getUser:[PFUser currentUser] completion:^(User *loggedUser) {
-        for (PFUser *friend in loggedUser.friends) {
-            [ParseClient getUser:friend completion:^(User *friend) {
-                [self.friends addObject:friend];
-                [self.collectionView reloadData];
-            } failure:nil];
-        }
-    } failure:nil];
     
     _friendNib = [UINib nibWithNibName:@"FriendListIcon" bundle:nil];
     [_collectionView registerNib:_friendNib forCellWithReuseIdentifier:@"FriendCell"];
@@ -155,33 +147,37 @@
     _cellNib = [UINib nibWithNibName:@"DareCell" bundle:nil];
     [_tableView registerNib:_cellNib forCellReuseIdentifier:@"DareCell"];
     _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    
-    PFUser *currentUser = [PFUser currentUser];
-    if (currentUser) {
-        [ParseClient getUser:currentUser completion:^(User *loggedUser) {
-            [ParseClient getMessageThreadsForUser:loggedUser completion:^(NSArray *threads, bool isDone) {
-                if (isDone) {
-                    _threads = threads;
-                    //[self.tableView reloadData];
-                    for (MessageThread *thread in _threads) {
-                        [ParseClient getMessagesForThread:thread user:loggedUser completion:^(NSArray *messages) {
-                            thread.unreadMessages = 0;
-                            for (Message *message in messages) {
-                                if (!message.isRead) {
-                                    thread.unreadMessages++;
-                                }
-                            }
-                            [_tableView reloadData];
-                        } failure:nil];
-                    }
-                }
-            } failure:nil];
-        } failure:nil];
-    } else {
-        NSLog(@"no one is logged");
-    }
-    [self configureMainScreen];
 }
+
+//    PFUser *currentUser = [PFUser currentUser];
+//    if (currentUser) {
+//        [ParseClient getUser:currentUser completion:^(User *loggedUser) {
+//            [ParseClient getMessageThreadsForUser:loggedUser completion:^(NSArray *threads, bool isDone) {
+//                if (isDone) {
+//                    _threads = threads;
+//                    //[self.tableView reloadData];
+//                    for (MessageThread *thread in _threads) {
+//                        [ParseClient getMessagesForThread:thread user:loggedUser completion:^(NSArray *messages) {
+//                            thread.unreadMessages = 0;
+//                            for (Message *message in messages) {
+//                                if (!message.isRead) {
+//                                    thread.unreadMessages++;
+//                                }
+//                            }
+//                            [_tableView reloadData];
+//                        } failure:nil];
+//                    }
+//                }
+//            } failure:nil];
+//        } failure:nil];
+//    } else {
+//        NSLog(@"no one is logged");
+//    }
+//    [self configureMainScreen];
+//}
+
+
+
 
 -(void)refreshFeeds
 {
@@ -556,10 +552,10 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"DareCell" forIndexPath:indexPath];
     
 
-        MessageThread *thread = self.threads[indexPath.row];
-        ((DareCell *)cell).backgroundImageView.image = thread.backgroundImage;
-        ((DareCell *)cell).titleLabel.text = [NSString stringWithFormat:@"I DARE YOU TO\n%@", thread.title];
-        ((DareCell *)cell).unreadCountLabel.text = [NSString stringWithFormat:@"%ld", (long)thread.unreadMessages];
+//        MessageThread *thread = self.threads[indexPath.row];
+//        ((DareCell *)cell).backgroundImageView.image = thread.backgroundImage;
+//        ((DareCell *)cell).titleLabel.text = [NSString stringWithFormat:@"I DARE YOU TO\n%@", thread.title];
+//        ((DareCell *)cell).unreadCountLabel.text = [NSString stringWithFormat:@"%ld", (long)thread.unreadMessages];
     
     
 //    ((DareCell *)cell).unreadCountLabel.text = @"6";

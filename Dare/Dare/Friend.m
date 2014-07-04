@@ -7,6 +7,7 @@
 //
 
 #import "Friend.h"
+#import "MessageThread.h"
 #import "User.h"
 
 
@@ -16,5 +17,6 @@
 @dynamic displayName;
 @dynamic identifier;
 @dynamic user;
+@dynamic threads;
 
 @end

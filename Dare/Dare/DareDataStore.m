@@ -7,6 +7,11 @@
 //
 
 #import "DareDataStore.h"
+#import "User+Methods.h"
+#import "Friend+Methods.h"
+#import "Message+Methods.h"
+#import "MessageThread+Methods.h"
+#import "ParseClient.h"
 
 @implementation DareDataStore
 
@@ -26,6 +31,7 @@
     return _sharedDataStore;
 }
 
+
 - (void)saveContext
 {
     NSError *error = nil;
@@ -37,6 +43,58 @@
             NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
             abort();
         }
+    }
+}
+
+- (void) cleanCoreData
+{
+    [self.managedObjectContext lock];
+    NSArray *stores = [self.persistentStoreCoordinator persistentStores];
+    for (NSPersistentStore *store in stores) {
+        [self.persistentStoreCoordinator removePersistentStore:store error:nil];
+        [[NSFileManager defaultManager] removeItemAtPath:store.URL.path error:nil];
+    }
+    [self.managedObjectContext unlock];    
+    _managedObjectContext = nil;
+    _persistentStoreCoordinator = nil;
+    _managedObjectModel = nil;
+}
+
+
+- (void)populateCoreData: (void(^)())completion
+{
+    if ([PFUser currentUser]) {
+        [ParseClient queryForFriends:^(NSArray *friends) {
+            User *loggedUser = [User fetchUserFromCurrentUser:[PFUser currentUser]
+                                 inContext:self.managedObjectContext];
+            for (PFUser *friend in friends) {
+                Friend *newFriend = [Friend fetchFriendFromParseFriend:friend inContext:self.managedObjectContext];
+                [loggedUser addFriendsObject:newFriend];
+            }
+            [ParseClient getMessageThreadsForUser:loggedUser completion:^(NSArray *threads) {
+                for (PFObject *thread in threads) {
+                    MessageThread *newThread = [MessageThread fetchThreadFromParseThreads:thread inContext:self.managedObjectContext];
+                    [loggedUser addThreadsObject:newThread];
+                    [ParseClient getFriendsForThread:thread completion:^(NSArray *threadFriends) {
+                        for (PFUser *threadFriend in threadFriends) {
+                            Friend *friendFromThread = [Friend fetchFriendFromParseFriend:threadFriend inContext:self.managedObjectContext];
+                            [newThread addFriendsObject:friendFromThread];
+                        }
+                        [ParseClient getMessagesForThread:newThread user:loggedUser completion:^(NSArray *messages) {
+                            for (PFObject *message in messages) {
+                                Message *newMessage = [Message fetchMessageFromParseMessages:message inContext:self.managedObjectContext];
+                                [newThread addMessagesObject:newMessage];
+                                newMessage.user = loggedUser;
+                            }
+                            [self saveContext];
+                            completion();
+                        } failure:nil];
+                    }];
+                }
+            } failure:nil];            
+        }];
+    } else {
+        NSLog(@"no one is logged");
     }
 }
 

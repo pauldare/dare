@@ -7,6 +7,7 @@
 //
 
 #import "MessageThread.h"
+#import "Friend.h"
 #import "Message.h"
 #import "User.h"
 
@@ -18,5 +19,6 @@
 @dynamic backgroundPicture;
 @dynamic users;
 @dynamic messages;
+@dynamic friends;
 
 @end

@@ -61,14 +61,17 @@
     UITapGestureRecognizer *tapOnArrow = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(backToMainPage)];
     tapOnArrow.numberOfTapsRequired = 1;
     [_backArrowLabel addGestureRecognizer:tapOnArrow];
+    _backArrowLabel.userInteractionEnabled = YES;
     
     UITapGestureRecognizer *tapOnBack = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(backToMainPage)];
     tapOnBack.numberOfTapsRequired = 1;
     [_backLabel addGestureRecognizer:tapOnBack];
+    _backLabel.userInteractionEnabled = YES;
     
     UISwipeGestureRecognizer *swipeToGoBack = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(backToMainPage)];
     swipeToGoBack.direction = UISwipeGestureRecognizerDirectionRight;
     [self.view addGestureRecognizer:swipeToGoBack];
+    
     
     // Do any additional setup after loading the view.
 }
@@ -81,7 +84,7 @@
 
 -(void)backToMainPage
 {
-    
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 -(void)unblockUsers

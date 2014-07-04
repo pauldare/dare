@@ -263,7 +263,7 @@
         <!--Settings View Controller-->
         <scene sceneID="KpM-2s-QJw">
             <objects>
-                <viewController id="DOF-lt-O0i" customClass="SettingsViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SettingsVC" id="DOF-lt-O0i" customClass="SettingsViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Q7d-Rt-yZh"/>
                         <viewControllerLayoutGuide type="bottom" id="byE-oA-aNH"/>

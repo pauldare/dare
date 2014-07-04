@@ -57,14 +57,15 @@
     [self setupTextCollection];
     
     
-    [ParseClient getUser:[PFUser currentUser] completion:^(User *loggedUser) {
-        self.friends = [[NSMutableArray alloc]initWithObjects:[PFUser currentUser], nil];
-        [self.friends addObjectsFromArray:loggedUser.friends];
-        NSLog(@"%@", self.friends);
-        [self beginThread:^{
-            NSLog(@"thread started");
-        }];
-    } failure:nil];
+    
+//    [ParseClient getUser:[PFUser currentUser] completion:^(User *loggedUser) {
+//        self.friends = [[NSMutableArray alloc]initWithObjects:[PFUser currentUser], nil];
+//        [self.friends addObjectsFromArray:loggedUser.friends];
+//        NSLog(@"%@", self.friends);
+//        [self beginThread:^(PFObject *messageThread) {
+//            NSLog(@"thread begun");
+//        }];
+//    } failure:nil];
 
 
     UINib *dareNib = [UINib nibWithNibName:@"SelectDareCell" bundle:nil];
@@ -96,24 +97,16 @@
                                              failure:^{[self selectPictureFromLibrary];}];
 }
 
-- (void)beginThread: (void(^)())completion
+- (void)beginThread: (void(^)(PFObject *messageThread))completion
 {
-    PFObject *messageOne = [PFObject objectWithClassName:@"Message"];
-    [messageOne addObject:@"I DARE YOU\n to pet a dog" forKey:@"text"];
-    UIImage *imageOne = [UIImage imageNamed:@"retriever.jpeg"];
-    NSData *imageDataOne = UIImagePNGRepresentation(imageOne);
-    PFFile *fileOne = [PFFile fileWithName:@"userPic" data:imageDataOne];
-    [fileOne saveInBackground];
-    [messageOne addObject:fileOne forKey:@"picture"];
-    [messageOne saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+    [ParseClient createMessage:@"text" picture:[UIImage imageNamed:@"retriever.jpeg"] completion:^(PFObject *message) {
         [ParseClient startMessageThreadForUsers:self.friends
-                                    withMessage:messageOne
-                                      withTitle:messageOne[@"text"]
-                                 backroundImage:imageOne
-                                     completion:^{
-                                     completion();
-            
-        }];
+                                    withMessage:message
+                                      withTitle:message[@"text"]
+                                 backroundImage:[UIImage imageNamed:@"retriever.jpeg"]
+                                     completion:^(PFObject *messageThread) {
+                                         completion(messageThread);
+                                     }];
     }];
 }
 

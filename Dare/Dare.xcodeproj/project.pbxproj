@@ -71,6 +71,8 @@
 		45740137196390470080895D /* MainScreenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 45740136196390470080895D /* MainScreenViewController.m */; };
 		45A72F341965B17C00A187B7 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 45A72F331965B17C00A187B7 /* libPods.a */; };
 		45A72F361965B18500A187B7 /* Twitter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45A72F351965B18500A187B7 /* Twitter.framework */; };
+		45DBD1171968929A00E21196 /* CancelDareCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 45DBD1161968929A00E21196 /* CancelDareCell.xib */; };
+		45DBD11D1968936C00E21196 /* CanelDareCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 45DBD11C1968936C00E21196 /* CanelDareCell.m */; };
 		5234BB1A19606D4C00850ECB /* DisplayNameSelectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5234BB1919606D4C00850ECB /* DisplayNameSelectViewController.m */; };
 		5234BB1D19606D8600850ECB /* UIColor+DareColors.m in Sources */ = {isa = PBXBuildFile; fileRef = 5234BB1C19606D8600850ECB /* UIColor+DareColors.m */; };
 		5234BB20196077AE00850ECB /* ChooseDisplayPhotoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5234BB1F196077AE00850ECB /* ChooseDisplayPhotoViewController.m */; };
@@ -186,6 +188,9 @@
 		45740136196390470080895D /* MainScreenViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainScreenViewController.m; sourceTree = "<group>"; };
 		45A72F331965B17C00A187B7 /* libPods.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libPods.a; path = "Pods/build/Debug-iphoneos/libPods.a"; sourceTree = "<group>"; };
 		45A72F351965B18500A187B7 /* Twitter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Twitter.framework; path = System/Library/Frameworks/Twitter.framework; sourceTree = SDKROOT; };
+		45DBD1161968929A00E21196 /* CancelDareCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CancelDareCell.xib; sourceTree = "<group>"; };
+		45DBD11B1968936C00E21196 /* CanelDareCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CanelDareCell.h; sourceTree = "<group>"; };
+		45DBD11C1968936C00E21196 /* CanelDareCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CanelDareCell.m; sourceTree = "<group>"; };
 		5234BB1819606D4C00850ECB /* DisplayNameSelectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DisplayNameSelectViewController.h; sourceTree = "<group>"; };
 		5234BB1919606D4C00850ECB /* DisplayNameSelectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DisplayNameSelectViewController.m; sourceTree = "<group>"; };
 		5234BB1B19606D8600850ECB /* UIColor+DareColors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+DareColors.h"; sourceTree = "<group>"; };
@@ -286,6 +291,9 @@
 				05984FB6196866C000DAE025 /* AddCommentCell.h */,
 				05984FB7196866C000DAE025 /* AddCommentCell.m */,
 				05984FB8196866C000DAE025 /* AddCommentCell.xib */,
+				45DBD1161968929A00E21196 /* CancelDareCell.xib */,
+				45DBD11B1968936C00E21196 /* CanelDareCell.h */,
+				45DBD11C1968936C00E21196 /* CanelDareCell.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -533,6 +541,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				527FDAF81960C4650083D6F0 /* FriendListIcon.xib in Resources */,
+				45DBD1171968929A00E21196 /* CancelDareCell.xib in Resources */,
 				527FDAEB1960AEE50083D6F0 /* DareCell.xib in Resources */,
 				4553B5A1195B944E005C6D1A /* InfoPlist.strings in Resources */,
 				4553B5AC195B944F005C6D1A /* Images.xcassets in Resources */,
@@ -609,6 +618,7 @@
 				05984F631967398100DAE025 /* MessageThread+Methods.m in Sources */,
 				05984FB9196866C000DAE025 /* AddCommentCell.m in Sources */,
 				05984F601967395800DAE025 /* Message+Methods.m in Sources */,
+				45DBD11D1968936C00E21196 /* CanelDareCell.m in Sources */,
 				05984FA21967512600DAE025 /* User.m in Sources */,
 				456E625F195F67C5003CC220 /* ParseClient.m in Sources */,
 				05984FAC19678AF800DAE025 /* HeaderCell.m in Sources */,

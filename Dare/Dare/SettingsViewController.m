@@ -15,6 +15,8 @@
 #import "DareDataStore.h"
 #import "User+Methods.h"
 #import "ChooseDisplayPhotoViewController.h"
+#import "DisplayNameSelectViewController.h"
+
 
 @interface SettingsViewController ()
 @property (weak, nonatomic) IBOutlet UIImageView *profilePhoto;
@@ -88,15 +90,15 @@
 - (IBAction)changeNameButton:(id)sender
 {    
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];
-    UIViewController *viewController = [storyboard instantiateViewControllerWithIdentifier:@"DisplayNameSelectVC"];
+    DisplayNameSelectViewController *viewController = (DisplayNameSelectViewController *)[storyboard instantiateViewControllerWithIdentifier:@"DisplayNameSelectVC"];
+    viewController.fromSettings = YES;
     [self presentViewController:viewController animated:YES completion:nil];
 }
 
 -(void)backToMainPage
 {
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];
-    MainScreenViewController *mainVC = [storyboard instantiateViewControllerWithIdentifier:@"MainScreen"];
-    
+    MainScreenViewController *mainVC = [storyboard instantiateViewControllerWithIdentifier:@"MainScreen"];    
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 

@@ -16,7 +16,7 @@
 #import <FontAwesomeKit/FontAwesomeKit.h>
 
 
-@interface NewDareViewController () <UICollectionViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UICollectionViewDataSource>
+@interface NewDareViewController () <UICollectionViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UICollectionViewDataSource,UITextFieldDelegate>
 
 @property (weak, nonatomic) IBOutlet UIView *cameraView;
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
@@ -153,6 +153,7 @@
     [_dareTextImageOverlay addGestureRecognizer:tapOnImageOverlay];
     
     _dareText = [[UITextField alloc]init];
+    _dareText.delegate = self;
     _dareText.userInteractionEnabled = NO;
     _dareText.textAlignment = NSTextAlignmentCenter;
     _dareText.translatesAutoresizingMaskIntoConstraints = NO;
@@ -388,11 +389,28 @@
 {
     if (collectionView == _textCollection) {
         [self moveOverlayIntoView];
+        if (indexPath.row == 0) {
+            _dareText.text = @"";
+            _dareText.returnKeyType = UIReturnKeyDone;
+            _dareText.userInteractionEnabled = YES;
+            _dareTextImageOverlay.userInteractionEnabled = NO;
+            [_dareText becomeFirstResponder];
+            NSLog(@"%@",((SelectDareCell*)[_textCollection cellForItemAtIndexPath:indexPath]).messageLabel.text);
+        }else{
         _dareText.text = ((SelectDareCell*)[_textCollection cellForItemAtIndexPath:indexPath]).messageLabel.text;
-        NSLog(@"%@",((SelectDareCell*)[_textCollection cellForItemAtIndexPath:indexPath]).messageLabel.text);
+            _dareText.userInteractionEnabled = NO;
+            _dareTextImageOverlay.userInteractionEnabled = YES;
+        }
+       
     }
 }
 
+-(BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    [textField resignFirstResponder];
+    return YES;
+    
+}
 
 
 @end

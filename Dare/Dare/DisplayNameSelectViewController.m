@@ -99,9 +99,10 @@
 {
     [self.userNameTextfield resignFirstResponder];
     [self.loggedUser setObject:_userNameTextfield.text forKey:@"displayName"];
-    [self.loggedUser saveInBackground];
-    self.coreDataUser.displayName = self.userNameTextfield.text;
-    [self.dataStore saveContext];
+    [self.loggedUser saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        self.coreDataUser.displayName = self.userNameTextfield.text;
+        [self.dataStore saveContext];
+    }];
     return [super resignFirstResponder];
 }
 

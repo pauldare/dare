@@ -81,10 +81,11 @@
                                            isFront:YES
                                               view:self.cameraView
                                         completion:^(UIImage *newImage) {
-                                            [self changeImageOnParse:newImage];
-                                            NSData *imageData = UIImagePNGRepresentation(newImage);
-                                            self.coreDataUser.profileImage = imageData;
-                                            [self.dataStore saveContext];
+                                            [self changeImageOnParse:newImage completion:^{
+                                                NSData *imageData = UIImagePNGRepresentation(newImage);
+                                                self.coreDataUser.profileImage = imageData;
+                                                [self.dataStore saveContext];
+                                            }];                                            
     } failure:^{
             [self selectPictureFromLibrary];
     }];
@@ -105,20 +106,24 @@
 {
     UIImage *chosenImage = info[UIImagePickerControllerEditedImage];
     self.imageView.image = chosenImage;
-    [self changeImageOnParse:chosenImage];
-    NSData *imageData = UIImagePNGRepresentation(chosenImage);
-    self.coreDataUser.profileImage = imageData;
-    [self.dataStore saveContext];
-    [picker dismissViewControllerAnimated:YES completion:NULL];
+    [self changeImageOnParse:chosenImage completion:^{
+        NSData *imageData = UIImagePNGRepresentation(chosenImage);
+        self.coreDataUser.profileImage = imageData;
+        [self.dataStore saveContext];
+        [picker dismissViewControllerAnimated:YES completion:NULL];
+    }];
 }
 
 - (void)changeImageOnParse: (UIImage *)newImage
+                completion: (void(^)())completion
 {
     NSData *imageData = UIImagePNGRepresentation(newImage);
     PFFile *file = [PFFile fileWithData:imageData];
     [file saveInBackground];
     [self.loggedUser setObject:file forKey:@"image"];
-    [self.loggedUser saveInBackground];
+    [self.loggedUser saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        completion;
+    }];
 }
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker

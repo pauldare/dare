@@ -188,7 +188,6 @@
         [_cameraManager.session commitConfiguration];
         
     }
->>>>>>> 1b96511c903aa0d57506033d86bf83cfc75b0769
 }
 
 - (AVCaptureDevice *) cameraWithPosition:(AVCaptureDevicePosition) position
@@ -633,6 +632,8 @@
 
 -(void)postDare
 {
+    
+    
     UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];
 #warning this should go to the message thread. This is here for testing
     MainScreenViewController *mainScreen = [storyBoard instantiateViewControllerWithIdentifier:@"MainScreen"];

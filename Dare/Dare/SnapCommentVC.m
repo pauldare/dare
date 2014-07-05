@@ -48,6 +48,9 @@
     self.textLabel.backgroundColor = [UIColor clearColor];
     self.textLabel.font = [UIFont boldSystemFontOfSize:18];
     self.textLabel.textColor = [UIColor whiteColor];
+//    [self.cameraView bringSubviewToFront:self.cameraButton];
+//    [self.cameraView bringSubviewToFront:self.albumButton];
+//    [self.cameraView bringSubviewToFront:self.flipButton];
 }
 
 - (void)setupCamera

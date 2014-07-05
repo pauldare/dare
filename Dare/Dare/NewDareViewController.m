@@ -31,7 +31,7 @@
 @property (weak, nonatomic) IBOutlet UICollectionView *textCollection;
 @property (strong, nonatomic) NSArray *images;
 @property (strong, nonatomic) NSArray *messages;
-//@property (strong, nonatomic) NSArray *friends;
+
 @property (weak, nonatomic) IBOutlet UIButton *backButton;
 @property (weak, nonatomic) IBOutlet UIButton *forwardButton;
 @property (strong, nonatomic) UIView *dareTextImageOverlay;

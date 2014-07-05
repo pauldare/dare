@@ -44,8 +44,10 @@
         self.imageView.image = image;
     }];
     self.loggedUser = [PFUser currentUser];
-    
     self.cameraManager = [[CameraManager alloc]init];
+    if (self.fromSettings) {
+        self.nextLabel.text = @"DONE";
+    }
 
     _cameraCaptureButton.tintColor = [UIColor DareBlue];
     _imageView.backgroundColor = [UIColor DareBlue];
@@ -126,9 +128,15 @@
 
 -(void)presentNextView
 {
-    UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];
-    UIViewController *vc = [storyBoard instantiateViewControllerWithIdentifier:@"MainScreen"];
-    [self presentViewController:vc animated:YES completion:nil];
+    if (!self.fromSettings) {
+        UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];
+        UIViewController *vc = [storyBoard instantiateViewControllerWithIdentifier:@"MainScreen"];
+        [self presentViewController:vc animated:YES completion:nil];
+    } else {
+        UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];
+        UIViewController *vc = [storyBoard instantiateViewControllerWithIdentifier:@"SettingsVC"];
+        [self presentViewController:vc animated:YES completion:nil];
+    }
 }
 
 

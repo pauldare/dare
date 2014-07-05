@@ -168,6 +168,7 @@
         [_cameraManager.session commitConfiguration];
         
     }
+
 }
 
 - (AVCaptureDevice *) cameraWithPosition:(AVCaptureDevicePosition) position
@@ -541,6 +542,7 @@
             NSLog(@"%@",((SelectDareCell*)[_textCollection cellForItemAtIndexPath:indexPath]).messageLabel.text);
         }else{
             _dareText.text = ((SelectDareCell*)[_textCollection cellForItemAtIndexPath:indexPath]).messageLabel.text;
+            _dareString = _dareText.text;
             _dareText.userInteractionEnabled = NO;
             UITapGestureRecognizer *tapOnPredeterminedDare = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(showDareSelection)];
             tapOnPredeterminedDare.numberOfTapsRequired = 1;

@@ -101,8 +101,6 @@
     [self setupCamera];
     [self setupFriendsCollection];
     [self setupTextCollection];
-    
-    
     [self setupImageOverlay];
 
     UITapGestureRecognizer *tapOnImageOverlay = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(cropImageToOverlay)];
@@ -171,7 +169,6 @@
 -(void)moveOverlayIntoView
 {
     [UIView animateWithDuration:0.3 animations:^{
-        
         [_dareTextImageOverlay setFrame:CGRectMake(0, _cameraView.frame.origin.y, _cameraView.frame.size.width, 112)];
     }];
 }
@@ -319,7 +316,6 @@
         picker.delegate = self;
         picker.allowsEditing = YES;
         picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-        
         [self presentViewController:picker animated:YES completion:NULL];
     }
 }
@@ -346,7 +342,6 @@
     if (collectionView == self.friendsCollection) {
         CGFloat oneThirdOfDisplay = self.friendsCollection.frame.size.width/3;
         return CGSizeMake(oneThirdOfDisplay, collectionView.frame.size.height);
-        
     } else {
         return CGSizeMake(self.textCollection.frame.size.width, self.textCollection.frame.size.width);
     }
@@ -401,7 +396,6 @@
             _dareText.userInteractionEnabled = NO;
             _dareTextImageOverlay.userInteractionEnabled = YES;
         }
-       
     }
 }
 
@@ -409,7 +403,6 @@
 {
     [textField resignFirstResponder];
     return YES;
-    
 }
 
 

@@ -8,7 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SnapCommentVC : UIViewController
+@interface SnapCommentVC : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate>
+
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 @property (weak, nonatomic) IBOutlet UIImageView *dareImageView;
 @property (weak, nonatomic) IBOutlet UIView *dareView;

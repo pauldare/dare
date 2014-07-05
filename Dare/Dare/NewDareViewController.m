@@ -260,7 +260,6 @@
 - (void)setupFriendsCollection
 {
     self.friendsCollection.backgroundColor = [UIColor DareBlue];
-    //self.friendsCollection.bounces = NO;
     self.friendsCollection.delegate = self;
     self.friendsCollection.dataSource = self;
     self.friendsCollection.showsHorizontalScrollIndicator = NO;
@@ -288,7 +287,6 @@
                                         } failure:^{
                                             [self selectPictureFromLibrary];
                                         }];
-    
     [self tapToUsePhoto];
 }
 

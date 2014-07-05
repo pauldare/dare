@@ -14,10 +14,10 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" restorationIdentifier="HeaderCell" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="AHI-sR-rrf">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="116"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="122"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="116" id="1FO-s1-epT"/>
+                            <constraint firstAttribute="height" constant="122" id="1FO-s1-epT"/>
                         </constraints>
                         <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="cF2-3k-V0e">
                             <size key="itemSize" width="106" height="106"/>
@@ -27,6 +27,31 @@
                         </collectionViewFlowLayout>
                         <cells/>
                     </collectionView>
+                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="X8x-nU-q5t">
+                        <rect key="frame" x="0.0" y="116" width="320" height="90"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qDz-Jn-HBR">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="90"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            </imageView>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9Fr-2E-VCW">
+                                <rect key="frame" x="0.0" y="10" width="320" height="69"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1go-vg-0NE">
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="69"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
                 </subviews>
                 <constraints>
                     <constraint firstItem="AHI-sR-rrf" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="BiR-ud-3Gc"/>
@@ -36,6 +61,10 @@
             </tableViewCellContentView>
             <connections>
                 <outlet property="collectionView" destination="AHI-sR-rrf" id="Ni1-Ls-aM2"/>
+                <outlet property="dareView" destination="X8x-nU-q5t" id="Kja-Kc-XQu"/>
+                <outlet property="imageView" destination="qDz-Jn-HBR" id="Iku-6R-dWp"/>
+                <outlet property="labelView" destination="9Fr-2E-VCW" id="tSj-4j-LU1"/>
+                <outlet property="textLabel" destination="1go-vg-0NE" id="UaL-bf-Q24"/>
             </connections>
         </tableViewCell>
     </objects>

@@ -9,18 +9,44 @@
 #import "HeaderCell.h"
 #import "FriendListIcon.h"
 #import "Friend.h"
+#import "UIColor+DareColors.h"
+
+
+@interface HeaderCell ()
+
+@property (strong, nonatomic) DareDataStore *dataStore;
+@property (strong, nonatomic) NSArray *images;
+@property (strong, nonatomic) NSArray *friends;
+
+@end
 
 
 @implementation HeaderCell
 
+@synthesize imageView;
+
 - (void)awakeFromNib
 {
+    UIImage *flowerImage = [UIImage imageNamed:@"flower.jpeg"];
     self.dataStore = [DareDataStore sharedDataStore];
+    self.selectionStyle = UITableViewCellSelectionStyleNone;
+    self.collectionView.delegate = self;
+    self.collectionView.dataSource = self;
+    self.collectionView.showsHorizontalScrollIndicator = NO;
+    self.textLabel.backgroundColor = [UIColor clearColor];
+    self.textLabel.font = [UIFont boldSystemFontOfSize:18];
+    self.textLabel.textColor = [UIColor whiteColor];
+    
+    self.collectionView.backgroundColor = [UIColor DareBlue];
+    self.imageView.image = flowerImage;
+    self.labelView.backgroundColor = [UIColor DareCellOverlay];
     [self fetchFriends:^{
         [self.collectionView reloadData];
     }];
     UINib *friendNib = [UINib nibWithNibName:@"FriendListIcon" bundle:nil];
     [self.collectionView registerNib:friendNib forCellWithReuseIdentifier:@"FriendCell"];
+    self.images = @[[UIImage imageNamed:@"angry.jpeg"], [UIImage imageNamed:@"tricolor.jpeg"], [UIImage imageNamed:@"kitten.jpeg"], [UIImage imageNamed:@"cat.jpeg"]];
+    
 }
 
 - (void)fetchFriends: (void(^)())completion
@@ -39,7 +65,7 @@
 
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return [self.friends count];
+    return [self.images count];
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
@@ -63,9 +89,10 @@
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     FriendListIcon *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"FriendCell" forIndexPath:indexPath];
-    Friend *friend = self.friends[indexPath.row];
-    UIImage *image = [UIImage imageWithData:friend.image];
-    ((FriendListIcon*)cell).friendImage.image = image;
+    UIImage *image = self.images[indexPath.row];
+    //Friend *friend = self.friends[indexPath.row];
+    //UIImage *image = [UIImage imageWithData:friend.image];
+    ((FriendListIcon *)cell).friendImage.image = image;
     return cell;
 }
 
@@ -73,8 +100,6 @@
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
 {
     [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
 }
 
 @end

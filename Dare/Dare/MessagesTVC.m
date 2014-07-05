@@ -54,11 +54,11 @@
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-    return 0;
+    return 0.1;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    return 0;
+    return 0.1;
 }
 
 
@@ -72,8 +72,6 @@
         if (cell == nil) {
             cell = [[HeaderCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
         }
-        
-        cell.textLabel.text = @"some static content";
         return cell;
         
     } else if (indexPath.section == 1){

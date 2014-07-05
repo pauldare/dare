@@ -31,7 +31,7 @@
 @property (weak, nonatomic) IBOutlet UICollectionView *textCollection;
 @property (strong, nonatomic) NSArray *images;
 @property (strong, nonatomic) NSArray *messages;
-//@property (strong, nonatomic) NSArray *friends;
+
 @property (weak, nonatomic) IBOutlet UIButton *backButton;
 @property (weak, nonatomic) IBOutlet UIButton *forwardButton;
 @property (strong, nonatomic) UIView *dareTextImageOverlay;
@@ -104,25 +104,11 @@
     
     
     [self setupImageOverlay];
-    
-    
-    
-    //    [ParseClient getUser:[PFUser currentUser] completion:^(User *loggedUser) {
-    //        self.friends = [[NSMutableArray alloc]initWithObjects:[PFUser currentUser], nil];
-    //        [self.friends addObjectsFromArray:loggedUser.friends];
-    //        NSLog(@"%@", self.friends);
-    //        [self beginThread:^(PFObject *messageThread) {
-    //            NSLog(@"thread begun");
-    //            [ParseClient addMessageToThread:messageThread
-    //                                   withText:@"give flowers"
-    //                                    picture:[UIImage imageNamed:@"flower.jpeg"]
-    //                                 completion:^{
-    //                                     NSLog(@"fetched");
-    //                                 }];
-    //        }];
-    //    } failure:nil];
-    
-    
+
+    UITapGestureRecognizer *tapOnImageOverlay = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(cropImageToOverlay)];
+    tapOnImageOverlay.numberOfTapsRequired = 1;
+    [_dareTextImageOverlay addGestureRecognizer:tapOnImageOverlay];
+
 
     UINib *dareNib = [UINib nibWithNibName:@"SelectDareCell" bundle:nil];
     [self.textCollection registerNib:dareNib forCellWithReuseIdentifier:@"SelectDareCell"];
@@ -151,6 +137,7 @@
     _forwardButton.hidden = YES;
     
 }
+
 
 -(void)setupImageOverlay
 {

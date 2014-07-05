@@ -14,12 +14,15 @@
 #import "MessageThread.h"
 #import "DareDataStore.h"
 #import "Friend+Methods.h"
+#import "DareDataStore.h"
 
 
 
 @interface AppDelegate()
 //@property (strong, nonatomic) UIView *faceBookProfileImageContainerView;
 //@property (strong, nonatomic) PFUser *myUser;
+
+@property (strong, nonatomic) DareDataStore *dataStore;
 @end
 
 
@@ -30,6 +33,7 @@
 {
     [Parse setApplicationId:ParseAppID
                   clientKey:ParseClientKey];
+    self.dataStore = [DareDataStore sharedDataStore];
     
     //[[DareDataStore sharedDataStore]cleanCoreData];
     
@@ -59,6 +63,7 @@
 
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
+    [self.dataStore saveContext];
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
 }

@@ -95,7 +95,8 @@
     [_tableView addGestureRecognizer:rightSwipeOnThreadList];
     
     
-    UISwipeGestureRecognizer *leftSwipeOnFriendsList = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(scrollToMainScreen)];
+    UISwipeGestureRecognizer *leftSwipeOnFriendsList = [[UISwipeGestureRecognizer alloc]initWithTarget:self
+                                                                                                action:@selector(scrollToMainScreen)];
     leftSwipeOnFriendsList.direction = UISwipeGestureRecognizerDirectionLeft;
     leftSwipeOnFriendsList.numberOfTouchesRequired = 1;
     leftSwipeOnFriendsList.delegate = self;
@@ -130,20 +131,14 @@
     
     _finalCellNib = [UINib nibWithNibName:@"FinalCell" bundle:nil];
     [_collectionView registerNib:_finalCellNib forCellWithReuseIdentifier:@"FinalCell"];
-    
-    
-    
-    
+
     _collectionView.delegate = self;
     _collectionView.dataSource = self;
     _collectionView.backgroundColor = [UIColor DareBlue];
     
     _tableView.delegate = self;
     _tableView.dataSource = self;
-#warning Remove this! It's for testing
-//    _friendsArray = @[@1, @2, @3, @4, @5, @6, @7, @8, @9, @10, @11, @12, @13, @14, @15, @16, @17, @18, @19, @20, @21, @22, @23, @24, @25, @26, @27, @28, @29, @30];
-    // _friendsArray = @[@1, @2, @3];
-    //_friends = [_friendsArray mutableCopy];
+
     _selectedFriends = [[NSMutableSet alloc]init];
     _selectedIndices = [[NSMutableSet alloc]init];
     
@@ -164,32 +159,6 @@
     [self configureMainScreen];
 }
 
-//    PFUser *currentUser = [PFUser currentUser];
-//    if (currentUser) {
-//        [ParseClient getUser:currentUser completion:^(User *loggedUser) {
-//            [ParseClient getMessageThreadsForUser:loggedUser completion:^(NSArray *threads, bool isDone) {
-//                if (isDone) {
-//                    _threads = threads;
-//                    //[self.tableView reloadData];
-//                    for (MessageThread *thread in _threads) {
-//                        [ParseClient getMessagesForThread:thread user:loggedUser completion:^(NSArray *messages) {
-//                            thread.unreadMessages = 0;
-//                            for (Message *message in messages) {
-//                                if (!message.isRead) {
-//                                    thread.unreadMessages++;
-//                                }
-//                            }
-//                            [_tableView reloadData];
-//                        } failure:nil];
-//                    }
-//                }
-//            } failure:nil];
-//        } failure:nil];
-//    } else {
-//        NSLog(@"no one is logged");
-//    }
-//
-//}
 
 - (void)fetchFriends: (void(^)())completion
 {
@@ -203,6 +172,21 @@
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"MessageThread"];
     self.threads = [self.dataStore.managedObjectContext executeFetchRequest:fetchRequest error:nil];
     completion();
+}
+
+
+
+- (NSInteger)countTotalUnread
+{
+    NSInteger total = 0;
+    for (MessageThread *thread in self.threads) {
+        for (Message *message in thread.messages) {
+            if ([message.isRead integerValue] == 0) {
+                total++;
+            }
+        }
+    }
+    return total;
 }
 
 
@@ -313,18 +297,13 @@
     _overlayUnreadBadge.textColor = [UIColor DareUnreadBadge];
     _overlayUnreadBadge.font = [UIFont boldSystemFontOfSize:130];
     _overlayUnreadBadge.textAlignment = NSTextAlignmentRight;
-#warning comment out .text property after testing
-    _overlayUnreadBadge.text = @"6";
+    _overlayUnreadBadge.text = [NSString stringWithFormat:@"%d", [self countTotalUnread]];
     [self.view addSubview:_overlayUnreadBadge];
     
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_overlayUnreadBadge attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTop multiplier:1.0 constant:50]];
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_overlayUnreadBadge attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:-20]];
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_overlayUnreadBadge attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeHeight multiplier:1.0 constant:150]];
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_overlayUnreadBadge attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeLeading multiplier:1.0 constant:0]];
-    
-    
-    
-    
     
     UISwipeGestureRecognizer *leftSwipeOnMainView = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(scrollToMessages)];
     leftSwipeOnMainView.direction = UISwipeGestureRecognizerDirectionLeft;

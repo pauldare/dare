@@ -12,6 +12,8 @@
 #import <AssetsLibrary/AssetsLibrary.h>
 #import "UIColor+DareColors.h"
 #import "ParseClient.h"
+#import "DareDataStore.h"
+#import "User+Methods.h"
 
 
 @interface ChooseDisplayPhotoViewController ()
@@ -24,6 +26,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *arrowLabel;
 @property (strong, nonatomic) PFUser *loggedUser;
 @property (strong, nonatomic) CameraManager *cameraManager;
+@property (strong, nonatomic) DareDataStore *dataStore;
+@property (strong, nonatomic) User *coreDataUser;
 
 // For use in the storyboards.
 
@@ -34,10 +38,16 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+    self.dataStore = [DareDataStore sharedDataStore];
+    [self fetchLoggedUser:^{
+        UIImage *image = [UIImage imageWithData:self.coreDataUser.profileImage];
+        self.imageView.image = image;
+    }];
     self.loggedUser = [PFUser currentUser];
-    
     self.cameraManager = [[CameraManager alloc]init];
+    if (self.fromSettings) {
+        self.nextLabel.text = @"DONE";
+    }
 
     _cameraCaptureButton.tintColor = [UIColor DareBlue];
     _imageView.backgroundColor = [UIColor DareBlue];
@@ -55,13 +65,14 @@
     UISwipeGestureRecognizer *swipeGesture = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(presentNextView)];
     swipeGesture.direction = UISwipeGestureRecognizerDirectionLeft;
     [self.view addGestureRecognizer:swipeGesture];
-
-//    
-//    [ParseClient getUser:self.loggedUser completion:^(User *loggedUser) {
-//        _imageView.image = loggedUser.profileImage;
-//    } failure:nil];
 }
 
+- (void)fetchLoggedUser: (void(^)())completion
+{
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"User"];
+    self.coreDataUser = [self.dataStore.managedObjectContext executeFetchRequest:fetchRequest error:nil][0];
+    completion();
+}
 
 
 - (IBAction)snapStillImage:(id)sender
@@ -70,9 +81,12 @@
                                            isFront:YES
                                               view:self.cameraView
                                         completion:^(UIImage *newImage) {
-        [self changeImageOnParse:newImage];
+                                            [self changeImageOnParse:newImage];
+                                            NSData *imageData = UIImagePNGRepresentation(newImage);
+                                            self.coreDataUser.profileImage = imageData;
+                                            [self.dataStore saveContext];
     } failure:^{
-        [self selectPictureFromLibrary];
+            [self selectPictureFromLibrary];
     }];
 }
 
@@ -83,38 +97,46 @@
         picker.delegate = self;
         picker.allowsEditing = YES;
         picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-        
         [self presentViewController:picker animated:YES completion:NULL];
     }
 }
 
-- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
-    
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
+{
     UIImage *chosenImage = info[UIImagePickerControllerEditedImage];
     self.imageView.image = chosenImage;
     [self changeImageOnParse:chosenImage];
+    NSData *imageData = UIImagePNGRepresentation(chosenImage);
+    self.coreDataUser.profileImage = imageData;
+    [self.dataStore saveContext];
     [picker dismissViewControllerAnimated:YES completion:NULL];
 }
 
 - (void)changeImageOnParse: (UIImage *)newImage
 {
     NSData *imageData = UIImagePNGRepresentation(newImage);
-    PFFile *file = [PFFile fileWithName:@"image" data:imageData];
+    PFFile *file = [PFFile fileWithData:imageData];
     [file saveInBackground];
     [self.loggedUser setObject:file forKey:@"image"];
     [self.loggedUser saveInBackground];
 }
 
-- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
-    
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
+{
     [picker dismissViewControllerAnimated:YES completion:NULL];
 }
 
 -(void)presentNextView
 {
-    UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];
-    UIViewController *vc = [storyBoard instantiateViewControllerWithIdentifier:@"DareTable"];
-    [self presentViewController:vc animated:YES completion:nil];
+    if (!self.fromSettings) {
+        UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];
+        UIViewController *vc = [storyBoard instantiateViewControllerWithIdentifier:@"MainScreen"];
+        [self presentViewController:vc animated:YES completion:nil];
+    } else {
+        UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];
+        UIViewController *vc = [storyBoard instantiateViewControllerWithIdentifier:@"SettingsVC"];
+        [self presentViewController:vc animated:YES completion:nil];
+    }
 }
 
 

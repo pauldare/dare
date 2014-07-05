@@ -9,6 +9,7 @@
 #import "DisplayNameSelectViewController.h"
 #import "UIColor+DareColors.h"
 #import "User.h"
+#import "DareDataStore.h"
 
 @interface DisplayNameSelectViewController ()
 
@@ -17,25 +18,20 @@
 @property (weak, nonatomic) IBOutlet UILabel *nextLabel;
 @property (weak, nonatomic) IBOutlet UILabel *arrowLabel;
 @property (strong, nonatomic) PFUser *loggedUser;
+@property (strong, nonatomic) User *coreDataUser;
+@property (strong, nonatomic) DareDataStore *dataStore;
 
 @end
 
 @implementation DisplayNameSelectViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     [self.view removeConstraints:self.view.constraints];
-    
+    self.dataStore = [DareDataStore sharedDataStore];
+    [self fetchLoggedUser:^{}];
     self.view.backgroundColor = [UIColor DareBlue];
     self.loggedUser = [PFUser currentUser];
     self.userNameTextfield.text = self.loggedUser[@"displayName"];
@@ -84,9 +80,13 @@
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_nextLabel attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:_arrowLabel attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0]];
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_nextLabel attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:_arrowLabel attribute:NSLayoutAttributeWidth multiplier:1.0 constant:0]];
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_nextLabel attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:_arrowLabel attribute:NSLayoutAttributeHeight multiplier:1.0 constant:0]];
-    
-    
-    // Do any additional setup after loading the view.
+}
+
+- (void)fetchLoggedUser: (void(^)())completion
+{
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"User"];
+    self.coreDataUser = [self.dataStore.managedObjectContext executeFetchRequest:fetchRequest error:nil][0];
+    completion();
 }
 
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
@@ -100,6 +100,8 @@
     [self.userNameTextfield resignFirstResponder];
     [self.loggedUser setObject:_userNameTextfield.text forKey:@"displayName"];
     [self.loggedUser saveInBackground];
+    self.coreDataUser.displayName = self.userNameTextfield.text;
+    [self.dataStore saveContext];
     return [super resignFirstResponder];
 }
 
@@ -117,20 +119,17 @@
 -(void)presentNextView
 {
     if (![_userNameTextfield.text isEqual:@""]) {
-        UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];
-        UIViewController *vc = [storyBoard instantiateViewControllerWithIdentifier:@"ChooseDisplayPhoto"];
-        [self presentViewController:vc animated:YES completion:nil];
-    }
+        if (!self.fromSettings) {
+                UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];
+                UIViewController *vc = [storyBoard instantiateViewControllerWithIdentifier:@"ChooseDisplayPhoto"];
+                [self presentViewController:vc animated:YES completion:nil];
+        } else {
+            UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];
+            UIViewController *vc = [storyBoard instantiateViewControllerWithIdentifier:@"MainScreen"];
+            [self presentViewController:vc animated:YES completion:nil];
+        }
+    }    
 }
-/*
- #pragma mark - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
- {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
- }
- */
+
 
 @end

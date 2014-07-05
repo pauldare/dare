@@ -10,4 +10,6 @@
 
 @interface DisplayNameSelectViewController : UIViewController <UITextFieldDelegate>
 
+@property (nonatomic) BOOL fromSettings;
+
 @end

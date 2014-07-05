@@ -12,6 +12,11 @@
 #import "SignInViewController.h"
 #import <FontAwesomeKit/FontAwesomeKit.h>
 #import "MainScreenViewController.h"
+#import "DareDataStore.h"
+#import "User+Methods.h"
+#import "ChooseDisplayPhotoViewController.h"
+#import "DisplayNameSelectViewController.h"
+
 
 @interface SettingsViewController ()
 @property (weak, nonatomic) IBOutlet UIImageView *profilePhoto;
@@ -20,33 +25,24 @@
 @property (weak, nonatomic) IBOutlet UIButton *logOutButton;
 @property (weak, nonatomic) IBOutlet UILabel *backLabel;
 @property (weak, nonatomic) IBOutlet UILabel *backArrowLabel;
+@property (strong, nonatomic) DareDataStore *dataStore;
+@property (strong, nonatomic) User *loggedUser;
+
 
 @end
 
 @implementation SettingsViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+    self.dataStore = [DareDataStore sharedDataStore];
+    [self fetchLoggedUser:^{
+        UIImage *photo = [UIImage imageWithData:self.loggedUser.profileImage];
+        self.profilePhoto.image = photo;
+    }];
     self.view.backgroundColor = [UIColor DareBlue];
-    
-//    [ParseClient getUser:[PFUser currentUser] completion:^(User *loggedUser) {
-//        dispatch_async(dispatch_get_main_queue(), ^{
-//            _profilePhoto.image = loggedUser.profileImage;
-//        });
-//        
-//    } failure:nil];
-    
+
     [_unblockButton addTarget:self action:@selector(unblockUsers) forControlEvents:UIControlEventTouchUpInside];
     
     [_logOutButton addTarget:self action:@selector(logOut) forControlEvents:UIControlEventTouchUpInside];
@@ -74,24 +70,36 @@
     [self.view addGestureRecognizer:swipeToGoBack];
     
     self.navigationController.navigationBarHidden = YES;
-    
-    
-    // Do any additional setup after loading the view.
 }
 
-- (void)didReceiveMemoryWarning
+- (void)fetchLoggedUser: (void(^)())completion
 {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"User"];
+    self.loggedUser = [self.dataStore.managedObjectContext executeFetchRequest:fetchRequest error:nil][0];
+    completion();
+}
+
+- (IBAction)changeImageButtonPressed:(id)sender
+{
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];
+    ChooseDisplayPhotoViewController *viewController = (ChooseDisplayPhotoViewController *)[storyboard instantiateViewControllerWithIdentifier:@"ChooseDisplayPhoto"];
+    viewController.fromSettings = YES;
+    [self presentViewController:viewController animated:YES completion:nil];
+}
+
+- (IBAction)changeNameButton:(id)sender
+{    
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];
+    DisplayNameSelectViewController *viewController = (DisplayNameSelectViewController *)[storyboard instantiateViewControllerWithIdentifier:@"DisplayNameSelectVC"];
+    viewController.fromSettings = YES;
+    [self presentViewController:viewController animated:YES completion:nil];
 }
 
 -(void)backToMainPage
 {
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];
     MainScreenViewController *mainVC = [storyboard instantiateViewControllerWithIdentifier:@"MainScreen"];
-    
     [self dismissViewControllerAnimated:YES completion:nil];
-
 }
 
 -(void)unblockUsers
@@ -111,15 +119,5 @@
     [self presentViewController:initialNavController animated:YES completion:nil];
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

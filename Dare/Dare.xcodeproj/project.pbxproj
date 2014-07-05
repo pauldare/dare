@@ -19,6 +19,9 @@
 		05984F9F1967512600DAE025 /* Friend.m in Sources */ = {isa = PBXBuildFile; fileRef = 05984F9E1967512600DAE025 /* Friend.m */; };
 		05984FA21967512600DAE025 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 05984FA11967512600DAE025 /* User.m */; };
 		05984FA51967512600DAE025 /* Message.m in Sources */ = {isa = PBXBuildFile; fileRef = 05984FA41967512600DAE025 /* Message.m */; };
+		05984FA81967882500DAE025 /* MessagesTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 05984FA71967882500DAE025 /* MessagesTVC.m */; };
+		05984FAC19678AF800DAE025 /* HeaderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 05984FAA19678AF800DAE025 /* HeaderCell.m */; };
+		05984FAD19678AF800DAE025 /* HeaderCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 05984FAB19678AF800DAE025 /* HeaderCell.xib */; };
 		05FA70ED195FA75E00C057D4 /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = 05FA70EC195FA75E00C057D4 /* Constants.m */; };
 		0719EAB8195F516E007C2983 /* Storyboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0719EAB7195F516E007C2983 /* Storyboard.storyboard */; };
 		359EE6F01963591300088C2D /* SelectDareCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 359EE6EF1963591300088C2D /* SelectDareCell.m */; };
@@ -108,6 +111,11 @@
 		05984FA11967512600DAE025 /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
 		05984FA31967512600DAE025 /* Message.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Message.h; sourceTree = "<group>"; };
 		05984FA41967512600DAE025 /* Message.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Message.m; sourceTree = "<group>"; };
+		05984FA61967882500DAE025 /* MessagesTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessagesTVC.h; sourceTree = "<group>"; };
+		05984FA71967882500DAE025 /* MessagesTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessagesTVC.m; sourceTree = "<group>"; };
+		05984FA919678AF800DAE025 /* HeaderCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HeaderCell.h; sourceTree = "<group>"; };
+		05984FAA19678AF800DAE025 /* HeaderCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HeaderCell.m; sourceTree = "<group>"; };
+		05984FAB19678AF800DAE025 /* HeaderCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HeaderCell.xib; sourceTree = "<group>"; };
 		05FA70EC195FA75E00C057D4 /* Constants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Constants.m; path = ../Constants.m; sourceTree = "<group>"; };
 		0719EAB7195F516E007C2983 /* Storyboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Storyboard.storyboard; sourceTree = "<group>"; };
 		359EE6EE1963591300088C2D /* SelectDareCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelectDareCell.h; sourceTree = "<group>"; };
@@ -253,9 +261,12 @@
 				527FDB001960E5830083D6F0 /* FinalCell.xib */,
 				527FDAF71960C4650083D6F0 /* FriendListIcon.xib */,
 				359EE6F11963593A00088C2D /* SelectDareCell.xib */,
+				05984FAB19678AF800DAE025 /* HeaderCell.xib */,
 				0719EAB7195F516E007C2983 /* Storyboard.storyboard */,
 				359EE6EE1963591300088C2D /* SelectDareCell.h */,
 				359EE6EF1963591300088C2D /* SelectDareCell.m */,
+				05984FA919678AF800DAE025 /* HeaderCell.h */,
+				05984FAA19678AF800DAE025 /* HeaderCell.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -277,6 +288,8 @@
 				45740136196390470080895D /* MainScreenViewController.m */,
 				4512E4181967138C000A8C15 /* SettingsViewController.h */,
 				4512E4191967138C000A8C15 /* SettingsViewController.m */,
+				05984FA61967882500DAE025 /* MessagesTVC.h */,
+				05984FA71967882500DAE025 /* MessagesTVC.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -508,6 +521,7 @@
 				527FDB011960E5830083D6F0 /* FinalCell.xib in Resources */,
 				35F35F561962F5A10002C7BC /* angry.jpeg in Resources */,
 				05984F4B1966F6F300DAE025 /* flower.jpeg in Resources */,
+				05984FAD19678AF800DAE025 /* HeaderCell.xib in Resources */,
 				05984F4E1966F7A300DAE025 /* shoes.jpeg in Resources */,
 				527FDAE91960A2250083D6F0 /* icon-157351_640.png in Resources */,
 				35F35F521962F5910002C7BC /* kitten.jpeg in Resources */,
@@ -573,8 +587,10 @@
 				05984F601967395800DAE025 /* Message+Methods.m in Sources */,
 				05984FA21967512600DAE025 /* User.m in Sources */,
 				456E625F195F67C5003CC220 /* ParseClient.m in Sources */,
+				05984FAC19678AF800DAE025 /* HeaderCell.m in Sources */,
 				05FA70ED195FA75E00C057D4 /* Constants.m in Sources */,
 				05984F9C1967512500DAE025 /* MessageThread.m in Sources */,
+				05984FA81967882500DAE025 /* MessagesTVC.m in Sources */,
 				527FDAFB1960C6580083D6F0 /* FriendListIcon.m in Sources */,
 				527FDB041960E63E0083D6F0 /* FinalCell.m in Sources */,
 				527FDAEE1960B35C0083D6F0 /* DareCell.m in Sources */,

@@ -22,6 +22,11 @@
 		05984FA81967882500DAE025 /* MessagesTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 05984FA71967882500DAE025 /* MessagesTVC.m */; };
 		05984FAC19678AF800DAE025 /* HeaderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 05984FAA19678AF800DAE025 /* HeaderCell.m */; };
 		05984FAD19678AF800DAE025 /* HeaderCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 05984FAB19678AF800DAE025 /* HeaderCell.xib */; };
+		05984FB41968602400DAE025 /* MessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 05984FB21968602400DAE025 /* MessageCell.m */; };
+		05984FB51968602400DAE025 /* MessageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 05984FB31968602400DAE025 /* MessageCell.xib */; };
+		05984FB9196866C000DAE025 /* AddCommentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 05984FB7196866C000DAE025 /* AddCommentCell.m */; };
+		05984FBA196866C000DAE025 /* AddCommentCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 05984FB8196866C000DAE025 /* AddCommentCell.xib */; };
+		05984FBD196870F000DAE025 /* SnapCommentVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 05984FBC196870F000DAE025 /* SnapCommentVC.m */; };
 		05FA70ED195FA75E00C057D4 /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = 05FA70EC195FA75E00C057D4 /* Constants.m */; };
 		0719EAB8195F516E007C2983 /* Storyboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0719EAB7195F516E007C2983 /* Storyboard.storyboard */; };
 		359EE6F01963591300088C2D /* SelectDareCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 359EE6EF1963591300088C2D /* SelectDareCell.m */; };
@@ -116,6 +121,14 @@
 		05984FA919678AF800DAE025 /* HeaderCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HeaderCell.h; sourceTree = "<group>"; };
 		05984FAA19678AF800DAE025 /* HeaderCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HeaderCell.m; sourceTree = "<group>"; };
 		05984FAB19678AF800DAE025 /* HeaderCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HeaderCell.xib; sourceTree = "<group>"; };
+		05984FB11968602400DAE025 /* MessageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageCell.h; sourceTree = "<group>"; };
+		05984FB21968602400DAE025 /* MessageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageCell.m; sourceTree = "<group>"; };
+		05984FB31968602400DAE025 /* MessageCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MessageCell.xib; sourceTree = "<group>"; };
+		05984FB6196866C000DAE025 /* AddCommentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddCommentCell.h; sourceTree = "<group>"; };
+		05984FB7196866C000DAE025 /* AddCommentCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddCommentCell.m; sourceTree = "<group>"; };
+		05984FB8196866C000DAE025 /* AddCommentCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddCommentCell.xib; sourceTree = "<group>"; };
+		05984FBB196870F000DAE025 /* SnapCommentVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SnapCommentVC.h; sourceTree = "<group>"; };
+		05984FBC196870F000DAE025 /* SnapCommentVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SnapCommentVC.m; sourceTree = "<group>"; };
 		05FA70EC195FA75E00C057D4 /* Constants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Constants.m; path = ../Constants.m; sourceTree = "<group>"; };
 		0719EAB7195F516E007C2983 /* Storyboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Storyboard.storyboard; sourceTree = "<group>"; };
 		359EE6EE1963591300088C2D /* SelectDareCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelectDareCell.h; sourceTree = "<group>"; };
@@ -199,6 +212,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4553B5D8195B981D005C6D1A /* QuartzCore.framework in Frameworks */,
 				4553B59B195B944E005C6D1A /* CoreData.framework in Frameworks */,
 				4512E4111965B321000A8C15 /* Social.framework in Frameworks */,
 				45A72F361965B18500A187B7 /* Twitter.framework in Frameworks */,
@@ -207,7 +221,6 @@
 				4553B5DE195B9853005C6D1A /* SystemConfiguration.framework in Frameworks */,
 				4553B5DC195B9848005C6D1A /* StoreKit.framework in Frameworks */,
 				4553B5DA195B9829005C6D1A /* Security.framework in Frameworks */,
-				4553B5D8195B981D005C6D1A /* QuartzCore.framework in Frameworks */,
 				4553B5D6195B9811005C6D1A /* MobileCoreServices.framework in Frameworks */,
 				4553B5D4195B9802005C6D1A /* libz.dylib in Frameworks */,
 				4553B5D2195B97F5005C6D1A /* CoreLocation.framework in Frameworks */,
@@ -262,11 +275,17 @@
 				527FDAF71960C4650083D6F0 /* FriendListIcon.xib */,
 				359EE6F11963593A00088C2D /* SelectDareCell.xib */,
 				05984FAB19678AF800DAE025 /* HeaderCell.xib */,
+				05984FB31968602400DAE025 /* MessageCell.xib */,
+				05984FB11968602400DAE025 /* MessageCell.h */,
+				05984FB21968602400DAE025 /* MessageCell.m */,
 				0719EAB7195F516E007C2983 /* Storyboard.storyboard */,
 				359EE6EE1963591300088C2D /* SelectDareCell.h */,
 				359EE6EF1963591300088C2D /* SelectDareCell.m */,
 				05984FA919678AF800DAE025 /* HeaderCell.h */,
 				05984FAA19678AF800DAE025 /* HeaderCell.m */,
+				05984FB6196866C000DAE025 /* AddCommentCell.h */,
+				05984FB7196866C000DAE025 /* AddCommentCell.m */,
+				05984FB8196866C000DAE025 /* AddCommentCell.xib */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -282,6 +301,8 @@
 				5234BB1919606D4C00850ECB /* DisplayNameSelectViewController.m */,
 				5234BB1E196077AE00850ECB /* ChooseDisplayPhotoViewController.h */,
 				5234BB1F196077AE00850ECB /* ChooseDisplayPhotoViewController.m */,
+				05984FBB196870F000DAE025 /* SnapCommentVC.h */,
+				05984FBC196870F000DAE025 /* SnapCommentVC.m */,
 				35F35F3E1961EA2F0002C7BC /* NewDareViewController.h */,
 				35F35F3F1961EA2F0002C7BC /* NewDareViewController.m */,
 				45740135196390470080895D /* MainScreenViewController.h */,
@@ -516,6 +537,7 @@
 				4553B5A1195B944E005C6D1A /* InfoPlist.strings in Resources */,
 				4553B5AC195B944F005C6D1A /* Images.xcassets in Resources */,
 				35F35F481961F23F0002C7BC /* cat.jpeg in Resources */,
+				05984FB51968602400DAE025 /* MessageCell.xib in Resources */,
 				35F35F541962F5990002C7BC /* tricolor.jpeg in Resources */,
 				0719EAB8195F516E007C2983 /* Storyboard.storyboard in Resources */,
 				527FDB011960E5830083D6F0 /* FinalCell.xib in Resources */,
@@ -525,6 +547,7 @@
 				05984F4E1966F7A300DAE025 /* shoes.jpeg in Resources */,
 				527FDAE91960A2250083D6F0 /* icon-157351_640.png in Resources */,
 				35F35F521962F5910002C7BC /* kitten.jpeg in Resources */,
+				05984FBA196866C000DAE025 /* AddCommentCell.xib in Resources */,
 				359EE6F21963593A00088C2D /* SelectDareCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -584,11 +607,14 @@
 				4512E41A1967138C000A8C15 /* SettingsViewController.m in Sources */,
 				5234BB20196077AE00850ECB /* ChooseDisplayPhotoViewController.m in Sources */,
 				05984F631967398100DAE025 /* MessageThread+Methods.m in Sources */,
+				05984FB9196866C000DAE025 /* AddCommentCell.m in Sources */,
 				05984F601967395800DAE025 /* Message+Methods.m in Sources */,
 				05984FA21967512600DAE025 /* User.m in Sources */,
 				456E625F195F67C5003CC220 /* ParseClient.m in Sources */,
 				05984FAC19678AF800DAE025 /* HeaderCell.m in Sources */,
+				05984FBD196870F000DAE025 /* SnapCommentVC.m in Sources */,
 				05FA70ED195FA75E00C057D4 /* Constants.m in Sources */,
+				05984FB41968602400DAE025 /* MessageCell.m in Sources */,
 				05984F9C1967512500DAE025 /* MessageThread.m in Sources */,
 				05984FA81967882500DAE025 /* MessagesTVC.m in Sources */,
 				527FDAFB1960C6580083D6F0 /* FriendListIcon.m in Sources */,

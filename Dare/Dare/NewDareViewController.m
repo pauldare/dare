@@ -117,8 +117,6 @@
     [self setupCamera];
     [self setupFriendsCollection];
     [self setupTextCollection];
-    
-    
     [self setupImageOverlay];
     
     
@@ -214,7 +212,6 @@
 -(void)moveOverlayIntoView
 {
     [UIView animateWithDuration:0.3 animations:^{
-        
         [_dareTextImageOverlay setFrame:CGRectMake(0, _cameraView.frame.origin.y, _cameraView.frame.size.width, 112)];
     }];
 }
@@ -309,7 +306,6 @@
 - (void)setupFriendsCollection
 {
     self.friendsCollection.backgroundColor = [UIColor DareBlue];
-    //self.friendsCollection.bounces = NO;
     self.friendsCollection.delegate = self;
     self.friendsCollection.dataSource = self;
     self.friendsCollection.showsHorizontalScrollIndicator = NO;
@@ -338,6 +334,7 @@
                                         } failure:^{
                                             [self selectPictureFromPhotoLibrary];
                                         }];
+
          [self tapToUsePhoto];
     }else{
         _imageView.image = nil;
@@ -377,7 +374,6 @@
         picker.delegate = self;
         picker.allowsEditing = YES;
         picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-        
         [self presentViewController:picker animated:YES completion:NULL];
     }
 }
@@ -404,7 +400,6 @@
     if (collectionView == self.friendsCollection) {
         CGFloat oneThirdOfDisplay = self.friendsCollection.frame.size.width/3;
         return CGSizeMake(oneThirdOfDisplay, collectionView.frame.size.height);
-        
     } else {
         return CGSizeMake(self.textCollection.frame.size.width, self.textCollection.frame.size.width);
     }
@@ -470,7 +465,6 @@
             _dareText.userInteractionEnabled = NO;
             _dareTextImageOverlay.userInteractionEnabled = YES;
         }
-        
     }
 }
 
@@ -514,7 +508,6 @@
     //_dareText.enabled = NO;
     //_panGestureOnImageOverlay.enabled = YES;
     return YES;
-    
 }
 
 -(void)postDare

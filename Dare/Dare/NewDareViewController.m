@@ -64,9 +64,11 @@
     self.images = @[[UIImage imageNamed:@"angry.jpeg"], [UIImage imageNamed:@"tricolor.jpeg"], [UIImage imageNamed:@"kitten.jpeg"], [UIImage imageNamed:@"cat.jpeg"]];
     self.messages = @[@"I DARE YOU\nto pet a cat", @"I DARE YOU\nto eat icecream", @"I DARE YOU\nto have fun"];
     
+    //_imageView.frame = _cameraView.frame;
     _imageView.backgroundColor = [UIColor whiteColor];
     _cameraView.backgroundColor = [UIColor whiteColor];
     self.imageView.hidden = YES;
+    //_imageView.contentMode = UIViewContentModeScaleAspectFill;
     
     if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
         _cameraButton.hidden = YES;
@@ -82,6 +84,7 @@
     [_cameraButton setTintColor:[UIColor DareBlue]];
     [_flipButton setTintColor:[UIColor DareBlue]];
     [_albumButton setTintColor:[UIColor DareBlue]];
+    
     
     FAKFontAwesome *cameraIcon = [FAKFontAwesome cameraIconWithSize:60];
     [cameraIcon addAttribute:NSForegroundColorAttributeName value:[UIColor DareBlue]];
@@ -241,12 +244,14 @@
 -(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
     [_cameraManager.session stopRunning];
+    _cameraManager.captureSessionIsActive = NO;
     [_cameraManager.captureVideoPreviewLayer removeFromSuperlayer];
-    _imageView.image = info[UIImagePickerControllerOriginalImage];
+    _imageView.image = info[UIImagePickerControllerEditedImage];
     _imageView.hidden = NO;
     NSLog(@"%@", _imageView);
     _cameraView.hidden = NO;
     [picker dismissViewControllerAnimated:YES completion:nil];
+    _flipButton.hidden = YES;
     [self tapToUsePhoto];
 }
 
@@ -327,7 +332,7 @@
     self.cameraManager.captureSessionIsActive = YES;
     [self.cameraManager initializeCameraForImageView:self.imageView
                                              isFront:YES view:self.cameraView
-                                             failure:^{[self selectPictureFromPhotoLibrary];}];
+                                             failure:^{_flipButton.hidden = YES; _cameraButton.hidden = YES;}];
 }
 
 - (void)beginThread: (void(^)(PFObject *messageThread))completion
@@ -404,9 +409,10 @@
                                             } failure:^{
                                                 [self selectPictureFromPhotoLibrary];
                                             }];
-        
+        _flipButton.hidden = YES;
         [self tapToUsePhoto];
     }else{
+        _flipButton.hidden = NO;
         _imageView.image = nil;
         [_cameraManager.captureVideoPreviewLayer removeFromSuperlayer];
         [self setupCamera];
@@ -538,7 +544,7 @@
         [self moveOverlayIntoView];
         
         if (indexPath.row == 0) {
-            _dareText.text = @"";
+            _dareText.text = @"I DARE YOU TO ";
             _dareText.returnKeyType = UIReturnKeyDone;
             _dareText.userInteractionEnabled = YES;
             _dareTextImageOverlay.userInteractionEnabled = YES;

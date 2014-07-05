@@ -45,7 +45,9 @@
             NSLog(@"CUrrenly logged: %@", [PFUser currentUser][@"displayName"]);
             UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];
             UIViewController *viewController = [storyboard instantiateViewControllerWithIdentifier:@"MainScreen"];
-            self.window.rootViewController = viewController;
+            UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:viewController];
+            navigationController.navigationBarHidden = YES;
+            self.window.rootViewController = navigationController;
         }
     }];
     return YES;

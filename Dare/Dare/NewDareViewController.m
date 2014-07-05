@@ -14,6 +14,7 @@
 #import "SelectDareCell.h"
 #import "ParseClient.h"
 #import <FontAwesomeKit/FontAwesomeKit.h>
+#import "MainScreenViewController.h"
 
 
 @interface NewDareViewController () <UICollectionViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UICollectionViewDataSource,UITextFieldDelegate>
@@ -35,8 +36,16 @@
 @property (weak, nonatomic) IBOutlet UIButton *backButton;
 @property (weak, nonatomic) IBOutlet UIButton *forwardButton;
 @property (strong, nonatomic) UIView *dareTextImageOverlay;
-@property (strong, nonatomic) UILabel *takeAPhotoOverlay;
+@property (strong, nonatomic) UILabel *bottomOverlay;
 @property (strong, nonatomic) UITextField *dareText;
+@property (strong, nonatomic) UIPanGestureRecognizer *panGestureOnImageOverlay;
+@property (strong, nonatomic) UITapGestureRecognizer *tapContinueToSetBackgroundPhoto;
+@property (strong, nonatomic) UITapGestureRecognizer *tapToSetBackgroundImage;
+@property (strong, nonatomic) UITapGestureRecognizer *tapGetGoing;
+@property (strong, nonatomic) NSString *dareString;
+@property (strong, nonatomic) UIImage *dareBackgroundImage;
+@property (strong, nonatomic) UIImage *dareImage;
+
 
 
 
@@ -57,6 +66,13 @@
     _imageView.backgroundColor = [UIColor whiteColor];
     _cameraView.backgroundColor = [UIColor whiteColor];
     self.imageView.hidden = YES;
+    
+    if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+        _cameraButton.hidden = YES;
+        _flipButton.hidden = YES;
+    }
+    
+    [_albumButton addTarget:self action:@selector(selectPictureFromPhotoLibrary) forControlEvents:UIControlEventTouchUpInside];
     
     [self.view bringSubviewToFront:self.cameraButton];
     [self.view bringSubviewToFront:self.flipButton];
@@ -102,12 +118,9 @@
     [self setupFriendsCollection];
     [self setupTextCollection];
     [self setupImageOverlay];
-
-    UITapGestureRecognizer *tapOnImageOverlay = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(cropImageToOverlay)];
-    tapOnImageOverlay.numberOfTapsRequired = 1;
-    [_dareTextImageOverlay addGestureRecognizer:tapOnImageOverlay];
-
-
+    
+    
+    
     UINib *dareNib = [UINib nibWithNibName:@"SelectDareCell" bundle:nil];
     [self.textCollection registerNib:dareNib forCellWithReuseIdentifier:@"SelectDareCell"];
     UINib *friendNib = [UINib nibWithNibName:@"FriendListIcon" bundle:nil];
@@ -115,25 +128,40 @@
     
     [self.view bringSubviewToFront:self.forwardButton];
     [self.view bringSubviewToFront:self.backButton];
+    [self configureBottomOverlay];
+    _bottomOverlay.text = @"Take a photo or choose one";
+
 }
 
 
 -(void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+   
     
-    _takeAPhotoOverlay = [[UILabel alloc]initWithFrame:_textCollection.frame];
-    _takeAPhotoOverlay.backgroundColor = [UIColor DareBlue];
-    _takeAPhotoOverlay.textColor = [UIColor whiteColor];
-    _takeAPhotoOverlay.text = @"Take a photo or choose one";
-    _takeAPhotoOverlay.font = [UIFont boldSystemFontOfSize:20];
-    _takeAPhotoOverlay.textAlignment = NSTextAlignmentCenter;
-    [self.view addSubview:_takeAPhotoOverlay];
-    [self.view bringSubviewToFront:_takeAPhotoOverlay];
+}
+
+-(void)configureBottomOverlay
+{
+    
+    _bottomOverlay = [[UILabel alloc]init];
+    _bottomOverlay.translatesAutoresizingMaskIntoConstraints = NO;
+    _bottomOverlay.backgroundColor = [UIColor DareBlue];
+    _bottomOverlay.textColor = [UIColor whiteColor];
+    _bottomOverlay.text = @"";
+    _bottomOverlay.font = [UIFont boldSystemFontOfSize:20];
+    _bottomOverlay.textAlignment = NSTextAlignmentCenter;
+    [self.view addSubview:_bottomOverlay];
+    
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_bottomOverlay attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:_textCollection attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0]];
+     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_bottomOverlay attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:_textCollection attribute:NSLayoutAttributeTop multiplier:1.0 constant:0]];
+     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_bottomOverlay attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:_textCollection attribute:NSLayoutAttributeLeading multiplier:1.0 constant:0]];
+     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_bottomOverlay attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:_textCollection attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:0]];
+    
+    [self.view bringSubviewToFront:_bottomOverlay];
     _textCollection.hidden = YES;
     _backButton.hidden = YES;
     _forwardButton.hidden = YES;
-    
 }
 
 
@@ -143,12 +171,13 @@
     _dareTextImageOverlay.backgroundColor = [UIColor DareCellOverlay];
     [self.view addSubview:_dareTextImageOverlay];
     //[self performSelector:@selector(moveOverlayIntoView) withObject:self afterDelay:3.0];
-    UIPanGestureRecognizer *panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePan:)];
-    [_dareTextImageOverlay addGestureRecognizer:panRecognizer];
+   _panGestureOnImageOverlay = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePan:)];
+    [_dareTextImageOverlay addGestureRecognizer:_panGestureOnImageOverlay];
     
-    UITapGestureRecognizer *tapOnImageOverlay = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(cropImageToOverlay)];
-    tapOnImageOverlay.numberOfTapsRequired = 1;
-    [_dareTextImageOverlay addGestureRecognizer:tapOnImageOverlay];
+//    UITapGestureRecognizer *tapOnImageOverlay = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(cropImageToOverlay)];
+//    tapOnImageOverlay.numberOfTapsRequired = 1;
+//    [tapOnImageOverlay requireGestureRecognizerToFail:panRecognizer];
+//    [_dareTextImageOverlay addGestureRecognizer:tapOnImageOverlay];
     
     _dareText = [[UITextField alloc]init];
     _dareText.delegate = self;
@@ -164,6 +193,20 @@
     [_dareTextImageOverlay addConstraint:[NSLayoutConstraint constraintWithItem:_dareText attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:_dareTextImageOverlay attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:0]];
     [_dareTextImageOverlay addConstraint:[NSLayoutConstraint constraintWithItem:_dareText attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:_dareTextImageOverlay attribute:NSLayoutAttributeTop multiplier:1.0 constant:0]];
     [_dareTextImageOverlay addConstraint:[NSLayoutConstraint constraintWithItem:_dareText attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:_dareTextImageOverlay attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0]];
+}
+
+-(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
+{
+//    NSLog(@"%@", info);
+    
+    [_cameraManager.session stopRunning];
+    [_cameraManager.captureVideoPreviewLayer removeFromSuperlayer];
+    _imageView.image = info[UIImagePickerControllerOriginalImage];
+    _imageView.hidden = NO;
+    NSLog(@"%@", _imageView);
+    _cameraView.hidden = NO;
+    [picker dismissViewControllerAnimated:YES completion:nil];
+    [self tapToUsePhoto];
 }
 
 -(void)moveOverlayIntoView
@@ -184,27 +227,32 @@
 
 - (void) handlePan: (UIPanGestureRecognizer *) uigr
 {
-   // [self cropImageToOverlay];
-
-    CGPoint translation = [uigr translationInView:_dareTextImageOverlay.superview];
+    // [self cropImageToOverlay];
+        [_dareText resignFirstResponder];
     
-    if (_dareTextImageOverlay.frame.origin.y <= _cameraView.frame.origin.y  && translation.y < 0) {
-       
-        [UIView animateWithDuration:0.3 animations:^{
-            _dareTextImageOverlay.frame = CGRectMake(0, _cameraView.frame.origin.y, _dareTextImageOverlay.frame.size.width, _dareTextImageOverlay.frame.size.height);
-            //[_dareTextImageOverlay updateConstraintsIfNeeded];
-        }];
-    }else if (CGRectGetMaxY(_dareTextImageOverlay.frame) >= CGRectGetMaxY(_cameraView.frame) && translation.y > 0){
+    _dareText.text = @"Tap to set";
+    _bottomOverlay.text = @"Drag to select a background";
+    
+        CGPoint translation = [uigr translationInView:_dareTextImageOverlay.superview];
         
-        [UIView animateWithDuration:0.3 animations:^{
-            _dareTextImageOverlay.frame = CGRectMake(0, _cameraView.frame.origin.y + (_cameraView.frame.size.height - _dareTextImageOverlay.frame.size.height), _dareTextImageOverlay.frame.size.width, _dareTextImageOverlay.frame.size.height);
-           // [_dareTextImageOverlay updateConstraintsIfNeeded];
-        }];
-    }else{
-    _dareTextImageOverlay.center = CGPointMake(_imageView.center.x,
-                                               _lastLocation.y + translation.y);
-        //[_dareTextImageOverlay updateConstraintsIfNeeded];
-    }
+        if (_dareTextImageOverlay.frame.origin.y <= _cameraView.frame.origin.y  && translation.y < 0) {
+            
+            [UIView animateWithDuration:0.3 animations:^{
+                _dareTextImageOverlay.frame = CGRectMake(0, _cameraView.frame.origin.y, _dareTextImageOverlay.frame.size.width, _dareTextImageOverlay.frame.size.height);
+                //[_dareTextImageOverlay updateConstraintsIfNeeded];
+            }];
+        }else if (CGRectGetMaxY(_dareTextImageOverlay.frame) >= CGRectGetMaxY(_cameraView.frame) && translation.y > 0){
+            
+            [UIView animateWithDuration:0.3 animations:^{
+                _dareTextImageOverlay.frame = CGRectMake(0, _cameraView.frame.origin.y + (_cameraView.frame.size.height - _dareTextImageOverlay.frame.size.height), _dareTextImageOverlay.frame.size.width, _dareTextImageOverlay.frame.size.height);
+                // [_dareTextImageOverlay updateConstraintsIfNeeded];
+            }];
+        }else{
+            _dareTextImageOverlay.center = CGPointMake(_imageView.center.x,
+                                                       _lastLocation.y + translation.y);
+            //[_dareTextImageOverlay updateConstraintsIfNeeded];
+        }
+
 }
 
 - (UIImage *)cropImageToOverlay
@@ -219,7 +267,7 @@
     CGImageRelease(imageRef);
     
     _dareTextImageOverlay.hidden = NO;
-    UIImageWriteToSavedPhotosAlbum(cropped, nil, nil, nil);
+    //UIImageWriteToSavedPhotosAlbum(cropped, nil, nil, nil);
     return cropped;
 }
 - (IBAction)forwardButtonPressed:(id)sender
@@ -238,7 +286,7 @@
     self.cameraManager.captureSessionIsActive = YES;
     [self.cameraManager initializeCameraForImageView:self.imageView
                                              isFront:YES view:self.cameraView
-                                             failure:^{[self selectPictureFromLibrary];}];
+                                             failure:^{[self selectPictureFromPhotoLibrary];}];
 }
 
 - (void)beginThread: (void(^)(PFObject *messageThread))completion
@@ -276,6 +324,7 @@
 
 - (IBAction)cameraButtonPressed:(id)sender
 {
+    if (self.cameraManager.captureSessionIsActive) {
     [self.cameraManager snapStillImageForImageView:self.imageView
                                            isFront:YES
                                               view:self.cameraView
@@ -283,23 +332,32 @@
                                             NSLog(@"image snapped");
                                             
                                         } failure:^{
-                                            [self selectPictureFromLibrary];
+                                            [self selectPictureFromPhotoLibrary];
                                         }];
-    [self tapToUsePhoto];
+
+         [self tapToUsePhoto];
+    }else{
+        _imageView.image = nil;
+       [_cameraManager.captureVideoPreviewLayer removeFromSuperlayer];
+        [self setupCamera];
+         _bottomOverlay.text = @"Take a photo or choose one";
+        
+    }
+    
 }
 
 -(void)tapToUsePhoto
 {
-    _takeAPhotoOverlay.text = @"Tap here to use this image";
-    _takeAPhotoOverlay.userInteractionEnabled = YES;
+    _bottomOverlay.text = @"Tap here to use this image";
+    _bottomOverlay.userInteractionEnabled = YES;
     UITapGestureRecognizer *tapToUsePhoto = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(useImage)];
     tapToUsePhoto.numberOfTapsRequired = 1;
-    [_takeAPhotoOverlay addGestureRecognizer:tapToUsePhoto];
+    [_bottomOverlay addGestureRecognizer:tapToUsePhoto];
 }
 
 -(void)useImage
 {
-    _takeAPhotoOverlay.hidden = YES;
+    _bottomOverlay.hidden = YES;
     _albumButton.hidden = YES;
     _flipButton.hidden = YES;
     _cameraButton.hidden = YES;
@@ -309,7 +367,7 @@
     
 }
 
-- (void)selectPictureFromLibrary
+- (void)selectPictureFromPhotoLibrary
 {
     if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary]) {
         UIImagePickerController *picker = [[UIImagePickerController alloc] init];
@@ -350,7 +408,7 @@
 
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section
 {
-    return -1.0;
+    return 0;
 }
 
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section
@@ -370,11 +428,11 @@
         SelectDareCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"SelectDareCell" forIndexPath:indexPath];
         ((SelectDareCell *)cell).messageLabel.textColor = [UIColor whiteColor];
         ((SelectDareCell *)cell).messageLabel.font = [UIFont boldSystemFontOfSize:20];
-       
+        
         if (indexPath.row == 0) {
             ((SelectDareCell *)cell).messageLabel.text = @"I DARE YOU TO...\ncreate your own";
         }else{
-        ((SelectDareCell *)cell).messageLabel.text = self.messages[indexPath.row - 1];
+            ((SelectDareCell *)cell).messageLabel.text = self.messages[indexPath.row - 1];
         }
         return cell;
     }
@@ -383,27 +441,81 @@
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     if (collectionView == _textCollection) {
+        
+        [self configureBottomOverlay];
+        _panGestureOnImageOverlay.enabled = NO;
+        _tapContinueToSetBackgroundPhoto = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(continueToSetBackgroundPhoto)];
+        _tapContinueToSetBackgroundPhoto.numberOfTapsRequired = 1;
+        _bottomOverlay.userInteractionEnabled = YES;
+        [_bottomOverlay addGestureRecognizer:_tapContinueToSetBackgroundPhoto];
+        
+        _bottomOverlay.text = @"Continue";
+
         [self moveOverlayIntoView];
+      
         if (indexPath.row == 0) {
             _dareText.text = @"";
             _dareText.returnKeyType = UIReturnKeyDone;
             _dareText.userInteractionEnabled = YES;
-            _dareTextImageOverlay.userInteractionEnabled = NO;
+            _dareTextImageOverlay.userInteractionEnabled = YES;
             [_dareText becomeFirstResponder];
             NSLog(@"%@",((SelectDareCell*)[_textCollection cellForItemAtIndexPath:indexPath]).messageLabel.text);
         }else{
-        _dareText.text = ((SelectDareCell*)[_textCollection cellForItemAtIndexPath:indexPath]).messageLabel.text;
+            _dareText.text = ((SelectDareCell*)[_textCollection cellForItemAtIndexPath:indexPath]).messageLabel.text;
             _dareText.userInteractionEnabled = NO;
             _dareTextImageOverlay.userInteractionEnabled = YES;
         }
     }
 }
 
+-(void)continueToSetBackgroundPhoto
+{
+    _dareText.userInteractionEnabled = NO;
+    _dareText.enabled = NO;
+    _panGestureOnImageOverlay.enabled = YES;
+    [_bottomOverlay removeGestureRecognizer:_tapContinueToSetBackgroundPhoto];
+    _dareText.text = @"Tap to set";
+    _bottomOverlay.text = @"Drag to select a background";
+    _tapContinueToSetBackgroundPhoto = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(setBackgroundImageForDare)];
+    _tapContinueToSetBackgroundPhoto.numberOfTapsRequired = 1;
+    [_dareTextImageOverlay addGestureRecognizer:_tapContinueToSetBackgroundPhoto];
+    
+    [UIView animateWithDuration:0.3 animations:^{
+        
+            _dareTextImageOverlay.frame = CGRectMake(0, _cameraView.center.y - (_dareTextImageOverlay.frame.size.height/2), _dareTextImageOverlay.frame.size.width, _dareTextImageOverlay.frame.size.height);
+    }];
+    
+    
+}
+
+-(void)setBackgroundImageForDare
+{
+   _dareBackgroundImage = [self cropImageToOverlay];
+    _dareImage = _imageView.image;
+    
+    _dareText.text = _dareString;
+    _bottomOverlay.text = @"Get Going";
+    _tapGetGoing = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(postDare)];
+    _tapGetGoing.numberOfTapsRequired = 1;
+    [_bottomOverlay addGestureRecognizer:_tapGetGoing];
+}
+
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
 {
     [textField resignFirstResponder];
+    _dareString = textField.text;
+    //_dareText.userInteractionEnabled = NO;
+    //_dareText.enabled = NO;
+    //_panGestureOnImageOverlay.enabled = YES;
     return YES;
 }
 
+-(void)postDare
+{
+    UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];
+#warning this should go to the message thread. This is here for testing
+   MainScreenViewController *mainScreen = [storyBoard instantiateViewControllerWithIdentifier:@"MainScreen"];
+    [self presentViewController:mainScreen animated:YES completion:nil];
+}
 
 @end

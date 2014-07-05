@@ -29,11 +29,11 @@
         self.session = [[AVCaptureSession alloc] init];
         self.session.sessionPreset = AVCaptureSessionPresetPhoto;
         
-        AVCaptureVideoPreviewLayer *captureVideoPreviewLayer = [[AVCaptureVideoPreviewLayer alloc] initWithSession:_session];
-        [captureVideoPreviewLayer setVideoGravity:AVLayerVideoGravityResizeAspectFill];
+        self.captureVideoPreviewLayer = [[AVCaptureVideoPreviewLayer alloc] initWithSession:_session];
+        [self.captureVideoPreviewLayer setVideoGravity:AVLayerVideoGravityResizeAspectFill];
         
-        captureVideoPreviewLayer.frame = cameraView.bounds;
-        [cameraView.layer addSublayer:captureVideoPreviewLayer];
+        self.captureVideoPreviewLayer.frame = cameraView.bounds;
+        [cameraView.layer addSublayer:self.captureVideoPreviewLayer];
         
         NSArray *devices = [AVCaptureDevice devices];
         AVCaptureDevice *camera;

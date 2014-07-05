@@ -9,10 +9,12 @@
 #import <UIKit/UIKit.h>
 
 @interface MessageCell : UITableViewCell
+
 @property (weak, nonatomic) IBOutlet UIView *textView;
 @property (weak, nonatomic) IBOutlet UIImageView *userPic;
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
 @property (weak, nonatomic) IBOutlet UILabel *textLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *centeredUserPic;
 
 
 @end

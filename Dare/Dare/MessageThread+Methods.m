@@ -26,6 +26,9 @@
         PFFile *imageFile = thread[@"backgroundImage"];
         NSData *imageData = [imageFile getData];
         newThread.backgroundPicture = imageData;
+        PFFile *authorImage = thread[@"author"];
+        NSData *authorData = [authorImage getData];
+        newThread.author = authorData;
         return newThread;
     } else {
         return threads[0];

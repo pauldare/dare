@@ -17,13 +17,12 @@
     self.textLabel.backgroundColor = [UIColor clearColor];
     self.textLabel.font = [UIFont boldSystemFontOfSize:18];
     self.textLabel.textColor = [UIColor whiteColor];
+    self.textLabel.text = @"I DARE\n COMMENT";
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
 {
     [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
 }
 
 @end

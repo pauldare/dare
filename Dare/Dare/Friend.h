@@ -2,7 +2,7 @@
 //  Friend.h
 //  Dare
 //
-//  Created by Nadia on 7/4/14.
+//  Created by Nadia on 7/5/14.
 //  Copyright (c) 2014 Dare. All rights reserved.
 //
 
@@ -13,10 +13,10 @@
 
 @interface Friend : NSManagedObject
 
-@property (nonatomic, retain) NSData * image;
 @property (nonatomic, retain) NSString * displayName;
 @property (nonatomic, retain) NSString * identifier;
-@property (nonatomic, retain) User *user;
+@property (nonatomic, retain) NSData * image;
 @property (nonatomic, retain) MessageThread *threads;
+@property (nonatomic, retain) User *user;
 
 @end

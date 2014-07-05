@@ -2,7 +2,7 @@
 //  User.m
 //  Dare
 //
-//  Created by Nadia on 7/4/14.
+//  Created by Nadia on 7/5/14.
 //  Copyright (c) 2014 Dare. All rights reserved.
 //
 
@@ -17,8 +17,8 @@
 @dynamic displayName;
 @dynamic identifier;
 @dynamic profileImage;
-@dynamic threads;
-@dynamic messages;
 @dynamic friends;
+@dynamic messages;
+@dynamic threads;
 
 @end

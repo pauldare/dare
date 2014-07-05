@@ -338,7 +338,7 @@
         <!--Snap CommentVC-->
         <scene sceneID="PPO-mY-4eb">
             <objects>
-                <viewController id="bp4-YT-XTw" customClass="SnapCommentVC" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SnapCommentVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="bp4-YT-XTw" customClass="SnapCommentVC" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="rVy-Zh-wvR"/>
                         <viewControllerLayoutGuide type="bottom" id="nJh-Ay-m4q"/>

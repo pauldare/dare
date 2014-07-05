@@ -46,6 +46,10 @@
                         <rect key="frame" x="-8" y="60" width="328" height="324"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     </imageView>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jDr-g9-WPg">
+                        <rect key="frame" x="135" y="68" width="50" height="50"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    </imageView>
                 </subviews>
                 <constraints>
                     <constraint firstItem="Pfq-gq-piI" firstAttribute="top" secondItem="Iy2-VD-CWc" secondAttribute="bottom" id="Aef-Yb-Hac"/>
@@ -59,10 +63,11 @@
                 </constraints>
             </tableViewCellContentView>
             <connections>
+                <outlet property="centeredUserPic" destination="jDr-g9-WPg" id="Z41-I4-0jr"/>
                 <outlet property="imageView" destination="Pfq-gq-piI" id="vee-0I-Kfo"/>
                 <outlet property="textLabel" destination="dM0-fL-UB0" id="HVJ-Rr-XJ1"/>
                 <outlet property="textView" destination="Iy2-VD-CWc" id="1Rk-hk-Up4"/>
-                <outlet property="userPic" destination="sxj-dU-acd" id="Yeb-EN-d0f"/>
+                <outlet property="userPic" destination="sxj-dU-acd" id="EMU-uY-EA3"/>
             </connections>
         </tableViewCell>
     </objects>

@@ -15,10 +15,6 @@
 		05984F631967398100DAE025 /* MessageThread+Methods.m in Sources */ = {isa = PBXBuildFile; fileRef = 05984F621967398100DAE025 /* MessageThread+Methods.m */; };
 		05984F66196739B100DAE025 /* User+Methods.m in Sources */ = {isa = PBXBuildFile; fileRef = 05984F65196739B100DAE025 /* User+Methods.m */; };
 		05984F931967424800DAE025 /* Friend+Methods.m in Sources */ = {isa = PBXBuildFile; fileRef = 05984F921967424800DAE025 /* Friend+Methods.m */; };
-		05984F9C1967512500DAE025 /* MessageThread.m in Sources */ = {isa = PBXBuildFile; fileRef = 05984F9B1967512500DAE025 /* MessageThread.m */; };
-		05984F9F1967512600DAE025 /* Friend.m in Sources */ = {isa = PBXBuildFile; fileRef = 05984F9E1967512600DAE025 /* Friend.m */; };
-		05984FA21967512600DAE025 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 05984FA11967512600DAE025 /* User.m */; };
-		05984FA51967512600DAE025 /* Message.m in Sources */ = {isa = PBXBuildFile; fileRef = 05984FA41967512600DAE025 /* Message.m */; };
 		05984FA81967882500DAE025 /* MessagesTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 05984FA71967882500DAE025 /* MessagesTVC.m */; };
 		05984FAC19678AF800DAE025 /* HeaderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 05984FAA19678AF800DAE025 /* HeaderCell.m */; };
 		05984FAD19678AF800DAE025 /* HeaderCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 05984FAB19678AF800DAE025 /* HeaderCell.xib */; };
@@ -27,6 +23,11 @@
 		05984FB9196866C000DAE025 /* AddCommentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 05984FB7196866C000DAE025 /* AddCommentCell.m */; };
 		05984FBA196866C000DAE025 /* AddCommentCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 05984FB8196866C000DAE025 /* AddCommentCell.xib */; };
 		05984FBD196870F000DAE025 /* SnapCommentVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 05984FBC196870F000DAE025 /* SnapCommentVC.m */; };
+		05984FE819689D2600DAE025 /* iceream.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 05984FE719689D2600DAE025 /* iceream.jpeg */; };
+		05984FEB1968A27C00DAE025 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 05984FEA1968A27C00DAE025 /* User.m */; };
+		05984FF11968A27C00DAE025 /* MessageThread.m in Sources */ = {isa = PBXBuildFile; fileRef = 05984FF01968A27C00DAE025 /* MessageThread.m */; };
+		05984FF41968A27C00DAE025 /* Friend.m in Sources */ = {isa = PBXBuildFile; fileRef = 05984FF31968A27C00DAE025 /* Friend.m */; };
+		059F57851968AD270049079B /* Message.m in Sources */ = {isa = PBXBuildFile; fileRef = 059F57841968AD270049079B /* Message.m */; };
 		05FA70ED195FA75E00C057D4 /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = 05FA70EC195FA75E00C057D4 /* Constants.m */; };
 		0719EAB8195F516E007C2983 /* Storyboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0719EAB7195F516E007C2983 /* Storyboard.storyboard */; };
 		359EE6F01963591300088C2D /* SelectDareCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 359EE6EF1963591300088C2D /* SelectDareCell.m */; };
@@ -108,14 +109,6 @@
 		05984F65196739B100DAE025 /* User+Methods.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "User+Methods.m"; sourceTree = "<group>"; };
 		05984F911967424800DAE025 /* Friend+Methods.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Friend+Methods.h"; sourceTree = "<group>"; };
 		05984F921967424800DAE025 /* Friend+Methods.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Friend+Methods.m"; sourceTree = "<group>"; };
-		05984F9A1967512500DAE025 /* MessageThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageThread.h; sourceTree = "<group>"; };
-		05984F9B1967512500DAE025 /* MessageThread.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageThread.m; sourceTree = "<group>"; };
-		05984F9D1967512600DAE025 /* Friend.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Friend.h; sourceTree = "<group>"; };
-		05984F9E1967512600DAE025 /* Friend.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Friend.m; sourceTree = "<group>"; };
-		05984FA01967512600DAE025 /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
-		05984FA11967512600DAE025 /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
-		05984FA31967512600DAE025 /* Message.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Message.h; sourceTree = "<group>"; };
-		05984FA41967512600DAE025 /* Message.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Message.m; sourceTree = "<group>"; };
 		05984FA61967882500DAE025 /* MessagesTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessagesTVC.h; sourceTree = "<group>"; };
 		05984FA71967882500DAE025 /* MessagesTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessagesTVC.m; sourceTree = "<group>"; };
 		05984FA919678AF800DAE025 /* HeaderCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HeaderCell.h; sourceTree = "<group>"; };
@@ -129,6 +122,15 @@
 		05984FB8196866C000DAE025 /* AddCommentCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddCommentCell.xib; sourceTree = "<group>"; };
 		05984FBB196870F000DAE025 /* SnapCommentVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SnapCommentVC.h; sourceTree = "<group>"; };
 		05984FBC196870F000DAE025 /* SnapCommentVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SnapCommentVC.m; sourceTree = "<group>"; };
+		05984FE719689D2600DAE025 /* iceream.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = iceream.jpeg; sourceTree = "<group>"; };
+		05984FE91968A27C00DAE025 /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
+		05984FEA1968A27C00DAE025 /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
+		05984FEF1968A27C00DAE025 /* MessageThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageThread.h; sourceTree = "<group>"; };
+		05984FF01968A27C00DAE025 /* MessageThread.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageThread.m; sourceTree = "<group>"; };
+		05984FF21968A27C00DAE025 /* Friend.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Friend.h; sourceTree = "<group>"; };
+		05984FF31968A27C00DAE025 /* Friend.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Friend.m; sourceTree = "<group>"; };
+		059F57831968AD270049079B /* Message.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Message.h; sourceTree = "<group>"; };
+		059F57841968AD270049079B /* Message.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Message.m; sourceTree = "<group>"; };
 		05FA70EC195FA75E00C057D4 /* Constants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Constants.m; path = ../Constants.m; sourceTree = "<group>"; };
 		0719EAB7195F516E007C2983 /* Storyboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Storyboard.storyboard; sourceTree = "<group>"; };
 		359EE6EE1963591300088C2D /* SelectDareCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelectDareCell.h; sourceTree = "<group>"; };
@@ -251,6 +253,7 @@
 		05984F4C1966F6FD00DAE025 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				05984FE719689D2600DAE025 /* iceream.jpeg */,
 				05984F4D1966F7A300DAE025 /* shoes.jpeg */,
 				05984F4A1966F6F300DAE025 /* flower.jpeg */,
 				35F35F551962F5A10002C7BC /* angry.jpeg */,
@@ -276,6 +279,7 @@
 				359EE6F11963593A00088C2D /* SelectDareCell.xib */,
 				05984FAB19678AF800DAE025 /* HeaderCell.xib */,
 				05984FB31968602400DAE025 /* MessageCell.xib */,
+				05984FB8196866C000DAE025 /* AddCommentCell.xib */,
 				05984FB11968602400DAE025 /* MessageCell.h */,
 				05984FB21968602400DAE025 /* MessageCell.m */,
 				0719EAB7195F516E007C2983 /* Storyboard.storyboard */,
@@ -285,7 +289,6 @@
 				05984FAA19678AF800DAE025 /* HeaderCell.m */,
 				05984FB6196866C000DAE025 /* AddCommentCell.h */,
 				05984FB7196866C000DAE025 /* AddCommentCell.m */,
-				05984FB8196866C000DAE025 /* AddCommentCell.xib */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -414,14 +417,14 @@
 			isa = PBXGroup;
 			children = (
 				05984F4F196731DD00DAE025 /* Dare.xcdatamodeld */,
-				05984FA31967512600DAE025 /* Message.h */,
-				05984FA41967512600DAE025 /* Message.m */,
-				05984FA01967512600DAE025 /* User.h */,
-				05984FA11967512600DAE025 /* User.m */,
-				05984F9D1967512600DAE025 /* Friend.h */,
-				05984F9E1967512600DAE025 /* Friend.m */,
-				05984F9A1967512500DAE025 /* MessageThread.h */,
-				05984F9B1967512500DAE025 /* MessageThread.m */,
+				059F57831968AD270049079B /* Message.h */,
+				059F57841968AD270049079B /* Message.m */,
+				05984FF21968A27C00DAE025 /* Friend.h */,
+				05984FF31968A27C00DAE025 /* Friend.m */,
+				05984FEF1968A27C00DAE025 /* MessageThread.h */,
+				05984FF01968A27C00DAE025 /* MessageThread.m */,
+				05984FE91968A27C00DAE025 /* User.h */,
+				05984FEA1968A27C00DAE025 /* User.m */,
 				35F35F4E1961F89E0002C7BC /* CameraManager.h */,
 				35F35F4F1961F89E0002C7BC /* CameraManager.m */,
 				5234BB1B19606D8600850ECB /* UIColor+DareColors.h */,
@@ -540,6 +543,7 @@
 				05984FB51968602400DAE025 /* MessageCell.xib in Resources */,
 				35F35F541962F5990002C7BC /* tricolor.jpeg in Resources */,
 				0719EAB8195F516E007C2983 /* Storyboard.storyboard in Resources */,
+				05984FE819689D2600DAE025 /* iceream.jpeg in Resources */,
 				527FDB011960E5830083D6F0 /* FinalCell.xib in Resources */,
 				35F35F561962F5A10002C7BC /* angry.jpeg in Resources */,
 				05984F4B1966F6F300DAE025 /* flower.jpeg in Resources */,
@@ -600,6 +604,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				05984FF41968A27C00DAE025 /* Friend.m in Sources */,
 				4512E4141966FE0D000A8C15 /* SignInViewController.m in Sources */,
 				45740137196390470080895D /* MainScreenViewController.m in Sources */,
 				5234BB1A19606D4C00850ECB /* DisplayNameSelectViewController.m in Sources */,
@@ -609,21 +614,19 @@
 				05984F631967398100DAE025 /* MessageThread+Methods.m in Sources */,
 				05984FB9196866C000DAE025 /* AddCommentCell.m in Sources */,
 				05984F601967395800DAE025 /* Message+Methods.m in Sources */,
-				05984FA21967512600DAE025 /* User.m in Sources */,
 				456E625F195F67C5003CC220 /* ParseClient.m in Sources */,
 				05984FAC19678AF800DAE025 /* HeaderCell.m in Sources */,
 				05984FBD196870F000DAE025 /* SnapCommentVC.m in Sources */,
 				05FA70ED195FA75E00C057D4 /* Constants.m in Sources */,
 				05984FB41968602400DAE025 /* MessageCell.m in Sources */,
-				05984F9C1967512500DAE025 /* MessageThread.m in Sources */,
 				05984FA81967882500DAE025 /* MessagesTVC.m in Sources */,
 				527FDAFB1960C6580083D6F0 /* FriendListIcon.m in Sources */,
+				05984FEB1968A27C00DAE025 /* User.m in Sources */,
 				527FDB041960E63E0083D6F0 /* FinalCell.m in Sources */,
 				527FDAEE1960B35C0083D6F0 /* DareCell.m in Sources */,
-				05984F9F1967512600DAE025 /* Friend.m in Sources */,
 				05984F51196731DD00DAE025 /* Dare.xcdatamodeld in Sources */,
-				05984FA51967512600DAE025 /* Message.m in Sources */,
 				359EE6F01963591300088C2D /* SelectDareCell.m in Sources */,
+				05984FF11968A27C00DAE025 /* MessageThread.m in Sources */,
 				4553B5A7195B944E005C6D1A /* AppDelegate.m in Sources */,
 				05984F541967323A00DAE025 /* DareDataStore.m in Sources */,
 				05984F66196739B100DAE025 /* User+Methods.m in Sources */,
@@ -632,6 +635,7 @@
 				4553B5A3195B944E005C6D1A /* main.m in Sources */,
 				35F35F501961F89E0002C7BC /* CameraManager.m in Sources */,
 				35F35F401961EA2F0002C7BC /* NewDareViewController.m in Sources */,
+				059F57851968AD270049079B /* Message.m in Sources */,
 				456E6259195F2DB4003CC220 /* Temp.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

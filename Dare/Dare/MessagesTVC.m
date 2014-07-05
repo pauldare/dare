@@ -11,13 +11,17 @@
 #import "UIColor+DareColors.h"
 #import "MessageCell.h"
 #import "AddCommentCell.h"
-
+#import "Message+Methods.h"
+#import "MessageThread+Methods.h"
+#import "SnapCommentVC.h"
 
 @interface MessagesTVC ()
 
 @property (strong, nonatomic) UINib *headerCell;
 @property (strong, nonatomic) UINib *messageCell;
 @property (strong, nonatomic) UINib *addCommentCell;
+@property (strong, nonatomic) NSMutableArray *messages;
+@property (strong, nonatomic) Message *headerMessage;
 
 @end
 
@@ -27,6 +31,14 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.messages = [NSMutableArray arrayWithArray:[self.thread.messages allObjects]];
+
+    NSSortDescriptor* sortByDate = [NSSortDescriptor sortDescriptorWithKey:@"createdAt" ascending:YES];
+    [self.messages sortUsingDescriptors:[NSArray arrayWithObject:sortByDate]];
+    
+    self.headerMessage = self.messages[0];
+    [self.messages removeObjectAtIndex:0];
+    
     self.view.backgroundColor = [UIColor DareBlue];
     self.tableView.showsVerticalScrollIndicator = NO;
     self.headerCell = [UINib nibWithNibName:@"HeaderCell" bundle:nil];
@@ -53,7 +65,7 @@
 { 
     switch (section) {
         case 1:
-            return 2;
+            return [self.messages count];
             break;
         default:
             return 1;
@@ -70,6 +82,7 @@
             break;
         case 1:
             return [self getRowHeightForCell:@"MessageCell"];
+            break; 
         default:
             return [self getRowHeightForCell:@"AddCommentCell"];
             break;
@@ -92,13 +105,21 @@
         if (cell == nil) {
             cell = [[HeaderCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
         }
+        cell.mainImage.image = [UIImage imageWithData: self.headerMessage.picture];
+        cell.textLabel.text = self.headerMessage.text;
+        cell.userImage.image = [UIImage imageWithData:self.headerMessage.author];
         return cell;
-    } else if (indexPath.section == 1){        
+    } else if (indexPath.section == 1){
+        Message *message = self.messages[indexPath.row];
         NSString *cellIdentifier = @"MessageCell";
         MessageCell *cell = (MessageCell *)[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
         if (cell == nil) {
             cell = [[MessageCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
         }
+        cell.textLabel.text = message.text;
+        cell.imageView.image = [UIImage imageWithData:message.picture];
+        cell.userPic.image = [UIImage imageWithData:message.author];
+        cell.centeredUserPic.image = [UIImage imageWithData:message.author];
         return cell;
     } else {
         NSString *cellIdentifier = @"AddCommentCell";
@@ -112,7 +133,15 @@
 }
 
 
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath.section == 2 && indexPath.row == 0) {
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];
+        SnapCommentVC *viewController = (SnapCommentVC *)[storyboard instantiateViewControllerWithIdentifier:@"SnapCommentVC"];
+        [self presentViewController:viewController animated:YES completion:nil];
+    }
 
+}
 
 
 

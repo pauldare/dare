@@ -27,6 +27,10 @@
         PFFile *imageFile = message[@"picture"];
         NSData *imageData = [imageFile getData];
         newMessage.picture = imageData;
+        PFFile *authorImage = message[@"author"];
+        NSData *authorData = [authorImage getData];
+        newMessage.author = authorData;
+        newMessage.createdAt = message.createdAt;
         if ([message[@"isRead"] isEqualToString:@"NO"]) {
             newMessage.isRead = @0;
         } else {

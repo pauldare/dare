@@ -170,6 +170,8 @@
         PFFile *file = [PFFile fileWithData:imageData];
         [file saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
             [message setObject:file forKey:@"picture"];
+            PFFile *author = currentUser[@"image"];
+            [message setObject:author forKey:@"author"];
             [message saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
                 PFRelation *messageToProxyUser = [message relationForKey:@"proxyUsers"];
                 [messageToProxyUser addObject:proxyUser];
@@ -274,8 +276,10 @@
                         completion: (void(^)(PFObject *))completion
 
 {
+    PFUser *currentUser = [PFUser currentUser];
     PFObject *messageThread = [PFObject objectWithClassName:@"MessageThread"];
     [messageThread setObject:title forKey:@"title"];
+    [messageThread setObject:currentUser[@"image"] forKey:@"author"];
     NSData *imageData = UIImagePNGRepresentation(backgroundImage);
     PFFile *file = [PFFile fileWithName:@"backroundImage" data:imageData];
     [file saveInBackground];

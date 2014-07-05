@@ -8,6 +8,7 @@
 
 #import "MessageCell.h"
 #import "UIColor+DareColors.h"
+#import <QuartzCore/CALayer.h>
 
 @implementation MessageCell
 
@@ -16,10 +17,8 @@
 
 - (void)awakeFromNib
 {
-    UIImage *shoes = [UIImage imageNamed:@"shoes.jpeg"];
-    UIImage *cat = [UIImage imageNamed:@"cat.jpeg"];
-    self.imageView.image = shoes;
-    self.userPic.image = cat;
+    self.centeredUserPic.layer.cornerRadius = 25;
+    self.centeredUserPic.layer.masksToBounds = YES;
     [self setupView];
 }
 

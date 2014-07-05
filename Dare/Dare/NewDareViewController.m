@@ -59,7 +59,15 @@
 {
     [super viewDidLoad];
     
+    self.friends = [[NSMutableArray alloc]initWithObjects:[PFUser currentUser], nil];
     
+    [ParseClient queryForFriends:^(NSArray *friends) {
+        [self.friends addObjectsFromArray:friends];
+        [self beginThread:^(PFObject *messageThread) {
+            NSLog(@"thread begun");
+        }];
+    }];
+        
     self.images = @[[UIImage imageNamed:@"angry.jpeg"], [UIImage imageNamed:@"tricolor.jpeg"], [UIImage imageNamed:@"kitten.jpeg"], [UIImage imageNamed:@"cat.jpeg"]];
     self.messages = @[@"I DARE YOU\nto pet a cat", @"I DARE YOU\nto eat icecream", @"I DARE YOU\nto have fun"];
     
@@ -118,9 +126,7 @@
     [self setupFriendsCollection];
     [self setupTextCollection];
     [self setupImageOverlay];
-    
-    
-    
+
     UINib *dareNib = [UINib nibWithNibName:@"SelectDareCell" bundle:nil];
     [self.textCollection registerNib:dareNib forCellWithReuseIdentifier:@"SelectDareCell"];
     UINib *friendNib = [UINib nibWithNibName:@"FriendListIcon" bundle:nil];
@@ -130,8 +136,25 @@
     [self.view bringSubviewToFront:self.backButton];
     [self configureBottomOverlay];
     _bottomOverlay.text = @"Take a photo or choose one";
-
+    
+    
 }
+
+- (void)beginThread: (void(^)(PFObject *messageThread))completion
+{
+    [ParseClient createMessage:@"pet a dog" picture:[UIImage imageNamed:@"kitten.jpeg"] completion:^(PFObject *message) {
+        [ParseClient startMessageThreadForUsers:self.friends
+                                    withMessage:message
+                                      withTitle:message[@"text"]
+                                 backroundImage:[UIImage imageNamed:@"kitten.jpeg"]
+                                     completion:^(PFObject *messageThread) {
+                                         [ParseClient addMessageToThread:messageThread withText:@"eat an icecream" picture:[UIImage imageNamed:@"iceream.jpeg"] completion:^{
+                                             completion(messageThread);
+                                         }];
+                                     }];
+    }];
+}
+
 
 
 -(void)viewDidAppear:(BOOL)animated
@@ -289,18 +312,6 @@
                                              failure:^{[self selectPictureFromPhotoLibrary];}];
 }
 
-- (void)beginThread: (void(^)(PFObject *messageThread))completion
-{
-    [ParseClient createMessage:@"pet a dog" picture:[UIImage imageNamed:@"kitten.jpeg"] completion:^(PFObject *message) {
-        [ParseClient startMessageThreadForUsers:self.friends
-                                    withMessage:message
-                                      withTitle:message[@"text"]
-                                 backroundImage:[UIImage imageNamed:@"kitten.jpeg"]
-                                     completion:^(PFObject *messageThread) {
-                                         completion(messageThread);
-                                     }];
-    }];
-}
 
 
 - (void)setupFriendsCollection

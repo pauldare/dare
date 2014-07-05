@@ -26,6 +26,7 @@
 		05984FB51968602400DAE025 /* MessageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 05984FB31968602400DAE025 /* MessageCell.xib */; };
 		05984FB9196866C000DAE025 /* AddCommentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 05984FB7196866C000DAE025 /* AddCommentCell.m */; };
 		05984FBA196866C000DAE025 /* AddCommentCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 05984FB8196866C000DAE025 /* AddCommentCell.xib */; };
+		05984FBD196870F000DAE025 /* SnapCommentVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 05984FBC196870F000DAE025 /* SnapCommentVC.m */; };
 		05FA70ED195FA75E00C057D4 /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = 05FA70EC195FA75E00C057D4 /* Constants.m */; };
 		0719EAB8195F516E007C2983 /* Storyboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0719EAB7195F516E007C2983 /* Storyboard.storyboard */; };
 		359EE6F01963591300088C2D /* SelectDareCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 359EE6EF1963591300088C2D /* SelectDareCell.m */; };
@@ -126,6 +127,8 @@
 		05984FB6196866C000DAE025 /* AddCommentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddCommentCell.h; sourceTree = "<group>"; };
 		05984FB7196866C000DAE025 /* AddCommentCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddCommentCell.m; sourceTree = "<group>"; };
 		05984FB8196866C000DAE025 /* AddCommentCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddCommentCell.xib; sourceTree = "<group>"; };
+		05984FBB196870F000DAE025 /* SnapCommentVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SnapCommentVC.h; sourceTree = "<group>"; };
+		05984FBC196870F000DAE025 /* SnapCommentVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SnapCommentVC.m; sourceTree = "<group>"; };
 		05FA70EC195FA75E00C057D4 /* Constants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Constants.m; path = ../Constants.m; sourceTree = "<group>"; };
 		0719EAB7195F516E007C2983 /* Storyboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Storyboard.storyboard; sourceTree = "<group>"; };
 		359EE6EE1963591300088C2D /* SelectDareCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelectDareCell.h; sourceTree = "<group>"; };
@@ -298,6 +301,8 @@
 				5234BB1919606D4C00850ECB /* DisplayNameSelectViewController.m */,
 				5234BB1E196077AE00850ECB /* ChooseDisplayPhotoViewController.h */,
 				5234BB1F196077AE00850ECB /* ChooseDisplayPhotoViewController.m */,
+				05984FBB196870F000DAE025 /* SnapCommentVC.h */,
+				05984FBC196870F000DAE025 /* SnapCommentVC.m */,
 				35F35F3E1961EA2F0002C7BC /* NewDareViewController.h */,
 				35F35F3F1961EA2F0002C7BC /* NewDareViewController.m */,
 				45740135196390470080895D /* MainScreenViewController.h */,
@@ -607,6 +612,7 @@
 				05984FA21967512600DAE025 /* User.m in Sources */,
 				456E625F195F67C5003CC220 /* ParseClient.m in Sources */,
 				05984FAC19678AF800DAE025 /* HeaderCell.m in Sources */,
+				05984FBD196870F000DAE025 /* SnapCommentVC.m in Sources */,
 				05FA70ED195FA75E00C057D4 /* Constants.m in Sources */,
 				05984FB41968602400DAE025 /* MessageCell.m in Sources */,
 				05984F9C1967512500DAE025 /* MessageThread.m in Sources */,

@@ -16,6 +16,7 @@
 #import "ParseClient.h"
 #import <FontAwesomeKit/FontAwesomeKit.h>
 #import "MainScreenViewController.h"
+#import "Friend+Methods.h"
 
 
 @interface NewDareViewController () <UICollectionViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UICollectionViewDataSource,UITextFieldDelegate>
@@ -31,7 +32,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *cameraButton;
 
 @property (weak, nonatomic) IBOutlet UICollectionView *textCollection;
-@property (strong, nonatomic) NSArray *images;
+@property (strong, nonatomic) NSMutableArray *images;
 @property (strong, nonatomic) NSArray *messages;
 
 @property (weak, nonatomic) IBOutlet UIButton *backButton;
@@ -59,17 +60,11 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    self.friends = [[NSMutableArray alloc]initWithObjects:[PFUser currentUser], nil];
-    
-    [ParseClient queryForFriends:^(NSArray *friends) {
-        [self.friends addObjectsFromArray:friends];
-        [self beginThread:^(PFObject *messageThread) {
-            NSLog(@"thread begun");
-        }];
-    }];
         
-    self.images = @[[UIImage imageNamed:@"angry.jpeg"], [UIImage imageNamed:@"tricolor.jpeg"], [UIImage imageNamed:@"kitten.jpeg"], [UIImage imageNamed:@"cat.jpeg"]];
+//    self.images = @[[UIImage imageNamed:@"angry.jpeg"], [UIImage imageNamed:@"tricolor.jpeg"], [UIImage imageNamed:@"kitten.jpeg"], [UIImage imageNamed:@"cat.jpeg"]];
+    for (Friend *friend in self.friends) {
+        [self.images addObject:[UIImage imageWithData:friend.image]];
+    }
     self.messages = @[@"I DARE YOU\nto pet a cat", @"I DARE YOU\nto eat icecream", @"I DARE YOU\nto have fun"];
     
     //_imageView.frame = _cameraView.frame;
@@ -146,21 +141,6 @@
     [self.view bringSubviewToFront:self.backButton];
     [self configureBottomOverlay];
     _bottomOverlay.text = @"Take a photo or choose one";
-}
-
-- (void)beginThread: (void(^)(PFObject *messageThread))completion
-{
-    [ParseClient createMessage:@"pet a dog" picture:[UIImage imageNamed:@"kitten.jpeg"] completion:^(PFObject *message) {
-        [ParseClient startMessageThreadForUsers:self.friends
-                                    withMessage:message
-                                      withTitle:message[@"text"]
-                                 backroundImage:[UIImage imageNamed:@"kitten.jpeg"]
-                                     completion:^(PFObject *messageThread) {
-                                         [ParseClient addMessageToThread:messageThread withText:@"eat an icecream" picture:[UIImage imageNamed:@"iceream.jpeg"] completion:^{
-                                             completion(messageThread);
-                                         }];
-                                     }];
-    }];
 }
 
 -(void)flipCamera
@@ -630,9 +610,24 @@
     return YES;
 }
 
+- (void)beginThread: (void(^)(PFObject *messageThread))completion
+{
+    [ParseClient createMessage:_dareString picture:_dareImage completion:^(PFObject *message) {
+        [ParseClient startMessageThreadForUsers:self.friends
+                                    withMessage:message
+                                      withTitle:message[@"text"]
+                                 backroundImage:_dareBackgroundImage
+                                     completion:^(PFObject *messageThread) {
+                                }];
+    }];
+}
+
+
 -(void)postDare
 {
-    
+    [self beginThread:^(PFObject *messageThread) {
+        NSLog(@"thread begun");
+    }];
     
     UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];
 #warning this should go to the message thread. This is here for testing

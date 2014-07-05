@@ -15,7 +15,7 @@
 @property (strong, nonatomic) AVCaptureSession *session;
 @property (strong, nonatomic) AVCaptureStillImageOutput *stillImageOutput;
 @property (strong, nonatomic) UIImage *capturedImage;
-
+@property (strong, nonatomic)  AVCaptureVideoPreviewLayer *captureVideoPreviewLayer;
 
 - (void) initializeCameraForImageView: (UIImageView *)imageView
                               isFront: (BOOL)isFronCamera

@@ -11,6 +11,7 @@
 #import "UIColor+DareColors.h"
 #import "CameraManager.h"
 
+
 @interface SnapCommentVC ()
 @property (weak, nonatomic) IBOutlet UIButton *cameraButton;
 @property (weak, nonatomic) IBOutlet UIButton *flipButton;
@@ -59,6 +60,8 @@
                                              failure:^{[self selectPictureFromLibrary];}];
 }
 
+
+
 - (IBAction)cameraButtonPressed:(id)sender
 {
     [self.cameraManager snapStillImageForImageView:self.imageView
@@ -72,6 +75,9 @@
                                         }];
 }
 
+- (IBAction)blurButtonPressed:(id)sender
+{
+}
 
 
 - (void)selectPictureFromLibrary

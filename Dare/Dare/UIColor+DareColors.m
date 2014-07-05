@@ -29,4 +29,9 @@
 {
     return [UIColor colorWithRed:1.0 green:1.0 blue:0 alpha:0.4];
 }
+
++(UIColor *)DareLightGreen
+{
+    return [UIColor colorWithRed:0 green:128 blue:128 alpha:0.4];
+}
 @end

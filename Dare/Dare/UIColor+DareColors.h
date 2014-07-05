@@ -11,11 +11,9 @@
 @interface UIColor (DareColors)
 
 +(UIColor *)DareBlue;
-
 +(UIColor *)DareCellOverlay;
-
 +(UIColor *)DareUnreadBadge;
-
 +(UIColor *)DareOverlaySeletcedCell;
++(UIColor *)DareLightGreen;
 
 @end

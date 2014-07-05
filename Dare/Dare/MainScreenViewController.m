@@ -18,6 +18,7 @@
 #import "SettingsViewController.h"
 #import "DareDataStore.h"
 #import "Friend+Methods.h"
+#import "MessagesTVC.h"
 
 @interface MainScreenViewController ()<UIScrollViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UITableViewDataSource, UITableViewDelegate, UIGestureRecognizerDelegate>
 
@@ -374,7 +375,6 @@
 }
 -(void)scrollToFriends
 {
-    //[_scrollView setContentOffset:CGPointMake(0, 0)];
     [_scrollView setContentOffset:CGPointMake(0, 0) animated:YES];
     [self hideMainPage];
 }
@@ -410,46 +410,29 @@
 
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    //this adds a final selection cell
-    //return 5;
-    //return [_friendsArray count]+1;
     return [self.friends count] + 1;
 }
 
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    
-    
     if (indexPath.row == [self.friends count]) {
-        
         FinalCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"FinalCell" forIndexPath:indexPath];
         cell.backgroundColor = [UIColor clearColor];
         cell.cellLabel.text = @"";
         cell.userInteractionEnabled = NO;
-        
         return cell;
-        
-    }else{
+    } else {
         FriendListIcon *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"FriendCell" forIndexPath:indexPath];
-        
         if ([_selectedIndices containsObject:@(indexPath.row)]) {
             cell.selectedOverlay.backgroundColor = [UIColor DareOverlaySeletcedCell];
-        }else{
+        } else {
             cell.selectedOverlay.backgroundColor = [UIColor clearColor];
         }
-        
         Friend *friend = self.friends[indexPath.row];
         UIImage *friendImage = [UIImage imageWithData:friend.image];
         ((FriendListIcon*)cell).friendImage.image = friendImage;
-        //        NSURL *imageURL = [NSURL URLWithString:@"http://ibmsmartercommerce.sourceforge.net/wp-content/uploads/2012/09/Roses_Bunch_Of_Flowers.jpeg"];
-        //        NSData *imageData = [NSData dataWithContentsOfURL:imageURL];
-        //        UIImage *image = [UIImage imageWithData:imageData];
-        
-        //((FriendListIcon*)cell).friendImage.image = _testFriendImage;
-        
         return cell;
     }
-    
     return nil;
 }
 
@@ -538,15 +521,11 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    // Return the number of sections.
     return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    // Return the number of rows in the section.
-
-    //return 3;
     return [self.threads count];
 }
 
@@ -554,6 +533,7 @@
 {
     return 112.0;
 }
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"DareCell" forIndexPath:indexPath];
@@ -569,23 +549,16 @@
         }
     }
     ((DareCell *)cell).unreadCountLabel.text = [NSString stringWithFormat:@"%d", unreadCount];
-    
-    
-//    ((DareCell *)cell).unreadCountLabel.text = @"6";
-//    NSOperationQueue *queue = [[NSOperationQueue alloc]init];
-//    [queue addOperationWithBlock:^{
-//        
-//        NSURL *imageURL = [NSURL URLWithString:@"http://ibmsmartercommerce.sourceforge.net/wp-content/uploads/2012/09/Roses_Bunch_Of_Flowers.jpeg"];
-//        NSData *imageData = [NSData dataWithContentsOfURL:imageURL];
-//        UIImage *image = [UIImage imageWithData:imageData];
-//        
-//        dispatch_async(dispatch_get_main_queue(), ^{
-//            ((DareCell *)cell).backgroundImageView.image = image;
-//            ((DareCell *)cell).titleLabel.text = @"I DARE YOU TO WEAR PINK" ;
-//            ((DareCell *)cell).unreadCountLabel.text = @"15";
-//        });
-//    }];
     return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    MessageThread *thread = self.threads[indexPath.row];
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];
+    MessagesTVC *viewController = (MessagesTVC *)[storyboard instantiateViewControllerWithIdentifier:@"MessagesTVC"];
+    viewController.thread = thread;
+    [self presentViewController:viewController animated:YES completion:nil];
 }
 
 

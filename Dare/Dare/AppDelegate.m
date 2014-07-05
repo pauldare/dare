@@ -37,19 +37,17 @@
     
     //[[DareDataStore sharedDataStore]cleanCoreData];
     
-//    [[DareDataStore sharedDataStore]populateCoreData:^{
-//        NSLog(@"done");
-//    }];
-    
-#warning comment out for making other VC root
-//    [PFFacebookUtils initializeFacebook];
-//    if (FBSession.activeSession.state == FBSessionStateOpen ||
-//        FBSession.activeSession.state == FBSessionStateOpenTokenExtended) {
-//        NSLog(@"CUrrenly logged: %@", [PFUser currentUser][@"displayName"]);
-//        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];
-//        UIViewController *viewController = [storyboard instantiateViewControllerWithIdentifier:@"DareTable"];
-//        self.window.rootViewController = viewController;
-//    }
+    [[DareDataStore sharedDataStore]populateCoreData:^{
+        NSLog(@"done");
+        [PFFacebookUtils initializeFacebook];
+        if (FBSession.activeSession.state == FBSessionStateOpen ||
+            FBSession.activeSession.state == FBSessionStateOpenTokenExtended) {
+            NSLog(@"CUrrenly logged: %@", [PFUser currentUser][@"displayName"]);
+            UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];
+            UIViewController *viewController = [storyboard instantiateViewControllerWithIdentifier:@"MainScreen"];
+            self.window.rootViewController = viewController;
+        }
+    }];
     return YES;
 }
 

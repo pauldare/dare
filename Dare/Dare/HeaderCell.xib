@@ -6,11 +6,11 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="207" id="KGk-i7-Jjw" customClass="HeaderCell">
-            <rect key="frame" x="0.0" y="0.0" width="320" height="207"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="340" id="KGk-i7-Jjw" customClass="HeaderCell">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="442"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <rect key="frame" x="0.0" y="0.0" width="320" height="206"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="441"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" restorationIdentifier="HeaderCell" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="AHI-sR-rrf">
@@ -27,44 +27,74 @@
                         </collectionViewFlowLayout>
                         <cells/>
                     </collectionView>
-                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="X8x-nU-q5t">
-                        <rect key="frame" x="0.0" y="116" width="320" height="90"/>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="X8x-nU-q5t">
+                        <rect key="frame" x="0.0" y="116" width="320" height="325"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qDz-Jn-HBR">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="90"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="HI4-AP-I2S">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="325"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             </imageView>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9Fr-2E-VCW">
-                                <rect key="frame" x="0.0" y="10" width="320" height="69"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jIu-xx-0lU">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="80"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1go-vg-0NE">
-                                        <rect key="frame" x="0.0" y="0.0" width="320" height="69"/>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="320" translatesAutoresizingMaskIntoConstraints="NO" id="LwD-EY-ba6">
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="80"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="LwD-EY-ba6" firstAttribute="top" secondItem="jIu-xx-0lU" secondAttribute="top" id="ejO-I2-CFp"/>
+                                    <constraint firstAttribute="trailing" secondItem="LwD-EY-ba6" secondAttribute="trailing" id="euf-rW-aQa"/>
+                                    <constraint firstItem="LwD-EY-ba6" firstAttribute="leading" secondItem="jIu-xx-0lU" secondAttribute="leading" id="lh0-u7-Fko"/>
+                                    <constraint firstAttribute="bottom" secondItem="LwD-EY-ba6" secondAttribute="bottom" id="zso-1J-Yiw"/>
+                                </constraints>
                             </view>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Zrw-kR-K7Q">
+                                <rect key="frame" x="134" y="88" width="50" height="50"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="YOj-yh-rqr"/>
+                                    <constraint firstAttribute="width" constant="50" id="aNU-hU-irG"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="Zrw-kR-K7Q" firstAttribute="top" secondItem="jIu-xx-0lU" secondAttribute="bottom" constant="8" symbolic="YES" id="7AD-qb-T4k"/>
+                            <constraint firstItem="Zrw-kR-K7Q" firstAttribute="top" secondItem="X8x-nU-q5t" secondAttribute="top" constant="88" id="8QX-I9-nmU"/>
+                            <constraint firstItem="HI4-AP-I2S" firstAttribute="leading" secondItem="X8x-nU-q5t" secondAttribute="leading" id="Eyc-qs-sJB"/>
+                            <constraint firstItem="HI4-AP-I2S" firstAttribute="top" secondItem="X8x-nU-q5t" secondAttribute="top" id="JC6-7d-YVR"/>
+                            <constraint firstItem="HI4-AP-I2S" firstAttribute="trailing" secondItem="jIu-xx-0lU" secondAttribute="trailing" id="V8Q-Gy-uCj"/>
+                            <constraint firstItem="HI4-AP-I2S" firstAttribute="leading" secondItem="jIu-xx-0lU" secondAttribute="leading" id="b8u-ym-Gla"/>
+                            <constraint firstAttribute="trailing" secondItem="HI4-AP-I2S" secondAttribute="trailing" id="mQ3-X5-tD0"/>
+                            <constraint firstItem="Zrw-kR-K7Q" firstAttribute="top" secondItem="jIu-xx-0lU" secondAttribute="bottom" constant="8" id="mkM-tN-JkJ"/>
+                            <constraint firstAttribute="bottom" secondItem="HI4-AP-I2S" secondAttribute="bottom" id="pUZ-ft-XGR"/>
+                            <constraint firstItem="HI4-AP-I2S" firstAttribute="top" secondItem="jIu-xx-0lU" secondAttribute="top" id="tgf-Wk-eJv"/>
+                            <constraint firstItem="Zrw-kR-K7Q" firstAttribute="leading" secondItem="X8x-nU-q5t" secondAttribute="leading" constant="134" id="tzm-Mz-QWi"/>
+                        </constraints>
                     </view>
                 </subviews>
                 <constraints>
+                    <constraint firstItem="X8x-nU-q5t" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="116" id="1Um-97-fCz"/>
                     <constraint firstItem="AHI-sR-rrf" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="BiR-ud-3Gc"/>
+                    <constraint firstItem="X8x-nU-q5t" firstAttribute="leading" secondItem="AHI-sR-rrf" secondAttribute="leading" id="PGK-F7-S5D"/>
                     <constraint firstAttribute="trailing" secondItem="AHI-sR-rrf" secondAttribute="trailing" id="d6b-zr-wfQ"/>
                     <constraint firstItem="AHI-sR-rrf" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="pHg-8t-ojP"/>
+                    <constraint firstItem="X8x-nU-q5t" firstAttribute="trailing" secondItem="AHI-sR-rrf" secondAttribute="trailing" id="twA-QO-ItE"/>
+                    <constraint firstAttribute="bottom" secondItem="X8x-nU-q5t" secondAttribute="bottom" id="zMC-y1-euJ"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
                 <outlet property="collectionView" destination="AHI-sR-rrf" id="Ni1-Ls-aM2"/>
-                <outlet property="dareView" destination="X8x-nU-q5t" id="Kja-Kc-XQu"/>
-                <outlet property="imageView" destination="qDz-Jn-HBR" id="Iku-6R-dWp"/>
-                <outlet property="labelView" destination="9Fr-2E-VCW" id="tSj-4j-LU1"/>
-                <outlet property="textLabel" destination="1go-vg-0NE" id="UaL-bf-Q24"/>
+                <outlet property="dareView" destination="jIu-xx-0lU" id="FZu-V4-LOy"/>
+                <outlet property="mainImage" destination="HI4-AP-I2S" id="Yyd-kh-fE4"/>
+                <outlet property="textLabel" destination="LwD-EY-ba6" id="DnA-hV-CNo"/>
+                <outlet property="userImage" destination="Zrw-kR-K7Q" id="G1e-9Q-7N7"/>
             </connections>
         </tableViewCell>
     </objects>

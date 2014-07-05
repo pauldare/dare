@@ -10,6 +10,7 @@
 #import "FriendListIcon.h"
 #import "Friend.h"
 #import "UIColor+DareColors.h"
+#import <QuartzCore/CALayer.h>
 
 
 @interface HeaderCell ()
@@ -23,12 +24,23 @@
 
 @implementation HeaderCell
 
-@synthesize imageView;
+@synthesize textLabel;
 
 - (void)awakeFromNib
 {
-    UIImage *flowerImage = [UIImage imageNamed:@"flower.jpeg"];
+    self.images = @[[UIImage imageNamed:@"angry.jpeg"], [UIImage imageNamed:@"tricolor.jpeg"], [UIImage imageNamed:@"kitten.jpeg"], [UIImage imageNamed:@"cat.jpeg"]];
     self.dataStore = [DareDataStore sharedDataStore];
+    [self setupViews];
+    [self fetchFriends:^{
+        [self.collectionView reloadData];
+    }];
+    UINib *friendNib = [UINib nibWithNibName:@"FriendListIcon" bundle:nil];
+    [self.collectionView registerNib:friendNib forCellWithReuseIdentifier:@"FriendCell"];
+}
+
+- (void)setupViews
+{
+    UIImage *flowerImage = [UIImage imageNamed:@"flower.jpeg"];
     self.selectionStyle = UITableViewCellSelectionStyleNone;
     self.collectionView.delegate = self;
     self.collectionView.dataSource = self;
@@ -36,17 +48,12 @@
     self.textLabel.backgroundColor = [UIColor clearColor];
     self.textLabel.font = [UIFont boldSystemFontOfSize:18];
     self.textLabel.textColor = [UIColor whiteColor];
-    
+    self.mainImage.image = flowerImage;
     self.collectionView.backgroundColor = [UIColor DareBlue];
-    self.imageView.image = flowerImage;
-    self.labelView.backgroundColor = [UIColor DareCellOverlay];
-    [self fetchFriends:^{
-        [self.collectionView reloadData];
-    }];
-    UINib *friendNib = [UINib nibWithNibName:@"FriendListIcon" bundle:nil];
-    [self.collectionView registerNib:friendNib forCellWithReuseIdentifier:@"FriendCell"];
-    self.images = @[[UIImage imageNamed:@"angry.jpeg"], [UIImage imageNamed:@"tricolor.jpeg"], [UIImage imageNamed:@"kitten.jpeg"], [UIImage imageNamed:@"cat.jpeg"]];
-    
+    self.dareView.backgroundColor = [UIColor DareCellOverlay];
+    self.userImage.layer.cornerRadius = 25;
+    self.userImage.layer.masksToBounds = YES;
+    self.userImage.image = self.images[0];
 }
 
 - (void)fetchFriends: (void(^)())completion
@@ -67,6 +74,8 @@
 {
     return [self.images count];
 }
+
+
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {

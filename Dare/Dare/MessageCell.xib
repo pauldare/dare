@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5056" systemVersion="13D65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell userInteractionEnabled="NO" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="MessageCell" id="KGk-i7-Jjw" customClass="MessageCell">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="385"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="384"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Iy2-VD-CWc">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="60"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="sxj-dU-acd">
+                                <rect key="frame" x="0.0" y="0.0" width="60" height="60"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="60" id="8i8-rl-Zim"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dM0-fL-UB0">
+                                <rect key="frame" x="68" y="0.0" width="252" height="60"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="bottom" secondItem="sxj-dU-acd" secondAttribute="bottom" id="0yy-dP-jFe"/>
+                            <constraint firstItem="dM0-fL-UB0" firstAttribute="leading" secondItem="sxj-dU-acd" secondAttribute="trailing" constant="8" symbolic="YES" id="3xJ-hr-y2f"/>
+                            <constraint firstAttribute="trailing" secondItem="dM0-fL-UB0" secondAttribute="trailing" id="ODt-jb-D7k"/>
+                            <constraint firstItem="sxj-dU-acd" firstAttribute="top" secondItem="Iy2-VD-CWc" secondAttribute="top" id="QLo-XA-hpB"/>
+                            <constraint firstItem="dM0-fL-UB0" firstAttribute="bottom" secondItem="sxj-dU-acd" secondAttribute="bottom" id="T1A-BH-XX2"/>
+                            <constraint firstItem="sxj-dU-acd" firstAttribute="leading" secondItem="Iy2-VD-CWc" secondAttribute="leading" id="mKm-TS-MJs"/>
+                            <constraint firstItem="dM0-fL-UB0" firstAttribute="top" secondItem="sxj-dU-acd" secondAttribute="top" id="pdw-h3-V3M"/>
+                        </constraints>
+                    </view>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Pfq-gq-piI">
+                        <rect key="frame" x="-8" y="60" width="328" height="324"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    </imageView>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="Pfq-gq-piI" firstAttribute="top" secondItem="Iy2-VD-CWc" secondAttribute="bottom" id="Aef-Yb-Hac"/>
+                    <constraint firstItem="Iy2-VD-CWc" firstAttribute="trailing" secondItem="Pfq-gq-piI" secondAttribute="trailing" id="Izo-8m-LXA"/>
+                    <constraint firstItem="Iy2-VD-CWc" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="SLO-SC-xGV"/>
+                    <constraint firstItem="Iy2-VD-CWc" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="U62-c3-yX7"/>
+                    <constraint firstAttribute="trailing" secondItem="Iy2-VD-CWc" secondAttribute="trailing" id="Xql-5Z-3bw"/>
+                    <constraint firstItem="Pfq-gq-piI" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="-8" id="cHY-gA-OA4"/>
+                    <constraint firstAttribute="bottom" secondItem="Pfq-gq-piI" secondAttribute="bottom" id="hzo-Gy-dBu"/>
+                    <constraint firstAttribute="bottom" secondItem="Iy2-VD-CWc" secondAttribute="bottom" constant="324" id="uMA-wM-lhk"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="imageView" destination="Pfq-gq-piI" id="vee-0I-Kfo"/>
+                <outlet property="textLabel" destination="dM0-fL-UB0" id="HVJ-Rr-XJ1"/>
+                <outlet property="textView" destination="Iy2-VD-CWc" id="1Rk-hk-Up4"/>
+                <outlet property="userPic" destination="sxj-dU-acd" id="Yeb-EN-d0f"/>
+            </connections>
+        </tableViewCell>
+    </objects>
+</document>

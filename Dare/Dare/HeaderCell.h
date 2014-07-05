@@ -12,11 +12,10 @@
 @interface HeaderCell : UITableViewCell<UICollectionViewDelegate, UICollectionViewDataSource>
 
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
+@property (weak, nonatomic) IBOutlet UIImageView *mainImage;
 @property (weak, nonatomic) IBOutlet UIView *dareView;
-@property (weak, nonatomic) IBOutlet UIImageView *imageView;
-
-@property (weak, nonatomic) IBOutlet UIView *labelView;
 @property (weak, nonatomic) IBOutlet UILabel *textLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *userImage;
 
 
 @end

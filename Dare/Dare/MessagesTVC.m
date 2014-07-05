@@ -32,13 +32,9 @@
 {
     [super viewDidLoad];
     self.messages = [NSMutableArray arrayWithArray:[self.thread.messages allObjects]];
-
     NSSortDescriptor* sortByDate = [NSSortDescriptor sortDescriptorWithKey:@"createdAt" ascending:YES];
     [self.messages sortUsingDescriptors:[NSArray arrayWithObject:sortByDate]];
-    
-    self.headerMessage = self.messages[0];
     [self.messages removeObjectAtIndex:0];
-    
     self.view.backgroundColor = [UIColor DareBlue];
     self.tableView.showsVerticalScrollIndicator = NO;
     self.headerCell = [UINib nibWithNibName:@"HeaderCell" bundle:nil];
@@ -105,9 +101,9 @@
         if (cell == nil) {
             cell = [[HeaderCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
         }
-        cell.mainImage.image = [UIImage imageWithData: self.headerMessage.picture];
-        cell.textLabel.text = self.headerMessage.text;
-        cell.userImage.image = [UIImage imageWithData:self.headerMessage.author];
+        cell.mainImage.image = [UIImage imageWithData: self.thread.backgroundPicture];
+        cell.textLabel.text = self.thread.title;
+        cell.userImage.image = [UIImage imageWithData:self.thread.author];
         return cell;
     } else if (indexPath.section == 1){
         Message *message = self.messages[indexPath.row];

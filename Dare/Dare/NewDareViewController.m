@@ -73,6 +73,7 @@
     }
     
     [_albumButton addTarget:self action:@selector(selectPictureFromPhotoLibrary) forControlEvents:UIControlEventTouchUpInside];
+    [_flipButton addTarget:self action:@selector(flipCamera) forControlEvents:UIControlEventTouchUpInside];
     
     [self.view bringSubviewToFront:self.cameraButton];
     [self.view bringSubviewToFront:self.flipButton];
@@ -105,6 +106,7 @@
     [_forwardButton setTitle:@"" forState:UIControlStateNormal];
     [_forwardButton setTintColor:[UIColor whiteColor]];
     [_forwardButton setImage:rightLabelImage forState:UIControlStateNormal];
+    [_forwardButton addTarget:self action:@selector(scrollForward) forControlEvents:UIControlEventTouchUpInside];
     
     FAKFontAwesome *leftLabel = [FAKFontAwesome backwardIconWithSize:40];
     [leftLabel addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor]];
@@ -112,6 +114,7 @@
     [_backButton setTitle:@"" forState:UIControlStateNormal];
     [_backButton setTintColor:[UIColor whiteColor]];
     [_backButton setImage:leftLabelImage forState:UIControlStateNormal];
+    [_backButton addTarget:self action:@selector(scrollBackward) forControlEvents:UIControlEventTouchUpInside];
     
     
     [self setupCamera];
@@ -133,6 +136,42 @@
 
 }
 
+-(void)flipCamera
+{
+    if (_cameraManager.session) {
+    [_cameraManager.session beginConfiguration];
+    AVCaptureInput* currentCameraInput = [_cameraManager.session.inputs objectAtIndex:0];
+    [_cameraManager.session removeInput:currentCameraInput];
+    
+    AVCaptureDevice *newCamera = nil;
+    if(((AVCaptureDeviceInput*)currentCameraInput).device.position == AVCaptureDevicePositionBack)
+    {
+        newCamera = [self cameraWithPosition:AVCaptureDevicePositionFront];
+    }
+    else
+    {
+        newCamera = [self cameraWithPosition:AVCaptureDevicePositionBack];
+    }
+    
+    //Add input to session
+    AVCaptureDeviceInput *newVideoInput = [[AVCaptureDeviceInput alloc] initWithDevice:newCamera error:nil];
+    [_cameraManager.session addInput:newVideoInput];
+    
+    //Commit all the configuration changes at once
+    [_cameraManager.session commitConfiguration];
+    
+    }
+}
+
+- (AVCaptureDevice *) cameraWithPosition:(AVCaptureDevicePosition) position
+{
+    NSArray *devices = [AVCaptureDevice devicesWithMediaType:AVMediaTypeVideo];
+    for (AVCaptureDevice *device in devices)
+    {
+        if ([device position] == position) return device;
+    }
+    return nil;
+}
 
 -(void)viewDidAppear:(BOOL)animated
 {
@@ -197,8 +236,6 @@
 
 -(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
-//    NSLog(@"%@", info);
-    
     [_cameraManager.session stopRunning];
     [_cameraManager.captureVideoPreviewLayer removeFromSuperlayer];
     _imageView.image = info[UIImagePickerControllerOriginalImage];
@@ -314,13 +351,42 @@
 - (void)setupTextCollection
 {
     self.textCollection.backgroundColor = [UIColor DareBlue];
-    self.textCollection.bounces = NO;
+    self.textCollection.bounces = YES;
+    self.textCollection.alwaysBounceHorizontal = YES;
     self.textCollection.pagingEnabled = YES;
     self.textCollection.showsHorizontalScrollIndicator = NO;
     self.textCollection.delegate = self;
     self.textCollection.dataSource = self;
 }
 
+-(void)scrollForward
+{
+    [_textCollection setContentOffset:CGPointMake(_textCollection.contentOffset.x + _textCollection.frame.size.width, 0) animated:YES];
+}
+
+-(void)scrollBackward
+{
+    [_textCollection setContentOffset:CGPointMake(_textCollection.contentOffset.x - _textCollection.frame.size.width, 0) animated:YES];
+}
+- (void) scrollViewDidScroll:(UIScrollView *)scrollView{
+    
+    if (scrollView == _textCollection) {
+    
+    if (scrollView.contentOffset.x < scrollView.frame.size.width ){
+        
+        [scrollView scrollRectToVisible:CGRectMake(scrollView.contentOffset.x + ([_messages count] + 1) * scrollView.frame.size.width, 0, scrollView.frame.size.width, scrollView.frame.size.height) animated:YES];
+       
+        
+    }
+    
+    else if ( scrollView.contentOffset.x > [_messages count] + 1 *  scrollView.frame.size.width  ){
+
+        [scrollView scrollRectToVisible:CGRectMake(scrollView.contentOffset.x - (([_messages count] +1) * scrollView.frame.size.width), 0, scrollView.frame.size.width, scrollView.frame.size.height) animated:YES];
+
+    }
+    }
+    
+}
 
 - (IBAction)cameraButtonPressed:(id)sender
 {

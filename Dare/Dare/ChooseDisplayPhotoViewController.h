@@ -11,5 +11,6 @@
 @interface ChooseDisplayPhotoViewController : UIViewController <UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 
 @property (nonatomic) BOOL captureSessionIsActive;
+@property (nonatomic) BOOL fromSettings;
 
 @end

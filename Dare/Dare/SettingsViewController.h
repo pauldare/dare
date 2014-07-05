@@ -7,7 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "User+Methods.h"
 
 @interface SettingsViewController : UIViewController
+
 
 @end

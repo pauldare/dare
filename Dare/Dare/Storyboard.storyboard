@@ -392,6 +392,34 @@
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="364"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     </imageView>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="C4P-9K-3ZL">
+                                        <rect key="frame" x="20" y="20" width="46" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <state key="normal" title="Button">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Mkd-yx-Iwo">
+                                        <rect key="frame" x="137" y="20" width="46" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <state key="normal" title="Button">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tVb-4I-eI3">
+                                        <rect key="frame" x="254" y="20" width="46" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <state key="normal" title="Button">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fmm-Bx-fda">
+                                        <rect key="frame" x="254" y="314" width="46" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <state key="normal" title="Button">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                 <constraints>
@@ -422,10 +450,14 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="albumButton" destination="tVb-4I-eI3" id="rod-4r-6rk"/>
+                        <outlet property="blurTimerButton" destination="fmm-Bx-fda" id="0X8-oV-wOj"/>
+                        <outlet property="cameraButton" destination="C4P-9K-3ZL" id="ktl-dH-83v"/>
                         <outlet property="cameraView" destination="4Qp-en-sby" id="HRU-em-fpv"/>
                         <outlet property="collectionView" destination="yvB-4P-ljT" id="nsc-Xx-V6n"/>
                         <outlet property="dareImageView" destination="zWp-cx-pBl" id="Kux-RD-rVd"/>
                         <outlet property="dareView" destination="Aoj-OY-4YE" id="Bfq-w0-skA"/>
+                        <outlet property="flipButton" destination="Mkd-yx-Iwo" id="qU0-K3-q9A"/>
                         <outlet property="imageView" destination="3xS-77-DlY" id="2y5-O1-sNj"/>
                         <outlet property="textLabel" destination="Mmu-ot-xJg" id="7Sd-BL-fLX"/>
                     </connections>

@@ -9,6 +9,10 @@
 #import "SnapCommentVC.h"
 
 @interface SnapCommentVC ()
+@property (weak, nonatomic) IBOutlet UIButton *cameraButton;
+@property (weak, nonatomic) IBOutlet UIButton *flipButton;
+@property (weak, nonatomic) IBOutlet UIButton *albumButton;
+@property (weak, nonatomic) IBOutlet UIButton *blurTimerButton;
 
 @end
 

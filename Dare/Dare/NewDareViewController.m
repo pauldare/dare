@@ -634,6 +634,8 @@
 
 -(void)postDare
 {
+    
+    
     UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];
 #warning this should go to the message thread. This is here for testing
     MainScreenViewController *mainScreen = [storyBoard instantiateViewControllerWithIdentifier:@"MainScreen"];

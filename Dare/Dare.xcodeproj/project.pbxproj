@@ -38,6 +38,8 @@
 		35F35F521962F5910002C7BC /* kitten.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 35F35F511962F5910002C7BC /* kitten.jpeg */; };
 		35F35F541962F5990002C7BC /* tricolor.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 35F35F531962F5990002C7BC /* tricolor.jpeg */; };
 		35F35F561962F5A10002C7BC /* angry.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 35F35F551962F5A10002C7BC /* angry.jpeg */; };
+		4500B05E1968C56B00F85B59 /* CancelDareCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4500B05B1968C56B00F85B59 /* CancelDareCell.xib */; };
+		4500B05F1968C56B00F85B59 /* CanelDareCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4500B05D1968C56B00F85B59 /* CanelDareCell.m */; };
 		4512E4111965B321000A8C15 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4512E4101965B321000A8C15 /* Social.framework */; };
 		4512E4141966FE0D000A8C15 /* SignInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4512E4131966FE0D000A8C15 /* SignInViewController.m */; };
 		4512E417196702FF000A8C15 /* LogInWithFacebookViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4512E416196702FF000A8C15 /* LogInWithFacebookViewController.m */; };
@@ -144,6 +146,9 @@
 		35F35F511962F5910002C7BC /* kitten.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = kitten.jpeg; sourceTree = "<group>"; };
 		35F35F531962F5990002C7BC /* tricolor.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = tricolor.jpeg; sourceTree = "<group>"; };
 		35F35F551962F5A10002C7BC /* angry.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = angry.jpeg; sourceTree = "<group>"; };
+		4500B05B1968C56B00F85B59 /* CancelDareCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CancelDareCell.xib; sourceTree = "<group>"; };
+		4500B05C1968C56B00F85B59 /* CanelDareCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CanelDareCell.h; sourceTree = "<group>"; };
+		4500B05D1968C56B00F85B59 /* CanelDareCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CanelDareCell.m; sourceTree = "<group>"; };
 		4512E4101965B321000A8C15 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		4512E4121966FE0D000A8C15 /* SignInViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignInViewController.h; sourceTree = "<group>"; };
 		4512E4131966FE0D000A8C15 /* SignInViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SignInViewController.m; sourceTree = "<group>"; };
@@ -289,6 +294,9 @@
 				05984FAA19678AF800DAE025 /* HeaderCell.m */,
 				05984FB6196866C000DAE025 /* AddCommentCell.h */,
 				05984FB7196866C000DAE025 /* AddCommentCell.m */,
+				4500B05B1968C56B00F85B59 /* CancelDareCell.xib */,
+				4500B05C1968C56B00F85B59 /* CanelDareCell.h */,
+				4500B05D1968C56B00F85B59 /* CanelDareCell.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -544,6 +552,7 @@
 				35F35F541962F5990002C7BC /* tricolor.jpeg in Resources */,
 				0719EAB8195F516E007C2983 /* Storyboard.storyboard in Resources */,
 				05984FE819689D2600DAE025 /* iceream.jpeg in Resources */,
+				4500B05E1968C56B00F85B59 /* CancelDareCell.xib in Resources */,
 				527FDB011960E5830083D6F0 /* FinalCell.xib in Resources */,
 				35F35F561962F5A10002C7BC /* angry.jpeg in Resources */,
 				05984F4B1966F6F300DAE025 /* flower.jpeg in Resources */,
@@ -613,6 +622,7 @@
 				5234BB20196077AE00850ECB /* ChooseDisplayPhotoViewController.m in Sources */,
 				05984F631967398100DAE025 /* MessageThread+Methods.m in Sources */,
 				05984FB9196866C000DAE025 /* AddCommentCell.m in Sources */,
+				4500B05F1968C56B00F85B59 /* CanelDareCell.m in Sources */,
 				05984F601967395800DAE025 /* Message+Methods.m in Sources */,
 				456E625F195F67C5003CC220 /* ParseClient.m in Sources */,
 				05984FAC19678AF800DAE025 /* HeaderCell.m in Sources */,

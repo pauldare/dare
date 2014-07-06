@@ -75,7 +75,7 @@
 
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return 50;
+    return [self.friends count];
 }
 
 
@@ -103,7 +103,7 @@
     FriendListIcon *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"FriendCell" forIndexPath:indexPath];
     //UIImage *image = self.images[indexPath.row];
 //    Friend *friend = self.friends[indexPath.row];
-    Friend *friend = self.friends[0];
+    Friend *friend = self.friends[indexPath.row];
     UIImage *image = [UIImage imageWithData:friend.image];
     ((FriendListIcon *)cell).friendImage.image = image;
     return cell;

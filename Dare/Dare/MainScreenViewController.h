@@ -14,5 +14,6 @@
 
 @property (strong, nonatomic) NSArray *friendsArray;
 @property (nonatomic) NSInteger unreadCount;
+@property (nonatomic) BOOL fromCancel;
 
 @end

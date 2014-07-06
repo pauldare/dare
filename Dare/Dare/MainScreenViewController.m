@@ -212,7 +212,7 @@
 - (NSInteger)countTotalUnread
 {
     NSInteger total = 0;
-    if ([self.presentingViewController isKindOfClass:[NewDareViewController class]]) {
+    if (!self.fromCancel && [self.presentingViewController isKindOfClass:[NewDareViewController class]]) {
         total++;
     }
     for (MessageThread *thread in self.threads) {
@@ -577,7 +577,7 @@
     ((DareCell *)cell).backgroundImageView.image = background;
     ((DareCell *)cell).titleLabel.text = [NSString stringWithFormat:@"I DARE YOU TO\n%@", thread.title];
     NSInteger unreadCount = 0;
-    if ([self.presentingViewController isKindOfClass:[NewDareViewController class]]) {
+    if (!self.fromCancel && [self.presentingViewController isKindOfClass:[NewDareViewController class]]) {
         unreadCount++;
     } else {
         for (Message *message in thread.messages) {

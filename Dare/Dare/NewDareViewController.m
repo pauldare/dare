@@ -566,6 +566,7 @@
             
             UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];
             MainScreenViewController *mainVC = [storyboard instantiateViewControllerWithIdentifier:@"MainScreen"];
+            mainVC.fromCancel = YES;
             [self presentViewController:mainVC animated:YES completion:nil];
         }
     }
@@ -660,6 +661,7 @@
         [self beginThread:^(PFObject *messageThread) {
             UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];
             MainScreenViewController *mainScreen = [storyBoard instantiateViewControllerWithIdentifier:@"MainScreen"];
+            mainScreen.fromCancel = NO;
             [self presentViewController:mainScreen animated:YES completion:nil];
             NSLog(@"thread begun");
         }];

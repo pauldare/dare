@@ -13,9 +13,10 @@
 #import <FontAwesomeKit/FontAwesomeKit.h>
 #import "DareDataStore.h"
 #import "Friend+Methods.h"
+#import "ParseClient.h"
 
 
-@interface SnapCommentVC ()
+@interface SnapCommentVC ()<UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UIButton *cameraButton;
 @property (weak, nonatomic) IBOutlet UIButton *flipButton;
 @property (weak, nonatomic) IBOutlet UIButton *albumButton;
@@ -24,6 +25,9 @@
 @property (strong, nonatomic) CameraManager *cameraManager;
 @property (strong, nonatomic) NSMutableArray *friends;
 @property (strong, nonatomic) DareDataStore *dataStore;
+@property (strong, nonatomic) UIView *dareTextImageOverlay;
+@property (strong, nonatomic) UITextField *dareText;
+@property (strong, nonatomic) UIImage *choosenImage;
 
 @end
 
@@ -121,6 +125,7 @@
                                         completion:^(UIImage *image) {
                                             NSLog(@"image snapped");
                                             self.imageView.image = image;
+                                            self.choosenImage = image;
                                         } failure:^{
                                             [self selectPictureFromLibrary];
                                         }];
@@ -128,6 +133,8 @@
 
 - (IBAction)blurButtonPressed:(id)sender
 {
+    [self setupImageOverlay];
+    [self moveOverlayIntoView];
 }
 
 
@@ -147,7 +154,44 @@
     UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
     [self dismissViewControllerAnimated:YES completion:nil];
     self.imageView.image = image;
+    self.choosenImage = image;
     self.imageView.hidden = NO;
+}
+
+-(void)moveOverlayIntoView
+{
+    [UIView animateWithDuration:0.3 animations:^{
+        [_dareTextImageOverlay setFrame:CGRectMake(0, _cameraView.frame.origin.y + 60, _cameraView.frame.size.width, 112)];
+    }];
+}
+
+-(void)setupImageOverlay
+{
+    _dareTextImageOverlay = [[UIView alloc]initWithFrame:CGRectMake(0,self.view.frame.size.height, _imageView.frame.size.width, 80)];
+    _dareTextImageOverlay.backgroundColor = [UIColor DareCellOverlay];
+    [self.view addSubview:_dareTextImageOverlay];
+    
+    _dareText = [[UITextField alloc]init];
+    _dareText.delegate = self;
+    _dareText.userInteractionEnabled = YES;
+    _dareText.textAlignment = NSTextAlignmentCenter;
+    _dareText.translatesAutoresizingMaskIntoConstraints = NO;
+    _dareText.backgroundColor = [UIColor clearColor];
+    _dareText.font = [UIFont boldSystemFontOfSize:15];
+    _dareText.textColor = [UIColor whiteColor];
+    [_dareTextImageOverlay addSubview:_dareText];
+    
+    [_dareTextImageOverlay addConstraint:[NSLayoutConstraint constraintWithItem:_dareText attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:_dareTextImageOverlay attribute:NSLayoutAttributeLeading multiplier:1.0 constant:0]];
+    [_dareTextImageOverlay addConstraint:[NSLayoutConstraint constraintWithItem:_dareText attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:_dareTextImageOverlay attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:0]];
+    [_dareTextImageOverlay addConstraint:[NSLayoutConstraint constraintWithItem:_dareText attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:_dareTextImageOverlay attribute:NSLayoutAttributeTop multiplier:1.0 constant:0]];
+    [_dareTextImageOverlay addConstraint:[NSLayoutConstraint constraintWithItem:_dareText attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:_dareTextImageOverlay attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0]];
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    [_dareText resignFirstResponder];    
+    [ParseClient addMessageToThread:self.thread withText:_dareText.text picture:self.choosenImage completion:nil];
+    return YES;
 }
 
 

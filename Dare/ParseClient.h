@@ -49,7 +49,7 @@
 
 + (void)fetchUserProfilePicture: (void(^)(NSData *))completion;
 
-+ (void)addMessageToThread: (PFObject *)thread
++ (void)addMessageToThread: (MessageThread *)thread
                   withText: (NSString *)text
                    picture: (UIImage *)picture
                 completion: (void(^)())completion;

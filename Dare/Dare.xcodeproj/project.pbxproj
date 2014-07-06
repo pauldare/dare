@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		05445BE41969F29100EADC31 /* MessageThread.m in Sources */ = {isa = PBXBuildFile; fileRef = 05445BE31969F29100EADC31 /* MessageThread.m */; };
 		05984F4B1966F6F300DAE025 /* flower.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 05984F4A1966F6F300DAE025 /* flower.jpeg */; };
 		05984F4E1966F7A300DAE025 /* shoes.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 05984F4D1966F7A300DAE025 /* shoes.jpeg */; };
 		05984F51196731DD00DAE025 /* Dare.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 05984F4F196731DD00DAE025 /* Dare.xcdatamodeld */; };
@@ -25,7 +26,6 @@
 		05984FBD196870F000DAE025 /* SnapCommentVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 05984FBC196870F000DAE025 /* SnapCommentVC.m */; };
 		05984FE819689D2600DAE025 /* iceream.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 05984FE719689D2600DAE025 /* iceream.jpeg */; };
 		05984FEB1968A27C00DAE025 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 05984FEA1968A27C00DAE025 /* User.m */; };
-		05984FF11968A27C00DAE025 /* MessageThread.m in Sources */ = {isa = PBXBuildFile; fileRef = 05984FF01968A27C00DAE025 /* MessageThread.m */; };
 		05984FF41968A27C00DAE025 /* Friend.m in Sources */ = {isa = PBXBuildFile; fileRef = 05984FF31968A27C00DAE025 /* Friend.m */; };
 		059F57851968AD270049079B /* Message.m in Sources */ = {isa = PBXBuildFile; fileRef = 059F57841968AD270049079B /* Message.m */; };
 		05FA70ED195FA75E00C057D4 /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = 05FA70EC195FA75E00C057D4 /* Constants.m */; };
@@ -97,6 +97,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		05445BE21969F29100EADC31 /* MessageThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageThread.h; sourceTree = "<group>"; };
+		05445BE31969F29100EADC31 /* MessageThread.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageThread.m; sourceTree = "<group>"; };
 		05984F4A1966F6F300DAE025 /* flower.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = flower.jpeg; sourceTree = "<group>"; };
 		05984F4D1966F7A300DAE025 /* shoes.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = shoes.jpeg; sourceTree = "<group>"; };
 		05984F50196731DD00DAE025 /* Dare.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Dare.xcdatamodel; sourceTree = "<group>"; };
@@ -126,8 +128,6 @@
 		05984FE719689D2600DAE025 /* iceream.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = iceream.jpeg; sourceTree = "<group>"; };
 		05984FE91968A27C00DAE025 /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
 		05984FEA1968A27C00DAE025 /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
-		05984FEF1968A27C00DAE025 /* MessageThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageThread.h; sourceTree = "<group>"; };
-		05984FF01968A27C00DAE025 /* MessageThread.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageThread.m; sourceTree = "<group>"; };
 		05984FF21968A27C00DAE025 /* Friend.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Friend.h; sourceTree = "<group>"; };
 		05984FF31968A27C00DAE025 /* Friend.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Friend.m; sourceTree = "<group>"; };
 		059F57831968AD270049079B /* Message.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Message.h; sourceTree = "<group>"; };
@@ -421,12 +421,12 @@
 			isa = PBXGroup;
 			children = (
 				05984F4F196731DD00DAE025 /* Dare.xcdatamodeld */,
+				05445BE21969F29100EADC31 /* MessageThread.h */,
+				05445BE31969F29100EADC31 /* MessageThread.m */,
 				059F57831968AD270049079B /* Message.h */,
 				059F57841968AD270049079B /* Message.m */,
 				05984FF21968A27C00DAE025 /* Friend.h */,
 				05984FF31968A27C00DAE025 /* Friend.m */,
-				05984FEF1968A27C00DAE025 /* MessageThread.h */,
-				05984FF01968A27C00DAE025 /* MessageThread.m */,
 				05984FE91968A27C00DAE025 /* User.h */,
 				05984FEA1968A27C00DAE025 /* User.m */,
 				35F35F4E1961F89E0002C7BC /* CameraManager.h */,
@@ -637,11 +637,11 @@
 				527FDAEE1960B35C0083D6F0 /* DareCell.m in Sources */,
 				05984F51196731DD00DAE025 /* Dare.xcdatamodeld in Sources */,
 				359EE6F01963591300088C2D /* SelectDareCell.m in Sources */,
-				05984FF11968A27C00DAE025 /* MessageThread.m in Sources */,
 				4553B5A7195B944E005C6D1A /* AppDelegate.m in Sources */,
 				05984F541967323A00DAE025 /* DareDataStore.m in Sources */,
 				05984F66196739B100DAE025 /* User+Methods.m in Sources */,
 				4512E417196702FF000A8C15 /* LogInWithFacebookViewController.m in Sources */,
+				05445BE41969F29100EADC31 /* MessageThread.m in Sources */,
 				05984F931967424800DAE025 /* Friend+Methods.m in Sources */,
 				4553B5A3195B944E005C6D1A /* main.m in Sources */,
 				35F35F501961F89E0002C7BC /* CameraManager.m in Sources */,

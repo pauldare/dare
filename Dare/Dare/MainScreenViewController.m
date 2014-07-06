@@ -53,7 +53,8 @@
 @property (strong, nonatomic) DareDataStore *dataStore;
 @property (strong, nonatomic) User *user;
 @property (strong, nonatomic) NSArray *parseFriends;
-@property (nonatomic) NSInteger counter;
+
+
 
 
 
@@ -64,8 +65,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    self.counter = 0;
     
     self.dataStore = [DareDataStore sharedDataStore];
     self.threads = [[NSMutableArray alloc]init];
@@ -166,7 +165,9 @@
 {
     [self fetchParseThreads:^{
         dispatch_async(dispatch_get_main_queue(), ^{
-            _overlayUnreadBadge.text = [NSString stringWithFormat:@"%d", [self countTotalUnread] + self.counter];
+            _overlayUnreadBadge.text = [NSString stringWithFormat:@"%d", [self countTotalUnread]];
+            NSSortDescriptor* sortByDate = [NSSortDescriptor sortDescriptorWithKey:@"createdAt" ascending:YES];
+            [self.threads sortUsingDescriptors:[NSArray arrayWithObject:sortByDate]];
             [self.tableView reloadData];
         });
     }];
@@ -197,7 +198,6 @@
                     NSSet *messagesSet = [[NSSet alloc] init];
                     [messagesSet setByAddingObjectsFromArray:messages];
                     [newThread addMessages:messagesSet];
-                    self.counter ++;
                     [self.threads addObject:newThread];
                     completion();
                     //[self.dataStore saveContext];
@@ -209,18 +209,12 @@
 }
 
 
-
-//- (void)fetchthreads: (void(^)())completion
-//{
-//    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"MessageThread"];
-//    self.threads = [self.dataStore.managedObjectContext executeFetchRequest:fetchRequest error:nil];
-//    completion();
-//}
-
-
 - (NSInteger)countTotalUnread
 {
     NSInteger total = 0;
+    if ([self.presentingViewController isKindOfClass:[NewDareViewController class]]) {
+        total++;
+    }
     for (MessageThread *thread in self.threads) {
         for (Message *message in thread.messages) {
             if ([message.isRead integerValue] == 0) {
@@ -583,12 +577,16 @@
     ((DareCell *)cell).backgroundImageView.image = background;
     ((DareCell *)cell).titleLabel.text = [NSString stringWithFormat:@"I DARE YOU TO\n%@", thread.title];
     NSInteger unreadCount = 0;
-    for (Message *message in thread.messages) {
-        if ([message.isRead integerValue] == 0) {
-                unreadCount++;
+    if ([self.presentingViewController isKindOfClass:[NewDareViewController class]]) {
+        unreadCount++;
+    } else {
+        for (Message *message in thread.messages) {
+            if ([message.isRead integerValue] == 0) {
+                    unreadCount++;
+            }
         }
     }
-    ((DareCell *)cell).unreadCountLabel.text = [NSString stringWithFormat:@"%d", unreadCount + self.counter];
+    ((DareCell *)cell).unreadCountLabel.text = [NSString stringWithFormat:@"%d", unreadCount];
     return cell;
 }
 

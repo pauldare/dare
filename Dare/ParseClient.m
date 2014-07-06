@@ -167,7 +167,7 @@
 //        PFObject *proxyUser = objects[0];
         PFObject *message = [PFObject objectWithClassName:@"Message"];
         [message setObject:text forKey:@"text"];
-        [message setObject:@"NO" forKey:@"isRead"];
+        //[message setObject:@"NO" forKey:@"isRead"];
         NSData *imageData =  UIImageJPEGRepresentation(picture, 0.05f);
         PFFile *file = [PFFile fileWithData:imageData];
         [file saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {

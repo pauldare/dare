@@ -71,8 +71,7 @@
     _collectionViewRefreshControl = [[UIRefreshControl alloc]init];
     [_collectionViewRefreshControl addTarget:self action:@selector(refreshFriends) forControlEvents:UIControlEventValueChanged];
     [_collectionView addSubview:_collectionViewRefreshControl];
-    
-    
+        
     NSURL *imageURL = [NSURL URLWithString:@"http://ibmsmartercommerce.sourceforge.net/wp-content/uploads/2012/09/Roses_Bunch_Of_Flowers.jpeg"];
     NSData *imageData = [NSData dataWithContentsOfURL:imageURL];
     _testFriendImage = [UIImage imageWithData:imageData];

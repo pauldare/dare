@@ -66,7 +66,6 @@
 		4553B5D6195B9811005C6D1A /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4553B5D5195B9811005C6D1A /* MobileCoreServices.framework */; };
 		4553B5D8195B981D005C6D1A /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4553B5D7195B981D005C6D1A /* QuartzCore.framework */; };
 		4553B5DA195B9829005C6D1A /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4553B5D9195B9829005C6D1A /* Security.framework */; };
-		4553B5DC195B9848005C6D1A /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4553B5DB195B9848005C6D1A /* StoreKit.framework */; };
 		4553B5DE195B9853005C6D1A /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4553B5DD195B9853005C6D1A /* SystemConfiguration.framework */; };
 		4553B5E0195B9EDC005C6D1A /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4553B5DF195B9EDC005C6D1A /* FacebookSDK.framework */; };
 		456E6259195F2DB4003CC220 /* Temp.m in Sources */ = {isa = PBXBuildFile; fileRef = 456E6258195F2DB4003CC220 /* Temp.m */; };
@@ -181,7 +180,6 @@
 		4553B5D5195B9811005C6D1A /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		4553B5D7195B981D005C6D1A /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		4553B5D9195B9829005C6D1A /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
-		4553B5DB195B9848005C6D1A /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		4553B5DD195B9853005C6D1A /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		4553B5DF195B9EDC005C6D1A /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
 		4553B5E1195B9FB2005C6D1A /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
@@ -226,7 +224,6 @@
 				45A72F341965B17C00A187B7 /* libPods.a in Frameworks */,
 				527FDAE21960807B0083D6F0 /* AVFoundation.framework in Frameworks */,
 				4553B5DE195B9853005C6D1A /* SystemConfiguration.framework in Frameworks */,
-				4553B5DC195B9848005C6D1A /* StoreKit.framework in Frameworks */,
 				4553B5DA195B9829005C6D1A /* Security.framework in Frameworks */,
 				4553B5D6195B9811005C6D1A /* MobileCoreServices.framework in Frameworks */,
 				4553B5D4195B9802005C6D1A /* libz.dylib in Frameworks */,
@@ -355,7 +352,6 @@
 				527FDAE11960807B0083D6F0 /* AVFoundation.framework */,
 				4553B5DF195B9EDC005C6D1A /* FacebookSDK.framework */,
 				4553B5DD195B9853005C6D1A /* SystemConfiguration.framework */,
-				4553B5DB195B9848005C6D1A /* StoreKit.framework */,
 				4553B5D9195B9829005C6D1A /* Security.framework */,
 				4553B5D7195B981D005C6D1A /* QuartzCore.framework */,
 				4553B5D5195B9811005C6D1A /* MobileCoreServices.framework */,
@@ -514,6 +510,11 @@
 				TargetAttributes = {
 					4553B590195B944E005C6D1A = {
 						DevelopmentTeam = 98YB4NM55W;
+						SystemCapabilities = {
+							com.apple.InAppPurchase = {
+								enabled = 0;
+							};
+						};
 					};
 					4553B5B0195B944F005C6D1A = {
 						TestTargetID = 4553B590195B944E005C6D1A;
@@ -723,6 +724,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				ONLY_ACTIVE_ARCH = YES;
+				PROVISIONING_PROFILE = "36B3D154-298C-4117-AB64-B464E62E54E7";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -755,6 +757,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				PROVISIONING_PROFILE = "36B3D154-298C-4117-AB64-B464E62E54E7";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -775,12 +778,14 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Dare/Dare-Prefix.pch";
 				INFOPLIST_FILE = "Dare/Dare-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Pods/build/Debug-iphoneos",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "A6D88508-E5E7-4536-8257-779673E64798";
+				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -800,12 +805,14 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Dare/Dare-Prefix.pch";
 				INFOPLIST_FILE = "Dare/Dare-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Pods/build/Debug-iphoneos",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "A6D88508-E5E7-4536-8257-779673E64798";
+				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

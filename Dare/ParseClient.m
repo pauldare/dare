@@ -8,6 +8,7 @@
 
 #import "ParseClient.h"
 
+
 @implementation ParseClient
 
 + (void)queryForFriends: (void(^)(NSArray *))completion

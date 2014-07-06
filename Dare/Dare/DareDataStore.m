@@ -74,7 +74,7 @@
                 }
             } else {
                 completion();
-            }            
+            }
             [ParseClient getMessageThreadsForUser:loggedUser completion:^(NSArray *threads) {
                 if ([threads count] != 0) {
                     for (PFObject *thread in threads) {

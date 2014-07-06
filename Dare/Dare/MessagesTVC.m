@@ -34,7 +34,9 @@
     self.messages = [NSMutableArray arrayWithArray:[self.thread.messages allObjects]];
     NSSortDescriptor* sortByDate = [NSSortDescriptor sortDescriptorWithKey:@"createdAt" ascending:YES];
     [self.messages sortUsingDescriptors:[NSArray arrayWithObject:sortByDate]];
+    self.headerMessage = self.messages[0];
     [self.messages removeObjectAtIndex:0];
+    self.tableView.backgroundColor = [UIColor clearColor];
     self.view.backgroundColor = [UIColor DareBlue];
     self.tableView.showsVerticalScrollIndicator = NO;
     self.headerCell = [UINib nibWithNibName:@"HeaderCell" bundle:nil];
@@ -43,8 +45,15 @@
     [self.tableView registerNib:self.messageCell forCellReuseIdentifier:@"MessageCell"];
     self.addCommentCell = [UINib nibWithNibName:@"AddCommentCell" bundle:nil];
     [self.tableView registerNib:self.addCommentCell forCellReuseIdentifier:@"AddCommentCell"];
+    self.tableView.separatorColor = [UIColor clearColor];
 }
 
+-(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    UIView *header = [[UIView alloc]initWithFrame:CGRectZero];
+    header.backgroundColor = [UIColor clearColor];
+    return header;
+}
 - (CGFloat)getRowHeightForCell: (NSString *)identifier
 {
     return [[[[NSBundle mainBundle] loadNibNamed:identifier owner:self options:nil] objectAtIndex:0] bounds].size.height;
@@ -101,8 +110,11 @@
         if (cell == nil) {
             cell = [[HeaderCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
         }
-        cell.mainImage.image = [UIImage imageWithData: self.thread.backgroundPicture];
+        cell.mainImage.image = [UIImage imageWithData: self.headerMessage.picture];
+        cell.backgroundImage.image = [UIImage imageWithData: self.thread.backgroundPicture];
+        cell.mainImage.contentMode = UIViewContentModeScaleToFill;
         cell.textLabel.text = self.thread.title;
+        cell.textLabel.backgroundColor = [UIColor DareCellOverlay];
         cell.userImage.image = [UIImage imageWithData:self.thread.author];
         cell.friends = self.friends;
         return cell;
@@ -114,6 +126,7 @@
             cell = [[MessageCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
         }
         cell.textLabel.text = message.text;
+        cell.imageView.contentMode = UIViewContentModeScaleAspectFit;
         cell.imageView.image = [UIImage imageWithData:message.picture];
         cell.userPic.image = [UIImage imageWithData:message.author];
         cell.centeredUserPic.image = [UIImage imageWithData:message.author];

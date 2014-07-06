@@ -49,6 +49,7 @@
     _imageView.backgroundColor = [UIColor whiteColor];
     _cameraView.backgroundColor = [UIColor whiteColor];
     self.imageView.hidden = YES;
+    self.automaticallyAdjustsScrollViewInsets = NO;
 //    self.images = @[[UIImage imageNamed:@"angry.jpeg"], [UIImage imageNamed:@"tricolor.jpeg"], [UIImage imageNamed:@"kitten.jpeg"], [UIImage imageNamed:@"cat.jpeg"]];
 //    UIImage *flower = [UIImage imageNamed:@"flower.jpeg"];
 //    self.dareImageView.image = flower;

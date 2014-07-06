@@ -17,6 +17,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *textLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *userImage;
 @property (strong, nonatomic) NSMutableArray *friends;
+@property (weak, nonatomic) IBOutlet UIImageView *backgroundImage;
 
 
 @end

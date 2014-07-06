@@ -17,7 +17,7 @@
 
 @property (strong, nonatomic) DareDataStore *dataStore;
 @property (strong, nonatomic) NSArray *images;
-@property (strong, nonatomic) NSArray *friends;
+
 
 @end
 
@@ -72,7 +72,7 @@
 
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return [self.images count];
+    return [self.friends count];
 }
 
 
@@ -98,9 +98,9 @@
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     FriendListIcon *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"FriendCell" forIndexPath:indexPath];
-    UIImage *image = self.images[indexPath.row];
-    //Friend *friend = self.friends[indexPath.row];
-    //UIImage *image = [UIImage imageWithData:friend.image];
+    //UIImage *image = self.images[indexPath.row];
+    Friend *friend = self.friends[indexPath.row];
+    UIImage *image = [UIImage imageWithData:friend.image];
     ((FriendListIcon *)cell).friendImage.image = image;
     return cell;
 }

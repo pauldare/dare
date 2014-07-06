@@ -17,6 +17,8 @@
 #import <FontAwesomeKit/FontAwesomeKit.h>
 #import "MainScreenViewController.h"
 #import "Friend+Methods.h"
+#import "DareDataStore.h"
+#import "Friend+Methods.h"
 
 
 @interface NewDareViewController () <UICollectionViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UICollectionViewDataSource,UITextFieldDelegate>
@@ -47,7 +49,7 @@
 @property (strong, nonatomic) NSString *dareString;
 @property (strong, nonatomic) UIImage *dareBackgroundImage;
 @property (strong, nonatomic) UIImage *dareImage;
-
+@property (strong, nonatomic) DareDataStore *dataStore;
 
 
 
@@ -59,12 +61,18 @@
 
 - (void)viewDidLoad
 {
+    self.images = [[NSMutableArray alloc]init];
     [super viewDidLoad];
+    self.dataStore = [DareDataStore sharedDataStore];
+    [self fetchFriends:^{
+        for (Friend *friend in self.friends) {
+            [self.images addObject:[UIImage imageWithData:friend.image]];
+        }
+        [self.friendsCollection reloadData];
+    }];
         
 //    self.images = @[[UIImage imageNamed:@"angry.jpeg"], [UIImage imageNamed:@"tricolor.jpeg"], [UIImage imageNamed:@"kitten.jpeg"], [UIImage imageNamed:@"cat.jpeg"]];
-    for (Friend *friend in self.friends) {
-        [self.images addObject:[UIImage imageWithData:friend.image]];
-    }
+    
     self.messages = @[@"I DARE YOU\nto pet a cat", @"I DARE YOU\nto eat icecream", @"I DARE YOU\nto have fun"];
     
     //_imageView.frame = _cameraView.frame;
@@ -181,13 +189,15 @@
     return nil;
 }
 
-
--(void)viewDidAppear:(BOOL)animated
+- (void)fetchFriends: (void(^)())completion
 {
-    [super viewDidAppear:animated];
-    
-    
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Friend"];
+    self.friends = [NSMutableArray arrayWithArray:[self.dataStore.managedObjectContext executeFetchRequest:fetchRequest error:nil]];
+    Friend *friend = self.friends[0];
+    NSLog(@"%@", friend.displayName);
+    completion();
 }
+
 
 -(void)configureBottomOverlay
 {
@@ -631,10 +641,9 @@
         NSLog(@"thread begun");
     }];
     
-    UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];
-#warning this should go to the message thread. This is here for testing
-    MainScreenViewController *mainScreen = [storyBoard instantiateViewControllerWithIdentifier:@"MainScreen"];
-    [self presentViewController:mainScreen animated:YES completion:nil];
+//    UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];
+//    MainScreenViewController *mainScreen = [storyBoard instantiateViewControllerWithIdentifier:@"MainScreen"];
+//    [self presentViewController:mainScreen animated:YES completion:nil];
 }
 
 @end

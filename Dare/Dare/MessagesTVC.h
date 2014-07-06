@@ -13,5 +13,6 @@
 @interface MessagesTVC : UITableViewController
 
 @property (strong, nonatomic) MessageThread *thread;
+@property (strong, nonatomic) NSMutableArray *friends;
 
 @end

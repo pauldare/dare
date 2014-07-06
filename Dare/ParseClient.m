@@ -110,6 +110,7 @@
                 completion(threads);
             }];
         } else {
+            completion(nil);
             NSLog(@"no proxy found");
         }
     }];
@@ -166,7 +167,7 @@
         PFObject *message = [PFObject objectWithClassName:@"Message"];
         [message setObject:text forKey:@"text"];
         [message setObject:@"NO" forKey:@"isRead"];
-        NSData *imageData = UIImagePNGRepresentation(picture);
+        NSData *imageData =  UIImageJPEGRepresentation(picture, 0.05f);
         PFFile *file = [PFFile fileWithData:imageData];
         [file saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
             [message setObject:file forKey:@"picture"];
@@ -217,13 +218,14 @@
 {
     PFQuery *userQuery = [PFUser query];
     [userQuery whereKey:@"fbId" equalTo:fbid];
-    NSArray *foundUsers = [userQuery findObjects];
-    if ([foundUsers count] > 0) {
-        PFUser *foundUser = foundUsers[0];
-        completion(foundUser);
-    } else {
-        completion(nil);
-    }
+    [userQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        if ([objects count] > 0) {
+            PFUser *foundUser = objects[0];
+            completion(foundUser);
+        } else {
+            completion(nil);
+        }
+    }];
 }
 
 
@@ -234,8 +236,9 @@
     if (currentUser) {
         PFRelation *friendRelation = [currentUser relationForKey:@"friends"];
         [friendRelation addObject:friend];
-        [currentUser saveInBackground];
-        completion();
+        [currentUser saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+            completion();
+        }];
     } else {
         NSLog(@"not logged in");
     }
@@ -254,15 +257,20 @@
                     [self findPFUserByFacebookId:friendData[@"id"] completion:^(PFUser *foundUser) {
                         [self relateFriend:foundUser completion:^{
                             count++;
+                            BOOL isDone = NO;
+                            if (count == [data count]) {
+                                isDone = YES;
+                            }
+                            completion(isDone);
                         }];
                     }];
                 }
             }
-            bool isDone = NO;
-            if (count == [data count]) {
-                isDone = YES;
-            }
-            completion(isDone);
+//            bool isDone = NO;
+//            if (count == [data count]) {
+//                isDone = YES;
+//            }
+//            completion(isDone);
         } else {
             failure(error);
         }
@@ -280,7 +288,7 @@
     PFObject *messageThread = [PFObject objectWithClassName:@"MessageThread"];
     [messageThread setObject:title forKey:@"title"];
     [messageThread setObject:currentUser[@"image"] forKey:@"author"];
-    NSData *imageData = UIImagePNGRepresentation(backgroundImage);
+    NSData *imageData =  UIImageJPEGRepresentation(backgroundImage, 0.05f);
     PFFile *file = [PFFile fileWithName:@"backroundImage" data:imageData];
     [file saveInBackground];
     [messageThread setObject:file forKey:@"backgroundImage"];

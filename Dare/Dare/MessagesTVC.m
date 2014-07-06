@@ -104,6 +104,7 @@
         cell.mainImage.image = [UIImage imageWithData: self.thread.backgroundPicture];
         cell.textLabel.text = self.thread.title;
         cell.userImage.image = [UIImage imageWithData:self.thread.author];
+        cell.friends = self.friends;
         return cell;
     } else if (indexPath.section == 1){
         Message *message = self.messages[indexPath.row];
@@ -134,6 +135,7 @@
     if (indexPath.section == 2 && indexPath.row == 0) {
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];
         SnapCommentVC *viewController = (SnapCommentVC *)[storyboard instantiateViewControllerWithIdentifier:@"SnapCommentVC"];
+        viewController.thread = self.thread;
         [self presentViewController:viewController animated:YES completion:nil];
     }
 

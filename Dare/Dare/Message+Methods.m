@@ -31,11 +31,8 @@
         NSData *authorData = [authorImage getData];
         newMessage.author = authorData;
         newMessage.createdAt = message.createdAt;
-        if ([message[@"isRead"] isEqualToString:@"NO"]) {
-            newMessage.isRead = @0;
-        } else {
-            newMessage.isRead = @1;
-        }        
+        newMessage.isRead = @0;
+      
         return newMessage;
     } else {
         return messages[0];

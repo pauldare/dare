@@ -53,6 +53,9 @@
 @property (strong, nonatomic) DareDataStore *dataStore;
 @property (strong, nonatomic) User *user;
 @property (strong, nonatomic) NSArray *parseFriends;
+@property (nonatomic) NSInteger counter;
+
+
 
 @end
 
@@ -61,6 +64,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    self.counter = 0;
     
     self.dataStore = [DareDataStore sharedDataStore];
     self.threads = [[NSMutableArray alloc]init];
@@ -146,24 +151,25 @@
     [self fetchFriends:^{
         [self.collectionView reloadData];
     }];
-    
 
-//    [self fetchthreads:^{
-//        [self.tableView reloadData];
-//    }];
-
-    
     [self configureMainScreen];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    [super viewWillAppear:YES];
+    [super viewWillAppear:YES];    
+    [NSObject cancelPreviousPerformRequestsWithTarget:self];
+    [self performSelector:@selector(refreshTable) withObject:self afterDelay:3.0];
+}
+
+- (void)refreshTable
+{
     [self fetchParseThreads:^{
-        [self.tableView reloadData];
-        _overlayUnreadBadge.text = [NSString stringWithFormat:@"%d", [self countTotalUnread]];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            _overlayUnreadBadge.text = [NSString stringWithFormat:@"%d", [self countTotalUnread] + self.counter];
+            [self.tableView reloadData];
+        });
     }];
-    
 }
 
 - (void)fetchUser: (void(^)())completion
@@ -187,11 +193,17 @@
         [ParseClient getMessageThreadsForUser:self.user completion:^(NSArray *threads) {
             for (PFObject *thread in threads) {
                 MessageThread *newThread = [MessageThread fetchThreadFromParseThreads:thread inContext:self.dataStore.managedObjectContext];
-                [self.threads addObject:newThread];
-                
-                [self.tableView reloadData];
-            }
-            completion(self.threads);
+                [ParseClient getMessagesForThread:newThread user:self.user completion:^(NSArray *messages) {
+                    NSSet *messagesSet = [[NSSet alloc] init];
+                    [messagesSet setByAddingObjectsFromArray:messages];
+                    [newThread addMessages:messagesSet];
+                    self.counter ++;
+                    [self.threads addObject:newThread];
+                    completion();
+                    //[self.dataStore saveContext];
+                } failure:nil];
+                //[self.dataStore saveContext];
+            }            
         } failure:nil];
     }];
 }
@@ -576,7 +588,7 @@
                 unreadCount++;
         }
     }
-    ((DareCell *)cell).unreadCountLabel.text = [NSString stringWithFormat:@"%d", unreadCount];
+    ((DareCell *)cell).unreadCountLabel.text = [NSString stringWithFormat:@"%d", unreadCount + self.counter];
     return cell;
 }
 

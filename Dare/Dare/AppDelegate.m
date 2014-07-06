@@ -37,19 +37,18 @@
     
     //[[DareDataStore sharedDataStore]cleanCoreData];
     
-    [[DareDataStore sharedDataStore]populateCoreData:^{
-        NSLog(@"done");
-        [PFFacebookUtils initializeFacebook];
-        if (FBSession.activeSession.state == FBSessionStateOpen ||
-            FBSession.activeSession.state == FBSessionStateOpenTokenExtended) {
+    [PFFacebookUtils initializeFacebook];
+    if (FBSession.activeSession.state == FBSessionStateOpen ||
+        FBSession.activeSession.state == FBSessionStateOpenTokenExtended) {
+        [self.dataStore populateCoreData:^{
             NSLog(@"CUrrenly logged: %@", [PFUser currentUser][@"displayName"]);
             UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];
             UIViewController *viewController = [storyboard instantiateViewControllerWithIdentifier:@"MainScreen"];
             UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:viewController];
             navigationController.navigationBarHidden = YES;
             self.window.rootViewController = navigationController;
-        }
-    }];
+        }];        
+    }
     return YES;
 }
 

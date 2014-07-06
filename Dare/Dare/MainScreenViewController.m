@@ -52,6 +52,7 @@
 @property (strong, nonatomic) UIRefreshControl *collectionViewRefreshControl;
 @property (strong, nonatomic) DareDataStore *dataStore;
 @property (strong, nonatomic) User *user;
+@property (strong, nonatomic) NSArray *parseFriends;
 
 @end
 
@@ -176,6 +177,8 @@
     completion();
 }
 
+
+
 - (void)fetchthreads: (void(^)())completion
 {
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"MessageThread"];
@@ -199,8 +202,7 @@
 
 
 -(void)refreshFeeds
-{
-    
+{    
     [_tableViewRefreshControl performSelector:@selector(endRefreshing) withObject:self afterDelay:3.0];
 }
 

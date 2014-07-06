@@ -66,10 +66,6 @@
     [super viewDidLoad];
     self.dataStore = [DareDataStore sharedDataStore];
     
-    [ParseClient queryForFriends:^(NSArray *parseFriends) {
-        self.parseFriends = parseFriends;
-    }];
-    
     [self fetchFriends:^{
         for (Friend *friend in self.friends) {
             [self.images addObject:[UIImage imageWithData:friend.image]];
@@ -641,16 +637,33 @@
     }];
 }
 
+- (void)fetchParseFriends: (void(^)())completion failure: (void(^)())failure
+{
+    for (Friend *friend in self.friends) {
+        PFQuery *friendQuery = [PFUser query];
+        [friendQuery whereKey:@"fbId" equalTo:friend.identifier];
+        [friendQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+            if (!error) {
+                self.parseFriends = objects;
+                completion();
+            } else {
+                failure();
+            }
+        }];
+    }
+}
+
 
 -(void)postDare
 {
-    [self beginThread:^(PFObject *messageThread) {
-        UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];
-        MainScreenViewController *mainScreen = [storyBoard instantiateViewControllerWithIdentifier:@"MainScreen"];
-        [self presentViewController:mainScreen animated:YES completion:nil];
-        NSLog(@"thread begun");
-    }];
-    
+    [self fetchParseFriends:^{
+        [self beginThread:^(PFObject *messageThread) {
+            UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];
+            MainScreenViewController *mainScreen = [storyBoard instantiateViewControllerWithIdentifier:@"MainScreen"];
+            [self presentViewController:mainScreen animated:YES completion:nil];
+            NSLog(@"thread begun");
+        }];
+    } failure:nil];
 }
 
 @end

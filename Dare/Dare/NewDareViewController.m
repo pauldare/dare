@@ -50,6 +50,7 @@
 @property (strong, nonatomic) UIImage *dareBackgroundImage;
 @property (strong, nonatomic) UIImage *dareImage;
 @property (strong, nonatomic) DareDataStore *dataStore;
+@property (strong, nonatomic) NSArray *parseFriends;
 
 
 
@@ -64,6 +65,11 @@
     self.images = [[NSMutableArray alloc]init];
     [super viewDidLoad];
     self.dataStore = [DareDataStore sharedDataStore];
+    
+    [ParseClient queryForFriends:^(NSArray *parseFriends) {
+        self.parseFriends = parseFriends;
+    }];
+    
     [self fetchFriends:^{
         for (Friend *friend in self.friends) {
             [self.images addObject:[UIImage imageWithData:friend.image]];
@@ -625,11 +631,12 @@
 - (void)beginThread: (void(^)(PFObject *messageThread))completion
 {
     [ParseClient createMessage:_dareString picture:_dareImage completion:^(PFObject *message) {
-        [ParseClient startMessageThreadForUsers:self.friends
+        [ParseClient startMessageThreadForUsers:self.parseFriends
                                     withMessage:message
                                       withTitle:message[@"text"]
                                  backroundImage:_dareBackgroundImage
                                      completion:^(PFObject *messageThread) {
+                                         completion(messageThread);
                                 }];
     }];
 }
@@ -638,12 +645,12 @@
 -(void)postDare
 {
     [self beginThread:^(PFObject *messageThread) {
+        UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];
+        MainScreenViewController *mainScreen = [storyBoard instantiateViewControllerWithIdentifier:@"MainScreen"];
+        [self presentViewController:mainScreen animated:YES completion:nil];
         NSLog(@"thread begun");
     }];
     
-//    UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];
-//    MainScreenViewController *mainScreen = [storyBoard instantiateViewControllerWithIdentifier:@"MainScreen"];
-//    [self presentViewController:mainScreen animated:YES completion:nil];
 }
 
 @end

@@ -67,10 +67,14 @@
         [ParseClient queryForFriends:^(NSArray *friends) {
             User *loggedUser = [User fetchUserFromCurrentUser:[PFUser currentUser]
                                  inContext:self.managedObjectContext];
-            for (PFUser *friend in friends) {
-                Friend *newFriend = [Friend fetchFriendFromParseFriend:friend inContext:self.managedObjectContext];
-                [loggedUser addFriendsObject:newFriend];
-            }
+            if ([friends count] != 0) {
+                for (PFUser *friend in friends) {
+                    Friend *newFriend = [Friend fetchFriendFromParseFriend:friend inContext:self.managedObjectContext];
+                    [loggedUser addFriendsObject:newFriend];
+                }
+            } else {
+                completion();
+            }            
             [ParseClient getMessageThreadsForUser:loggedUser completion:^(NSArray *threads) {
                 if ([threads count] != 0) {
                     for (PFObject *thread in threads) {

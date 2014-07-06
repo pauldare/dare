@@ -160,10 +160,10 @@
            completion: (void(^)(PFObject *))completion
 {
     PFUser *currentUser = [PFUser currentUser];
-    PFQuery *userQuery = [PFQuery queryWithClassName:@"UserProxy"];
-    [userQuery whereKey:@"identifier" equalTo:currentUser[@"fbId"]];
-    [userQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-        PFObject *proxyUser = objects[0];
+//    PFQuery *userQuery = [PFQuery queryWithClassName:@"UserProxy"];
+//    [userQuery whereKey:@"identifier" equalTo:currentUser[@"fbId"]];
+//    [userQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+//        PFObject *proxyUser = objects[0];
         PFObject *message = [PFObject objectWithClassName:@"Message"];
         [message setObject:text forKey:@"text"];
         [message setObject:@"NO" forKey:@"isRead"];
@@ -174,14 +174,14 @@
             PFFile *author = currentUser[@"image"];
             [message setObject:author forKey:@"author"];
             [message saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-                PFRelation *messageToProxyUser = [message relationForKey:@"proxyUsers"];
-                [messageToProxyUser addObject:proxyUser];
-                [message saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+//                PFRelation *messageToProxyUser = [message relationForKey:@"proxyUsers"];
+//                [messageToProxyUser addObject:proxyUser];
+//                [message saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
                     completion(message);
-                }];
+//                }];
             }];
         }];
-    }];
+//    }];
 }
 
 
@@ -299,8 +299,10 @@
         [messageToThread addObject:messageThread];
         [message saveInBackground];
         for (PFUser *participant in participants) {
-            [self storeRelation:participant toMessageThread:messageThread completion:^{
-                NSLog(@"created proxy");
+            [self storeRelation:[PFUser currentUser] toMessageThread:messageThread completion:^{
+                [self storeRelation:participant toMessageThread:messageThread completion:^{
+                    NSLog(@"created proxy");
+                }];
             }];
         }
         completion(messageThread);

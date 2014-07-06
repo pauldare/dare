@@ -31,7 +31,7 @@
 @property (strong, nonatomic) NSArray *friends;
 @property (nonatomic) BOOL isArrow;
 @property (strong, nonatomic) UINib *cellNib;
-@property (strong, nonatomic) NSArray *threads;
+@property (strong, nonatomic) NSMutableArray *threads;
 @property (strong, nonatomic) User *loggedUser;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
@@ -149,9 +149,9 @@
     }];
     
 
-    [self fetchthreads:^{
-        [self.tableView reloadData];
-    }];
+//    [self fetchthreads:^{
+//        [self.tableView reloadData];
+//    }];
 
     
     [self configureMainScreen];
@@ -160,6 +160,11 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:YES];
+    [self fetchParseThreads:^{
+        [self.tableView reloadData];
+        _overlayUnreadBadge.text = [NSString stringWithFormat:@"%d", [self countTotalUnread]];
+    }];
+    
 }
 
 - (void)fetchUser: (void(^)())completion
@@ -177,14 +182,29 @@
     completion();
 }
 
-
-
-- (void)fetchthreads: (void(^)())completion
+- (void)fetchParseThreads: (void(^)())completion
 {
-    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"MessageThread"];
-    self.threads = [self.dataStore.managedObjectContext executeFetchRequest:fetchRequest error:nil];
-    completion();
+    [self fetchUser:^{
+        [ParseClient getMessageThreadsForUser:self.user completion:^(NSArray *threads) {
+            for (PFObject *thread in threads) {
+                MessageThread *newThread = [MessageThread fetchThreadFromParseThreads:thread inContext:self.dataStore.managedObjectContext];
+                [self.threads addObject:newThread];
+                
+                [self.tableView reloadData];
+            }
+            completion(self.threads);
+        } failure:nil];
+    }];
 }
+
+
+
+//- (void)fetchthreads: (void(^)())completion
+//{
+//    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"MessageThread"];
+//    self.threads = [self.dataStore.managedObjectContext executeFetchRequest:fetchRequest error:nil];
+//    completion();
+//}
 
 
 - (NSInteger)countTotalUnread

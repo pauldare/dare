@@ -117,6 +117,12 @@
         cell.textLabel.backgroundColor = [UIColor DareCellOverlay];
         cell.userImage.image = [UIImage imageWithData:self.thread.author];
         cell.friends = self.friends;
+        UISwipeGestureRecognizer *swipeGesture = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(returnToMainPage)];
+        swipeGesture.direction = UISwipeGestureRecognizerDirectionRight;
+        [cell.mainImage addGestureRecognizer:swipeGesture];
+        cell.mainImage.userInteractionEnabled = YES;
+        
+        
         return cell;
     } else if (indexPath.section == 1){
         Message *message = self.messages[indexPath.row];
@@ -142,6 +148,11 @@
     return nil;
 }
 
+-(void)returnToMainPage
+{
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];
+    
+}
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {

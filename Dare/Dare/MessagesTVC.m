@@ -15,7 +15,7 @@
 #import "MessageThread+Methods.h"
 #import "SnapCommentVC.h"
 
-@interface MessagesTVC ()
+@interface MessagesTVC ()<UIGestureRecognizerDelegate>
 
 @property (strong, nonatomic) UINib *headerCell;
 @property (strong, nonatomic) UINib *messageCell;
@@ -46,6 +46,9 @@
     self.addCommentCell = [UINib nibWithNibName:@"AddCommentCell" bundle:nil];
     [self.tableView registerNib:self.addCommentCell forCellReuseIdentifier:@"AddCommentCell"];
     self.tableView.separatorColor = [UIColor clearColor];
+    self.tableView.canCancelContentTouches = NO;
+    self.tableView.exclusiveTouch = NO;
+    
 }
 
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
@@ -116,11 +119,30 @@
         cell.textLabel.text = self.thread.title;
         cell.textLabel.backgroundColor = [UIColor DareCellOverlay];
         cell.userImage.image = [UIImage imageWithData:self.thread.author];
-        cell.friends = self.friends;
-        UISwipeGestureRecognizer *swipeGesture = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(returnToMainPage)];
-        swipeGesture.direction = UISwipeGestureRecognizerDirectionRight;
-        [cell.mainImage addGestureRecognizer:swipeGesture];
-        cell.mainImage.userInteractionEnabled = YES;
+        //cell.friends = self.friends;
+              cell.collectionView.alwaysBounceHorizontal = YES;
+        cell.collectionView.userInteractionEnabled = YES;
+        cell.collectionView.scrollEnabled = YES;
+        cell.collectionView.canCancelContentTouches = NO;
+        cell.collectionView.delaysContentTouches = YES;
+        UISwipeGestureRecognizer *leftSwipeOnScrollView = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(swipeLeftOnCollectionView:)];
+        leftSwipeOnScrollView.direction = UISwipeGestureRecognizerDirectionLeft;
+        leftSwipeOnScrollView.delegate = self;
+        [cell addGestureRecognizer:leftSwipeOnScrollView];
+        
+        UISwipeGestureRecognizer *rightSwipeGesture = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(swipeRightOnCollectionView:)];
+        rightSwipeGesture.direction = UISwipeGestureRecognizerDirectionRight;
+        rightSwipeGesture.delegate = self;
+        [cell addGestureRecognizer:rightSwipeGesture];
+        
+
+//        UISwipeGestureRecognizer *swipeGesture = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(returnToMainPage)];
+//        swipeGesture.direction = UISwipeGestureRecognizerDirectionRight;
+//        
+//        for (UIGestureRecognizer *recognizer in cell.collectionView.gestureRecognizers) {
+//            [swipeGesture requireGestureRecognizerToFail:recognizer];
+//        }
+//        [cell addGestureRecognizer:swipeGesture];
         
         
         return cell;
@@ -136,6 +158,7 @@
         cell.imageView.image = [UIImage imageWithData:message.picture];
         cell.userPic.image = [UIImage imageWithData:message.author];
         cell.centeredUserPic.image = [UIImage imageWithData:message.author];
+        
         return cell;
     } else {
         NSString *cellIdentifier = @"AddCommentCell";
@@ -147,13 +170,55 @@
     }
     return nil;
 }
-
--(void)returnToMainPage
+-(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
 {
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];
+    return YES;
+}
+-(void)swipeLeftOnCollectionView:(UIGestureRecognizer *)sender
+{
+    self.tableView.scrollEnabled = NO;
+    NSLog(@"%@", [sender.view class]);
+    if ([sender.view isKindOfClass:[HeaderCell class]]) {
+        HeaderCell *headerCell = (HeaderCell *)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:0]];
+        if ([sender locationInView:sender.view].y < headerCell.collectionView.frame.size.height + 50) {
+            if (headerCell.collectionView.contentOffset.x < headerCell.collectionView.contentSize.width - headerCell.collectionView.frame.size.width) {
+            [headerCell.collectionView setContentOffset:CGPointMake(headerCell.collectionView.contentOffset.x + headerCell.collectionView.frame.size.width, 0)animated:YES];
+            }
+        }
+    }
+    NSLog(@"%f %f",[sender locationInView:sender.view].x, [sender locationInView:sender.view].y);
     
+    self.tableView.scrollEnabled = YES;
 }
 
+-(void)swipeRightOnCollectionView:(UIGestureRecognizer *)sender
+{
+ 
+    if ([sender.view isKindOfClass:[HeaderCell class]]) {
+        HeaderCell *headerCell = (HeaderCell *)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:0]];
+        if ([sender locationInView:sender.view].y < headerCell.collectionView.frame.size.height + 50) {
+            if (headerCell.collectionView.contentOffset.x - headerCell.collectionView.frame.size.width > 0) {
+                [headerCell.collectionView setContentOffset:CGPointMake(headerCell.collectionView.contentOffset.x - headerCell.collectionView.frame.size.width, 0)animated:YES];
+            }else{
+                [headerCell.collectionView setContentOffset:CGPointMake(0, 0) animated:YES];
+            }
+        }else{
+            UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];
+            UIViewController *mainView = [storyBoard instantiateViewControllerWithIdentifier:@"MainScreen"];
+            [self presentViewController:mainView animated:NO completion:nil];
+        }
+
+    }
+        
+        
+    
+    self.tableView.scrollEnabled = YES;
+
+}
+-(void)returnToMainPage
+{
+    NSLog(@"SwipeBack");
+}
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section == 2 && indexPath.row == 0) {

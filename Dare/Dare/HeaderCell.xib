@@ -6,18 +6,18 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="393" id="KGk-i7-Jjw" customClass="HeaderCell">
-            <rect key="frame" x="0.0" y="0.0" width="320" height="495"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="429" id="KGk-i7-Jjw" customClass="HeaderCell">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="531"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <rect key="frame" x="0.0" y="0.0" width="320" height="494"/>
+                <rect key="frame" x="0.0" y="0.0" width="320" height="530"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" restorationIdentifier="HeaderCell" alwaysBounceHorizontal="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="AHI-sR-rrf">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="107"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="115"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="107" id="ZM8-aK-G4R"/>
+                            <constraint firstAttribute="height" constant="115" id="5BT-Cw-cV6"/>
                         </constraints>
                         <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="cF2-3k-V0e">
                             <size key="itemSize" width="106" height="106"/>
@@ -28,7 +28,7 @@
                         <cells/>
                     </collectionView>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jIu-xx-0lU">
-                        <rect key="frame" x="0.0" y="107" width="320" height="112"/>
+                        <rect key="frame" x="0.0" y="115" width="320" height="112"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="BhN-CL-ye2">
@@ -55,11 +55,11 @@
                         </constraints>
                     </view>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="HI4-AP-I2S">
-                        <rect key="frame" x="0.0" y="219" width="320" height="275"/>
+                        <rect key="frame" x="0.0" y="227" width="320" height="303"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     </imageView>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Zrw-kR-K7Q">
-                        <rect key="frame" x="135" y="227" width="50" height="50"/>
+                        <rect key="frame" x="135" y="235" width="50" height="50"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="50" id="PSr-IJ-j2b"/>
@@ -68,18 +68,18 @@
                     </imageView>
                 </subviews>
                 <constraints>
+                    <constraint firstItem="AHI-sR-rrf" firstAttribute="trailing" secondItem="jIu-xx-0lU" secondAttribute="trailing" id="0Z7-zY-1k8"/>
                     <constraint firstAttribute="trailing" secondItem="jIu-xx-0lU" secondAttribute="trailing" id="8OY-Pb-g8e"/>
                     <constraint firstItem="HI4-AP-I2S" firstAttribute="top" secondItem="jIu-xx-0lU" secondAttribute="bottom" id="Ac3-hk-Qqc"/>
-                    <constraint firstItem="jIu-xx-0lU" firstAttribute="top" secondItem="AHI-sR-rrf" secondAttribute="bottom" id="Aj0-P3-5mI"/>
                     <constraint firstAttribute="bottom" secondItem="HI4-AP-I2S" secondAttribute="bottom" id="ERn-Ci-6dc"/>
                     <constraint firstItem="Zrw-kR-K7Q" firstAttribute="top" secondItem="jIu-xx-0lU" secondAttribute="bottom" constant="8" id="Jzr-UL-lvP"/>
                     <constraint firstItem="HI4-AP-I2S" firstAttribute="centerX" secondItem="Zrw-kR-K7Q" secondAttribute="centerX" id="OAF-xL-KWZ"/>
-                    <constraint firstItem="AHI-sR-rrf" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="Qnw-x8-2IH"/>
-                    <constraint firstItem="AHI-sR-rrf" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="YSm-Sn-eE3"/>
+                    <constraint firstItem="jIu-xx-0lU" firstAttribute="top" secondItem="AHI-sR-rrf" secondAttribute="bottom" id="Soh-d9-JzS"/>
+                    <constraint firstItem="AHI-sR-rrf" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="duG-cL-6Zb"/>
                     <constraint firstAttribute="trailing" secondItem="HI4-AP-I2S" secondAttribute="trailing" id="gWW-pn-d3g"/>
                     <constraint firstItem="HI4-AP-I2S" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="lMr-Tu-2As"/>
+                    <constraint firstItem="AHI-sR-rrf" firstAttribute="leading" secondItem="jIu-xx-0lU" secondAttribute="leading" id="pPS-NV-GzE"/>
                     <constraint firstItem="jIu-xx-0lU" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="ptE-dS-Doh"/>
-                    <constraint firstAttribute="trailing" secondItem="AHI-sR-rrf" secondAttribute="trailing" id="tA1-rw-66k"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>

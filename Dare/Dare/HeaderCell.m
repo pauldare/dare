@@ -29,6 +29,7 @@
 - (void)awakeFromNib
 {
     self.images = @[[UIImage imageNamed:@"angry.jpeg"], [UIImage imageNamed:@"tricolor.jpeg"], [UIImage imageNamed:@"kitten.jpeg"], [UIImage imageNamed:@"cat.jpeg"]];
+    self.textLabel.backgroundColor = [UIColor blackColor];
     self.dataStore = [DareDataStore sharedDataStore];
     [self setupViews];
     [self fetchFriends:^{
@@ -45,6 +46,8 @@
     self.collectionView.delegate = self;
     self.collectionView.dataSource = self;
     self.collectionView.showsHorizontalScrollIndicator = NO;
+    self.collectionView.alwaysBounceHorizontal = YES;
+    self.collectionView.backgroundColor = [UIColor clearColor];
     self.textLabel.backgroundColor = [UIColor clearColor];
     self.textLabel.font = [UIFont boldSystemFontOfSize:18];
     self.textLabel.textColor = [UIColor whiteColor];

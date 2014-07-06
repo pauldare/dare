@@ -10,6 +10,9 @@
 #import "FriendListIcon.h"
 #import "UIColor+DareColors.h"
 #import "CameraManager.h"
+#import <FontAwesomeKit/FontAwesomeKit.h>
+#import "DareDataStore.h"
+#import "Friend+Methods.h"
 
 
 @interface SnapCommentVC ()
@@ -19,6 +22,8 @@
 @property (weak, nonatomic) IBOutlet UIButton *blurTimerButton;
 @property (strong, nonatomic) NSArray *images;
 @property (strong, nonatomic) CameraManager *cameraManager;
+@property (strong, nonatomic) NSMutableArray *friends;
+@property (strong, nonatomic) DareDataStore *dataStore;
 
 @end
 
@@ -27,30 +32,72 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.dataStore = [DareDataStore sharedDataStore];
+    self.friends = [[NSMutableArray alloc]init];
+    
     self.collectionView.delegate = self;
     self.collectionView.dataSource = self;
     self.collectionView.showsHorizontalScrollIndicator = NO;
+    
+    [self fetchFriends:^{
+        [self.collectionView reloadData];
+    }];
+    
     [self setupViews];
+    [self setupButtons];
     [self setupCamera];
     _imageView.backgroundColor = [UIColor whiteColor];
     _cameraView.backgroundColor = [UIColor whiteColor];
     self.imageView.hidden = YES;
-    self.images = @[[UIImage imageNamed:@"angry.jpeg"], [UIImage imageNamed:@"tricolor.jpeg"], [UIImage imageNamed:@"kitten.jpeg"], [UIImage imageNamed:@"cat.jpeg"]];
-    UIImage *flower = [UIImage imageNamed:@"flower.jpeg"];
-    self.dareImageView.image = flower;
+//    self.images = @[[UIImage imageNamed:@"angry.jpeg"], [UIImage imageNamed:@"tricolor.jpeg"], [UIImage imageNamed:@"kitten.jpeg"], [UIImage imageNamed:@"cat.jpeg"]];
+//    UIImage *flower = [UIImage imageNamed:@"flower.jpeg"];
+//    self.dareImageView.image = flower;
+    self.dareImageView.image = [UIImage imageWithData:self.thread.backgroundPicture];
     UINib *friendNib = [UINib nibWithNibName:@"FriendListIcon" bundle:nil];
     [self.collectionView registerNib:friendNib forCellWithReuseIdentifier:@"FriendCell"];
 }
 
+- (void)fetchFriends: (void(^)())completion
+{
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Friend"];
+    self.friends = [NSMutableArray arrayWithArray:[self.dataStore.managedObjectContext executeFetchRequest:fetchRequest error:nil]];
+    completion();
+}
+
 - (void)setupViews
 {
+    self.collectionView.backgroundColor = [UIColor DareBlue];
     self.dareView.backgroundColor = [UIColor DareCellOverlay];
     self.textLabel.backgroundColor = [UIColor clearColor];
     self.textLabel.font = [UIFont boldSystemFontOfSize:18];
     self.textLabel.textColor = [UIColor whiteColor];
-//    [self.cameraView bringSubviewToFront:self.cameraButton];
-//    [self.cameraView bringSubviewToFront:self.albumButton];
-//    [self.cameraView bringSubviewToFront:self.flipButton];
+}
+
+
+- (void)setupButtons
+{
+    FAKFontAwesome *cameraIcon = [FAKFontAwesome cameraIconWithSize:60];
+    [cameraIcon addAttribute:NSForegroundColorAttributeName value:[UIColor DareBlue]];
+    UIImage *cameraImage = [cameraIcon imageWithSize:CGSizeMake(60, 60)];
+    [_cameraButton setTitle:@"" forState:UIControlStateNormal];
+    [_cameraButton setImage:cameraImage forState:UIControlStateNormal];
+    
+    FAKFontAwesome *flipCameraIcon = [FAKFontAwesome refreshIconWithSize:60];
+    [flipCameraIcon addAttribute:NSForegroundColorAttributeName value:[UIColor DareBlue]];
+    UIImage *flipImage = [flipCameraIcon imageWithSize:CGSizeMake(60, 60)];
+    [_flipButton setTitle:@"" forState:UIControlStateNormal];
+    [_flipButton setImage:flipImage forState:UIControlStateNormal];
+    
+    FAKFontAwesome *existingPhotoIcon = [FAKFontAwesome photoIconWithSize:60];
+    [existingPhotoIcon addAttribute:NSForegroundColorAttributeName value:[UIColor DareBlue]];
+    UIImage *existingPhotoImage = [existingPhotoIcon imageWithSize:CGSizeMake(60, 60)];
+    [_albumButton setTitle:@"" forState:UIControlStateNormal];
+    [_albumButton setImage:existingPhotoImage forState:UIControlStateNormal];
+    
+    [_cameraButton setTintColor:[UIColor DareBlue]];
+    [_flipButton setTintColor:[UIColor DareBlue]];
+    [_albumButton setTintColor:[UIColor DareBlue]];
+
 }
 
 - (void)setupCamera
@@ -111,7 +158,7 @@
 
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return [self.images count];
+    return [self.friends count];
 }
 
 
@@ -136,9 +183,8 @@
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     FriendListIcon *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"FriendCell" forIndexPath:indexPath];
-    UIImage *image = self.images[indexPath.row];
-    //Friend *friend = self.friends[indexPath.row];
-    //UIImage *image = [UIImage imageWithData:friend.image];
+    Friend *friend = self.friends[indexPath.row];
+    UIImage *image = [UIImage imageWithData:friend.image];
     ((FriendListIcon *)cell).friendImage.image = image;
     return cell;
 }

@@ -166,7 +166,7 @@
         PFObject *message = [PFObject objectWithClassName:@"Message"];
         [message setObject:text forKey:@"text"];
         [message setObject:@"NO" forKey:@"isRead"];
-        NSData *imageData = UIImagePNGRepresentation(picture);
+        NSData *imageData =  UIImageJPEGRepresentation(picture, 0.05f);
         PFFile *file = [PFFile fileWithData:imageData];
         [file saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
             [message setObject:file forKey:@"picture"];
@@ -280,7 +280,7 @@
     PFObject *messageThread = [PFObject objectWithClassName:@"MessageThread"];
     [messageThread setObject:title forKey:@"title"];
     [messageThread setObject:currentUser[@"image"] forKey:@"author"];
-    NSData *imageData = UIImagePNGRepresentation(backgroundImage);
+    NSData *imageData =  UIImageJPEGRepresentation(backgroundImage, 0.05f);
     PFFile *file = [PFFile fileWithName:@"backroundImage" data:imageData];
     [file saveInBackground];
     [messageThread setObject:file forKey:@"backgroundImage"];

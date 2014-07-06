@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MessageThread+Methods.h"
 
 @interface SnapCommentVC : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 
@@ -16,6 +17,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *textLabel;
 @property (weak, nonatomic) IBOutlet UIView *cameraView;
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
+@property (strong, nonatomic) MessageThread *thread;
 
 
 @end

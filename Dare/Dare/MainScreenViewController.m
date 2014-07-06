@@ -558,6 +558,7 @@
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];
     MessagesTVC *viewController = (MessagesTVC *)[storyboard instantiateViewControllerWithIdentifier:@"MessagesTVC"];
     viewController.thread = thread;
+    viewController.friends = [NSMutableArray arrayWithArray:self.friends];
     [self.navigationController pushViewController:viewController animated:YES];
 }
 

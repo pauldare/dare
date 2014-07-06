@@ -285,6 +285,7 @@
 				05984FAB19678AF800DAE025 /* HeaderCell.xib */,
 				05984FB31968602400DAE025 /* MessageCell.xib */,
 				05984FB8196866C000DAE025 /* AddCommentCell.xib */,
+				4500B05B1968C56B00F85B59 /* CancelDareCell.xib */,
 				05984FB11968602400DAE025 /* MessageCell.h */,
 				05984FB21968602400DAE025 /* MessageCell.m */,
 				0719EAB7195F516E007C2983 /* Storyboard.storyboard */,
@@ -294,7 +295,6 @@
 				05984FAA19678AF800DAE025 /* HeaderCell.m */,
 				05984FB6196866C000DAE025 /* AddCommentCell.h */,
 				05984FB7196866C000DAE025 /* AddCommentCell.m */,
-				4500B05B1968C56B00F85B59 /* CancelDareCell.xib */,
 				4500B05C1968C56B00F85B59 /* CanelDareCell.h */,
 				4500B05D1968C56B00F85B59 /* CanelDareCell.m */,
 			);

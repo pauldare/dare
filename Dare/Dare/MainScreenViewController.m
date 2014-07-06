@@ -19,6 +19,8 @@
 #import "DareDataStore.h"
 #import "Friend+Methods.h"
 #import "MessagesTVC.h"
+#import "User+Methods.h"
+#import "MessageThread+Methods.h"
 
 @interface MainScreenViewController ()<UIScrollViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UITableViewDataSource, UITableViewDelegate, UIGestureRecognizerDelegate>
 
@@ -49,26 +51,19 @@
 @property (strong, nonatomic) UIRefreshControl *tableViewRefreshControl;
 @property (strong, nonatomic) UIRefreshControl *collectionViewRefreshControl;
 @property (strong, nonatomic) DareDataStore *dataStore;
+@property (strong, nonatomic) User *user;
+@property (strong, nonatomic) NSArray *parseFriends;
 
 @end
 
 @implementation MainScreenViewController
-
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
     self.dataStore = [DareDataStore sharedDataStore];
-    
+    self.threads = [[NSMutableArray alloc]init];
     _tableViewRefreshControl = [[UIRefreshControl alloc] init];
     [_tableViewRefreshControl addTarget:self action:@selector(refreshFeeds) forControlEvents:UIControlEventValueChanged];
     [_tableView addSubview:_tableViewRefreshControl];
@@ -152,11 +147,25 @@
         [self.collectionView reloadData];
     }];
     
+
     [self fetchthreads:^{
         [self.tableView reloadData];
     }];
+
     
     [self configureMainScreen];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:YES];
+}
+
+- (void)fetchUser: (void(^)())completion
+{
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"User"];
+    self.user = [self.dataStore.managedObjectContext executeFetchRequest:fetchRequest error:nil][0];
+    completion();
 }
 
 
@@ -167,13 +176,14 @@
     completion();
 }
 
+
+
 - (void)fetchthreads: (void(^)())completion
 {
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"MessageThread"];
     self.threads = [self.dataStore.managedObjectContext executeFetchRequest:fetchRequest error:nil];
     completion();
 }
-
 
 
 - (NSInteger)countTotalUnread
@@ -191,8 +201,7 @@
 
 
 -(void)refreshFeeds
-{
-    
+{    
     [_tableViewRefreshControl performSelector:@selector(endRefreshing) withObject:self afterDelay:3.0];
 }
 

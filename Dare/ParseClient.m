@@ -139,19 +139,29 @@
     }];
 }
 
-+ (void)addMessageToThread: (PFObject *)thread
++ (void)addMessageToThread: (MessageThread *)thread
                   withText: (NSString *)text
                    picture: (UIImage *)picture
                 completion: (void(^)())completion
 {
-    [self createMessage:text picture:picture completion:^(PFObject *message) {
-        PFRelation *messageToThread = [message relationForKey:@"messageThreads"];
-        [messageToThread addObject:thread];
-        [message saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-            PFRelation *threadToMessage = [thread relationForKey:@"messages"];
-            [threadToMessage addObject:message];
-            [thread saveInBackground];
-            completion();
+    PFQuery *threadQueryOnId = [PFQuery queryWithClassName:@"MessageThread"];
+    [threadQueryOnId whereKey:@"objectId" equalTo:thread.identifier];
+    [threadQueryOnId findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        PFObject *thread = objects[0];
+        [self createMessage:text picture:picture completion:^(PFObject *message) {
+            PFRelation *messageToThread = [message relationForKey:@"messageThreads"];
+            [messageToThread addObject:thread];
+            [message saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                PFRelation *threadToMessage = [thread relationForKey:@"messages"];
+                [threadToMessage addObject:message];
+                [thread saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                    if (!error) {
+                        completion();
+                    } else {
+                        NSLog(@"%@", error);
+                    }
+                }];
+            }];
         }];
     }];
 }
@@ -167,7 +177,7 @@
 //        PFObject *proxyUser = objects[0];
         PFObject *message = [PFObject objectWithClassName:@"Message"];
         [message setObject:text forKey:@"text"];
-        [message setObject:@"NO" forKey:@"isRead"];
+        //[message setObject:@"NO" forKey:@"isRead"];
         NSData *imageData =  UIImageJPEGRepresentation(picture, 0.05f);
         PFFile *file = [PFFile fileWithData:imageData];
         [file saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {

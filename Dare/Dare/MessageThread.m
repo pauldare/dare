@@ -2,7 +2,7 @@
 //  MessageThread.m
 //  Dare
 //
-//  Created by Nadia on 7/5/14.
+//  Created by Nadia on 7/6/14.
 //  Copyright (c) 2014 Dare. All rights reserved.
 //
 
@@ -14,10 +14,11 @@
 
 @implementation MessageThread
 
+@dynamic author;
 @dynamic backgroundPicture;
 @dynamic identifier;
 @dynamic title;
-@dynamic author;
+@dynamic createdAt;
 @dynamic friends;
 @dynamic messages;
 @dynamic users;

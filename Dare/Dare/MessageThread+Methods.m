@@ -29,6 +29,7 @@
         PFFile *authorImage = thread[@"author"];
         NSData *authorData = [authorImage getData];
         newThread.author = authorData;
+        newThread.createdAt = thread.createdAt;
         return newThread;
     } else {
         return threads[0];

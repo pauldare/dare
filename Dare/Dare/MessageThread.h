@@ -2,7 +2,7 @@
 //  MessageThread.h
 //  Dare
 //
-//  Created by Nadia on 7/5/14.
+//  Created by Nadia on 7/6/14.
 //  Copyright (c) 2014 Dare. All rights reserved.
 //
 
@@ -13,10 +13,11 @@
 
 @interface MessageThread : NSManagedObject
 
+@property (nonatomic, retain) NSData * author;
 @property (nonatomic, retain) NSData * backgroundPicture;
 @property (nonatomic, retain) NSString * identifier;
 @property (nonatomic, retain) NSString * title;
-@property (nonatomic, retain) NSData * author;
+@property (nonatomic, retain) NSDate * createdAt;
 @property (nonatomic, retain) NSSet *friends;
 @property (nonatomic, retain) NSSet *messages;
 @property (nonatomic, retain) User *users;

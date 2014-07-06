@@ -14,6 +14,7 @@
 #import "Message+Methods.h"
 #import "MessageThread+Methods.h"
 #import "SnapCommentVC.h"
+#import "DareDataStore.h"
 
 @interface MessagesTVC ()<UIGestureRecognizerDelegate>
 
@@ -22,6 +23,7 @@
 @property (strong, nonatomic) UINib *addCommentCell;
 @property (strong, nonatomic) NSMutableArray *messages;
 @property (strong, nonatomic) Message *headerMessage;
+@property (strong, nonatomic) DareDataStore *dataStore;
 
 @end
 
@@ -60,6 +62,14 @@
 - (CGFloat)getRowHeightForCell: (NSString *)identifier
 {
     return [[[[NSBundle mainBundle] loadNibNamed:identifier owner:self options:nil] objectAtIndex:0] bounds].size.height;
+}
+
+- (void)markAllMessagesAsRead
+{
+    for (Message *message in self.messages) {
+        message.isRead = @1;
+        [self.dataStore saveContext];
+    }
 }
 
 #pragma mark - Table view data source

@@ -54,6 +54,10 @@
 @property (strong, nonatomic) User *user;
 @property (strong, nonatomic) NSArray *parseFriends;
 
+
+
+
+
 @end
 
 @implementation MainScreenViewController
@@ -146,24 +150,27 @@
     [self fetchFriends:^{
         [self.collectionView reloadData];
     }];
-    
 
-//    [self fetchthreads:^{
-//        [self.tableView reloadData];
-//    }];
-
-    
     [self configureMainScreen];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    [super viewWillAppear:YES];
+    [super viewWillAppear:YES];    
+    [NSObject cancelPreviousPerformRequestsWithTarget:self];
+    [self performSelector:@selector(refreshTable) withObject:self afterDelay:3.0];
+}
+
+- (void)refreshTable
+{
     [self fetchParseThreads:^{
-        [self.tableView reloadData];
-        _overlayUnreadBadge.text = [NSString stringWithFormat:@"%d", [self countTotalUnread]];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            _overlayUnreadBadge.text = [NSString stringWithFormat:@"%d", [self countTotalUnread]];
+            NSSortDescriptor* sortByDate = [NSSortDescriptor sortDescriptorWithKey:@"createdAt" ascending:YES];
+            [self.threads sortUsingDescriptors:[NSArray arrayWithObject:sortByDate]];
+            [self.tableView reloadData];
+        });
     }];
-    
 }
 
 - (void)fetchUser: (void(^)())completion
@@ -187,28 +194,27 @@
         [ParseClient getMessageThreadsForUser:self.user completion:^(NSArray *threads) {
             for (PFObject *thread in threads) {
                 MessageThread *newThread = [MessageThread fetchThreadFromParseThreads:thread inContext:self.dataStore.managedObjectContext];
-                [self.threads addObject:newThread];
-                
-                [self.tableView reloadData];
-            }
-            completion(self.threads);
+                [ParseClient getMessagesForThread:newThread user:self.user completion:^(NSArray *messages) {
+                    NSSet *messagesSet = [[NSSet alloc] init];
+                    [messagesSet setByAddingObjectsFromArray:messages];
+                    [newThread addMessages:messagesSet];
+                    [self.threads addObject:newThread];
+                    completion();
+                    //[self.dataStore saveContext];
+                } failure:nil];
+                //[self.dataStore saveContext];
+            }            
         } failure:nil];
     }];
 }
 
 
-
-//- (void)fetchthreads: (void(^)())completion
-//{
-//    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"MessageThread"];
-//    self.threads = [self.dataStore.managedObjectContext executeFetchRequest:fetchRequest error:nil];
-//    completion();
-//}
-
-
 - (NSInteger)countTotalUnread
 {
     NSInteger total = 0;
+    if (!self.fromCancel && [self.presentingViewController isKindOfClass:[NewDareViewController class]]) {
+        total++;
+    }
     for (MessageThread *thread in self.threads) {
         for (Message *message in thread.messages) {
             if ([message.isRead integerValue] == 0) {
@@ -571,9 +577,13 @@
     ((DareCell *)cell).backgroundImageView.image = background;
     ((DareCell *)cell).titleLabel.text = [NSString stringWithFormat:@"I DARE YOU TO\n%@", thread.title];
     NSInteger unreadCount = 0;
-    for (Message *message in thread.messages) {
-        if ([message.isRead integerValue] == 0) {
-                unreadCount++;
+    if (!self.fromCancel && [self.presentingViewController isKindOfClass:[NewDareViewController class]]) {
+        unreadCount++;
+    } else {
+        for (Message *message in thread.messages) {
+            if ([message.isRead integerValue] == 0) {
+                    unreadCount++;
+            }
         }
     }
     ((DareCell *)cell).unreadCountLabel.text = [NSString stringWithFormat:@"%d", unreadCount];

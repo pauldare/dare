@@ -49,7 +49,11 @@
             self.window.rootViewController = navigationController;
         }];        
     }
-  [[UIApplication sharedApplication] registerForRemoteNotificationTypes: UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeSound];
+   [[UIApplication sharedApplication] registerForRemoteNotificationTypes: UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeSound];
+    
+    PFInstallation *installation = [PFInstallation currentInstallation];
+    [installation setObject:[PFUser currentUser] forKey:@"user"];
+    
     return YES;
 }
 

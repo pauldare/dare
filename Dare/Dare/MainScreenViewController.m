@@ -152,6 +152,7 @@
     }];
 
     [self configureMainScreen];
+    self.navigationController.navigationBarHidden = YES;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -597,7 +598,17 @@
     MessagesTVC *viewController = (MessagesTVC *)[storyboard instantiateViewControllerWithIdentifier:@"MessagesTVC"];
     viewController.thread = thread;
     viewController.friends = [NSMutableArray arrayWithArray:self.friends];
+    
     [self.navigationController pushViewController:viewController animated:YES];
+    
+//        CATransition* transition = [CATransition animation];
+//        transition.type = kCATransitionPush;
+//        transition.subtype = kCATransitionFromRight;
+//        [self presentViewController:viewController animated:NO completion:nil];
+//        [self.view.layer addAnimation:transition forKey:@"modal-transition"];
+   
+    
+    
 }
 
 

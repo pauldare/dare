@@ -214,8 +214,8 @@
             }
         }else{
             UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];
-            UIViewController *mainView = [storyBoard instantiateViewControllerWithIdentifier:@"MainScreen"];
-            [self presentViewController:mainView animated:NO completion:nil];
+            UINavigationController *mainViewNavController = [storyBoard instantiateViewControllerWithIdentifier:@"MainNavController"];
+            [self presentViewController:mainViewNavController animated:NO completion:nil];
         }
 
     }

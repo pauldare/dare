@@ -655,6 +655,29 @@
 }
 
 
+- (void)sendPush
+{
+    for (PFUser *parseUser in self.parseFriends) {
+        
+        PFQuery *userQuery = [PFUser query];
+        [userQuery whereKey:@"fbId" equalTo:parseUser[@"fbId"]];
+
+        PFQuery *pushQuery = [PFInstallation query];
+        [pushQuery whereKey:@"user" matchesQuery:userQuery];
+        
+        //Send push to these users
+        PFPush *push = [[PFPush alloc] init];
+        NSDictionary *data = [NSDictionary dictionaryWithObjectsAndKeys:
+                              [NSString stringWithFormat:@"New message from %@", [PFUser currentUser].username], @"alert",
+                              @"Increment", @"badge",
+                              nil];
+        [push setQuery:pushQuery];
+        [push setData:data];
+        [push sendPushInBackground];
+    }
+}
+
+
 -(void)postDare
 {
     [self fetchParseFriends:^{

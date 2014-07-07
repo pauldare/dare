@@ -145,17 +145,8 @@
         rightSwipeGesture.delegate = self;
         [cell addGestureRecognizer:rightSwipeGesture];
         
-
-//        UISwipeGestureRecognizer *swipeGesture = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(returnToMainPage)];
-//        swipeGesture.direction = UISwipeGestureRecognizerDirectionRight;
-//        
-//        for (UIGestureRecognizer *recognizer in cell.collectionView.gestureRecognizers) {
-//            [swipeGesture requireGestureRecognizerToFail:recognizer];
-//        }
-//        [cell addGestureRecognizer:swipeGesture];
-        
-        
         return cell;
+        
     } else if (indexPath.section == 1){
         Message *message = self.messages[indexPath.row];
         NSString *cellIdentifier = @"MessageCell";
@@ -169,7 +160,13 @@
         cell.userPic.image = [UIImage imageWithData:message.author];
         cell.centeredUserPic.image = [UIImage imageWithData:message.author];
         
+        UISwipeGestureRecognizer *rightSwipeGesture = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(swipeRightOnCollectionView:)];
+        rightSwipeGesture.direction = UISwipeGestureRecognizerDirectionRight;
+        rightSwipeGesture.delegate = self;
+        [cell addGestureRecognizer:rightSwipeGesture];
+        
         return cell;
+        
     } else {
         NSString *cellIdentifier = @"AddCommentCell";
         AddCommentCell *cell = (AddCommentCell *)[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
@@ -218,6 +215,11 @@
             [self presentViewController:mainViewNavController animated:NO completion:nil];
         }
 
+    }else{
+        UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];
+        UINavigationController *mainViewNavController = [storyBoard instantiateViewControllerWithIdentifier:@"MainNavController"];
+        [self presentViewController:mainViewNavController animated:NO completion:nil];
+        
     }
         
         
@@ -225,10 +227,7 @@
     self.tableView.scrollEnabled = YES;
 
 }
--(void)returnToMainPage
-{
-    NSLog(@"SwipeBack");
-}
+
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section == 2 && indexPath.row == 0) {

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5056" systemVersion="13D65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5056" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
@@ -36,7 +36,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="320" translatesAutoresizingMaskIntoConstraints="NO" id="LwD-EY-ba6">
-                                <rect key="frame" x="0.0" y="20" width="320" height="72"/>
+                                <rect key="frame" x="0.0" y="13" width="320" height="87"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="highlightedColor"/>
@@ -47,10 +47,10 @@
                             <constraint firstAttribute="bottom" secondItem="BhN-CL-ye2" secondAttribute="bottom" id="GaZ-f9-6TW"/>
                             <constraint firstAttribute="height" constant="112" id="QrD-q7-z1D"/>
                             <constraint firstAttribute="trailing" secondItem="LwD-EY-ba6" secondAttribute="trailing" id="WET-yx-qcN"/>
-                            <constraint firstAttribute="bottom" secondItem="LwD-EY-ba6" secondAttribute="bottom" constant="20" id="lou-9R-ank"/>
+                            <constraint firstAttribute="bottom" secondItem="LwD-EY-ba6" secondAttribute="bottom" constant="12" id="lou-9R-ank"/>
                             <constraint firstItem="BhN-CL-ye2" firstAttribute="leading" secondItem="jIu-xx-0lU" secondAttribute="leading" id="pmG-Tw-9um"/>
                             <constraint firstAttribute="trailing" secondItem="BhN-CL-ye2" secondAttribute="trailing" id="sgr-ke-Nbd"/>
-                            <constraint firstItem="LwD-EY-ba6" firstAttribute="top" secondItem="jIu-xx-0lU" secondAttribute="top" constant="20" id="wS2-AU-Ueb"/>
+                            <constraint firstItem="LwD-EY-ba6" firstAttribute="top" secondItem="jIu-xx-0lU" secondAttribute="top" constant="13" id="wS2-AU-Ueb"/>
                             <constraint firstItem="BhN-CL-ye2" firstAttribute="top" secondItem="jIu-xx-0lU" secondAttribute="top" id="zmU-0t-RHd"/>
                         </constraints>
                     </view>

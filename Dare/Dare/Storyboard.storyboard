@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="aBf-dC-Ni6">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13D65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="oBn-Sa-NLK">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
@@ -133,7 +133,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rl9-br-TW7">
+                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rl9-br-TW7">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
@@ -642,6 +642,52 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9sT-WX-K0C" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2569" y="-652"/>
+        </scene>
+        <!--SplashVC-->
+        <scene sceneID="a3g-N9-WZP">
+            <objects>
+                <viewController id="oBn-Sa-NLK" customClass="SplashVC" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="0wB-If-9FM"/>
+                        <viewControllerLayoutGuide type="bottom" id="gJ3-he-ghH"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="axQ-cG-Z7c">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ydf-oK-DtG">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <subviews>
+                                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="tif-Qp-2Jb">
+                                        <rect key="frame" x="142" y="266" width="37" height="37"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="color" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    </activityIndicatorView>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="centerY" secondItem="tif-Qp-2Jb" secondAttribute="centerY" id="Rjb-wa-aHR"/>
+                                    <constraint firstAttribute="centerX" secondItem="tif-Qp-2Jb" secondAttribute="centerX" id="wsH-CT-vXp"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="Ydf-oK-DtG" firstAttribute="leading" secondItem="axQ-cG-Z7c" secondAttribute="leading" id="KXa-Cm-ovt"/>
+                            <constraint firstItem="Ydf-oK-DtG" firstAttribute="width" secondItem="axQ-cG-Z7c" secondAttribute="width" id="rx5-XY-iCa"/>
+                            <constraint firstItem="Ydf-oK-DtG" firstAttribute="height" secondItem="axQ-cG-Z7c" secondAttribute="height" id="wRT-N7-URb"/>
+                            <constraint firstItem="Ydf-oK-DtG" firstAttribute="top" secondItem="axQ-cG-Z7c" secondAttribute="top" id="yNg-Uh-HVF"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="coverView" destination="Ydf-oK-DtG" id="bsG-47-HEa"/>
+                        <outlet property="spinner" destination="tif-Qp-2Jb" id="K3g-BU-R7D"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="za1-yk-bV1" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3137" y="-635"/>
         </scene>
         <!--Main Screen View Controller-->
         <scene sceneID="ls7-Db-IjW">

@@ -36,6 +36,11 @@
     self.dataStore = [DareDataStore sharedDataStore];
     
     //[[DareDataStore sharedDataStore]cleanCoreData];
+
+
+      [[UIApplication sharedApplication] registerForRemoteNotificationTypes: UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeSound];
+    
+
     
     [PFFacebookUtils initializeFacebook];
     if (FBSession.activeSession.state == FBSessionStateOpen ||
@@ -50,6 +55,7 @@
     }
    [[UIApplication sharedApplication] registerForRemoteNotificationTypes: UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeSound];
         
+
     return YES;
 }
 

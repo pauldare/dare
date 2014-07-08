@@ -565,9 +565,10 @@
         if (indexPath.row == ([collectionView numberOfItemsInSection:0] -1)) {
             
             UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];
-            MainScreenViewController *mainVC = [storyboard instantiateViewControllerWithIdentifier:@"MainScreen"];
-            mainVC.fromCancel = YES;
-            [self presentViewController:mainVC animated:YES completion:nil];
+            UINavigationController *mainVCNavController = [storyboard instantiateViewControllerWithIdentifier:@"MainNavController"];
+            MainScreenViewController *mainView = (MainScreenViewController*)mainVCNavController.view;
+            mainView.fromCancel = YES;
+            [self presentViewController:mainVCNavController animated:YES completion:nil];
         }
     }
 }

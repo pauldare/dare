@@ -683,6 +683,7 @@
 {
     [self fetchParseFriends:^{
         [self beginThread:^(PFObject *messageThread) {
+            [self sendPush];
             UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];
             MainScreenViewController *mainScreen = [storyBoard instantiateViewControllerWithIdentifier:@"MainScreen"];
             mainScreen.fromCancel = NO;

@@ -10,6 +10,7 @@
 #import "ParseClient.h"
 #import "UIColor+DareColors.h"
 #import "DareDataStore.h"
+#import "DisplayNameSelectViewController.h"
 
 @interface LogInWithFacebookViewController ()
 @property (weak, nonatomic) IBOutlet UIButton *loginWithFacebook;
@@ -30,14 +31,15 @@
 -(void)login
 {
     [ParseClient loginWithFB:^(BOOL isNEW) {
-        __block UIViewController *viewController;
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];
         if (isNEW) {
             NSLog(@"I am new");
             [ParseClient relateFacebookFriendsInParse:^(bool isDone) {
                 if (isDone) {
                     [self.dataStore populateCoreData:^{
-                        viewController = [storyboard instantiateViewControllerWithIdentifier:@"DisplayNameSelectVC"];
+                        DisplayNameSelectViewController *viewController = [storyboard instantiateViewControllerWithIdentifier:@"DisplayNameSelectVC"];
+                        PFInstallation *installation = [PFInstallation currentInstallation];
+                        [installation setObject:[PFUser currentUser] forKey:@"user"];
                         [self presentViewController:viewController animated:YES completion:nil];
                     }];
                 }
@@ -47,8 +49,10 @@
             [ParseClient relateFacebookFriendsInParse:^(bool isDone) {
                 if (isDone) {
                     [self.dataStore populateCoreData:^{
+
                        UINavigationController *mainNavController = [storyboard instantiateViewControllerWithIdentifier:@"MainNavController"];
                         [self presentViewController:mainNavController animated:YES completion:nil];
+
                     }];
                 }
             } failure:nil];

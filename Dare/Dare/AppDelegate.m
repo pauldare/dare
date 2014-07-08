@@ -37,11 +37,25 @@
     
     //[[DareDataStore sharedDataStore]cleanCoreData];
 
+
       [[UIApplication sharedApplication] registerForRemoteNotificationTypes: UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeSound];
-//    
-    PFInstallation *installation = [PFInstallation currentInstallation];
-    [installation setObject:[PFUser currentUser] forKey:@"user"];
     
+
+    
+    [PFFacebookUtils initializeFacebook];
+    if (FBSession.activeSession.state == FBSessionStateOpen ||
+        FBSession.activeSession.state == FBSessionStateOpenTokenExtended) {
+        [self.dataStore populateCoreData:^{
+            NSLog(@"CUrrenly logged: %@", [PFUser currentUser][@"displayName"]);
+            UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];
+            UINavigationController *navigationController = [storyboard instantiateViewControllerWithIdentifier:@"MainNavController"];
+            navigationController.navigationBarHidden = YES;
+            self.window.rootViewController = navigationController;
+        }];        
+    }
+   [[UIApplication sharedApplication] registerForRemoteNotificationTypes: UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeSound];
+        
+
     return YES;
 }
 

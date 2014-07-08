@@ -692,7 +692,8 @@
         [self beginThread:^(PFObject *messageThread) {
             [self sendPush];
             UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];
-            MainScreenViewController *mainScreen = [storyBoard instantiateViewControllerWithIdentifier:@"MainScreen"];
+            UINavigationController *mainScreenNavController = [storyBoard instantiateViewControllerWithIdentifier:@"MainNavController"];
+            MainScreenViewController *mainScreen = mainScreenNavController.
             mainScreen.fromCancel = NO;
             [self presentViewController:mainScreen animated:YES completion:nil];
             NSLog(@"thread begun");

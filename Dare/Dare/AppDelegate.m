@@ -48,7 +48,6 @@
             UINavigationController *navigationController = [storyboard instantiateViewControllerWithIdentifier:@"MainNavController"];
             navigationController.navigationBarHidden = YES;
             self.window.rootViewController = navigationController;
-            [self.window makeKeyAndVisible];
         }];        
     } else {
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];

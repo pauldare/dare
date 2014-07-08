@@ -290,8 +290,8 @@
     // [self cropImageToOverlay];
     [_dareText resignFirstResponder];
     
-    _dareText.text = @"Tap to set";
-    _bottomOverlay.text = @"Drag to select a background";
+    //_dareText.text = @"Tap to set";
+    //_bottomOverlay.text = @"Drag to select a background";
     
     CGPoint translation = [uigr translationInView:_dareTextImageOverlay.superview];
     
@@ -592,11 +592,11 @@
     _dareText.enabled = NO;
     _panGestureOnImageOverlay.enabled = YES;
     [_bottomOverlay removeGestureRecognizer:_tapContinueToSetBackgroundPhoto];
-    _dareText.text = @"Tap to set";
-    _bottomOverlay.text = @"Drag to select a background";
+    _dareText.text = @"Drag to set background";
+    _bottomOverlay.text = @"Continue";
     _tapContinueToSetBackgroundPhoto = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(setBackgroundImageForDare)];
     _tapContinueToSetBackgroundPhoto.numberOfTapsRequired = 1;
-    [_dareTextImageOverlay addGestureRecognizer:_tapContinueToSetBackgroundPhoto];
+    [_bottomOverlay addGestureRecognizer:_tapContinueToSetBackgroundPhoto];
     
     [UIView animateWithDuration:0.3 animations:^{
         

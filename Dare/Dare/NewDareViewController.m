@@ -689,9 +689,9 @@
             [self sendPush];
             UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];
             UINavigationController *mainScreenNavController = [storyBoard instantiateViewControllerWithIdentifier:@"MainNavController"];
-            MainScreenViewController *mainScreen = mainScreenNavController.
+            MainScreenViewController *mainScreen = mainScreenNavController.viewControllers[0];
             mainScreen.fromCancel = NO;
-            [self presentViewController:mainScreen animated:YES completion:nil];
+            [self presentViewController:mainScreenNavController animated:YES completion:nil];
             NSLog(@"thread begun");
         }];
     } failure:nil];

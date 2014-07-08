@@ -53,6 +53,7 @@
 @property (strong, nonatomic) NSArray *parseFriends;
 
 @property (weak, nonatomic) IBOutlet UIView *coverView;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *spinner;
 
 
 

@@ -320,6 +320,7 @@
                         <outlet property="forwardButton" destination="vv7-bf-TzR" id="mPX-oP-Vze"/>
                         <outlet property="friendsCollection" destination="9Za-hG-63x" id="xdo-5y-qVd"/>
                         <outlet property="imageView" destination="0mC-a8-Vn2" id="uqe-Jc-Ii7"/>
+                        <outlet property="spinner" destination="RXl-VK-Vce" id="QNO-7m-JIO"/>
                         <outlet property="textCollection" destination="ODS-Ap-Ui2" id="lee-cb-bgg"/>
                     </connections>
                 </viewController>

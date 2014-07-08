@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		05445BE41969F29100EADC31 /* MessageThread.m in Sources */ = {isa = PBXBuildFile; fileRef = 05445BE31969F29100EADC31 /* MessageThread.m */; };
+		05445BE7196B788400EADC31 /* SplashVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 05445BE6196B788400EADC31 /* SplashVC.m */; };
 		05984F4B1966F6F300DAE025 /* flower.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 05984F4A1966F6F300DAE025 /* flower.jpeg */; };
 		05984F4E1966F7A300DAE025 /* shoes.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 05984F4D1966F7A300DAE025 /* shoes.jpeg */; };
 		05984F51196731DD00DAE025 /* Dare.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 05984F4F196731DD00DAE025 /* Dare.xcdatamodeld */; };
@@ -99,6 +100,8 @@
 /* Begin PBXFileReference section */
 		05445BE21969F29100EADC31 /* MessageThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageThread.h; sourceTree = "<group>"; };
 		05445BE31969F29100EADC31 /* MessageThread.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageThread.m; sourceTree = "<group>"; };
+		05445BE5196B788400EADC31 /* SplashVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SplashVC.h; sourceTree = "<group>"; };
+		05445BE6196B788400EADC31 /* SplashVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SplashVC.m; sourceTree = "<group>"; };
 		05984F4A1966F6F300DAE025 /* flower.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = flower.jpeg; sourceTree = "<group>"; };
 		05984F4D1966F7A300DAE025 /* shoes.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = shoes.jpeg; sourceTree = "<group>"; };
 		05984F50196731DD00DAE025 /* Dare.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Dare.xcdatamodel; sourceTree = "<group>"; };
@@ -286,6 +289,8 @@
 				05984FB11968602400DAE025 /* MessageCell.h */,
 				05984FB21968602400DAE025 /* MessageCell.m */,
 				0719EAB7195F516E007C2983 /* Storyboard.storyboard */,
+				05445BE5196B788400EADC31 /* SplashVC.h */,
+				05445BE6196B788400EADC31 /* SplashVC.m */,
 				359EE6EE1963591300088C2D /* SelectDareCell.h */,
 				359EE6EF1963591300088C2D /* SelectDareCell.m */,
 				05984FA919678AF800DAE025 /* HeaderCell.h */,
@@ -646,6 +651,7 @@
 				4553B5A3195B944E005C6D1A /* main.m in Sources */,
 				35F35F501961F89E0002C7BC /* CameraManager.m in Sources */,
 				35F35F401961EA2F0002C7BC /* NewDareViewController.m in Sources */,
+				05445BE7196B788400EADC31 /* SplashVC.m in Sources */,
 				059F57851968AD270049079B /* Message.m in Sources */,
 				456E6259195F2DB4003CC220 /* Temp.m in Sources */,
 			);

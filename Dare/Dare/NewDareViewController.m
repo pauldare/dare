@@ -681,6 +681,7 @@
 -(void)postDare
 {
     [self fetchParseFriends:^{
+        _tapGetGoing.enabled = NO;
         [self beginThread:^(PFObject *messageThread) {
             [self sendPush];
             UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];

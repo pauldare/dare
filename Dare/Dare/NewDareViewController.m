@@ -52,6 +52,7 @@
 @property (strong, nonatomic) DareDataStore *dataStore;
 @property (strong, nonatomic) NSArray *parseFriends;
 
+@property (weak, nonatomic) IBOutlet UIView *coverView;
 
 
 

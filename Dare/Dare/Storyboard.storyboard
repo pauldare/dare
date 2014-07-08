@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="aBf-dC-Ni6">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13D65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="aBf-dC-Ni6">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
@@ -133,6 +133,22 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
+                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rl9-br-TW7">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="RXl-VK-Vce">
+                                        <rect key="frame" x="142" y="266" width="37" height="37"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="color" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    </activityIndicatorView>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="centerX" secondItem="RXl-VK-Vce" secondAttribute="centerX" id="mVB-Zg-Egb"/>
+                                    <constraint firstAttribute="centerY" secondItem="RXl-VK-Vce" secondAttribute="centerY" id="vef-9V-bFg"/>
+                                </constraints>
+                            </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vv7-bf-TzR">
                                 <rect key="frame" x="280" y="501" width="40" height="40"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -269,7 +285,9 @@
                             <constraint firstAttribute="trailing" secondItem="vv7-bf-TzR" secondAttribute="trailing" id="0hf-Kz-D4N"/>
                             <constraint firstAttribute="trailing" secondItem="9Za-hG-63x" secondAttribute="trailing" id="2Or-Up-aIy"/>
                             <constraint firstItem="ODS-Ap-Ui2" firstAttribute="top" secondItem="EyM-1N-UfL" secondAttribute="bottom" id="2j1-Hf-ahO"/>
+                            <constraint firstItem="QFr-7T-IKK" firstAttribute="top" secondItem="rl9-br-TW7" secondAttribute="bottom" id="4Y8-QC-pHy"/>
                             <constraint firstItem="ODS-Ap-Ui2" firstAttribute="centerY" secondItem="vv7-bf-TzR" secondAttribute="centerY" constant="-8" id="73x-dV-ReB"/>
+                            <constraint firstItem="rl9-br-TW7" firstAttribute="leading" secondItem="8yY-oN-wzh" secondAttribute="leading" id="BY5-8Z-r8O"/>
                             <constraint firstItem="MNk-d3-kXy" firstAttribute="top" secondItem="9Za-hG-63x" secondAttribute="bottom" constant="14" id="KBI-D5-7QI"/>
                             <constraint firstItem="EyM-1N-UfL" firstAttribute="leading" secondItem="8yY-oN-wzh" secondAttribute="leading" id="Ok5-eH-3FZ"/>
                             <constraint firstItem="9Za-hG-63x" firstAttribute="leading" secondItem="8yY-oN-wzh" secondAttribute="leading" id="P4E-c5-tb9"/>
@@ -284,7 +302,9 @@
                             <constraint firstAttribute="trailing" secondItem="EyM-1N-UfL" secondAttribute="trailing" id="cYF-LD-be4"/>
                             <constraint firstItem="Thh-yg-4ue" firstAttribute="leading" secondItem="8yY-oN-wzh" secondAttribute="leading" constant="20" id="mJA-EY-yVf"/>
                             <constraint firstItem="fXg-gh-KVy" firstAttribute="centerY" secondItem="ODS-Ap-Ui2" secondAttribute="centerY" constant="4" id="mQ7-Qh-uoq"/>
+                            <constraint firstAttribute="trailing" secondItem="rl9-br-TW7" secondAttribute="trailing" id="n1G-kU-99x"/>
                             <constraint firstItem="fXg-gh-KVy" firstAttribute="leading" secondItem="8yY-oN-wzh" secondAttribute="leading" id="nXa-BL-nKY"/>
+                            <constraint firstAttribute="height" secondItem="rl9-br-TW7" secondAttribute="height" id="nrH-Eb-MCt"/>
                             <constraint firstItem="ODS-Ap-Ui2" firstAttribute="top" secondItem="EyM-1N-UfL" secondAttribute="bottom" id="pzW-Qx-Mzq"/>
                             <constraint firstItem="9Za-hG-63x" firstAttribute="top" secondItem="8yY-oN-wzh" secondAttribute="top" id="t9c-SF-GmB"/>
                             <constraint firstItem="Tip-Gh-zTj" firstAttribute="top" secondItem="9Za-hG-63x" secondAttribute="bottom" constant="14" id="tbw-Na-VTe"/>
@@ -295,6 +315,7 @@
                         <outlet property="backButton" destination="fXg-gh-KVy" id="sko-NP-ORD"/>
                         <outlet property="cameraButton" destination="Thh-yg-4ue" id="I8w-pJ-j8s"/>
                         <outlet property="cameraView" destination="EyM-1N-UfL" id="QlF-HF-lH8"/>
+                        <outlet property="coverView" destination="rl9-br-TW7" id="vZM-O6-dK9"/>
                         <outlet property="flipButton" destination="MNk-d3-kXy" id="hcZ-9Y-ny6"/>
                         <outlet property="forwardButton" destination="vv7-bf-TzR" id="mPX-oP-Vze"/>
                         <outlet property="friendsCollection" destination="9Za-hG-63x" id="xdo-5y-qVd"/>

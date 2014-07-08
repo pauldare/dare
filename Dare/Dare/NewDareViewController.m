@@ -68,6 +68,9 @@
     [super viewDidLoad];
     self.dataStore = [DareDataStore sharedDataStore];
     
+    self.coverView.backgroundColor = [UIColor DareCellOverlay];
+    [self.view sendSubviewToBack:self.coverView];
+    
     [self fetchFriends:^{
         for (Friend *friend in self.friends) {
             [self.images addObject:[UIImage imageWithData:friend.image]];
@@ -685,6 +688,7 @@
 {
     [self fetchParseFriends:^{
         _tapGetGoing.enabled = NO;
+        [self.view bringSubviewToFront:self.coverView];
         [self beginThread:^(PFObject *messageThread) {
             [self sendPush];
             UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];

@@ -34,14 +34,11 @@
     [Parse setApplicationId:ParseAppID
                   clientKey:ParseClientKey];
     self.dataStore = [DareDataStore sharedDataStore];
-    
+    NSLog(@"%@", self.window.rootViewController.view);
     //[[DareDataStore sharedDataStore]cleanCoreData];
 
+    [[UIApplication sharedApplication] registerForRemoteNotificationTypes: UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeSound];
 
-      [[UIApplication sharedApplication] registerForRemoteNotificationTypes: UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeSound];
-    
-
-    
     [PFFacebookUtils initializeFacebook];
     if (FBSession.activeSession.state == FBSessionStateOpen ||
         FBSession.activeSession.state == FBSessionStateOpenTokenExtended) {
@@ -51,7 +48,13 @@
             UINavigationController *navigationController = [storyboard instantiateViewControllerWithIdentifier:@"MainNavController"];
             navigationController.navigationBarHidden = YES;
             self.window.rootViewController = navigationController;
+            [self.window makeKeyAndVisible];
         }];        
+    } else {
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];
+        UINavigationController *navigationController = [storyboard instantiateViewControllerWithIdentifier:@"InitialNavController"];
+        navigationController.navigationBarHidden = YES;
+        self.window.rootViewController = navigationController;
     }
    [[UIApplication sharedApplication] registerForRemoteNotificationTypes: UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeSound];
         

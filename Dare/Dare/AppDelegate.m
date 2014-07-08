@@ -51,6 +51,7 @@
             UINavigationController *navigationController = [storyboard instantiateViewControllerWithIdentifier:@"MainNavController"];
             navigationController.navigationBarHidden = YES;
             self.window.rootViewController = navigationController;
+            
         }];        
     }
    [[UIApplication sharedApplication] registerForRemoteNotificationTypes: UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeSound];

@@ -15,6 +15,7 @@
 #import "DareDataStore.h"
 #import "Friend+Methods.h"
 #import "DareDataStore.h"
+#import "MainScreenViewController.h"
 
 
 
@@ -35,18 +36,26 @@
                   clientKey:ParseClientKey];
     self.dataStore = [DareDataStore sharedDataStore];
     NSLog(@"%@", self.window.rootViewController.view);
-    //[[DareDataStore sharedDataStore]cleanCoreData];
+    
+    [[DareDataStore sharedDataStore]cleanCoreData];
 
     [[UIApplication sharedApplication] registerForRemoteNotificationTypes: UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeSound];
-
     [PFFacebookUtils initializeFacebook];
     if (FBSession.activeSession.state == FBSessionStateOpen ||
         FBSession.activeSession.state == FBSessionStateOpenTokenExtended) {
         [self.dataStore populateCoreData:^{
             NSLog(@"CUrrenly logged: %@", [PFUser currentUser][@"displayName"]);
+            NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"MessageThread"];
+            NSArray *threadsCD = [[NSMutableArray alloc]initWithArray:[self.dataStore.managedObjectContext executeFetchRequest:fetchRequest error:nil]];
+            NSMutableArray *threads = [[NSMutableArray alloc]initWithArray:threadsCD];
+            NSSortDescriptor* sortByDate = [NSSortDescriptor sortDescriptorWithKey:@"createdAt" ascending:YES];
+            [threads sortUsingDescriptors:[NSArray arrayWithObject:sortByDate]];
+            //sleep(2);
             UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];
             UINavigationController *navigationController = [storyboard instantiateViewControllerWithIdentifier:@"MainNavController"];
+            MainScreenViewController *main = navigationController.viewControllers[0];
             navigationController.navigationBarHidden = YES;
+            main.threads = [[NSMutableArray alloc]initWithArray:threads];
             self.window.rootViewController = navigationController;
         }];        
     } else {

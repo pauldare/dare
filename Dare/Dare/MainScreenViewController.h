@@ -16,4 +16,6 @@
 @property (nonatomic) NSInteger unreadCount;
 @property (nonatomic) BOOL fromCancel;
 
+@property (strong, nonatomic) NSMutableArray *threads;
+
 @end

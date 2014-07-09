@@ -31,7 +31,7 @@
 @property (strong, nonatomic) NSArray *friends;
 @property (nonatomic) BOOL isArrow;
 @property (strong, nonatomic) UINib *cellNib;
-@property (strong, nonatomic) NSMutableArray *threads;
+
 @property (strong, nonatomic) User *loggedUser;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
@@ -67,7 +67,6 @@
     [super viewDidLoad];
     
     self.dataStore = [DareDataStore sharedDataStore];
-    self.threads = [[NSMutableArray alloc]init];
     _tableViewRefreshControl = [[UIRefreshControl alloc] init];
     [_tableViewRefreshControl addTarget:self action:@selector(refreshFeeds) forControlEvents:UIControlEventValueChanged];
     [_tableView addSubview:_tableViewRefreshControl];
@@ -150,6 +149,7 @@
     [self fetchFriends:^{
         [self.collectionView reloadData];
     }];
+    
 
     [self configureMainScreen];
     self.navigationController.navigationBarHidden = YES;
@@ -157,14 +157,16 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    [super viewWillAppear:YES];    
+    [super viewWillAppear:YES];
+    NSLog(@"%@", self.parentViewController);
+
     [NSObject cancelPreviousPerformRequestsWithTarget:self];
-    [self performSelector:@selector(refreshTable) withObject:self afterDelay:3.0];
+    [self performSelector:@selector(refreshTable) withObject:self afterDelay:1.0];
 }
 
 - (void)refreshTable
 {
-    [self fetchParseThreads:^{
+    [self fetchCoreDataThreads:^{
         dispatch_async(dispatch_get_main_queue(), ^{
             _overlayUnreadBadge.text = [NSString stringWithFormat:@"%d", [self countTotalUnread]];
             NSSortDescriptor* sortByDate = [NSSortDescriptor sortDescriptorWithKey:@"createdAt" ascending:YES];
@@ -189,33 +191,40 @@
     completion();
 }
 
-- (void)fetchParseThreads: (void(^)())completion
+- (void)fetchCoreDataThreads: (void(^)())completion
 {
-    [self fetchUser:^{
-        [ParseClient getMessageThreadsForUser:self.user completion:^(NSArray *threads) {
-            for (PFObject *thread in threads) {
-                MessageThread *newThread = [MessageThread fetchThreadFromParseThreads:thread inContext:self.dataStore.managedObjectContext];
-                [ParseClient getMessagesForThread:newThread user:self.user completion:^(NSArray *messages) {
-                    NSSet *messagesSet = [[NSSet alloc] init];
-                    [messagesSet setByAddingObjectsFromArray:messages];
-                    [newThread addMessages:messagesSet];
-                    [self.threads addObject:newThread];
-                    completion();
-                    //[self.dataStore saveContext];
-                } failure:nil];
-                //[self.dataStore saveContext];
-            }            
-        } failure:nil];
-    }];
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"MessageThread"];
+    self.threads = [[NSMutableArray alloc]initWithArray:[self.dataStore.managedObjectContext executeFetchRequest:fetchRequest error:nil]];
+    completion();
 }
+
+//- (void)fetchParseThreads: (void(^)())completion
+//{
+//    [self fetchUser:^{
+//        [ParseClient getMessageThreadsForUser:self.user completion:^(NSArray *threads) {
+//            for (PFObject *thread in threads) {
+//                MessageThread *newThread = [MessageThread fetchThreadFromParseThreads:thread inContext:self.dataStore.managedObjectContext];
+//                [ParseClient getMessagesForThread:newThread user:self.user completion:^(NSArray *messages) {
+//                    NSSet *messagesSet = [[NSSet alloc] init];
+//                    [messagesSet setByAddingObjectsFromArray:messages];
+//                    [newThread addMessages:messagesSet];
+//                    [self.threads addObject:newThread];
+//                    completion();
+//                    //[self.dataStore saveContext];
+//                } failure:nil];
+//                //[self.dataStore saveContext];
+//            }            
+//        } failure:nil];
+//    }];
+//}
 
 
 - (NSInteger)countTotalUnread
 {
     NSInteger total = 0;
-    if (!self.fromCancel && [self.presentingViewController isKindOfClass:[NewDareViewController class]]) {
-        total++;
-    }
+//    if (!self.fromCancel && [self.presentingViewController isKindOfClass:[NewDareViewController class]]) {
+//        total++;
+//    }
     for (MessageThread *thread in self.threads) {
         for (Message *message in thread.messages) {
             if ([message.isRead integerValue] == 0) {

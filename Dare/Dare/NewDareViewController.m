@@ -19,6 +19,9 @@
 #import "Friend+Methods.h"
 #import "DareDataStore.h"
 #import "Friend+Methods.h"
+#import "MessageThread+Methods.h"
+#import "Message+Methods.h"
+
 
 
 @interface NewDareViewController () <UICollectionViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UICollectionViewDataSource,UITextFieldDelegate>
@@ -54,6 +57,7 @@
 
 @property (weak, nonatomic) IBOutlet UIView *coverView;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *spinner;
+
 
 
 
@@ -640,6 +644,32 @@
                                  backroundImage:_dareBackgroundImage
                                      completion:^(PFObject *messageThread) {
                                          completion(messageThread);
+                                         MessageThread *newThread = [NSEntityDescription insertNewObjectForEntityForName:@"MessageThread"
+                                                                                                  inManagedObjectContext:self.dataStore.managedObjectContext];
+                                         newThread.identifier = messageThread.objectId;
+                                         newThread.title = messageThread[@"title"];
+                                         PFFile *imageFile = messageThread[@"backgroundImage"];
+                                         NSData *imageData = [imageFile getData];
+                                         newThread.backgroundPicture = imageData;
+                                         PFFile *authorImage = messageThread[@"author"];
+                                         NSData *authorData = [authorImage getData];
+                                         newThread.author = authorData;
+                                         newThread.createdAt = messageThread.createdAt;
+
+                                         Message *newMessage = [NSEntityDescription insertNewObjectForEntityForName:@"Message"
+                                                                                                  inManagedObjectContext:self.dataStore.managedObjectContext];
+                                         newMessage.identifier = message.objectId;
+                                         newMessage.text = message[@"text"];
+                                         PFFile *messageImageFile = message[@"picture"];
+                                         NSData *messageImageData = [messageImageFile getData];
+                                         newMessage.picture = messageImageData;
+                                         PFFile *messageAuthorImage = message[@"author"];
+                                         NSData *messageAuthorData = [messageAuthorImage getData];
+                                         newMessage.author = messageAuthorData;
+                                         newMessage.createdAt = message.createdAt;
+                                         newMessage.isRead = @0;
+                                         [newThread addMessagesObject:newMessage];
+                                         [self.dataStore saveContext];
                                 }];
     }];
 }
@@ -684,6 +714,8 @@
 }
 
 
+
+
 -(void)postDare
 {
     [self fetchParseFriends:^{
@@ -693,10 +725,9 @@
             [self sendPush];
             UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];
             UINavigationController *mainScreenNavController = [storyBoard instantiateViewControllerWithIdentifier:@"MainNavController"];
-            MainScreenViewController *mainScreen = mainScreenNavController.
+            MainScreenViewController *mainScreen = mainScreenNavController.viewControllers[0];
             mainScreen.fromCancel = NO;
-            [self presentViewController:mainScreen animated:YES completion:nil];
-            NSLog(@"thread begun");
+            [self presentViewController:mainScreenNavController animated:YES completion:nil];
         }];
     } failure:nil];
 }

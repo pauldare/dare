@@ -15,7 +15,7 @@
 @property (weak, nonatomic) IBOutlet UIImageView *dareImageView;
 @property (weak, nonatomic) IBOutlet UIView *dareView;
 @property (weak, nonatomic) IBOutlet UILabel *textLabel;
-@property (weak, nonatomic) IBOutlet UIView *cameraView;
+@property (strong, nonatomic) UIView *cameraView;
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
 @property (strong, nonatomic) MessageThread *thread;
 

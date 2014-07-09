@@ -28,6 +28,8 @@
 @property (strong, nonatomic) UIView *dareTextImageOverlay;
 @property (strong, nonatomic) UITextField *dareText;
 @property (strong, nonatomic) UIImage *choosenImage;
+@property (weak, nonatomic) IBOutlet UIView *blurTimerOverlay;
+@property (nonatomic) BOOL imageWillBlur;
 
 @end
 
@@ -38,22 +40,27 @@
     [super viewDidLoad];
     self.dataStore = [DareDataStore sharedDataStore];
     self.friends = [[NSMutableArray alloc]init];
+    self.imageWillBlur = NO;
     
     self.collectionView.delegate = self;
     self.collectionView.dataSource = self;
+    self.blurTimerOverlay.backgroundColor = [UIColor DareBlue];
     self.collectionView.showsHorizontalScrollIndicator = NO;
-    
     [self fetchFriends:^{
-        [self.collectionView reloadData];
+    [self.collectionView reloadData];
     }];
     
     [self setupViews];
-    [self setupButtons];
     [self setupCamera];
+    [self setupButtons];
     _imageView.backgroundColor = [UIColor whiteColor];
     _cameraView.backgroundColor = [UIColor whiteColor];
     self.imageView.hidden = YES;
     self.automaticallyAdjustsScrollViewInsets = NO;
+    if (!self.imageView.image) {
+        self.blurTimerButton.hidden = YES;
+    }
+    self.imageView.contentMode = UIViewContentModeScaleToFill;
 //    self.images = @[[UIImage imageNamed:@"angry.jpeg"], [UIImage imageNamed:@"tricolor.jpeg"], [UIImage imageNamed:@"kitten.jpeg"], [UIImage imageNamed:@"cat.jpeg"]];
 //    UIImage *flower = [UIImage imageNamed:@"flower.jpeg"];
 //    self.dareImageView.image = flower;
@@ -69,11 +76,17 @@
     completion();
 }
 
+
+-(void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+}
+
 - (void)setupViews
 {
     self.collectionView.backgroundColor = [UIColor DareBlue];
     self.dareView.backgroundColor = [UIColor DareCellOverlay];
-    self.textLabel.backgroundColor = [UIColor clearColor];
+    self.textLabel.backgroundColor = [UIColor DareCellOverlay];
     self.textLabel.font = [UIFont boldSystemFontOfSize:18];
     self.textLabel.textColor = [UIColor whiteColor];
 }
@@ -107,24 +120,47 @@
 
 - (void)setupCamera
 {
+    _cameraView = [[UIView alloc]initWithFrame:_imageView.frame];
+    self.blurTimerOverlay.hidden = YES;
+    [self.view addSubview:_cameraView];
+    [self.view bringSubviewToFront:_cameraButton];
+    [self.view bringSubviewToFront:_albumButton];
+    [self.view bringSubviewToFront:_flipButton];
+    [self.view bringSubviewToFront:_blurTimerButton];
+    
+    
+
     self.cameraManager = [[CameraManager alloc]init];
     self.cameraManager.captureSessionIsActive = YES;
-    [self.cameraManager initializeCameraForImageView:self.imageView
+        [self.cameraManager initializeCameraForImageView:self.imageView
                                              isFront:YES
                                                 view:self.cameraView
-                                             failure:^{[self selectPictureFromLibrary];}];
+                                             failure:^{
+                                                 [self selectPictureFromLibrary];
+                                                 self.cameraView.hidden = YES;
+                                             }];
 }
 
 
 
 - (IBAction)cameraButtonPressed:(id)sender
 {
+    self.cameraView.hidden = NO;
     [self.cameraManager snapStillImageForImageView:self.imageView
                                            isFront:YES
                                               view:self.cameraView
                                         completion:^(UIImage *image) {
                                             NSLog(@"image snapped");
                                             self.imageView.image = image;
+                                            self.cameraView.hidden = YES;
+                                            self.blurTimerButton.hidden = NO;
+                                             [self.view bringSubviewToFront:self.blurTimerOverlay];
+                                            self.blurTimerOverlay.alpha = 0;
+                                            self.blurTimerOverlay.hidden = NO;
+                                            [self.view bringSubviewToFront:self.blurTimerButton];
+                                            [UIView animateWithDuration:0.3 animations:^{
+                                                self.blurTimerOverlay.alpha = 0.4;
+                                            }];
                                             self.choosenImage = image;
                                         } failure:^{
                                             [self selectPictureFromLibrary];
@@ -133,8 +169,8 @@
 
 - (IBAction)blurButtonPressed:(id)sender
 {
-    [self setupImageOverlay];
-    [self moveOverlayIntoView];
+//    [self setupImageOverlay];
+//    [self moveOverlayIntoView];
 }
 
 
@@ -156,6 +192,8 @@
     self.imageView.image = image;
     self.choosenImage = image;
     self.imageView.hidden = NO;
+    self.imageView.opaque = YES;
+    self.cameraView.hidden = YES;
 }
 
 -(void)moveOverlayIntoView

@@ -53,6 +53,8 @@
 @property (strong, nonatomic) DareDataStore *dataStore;
 @property (strong, nonatomic) User *user;
 @property (strong, nonatomic) NSArray *parseFriends;
+@property (weak, nonatomic) IBOutlet UIView *fullScreenOverlayView;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
 
 
 
@@ -166,7 +168,7 @@
 {
     [self fetchParseThreads:^{
         dispatch_async(dispatch_get_main_queue(), ^{
-            _overlayUnreadBadge.text = [NSString stringWithFormat:@"%d", [self countTotalUnread]];
+            _overlayUnreadBadge.text = [NSString stringWithFormat:@"%ld", (long)[self countTotalUnread]];
             NSSortDescriptor* sortByDate = [NSSortDescriptor sortDescriptorWithKey:@"createdAt" ascending:YES];
             [self.threads sortUsingDescriptors:[NSArray arrayWithObject:sortByDate]];
             [self.tableView reloadData];
@@ -333,7 +335,7 @@
     _overlayUnreadBadge.textColor = [UIColor DareUnreadBadge];
     _overlayUnreadBadge.font = [UIFont boldSystemFontOfSize:130];
     _overlayUnreadBadge.textAlignment = NSTextAlignmentRight;
-    _overlayUnreadBadge.text = [NSString stringWithFormat:@"%d", [self countTotalUnread]];
+    _overlayUnreadBadge.text = [NSString stringWithFormat:@"%ld", (long)[self countTotalUnread]];
     [self.view addSubview:_overlayUnreadBadge];
     
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_overlayUnreadBadge attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTop multiplier:1.0 constant:50]];
@@ -491,6 +493,7 @@
 
 -(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
+//Uncomment this to enable button fade animations on scroll
     //    [UIView animateWithDuration:0.5 animations:^{
     //        _friendsCornerButton.alpha = 1.0;
     //    }];
@@ -498,6 +501,7 @@
 
 -(void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
 {
+//Uncomment this to enable button fade animations on scroll
     //    if (!decelerate) {
     //        [UIView animateWithDuration:0.5 animations:^{
     //            _friendsCornerButton.alpha = 1.0;
@@ -509,6 +513,7 @@
 
 -(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
 {
+//Uncomment this to enable button fade animations on scroll
     //    [UIView animateWithDuration:0.5 animations:^{
     //        _friendsCornerButton.alpha = 0;
     //    }];

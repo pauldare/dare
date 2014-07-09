@@ -45,6 +45,7 @@
 		4512E4141966FE0D000A8C15 /* SignInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4512E4131966FE0D000A8C15 /* SignInViewController.m */; };
 		4512E417196702FF000A8C15 /* LogInWithFacebookViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4512E416196702FF000A8C15 /* LogInWithFacebookViewController.m */; };
 		4512E41A1967138C000A8C15 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4512E4191967138C000A8C15 /* SettingsViewController.m */; };
+		451C767D196E030700C704BB /* DisappearIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 451C767C196E030700C704BB /* DisappearIcon.png */; };
 		4553B595195B944E005C6D1A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4553B594195B944E005C6D1A /* Foundation.framework */; };
 		4553B597195B944E005C6D1A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4553B596195B944E005C6D1A /* CoreGraphics.framework */; };
 		4553B599195B944E005C6D1A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4553B598195B944E005C6D1A /* UIKit.framework */; };
@@ -158,6 +159,7 @@
 		4512E416196702FF000A8C15 /* LogInWithFacebookViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LogInWithFacebookViewController.m; sourceTree = "<group>"; };
 		4512E4181967138C000A8C15 /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
 		4512E4191967138C000A8C15 /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
+		451C767C196E030700C704BB /* DisappearIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DisappearIcon.png; sourceTree = "<group>"; };
 		4553B591195B944E005C6D1A /* Dare.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Dare.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4553B594195B944E005C6D1A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		4553B596195B944E005C6D1A /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -387,6 +389,7 @@
 				456E6252195F27F4003CC220 /* Model */,
 				456E6256195F29FA003CC220 /* Temp */,
 				4553B5AB195B944F005C6D1A /* Images.xcassets */,
+				451C767C196E030700C704BB /* DisappearIcon.png */,
 				527FDAE81960A2250083D6F0 /* icon-157351_640.png */,
 				4553B59D195B944E005C6D1A /* Supporting Files */,
 			);
@@ -567,6 +570,7 @@
 				527FDAE91960A2250083D6F0 /* icon-157351_640.png in Resources */,
 				35F35F521962F5910002C7BC /* kitten.jpeg in Resources */,
 				05984FBA196866C000DAE025 /* AddCommentCell.xib in Resources */,
+				451C767D196E030700C704BB /* DisappearIcon.png in Resources */,
 				359EE6F21963593A00088C2D /* SelectDareCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

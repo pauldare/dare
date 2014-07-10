@@ -124,11 +124,18 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
     
     FBSession *activeSession = [FBSession activeSession];
     
-    if (activeSession.isOpen) {
-        UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];
-        
-        
-    }
+//    if (activeSession.state != FBSessionStateCreatedTokenLoaded) {
+//        
+//        NSLog(@"from open url");
+//    } else {
+//        NSLog(@"no token");
+//    }
+    
+//    if (activeSession.isOpen) {
+//        UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];
+//        
+//        
+//    }
     
 }
 

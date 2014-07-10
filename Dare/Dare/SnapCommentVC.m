@@ -30,6 +30,8 @@
 @property (strong, nonatomic) UIImage *choosenImage;
 @property (weak, nonatomic) IBOutlet UIView *blurTimerOverlay;
 @property (nonatomic) BOOL imageWillBlur;
+@property (nonatomic) NSInteger blurCounter;
+@property (weak, nonatomic) IBOutlet UILabel *blurCounterLabel;
 
 @end
 
@@ -44,10 +46,10 @@
     
     self.collectionView.delegate = self;
     self.collectionView.dataSource = self;
-    self.blurTimerOverlay.backgroundColor = [UIColor DareBlue];
+    self.blurTimerOverlay.backgroundColor = [UIColor DareTranslucentBlue];
     self.collectionView.showsHorizontalScrollIndicator = NO;
     [self fetchFriends:^{
-    [self.collectionView reloadData];
+        [self.collectionView reloadData];
     }];
     
     [self setupViews];
@@ -61,9 +63,9 @@
         self.blurTimerButton.hidden = YES;
     }
     self.imageView.contentMode = UIViewContentModeScaleToFill;
-//    self.images = @[[UIImage imageNamed:@"angry.jpeg"], [UIImage imageNamed:@"tricolor.jpeg"], [UIImage imageNamed:@"kitten.jpeg"], [UIImage imageNamed:@"cat.jpeg"]];
-//    UIImage *flower = [UIImage imageNamed:@"flower.jpeg"];
-//    self.dareImageView.image = flower;
+    //    self.images = @[[UIImage imageNamed:@"angry.jpeg"], [UIImage imageNamed:@"tricolor.jpeg"], [UIImage imageNamed:@"kitten.jpeg"], [UIImage imageNamed:@"cat.jpeg"]];
+    //    UIImage *flower = [UIImage imageNamed:@"flower.jpeg"];
+    //    self.dareImageView.image = flower;
     self.dareImageView.image = [UIImage imageWithData:self.thread.backgroundPicture];
     UINib *friendNib = [UINib nibWithNibName:@"FriendListIcon" bundle:nil];
     [self.collectionView registerNib:friendNib forCellWithReuseIdentifier:@"FriendCell"];
@@ -115,7 +117,7 @@
     [_cameraButton setTintColor:[UIColor DareBlue]];
     [_flipButton setTintColor:[UIColor DareBlue]];
     [_albumButton setTintColor:[UIColor DareBlue]];
-
+    
 }
 
 - (void)setupCamera
@@ -129,10 +131,10 @@
     [self.view bringSubviewToFront:_blurTimerButton];
     
     
-
+    
     self.cameraManager = [[CameraManager alloc]init];
     self.cameraManager.captureSessionIsActive = YES;
-        [self.cameraManager initializeCameraForImageView:self.imageView
+    [self.cameraManager initializeCameraForImageView:self.imageView
                                              isFront:YES
                                                 view:self.cameraView
                                              failure:^{
@@ -146,21 +148,19 @@
 - (IBAction)cameraButtonPressed:(id)sender
 {
     self.cameraView.hidden = NO;
+    self.imageView.image = nil;
+    self.blurCounter = 0;
+    self.imageWillBlur = NO;
+    self.blurTimerOverlay.hidden = YES;
+    self.blurTimerButton.hidden = YES;
     [self.cameraManager snapStillImageForImageView:self.imageView
                                            isFront:YES
                                               view:self.cameraView
                                         completion:^(UIImage *image) {
                                             NSLog(@"image snapped");
-                                            self.imageView.image = image;
+                                            self.imageView.image = [UIImage imageWithCGImage:image.CGImage scale:1.0 orientation:UIImageOrientationLeftMirrored];
                                             self.cameraView.hidden = YES;
                                             self.blurTimerButton.hidden = NO;
-                                             [self.view bringSubviewToFront:self.blurTimerOverlay];
-                                            self.blurTimerOverlay.alpha = 0;
-                                            self.blurTimerOverlay.hidden = NO;
-                                            [self.view bringSubviewToFront:self.blurTimerButton];
-                                            [UIView animateWithDuration:0.3 animations:^{
-                                                self.blurTimerOverlay.alpha = 0.4;
-                                            }];
                                             self.choosenImage = image;
                                         } failure:^{
                                             [self selectPictureFromLibrary];
@@ -169,8 +169,39 @@
 
 - (IBAction)blurButtonPressed:(id)sender
 {
-//    [self setupImageOverlay];
-//    [self moveOverlayIntoView];
+    if (self.imageView.image) {
+        if (!self.imageWillBlur) {
+            self.blurTimerOverlay.hidden = NO;
+            self.blurCounter = 5;
+            self.blurCounterLabel.text = [NSString stringWithFormat:@"%lu",(long)self.blurCounter];
+            self.imageWillBlur = YES;
+            [self.view bringSubviewToFront:self.blurTimerOverlay];
+            self.blurTimerOverlay.alpha = 0;
+            self.blurTimerOverlay.hidden = NO;
+            self.blurTimerOverlay.backgroundColor = [UIColor DareTranslucentBlue];
+            [self.view bringSubviewToFront:self.blurTimerButton];
+            [UIView animateWithDuration:0.3 animations:^{
+                self.blurTimerOverlay.alpha = 1;
+            }];
+        }else{
+            if (self.blurCounter < 30) {
+                self.blurCounter += 5;
+                self.blurCounterLabel.text = [NSString stringWithFormat:@"%lu",(long)self.blurCounter];
+                
+            }else{
+                self.blurCounter = 0;
+                self.imageWillBlur = NO;
+                [UIView animateWithDuration:0.2 animations:^{
+                    self.blurTimerOverlay.alpha = 0;
+                } completion:^(BOOL finished) {
+                    self.blurTimerOverlay.hidden = YES;
+                }];
+                
+            }
+        }
+    }
+    //    [self setupImageOverlay];
+    //    [self moveOverlayIntoView];
 }
 
 
@@ -180,7 +211,7 @@
         UIImagePickerController *picker = [[UIImagePickerController alloc] init];
         picker.delegate = self;
         picker.allowsEditing = YES;
-        picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;        
+        picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
         [self presentViewController:picker animated:YES completion:NULL];
     }
 }
@@ -227,7 +258,7 @@
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
-    [_dareText resignFirstResponder];    
+    [_dareText resignFirstResponder];
     [ParseClient addMessageToThread:self.thread withText:_dareText.text picture:self.choosenImage completion:nil];
     return YES;
 }
@@ -241,7 +272,7 @@
 
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return [self.friends count];
+    return [self.friends count] + 2;
 }
 
 
@@ -266,9 +297,19 @@
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     FriendListIcon *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"FriendCell" forIndexPath:indexPath];
-    Friend *friend = self.friends[indexPath.row];
+    if (indexPath.row == 0) {
+        FAKFontAwesome *icon = [FAKFontAwesome commentIconWithSize:60];
+        UIImage *postImage = [icon imageWithSize:CGSizeMake(60, 60)];
+        ((FriendListIcon *)cell).friendImage.image = postImage;
+        ((FriendListIcon *)cell).friendImage.contentMode = UIViewContentModeCenter;
+        
+    }else if (indexPath.row == 1){
+        
+    }else{
+    Friend *friend = self.friends[indexPath.row - 2];
     UIImage *image = [UIImage imageWithData:friend.image];
     ((FriendListIcon *)cell).friendImage.image = image;
+    }
     return cell;
 }
 

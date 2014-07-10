@@ -14,6 +14,8 @@
 
 @interface LogInWithFacebookViewController ()
 @property (weak, nonatomic) IBOutlet UIButton *loginWithFacebook;
+@property (weak, nonatomic) IBOutlet UIView *overlayView;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
 @property (strong, nonatomic) DareDataStore *dataStore;
 @end
 
@@ -23,9 +25,18 @@
 {
     [super viewDidLoad];
     self.dataStore = [DareDataStore sharedDataStore];
+    self.overlayView.hidden = YES;
+    //[self.view sendSubviewToBack:self.overlayView];
     [_loginWithFacebook addTarget:self action:@selector(login) forControlEvents:UIControlEventTouchUpInside];
     [_loginWithFacebook setTitleColor:[UIColor DareBlue] forState:UIControlStateNormal];
     self.view.backgroundColor = [UIColor DareBlue];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    self.overlayView.backgroundColor = [UIColor DareCellOverlaySolid];
+    //[self.view sendSubviewToBack:self.overlayView];
 }
 
 -(void)login
@@ -33,6 +44,8 @@
     [ParseClient loginWithFB:^(BOOL isNEW) {
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];
         if (isNEW) {
+            self.overlayView.hidden = NO;
+            //[self.view bringSubviewToFront:self.overlayView];
             NSLog(@"I am new");
             [ParseClient relateFacebookFriendsInParse:^(bool isDone) {
                 if (isDone) {
@@ -45,6 +58,8 @@
                 }
             } failure:nil];
         } else {
+            self.overlayView.hidden = NO;
+            //[self.view bringSubviewToFront:self.overlayView];
             NSLog(@"Returning");
             [ParseClient relateFacebookFriendsInParse:^(bool isDone) {
                 if (isDone) {

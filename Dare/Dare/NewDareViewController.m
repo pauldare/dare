@@ -653,8 +653,9 @@
                                              newThread.backgroundPicture = data;
                                          }];
                                          PFFile *authorImage = messageThread[@"author"];
-                                         NSData *authorData = [authorImage getData];
-                                         newThread.author = authorData;
+                                         [authorImage getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
+                                             newThread.author = data;
+                                         }];
                                          newThread.createdAt = messageThread.createdAt;
 
                                          Message *newMessage = [NSEntityDescription insertNewObjectForEntityForName:@"Message"
@@ -662,8 +663,10 @@
                                          newMessage.identifier = message.objectId;
                                          newMessage.text = message[@"text"];
                                          PFFile *messageImageFile = message[@"picture"];
-                                         NSData *messageImageData = [messageImageFile getData];
-                                         newMessage.picture = messageImageData;
+                                         [messageImageFile getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
+                                             newMessage.picture = data;
+                                         }];
+
                                          PFFile *messageAuthorImage = message[@"author"];
                                          [messageAuthorImage getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
                                              newMessage.author = data;
@@ -724,7 +727,7 @@
         _tapGetGoing.enabled = NO;
         [self.view bringSubviewToFront:self.coverView];
         [self beginThread:^(PFObject *messageThread) {
-            [self sendPush];
+            //[self sendPush];
             UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];
             UINavigationController *mainScreenNavController = [storyBoard instantiateViewControllerWithIdentifier:@"MainNavController"];
             MainScreenViewController *mainScreen = mainScreenNavController.viewControllers[0];

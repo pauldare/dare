@@ -14,6 +14,8 @@
 
 @interface LogInWithFacebookViewController ()
 @property (weak, nonatomic) IBOutlet UIButton *loginWithFacebook;
+@property (weak, nonatomic) IBOutlet UIView *overlayView;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
 @property (strong, nonatomic) DareDataStore *dataStore;
 @end
 

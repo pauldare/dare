@@ -43,7 +43,7 @@
     self.dataStore = [DareDataStore sharedDataStore];
     self.friends = [[NSMutableArray alloc]init];
     self.imageWillBlur = NO;
-    
+    [self.flipButton addTarget:self action:@selector(flipCamera) forControlEvents:UIControlEventTouchUpInside];
     self.collectionView.delegate = self;
     self.collectionView.dataSource = self;
     self.blurTimerOverlay.backgroundColor = [UIColor DareTranslucentBlue];
@@ -200,8 +200,6 @@
             }
         }
     }
-    //    [self setupImageOverlay];
-    //    [self moveOverlayIntoView];
 }
 
 
@@ -225,6 +223,7 @@
     self.imageView.hidden = NO;
     self.imageView.opaque = YES;
     self.cameraView.hidden = YES;
+    self.blurTimerButton.hidden = NO;
 }
 
 -(void)moveOverlayIntoView
@@ -272,7 +271,7 @@
 
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return [self.friends count] + 2;
+    return [self.friends count];
 }
 
 
@@ -297,21 +296,53 @@
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     FriendListIcon *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"FriendCell" forIndexPath:indexPath];
-    if (indexPath.row == 0) {
-        FAKFontAwesome *icon = [FAKFontAwesome commentIconWithSize:60];
-        UIImage *postImage = [icon imageWithSize:CGSizeMake(60, 60)];
-        ((FriendListIcon *)cell).friendImage.image = postImage;
-        ((FriendListIcon *)cell).friendImage.contentMode = UIViewContentModeCenter;
-        
-    }else if (indexPath.row == 1){
-        
-    }else{
-    Friend *friend = self.friends[indexPath.row - 2];
+
+    Friend *friend = self.friends[indexPath.row];
     UIImage *image = [UIImage imageWithData:friend.image];
     ((FriendListIcon *)cell).friendImage.image = image;
-    }
+    
     return cell;
 }
+
+-(void)flipCamera
+{
+    if (_cameraManager.session) {
+        [_cameraManager.session beginConfiguration];
+        AVCaptureInput* currentCameraInput = [_cameraManager.session.inputs objectAtIndex:0];
+        [_cameraManager.session removeInput:currentCameraInput];
+        
+        AVCaptureDevice *newCamera = nil;
+        if(((AVCaptureDeviceInput*)currentCameraInput).device.position == AVCaptureDevicePositionBack)
+        {
+            newCamera = [self cameraWithPosition:AVCaptureDevicePositionFront];
+        }
+        else
+        {
+            newCamera = [self cameraWithPosition:AVCaptureDevicePositionBack];
+        }
+        
+        //Add input to session
+        AVCaptureDeviceInput *newVideoInput = [[AVCaptureDeviceInput alloc] initWithDevice:newCamera error:nil];
+        [_cameraManager.session addInput:newVideoInput];
+        
+        //Commit all the configuration changes at once
+        [_cameraManager.session commitConfiguration];
+        
+    }
+    
+}
+
+- (AVCaptureDevice *) cameraWithPosition:(AVCaptureDevicePosition) position
+{
+    NSArray *devices = [AVCaptureDevice devicesWithMediaType:AVMediaTypeVideo];
+    for (AVCaptureDevice *device in devices)
+    {
+        if ([device position] == position) return device;
+    }
+    return nil;
+}
+
+
 
 
 @end

@@ -649,8 +649,9 @@
                                          newThread.identifier = messageThread.objectId;
                                          newThread.title = messageThread[@"title"];
                                          PFFile *imageFile = messageThread[@"backgroundImage"];
-                                         NSData *imageData = [imageFile getData];
-                                         newThread.backgroundPicture = imageData;
+                                         [imageFile getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
+                                             newThread.backgroundPicture = data;
+                                         }];
                                          PFFile *authorImage = messageThread[@"author"];
                                          NSData *authorData = [authorImage getData];
                                          newThread.author = authorData;
@@ -664,8 +665,9 @@
                                          NSData *messageImageData = [messageImageFile getData];
                                          newMessage.picture = messageImageData;
                                          PFFile *messageAuthorImage = message[@"author"];
-                                         NSData *messageAuthorData = [messageAuthorImage getData];
-                                         newMessage.author = messageAuthorData;
+                                         [messageAuthorImage getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
+                                             newMessage.author = data;
+                                         }];
                                          newMessage.createdAt = message.createdAt;
                                          newMessage.isRead = @0;
                                          [newThread addMessagesObject:newMessage];
@@ -727,6 +729,8 @@
             UINavigationController *mainScreenNavController = [storyBoard instantiateViewControllerWithIdentifier:@"MainNavController"];
             MainScreenViewController *mainScreen = mainScreenNavController.viewControllers[0];
             mainScreen.fromCancel = NO;
+            mainScreen.fromNew = YES;
+            [mainScreen refreshTable];
             [self presentViewController:mainScreenNavController animated:YES completion:nil];
         }];
     } failure:nil];

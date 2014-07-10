@@ -67,9 +67,11 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.fullScreenOverlayView.backgroundColor = [UIColor DareCellOverlay];
-    [self.view bringSubviewToFront:self.fullScreenOverlayView];
-    
+    self.fullScreenOverlayView.backgroundColor = [UIColor DareCellOverlaySolid];
+    if (self.fromNew) {
+        [self.view bringSubviewToFront:self.fullScreenOverlayView];
+    }
+
     self.dataStore = [DareDataStore sharedDataStore];
     _tableViewRefreshControl = [[UIRefreshControl alloc] init];
     [_tableViewRefreshControl addTarget:self action:@selector(refreshFeeds) forControlEvents:UIControlEventValueChanged];
@@ -162,10 +164,15 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:YES];
-
-    [NSObject cancelPreviousPerformRequestsWithTarget:self];
-    [self performSelector:@selector(refreshTable) withObject:self afterDelay:1.0];
+    
+    static dispatch_once_t oncePredicate;
+    dispatch_once(&oncePredicate, ^{
+        [NSObject cancelPreviousPerformRequestsWithTarget:self];
+        [self performSelector:@selector(refreshTable) withObject:self afterDelay:1.0];
+    });
 }
+
+
 
 - (void)refreshTable
 {
@@ -175,7 +182,9 @@
             NSSortDescriptor* sortByDate = [NSSortDescriptor sortDescriptorWithKey:@"createdAt" ascending:YES];
             [self.threads sortUsingDescriptors:[NSArray arrayWithObject:sortByDate]];
             [self.tableView reloadData];
-            [self.view sendSubviewToBack:self.fullScreenOverlayView];
+            if (self.fromNew) {
+                [self.view sendSubviewToBack:self.fullScreenOverlayView];
+            }
         });
     }];
 }

@@ -49,10 +49,11 @@
             [ParseClient relateFacebookFriendsInParse:^(bool isDone) {
                 if (isDone) {
                     [self.dataStore populateCoreData:^{
-
-                       UINavigationController *mainNavController = [storyboard instantiateViewControllerWithIdentifier:@"MainNavController"];
-                        [self presentViewController:mainNavController animated:YES completion:nil];
-
+                        static dispatch_once_t oncePredicate;
+                        dispatch_once(&oncePredicate, ^{
+                            UINavigationController *mainNavController = [storyboard instantiateViewControllerWithIdentifier:@"MainNavController"];
+                            [self presentViewController:mainNavController animated:YES completion:nil];
+                        });
                     }];
                 }
             } failure:nil];

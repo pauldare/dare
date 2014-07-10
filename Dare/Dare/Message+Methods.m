@@ -25,11 +25,13 @@
         newMessage.identifier = message.objectId;
         newMessage.text = message[@"text"];
         PFFile *imageFile = message[@"picture"];
-        NSData *imageData = [imageFile getData];
-        newMessage.picture = imageData;
+        [imageFile getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
+            newMessage.picture = data;
+        }];
         PFFile *authorImage = message[@"author"];
-        NSData *authorData = [authorImage getData];
-        newMessage.author = authorData;
+        [authorImage getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
+            newMessage.author = data;
+        }];
         newMessage.createdAt = message.createdAt;
         newMessage.isRead = @0;
       

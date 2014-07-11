@@ -291,8 +291,6 @@
 				05984FB11968602400DAE025 /* MessageCell.h */,
 				05984FB21968602400DAE025 /* MessageCell.m */,
 				0719EAB7195F516E007C2983 /* Storyboard.storyboard */,
-				05445BE5196B788400EADC31 /* SplashVC.h */,
-				05445BE6196B788400EADC31 /* SplashVC.m */,
 				359EE6EE1963591300088C2D /* SelectDareCell.h */,
 				359EE6EF1963591300088C2D /* SelectDareCell.m */,
 				05984FA919678AF800DAE025 /* HeaderCell.h */,
@@ -326,6 +324,8 @@
 				4512E4191967138C000A8C15 /* SettingsViewController.m */,
 				05984FA61967882500DAE025 /* MessagesTVC.h */,
 				05984FA71967882500DAE025 /* MessagesTVC.m */,
+				05445BE5196B788400EADC31 /* SplashVC.h */,
+				05445BE6196B788400EADC31 /* SplashVC.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";

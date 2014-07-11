@@ -24,8 +24,9 @@
         newFriend.identifier = friend[@"fbId"];
         newFriend.displayName = friend[@"displayName"];
         PFFile *imageFile = friend[@"image"];
-        NSData *imageData = [imageFile getData];
-        newFriend.image = imageData;
+        [imageFile getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
+            newFriend.image = data;
+        }];
         return newFriend;
     } else {
         return friends[0];

@@ -21,6 +21,6 @@
 
 - (void)populateCoreData: (void(^)())completion;
 
-- (void) cleanCoreData;
+- (void) cleanCoreData: (void(^)())completion;
 
 @end

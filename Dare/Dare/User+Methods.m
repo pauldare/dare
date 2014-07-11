@@ -23,9 +23,11 @@
                                                       inManagedObjectContext:context];
         newUser.identifier = user[@"fbId"];
         newUser.displayName = user[@"displayName"];
+        
         PFFile *imageFile = user[@"image"];
-        NSData *imageData = [imageFile getData];
-        newUser.profileImage = imageData;
+        [imageFile getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
+            newUser.profileImage = data;
+        }];
         return newUser;
     } else {
         return users[0];

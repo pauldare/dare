@@ -15,5 +15,9 @@
 @property (strong, nonatomic) NSArray *friendsArray;
 @property (nonatomic) NSInteger unreadCount;
 @property (nonatomic) BOOL fromCancel;
+@property (nonatomic) BOOL fromNew;
+@property (strong, nonatomic) NSMutableArray *threads;
+
+- (void)refreshTable;
 
 @end

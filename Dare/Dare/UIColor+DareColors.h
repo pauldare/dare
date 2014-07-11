@@ -15,6 +15,7 @@
 +(UIColor *)DareUnreadBadge;
 +(UIColor *)DareOverlaySeletcedCell;
 +(UIColor *)DareLightGreen;
++(UIColor *)DareCellOverlaySolid;
 +(UIColor *)DareTranslucentBlue;
 +(UIColor *)DarePurpleComment;
 @end

@@ -45,7 +45,7 @@
                             <constraint firstItem="dM0-fL-UB0" firstAttribute="top" secondItem="Iy2-VD-CWc" secondAttribute="top" id="y6R-Wn-dlL"/>
                         </constraints>
                     </view>
-                    <imageView autoresizesSubviews="NO" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Pfq-gq-piI">
+                    <imageView autoresizesSubviews="NO" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Pfq-gq-piI">
                         <rect key="frame" x="0.0" y="60" width="320" height="324"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     </imageView>

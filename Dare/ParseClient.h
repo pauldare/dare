@@ -52,7 +52,7 @@
 + (void)addMessageToThread: (MessageThread *)thread
                   withText: (NSString *)text
                    picture: (UIImage *)picture
-                completion: (void(^)())completion;
+                completion: (void(^)(PFObject *))completion;
 
 + (void)startMessageThreadForUsers: (NSArray *)participants
                        withMessage: (PFObject *) message

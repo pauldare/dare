@@ -24,11 +24,13 @@
         newThread.identifier = thread.objectId;
         newThread.title = thread[@"title"];
         PFFile *imageFile = thread[@"backgroundImage"];
-        NSData *imageData = [imageFile getData];
-        newThread.backgroundPicture = imageData;
+        [imageFile getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
+            newThread.backgroundPicture = data;
+        }];
         PFFile *authorImage = thread[@"author"];
-        NSData *authorData = [authorImage getData];
-        newThread.author = authorData;
+        [authorImage getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
+            newThread.author = data;
+        }];
         newThread.createdAt = thread.createdAt;
         return newThread;
     } else {

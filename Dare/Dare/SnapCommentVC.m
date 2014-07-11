@@ -14,6 +14,8 @@
 #import "DareDataStore.h"
 #import "Friend+Methods.h"
 #import "ParseClient.h"
+#import "MessagesTVC.h"
+#import "MessageThread+Methods.h"
 
 
 @interface SnapCommentVC ()<UITextFieldDelegate>
@@ -34,6 +36,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *blurCounterLabel;
 @property (weak, nonatomic) IBOutlet UIButton *sendButton;
 @property (weak, nonatomic) IBOutlet UIButton *cancelButton;
+@property (strong, nonatomic) NSMutableArray *messages;
 - (IBAction)sendButtonTapped:(id)sender;
 - (IBAction)cancelButtonTapped:(id)sender;
 - (IBAction)photoLibraryButtonTapped:(id)sender;
@@ -47,6 +50,7 @@
 {
     [super viewDidLoad];
     self.dataStore = [DareDataStore sharedDataStore];
+    self.messages = [[NSMutableArray alloc]initWithArray:[self.thread.messages allObjects]];
     self.friends = [[NSMutableArray alloc]init];
     self.imageWillBlur = NO;
     self.view.backgroundColor = [UIColor DareBlue];
@@ -58,7 +62,6 @@
     [self fetchFriends:^{
         [self.collectionView reloadData];
     }];
-    
     [self setupViews];
     [self setupButtons];
     _imageView.backgroundColor = [UIColor whiteColor];
@@ -100,12 +103,6 @@
     completion();
 }
 
-
--(void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-    
-}
 
 - (void)setupViews
 {
@@ -149,7 +146,6 @@
     [_sendButton setImage:[postIcon imageWithSize:CGSizeMake(35, 35)] forState:UIControlStateNormal];
     [_sendButton setTitle:@"" forState:UIControlStateNormal];
 
-    
     [_cameraButton setTintColor:[UIColor DareBlue]];
     [_flipButton setTintColor:[UIColor DareBlue]];
     [_albumButton setTintColor:[UIColor DareBlue]];
@@ -160,15 +156,12 @@
 - (void)setupCamera
 {
     [self.view layoutIfNeeded];
-   
-       self.blurTimerOverlay.hidden = YES;
+    self.blurTimerOverlay.hidden = YES;
     [self.view bringSubviewToFront:_cameraButton];
     [self.view bringSubviewToFront:_albumButton];
     [self.view bringSubviewToFront:_flipButton];
     [self.view bringSubviewToFront:_blurTimerButton];
-    
     _flipButton.hidden = NO;
-    
     self.cameraManager = [[CameraManager alloc]init];
     self.cameraManager.captureSessionIsActive = YES;
     [self.cameraManager initializeCameraForImageView:self.imageView
@@ -403,13 +396,46 @@
 }
 
 
-
+- (void)addMessageToThread: (void(^)(Message *, MessageThread *))completion
+{
+    [ParseClient addMessageToThread:self.thread withText:@"" picture:self.choosenImage completion:^(PFObject *message) {
+        Message *newMessage = [NSEntityDescription insertNewObjectForEntityForName:@"Message"
+                                                            inManagedObjectContext:self.dataStore.managedObjectContext];
+        newMessage.identifier = message.objectId;
+        newMessage.text = message[@"text"];
+        PFFile *messageImageFile = message[@"picture"];
+        [messageImageFile getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
+            newMessage.picture = data;
+        }];
+        
+        PFFile *messageAuthorImage = message[@"author"];
+        [messageAuthorImage getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
+            newMessage.author = data;
+        }];
+        newMessage.createdAt = message.createdAt;
+        newMessage.isRead = @0;
+        [self.thread addMessagesObject:newMessage];
+        [self.dataStore saveContext];
+        
+        NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"MessageThread"];
+        NSString *searchID = self.thread.identifier;
+        NSPredicate *searchPredicate = [NSPredicate predicateWithFormat:@"identifier==%@",searchID];
+        fetchRequest.predicate = searchPredicate;
+        NSArray *threads = [self.dataStore.managedObjectContext executeFetchRequest:fetchRequest error:nil];
+        MessageThread *thread = threads[0];
+        
+        completion(newMessage, thread);
+    }];
+}
 
 - (IBAction)sendButtonTapped:(id)sender {
-#warning save to thread here
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];
-    UINavigationController *navController = [storyboard instantiateViewControllerWithIdentifier:@"MainNavController"];
-    [self presentViewController:navController animated:YES completion:nil];
+    __weak typeof(self) weakSelf = self;
+    [self addMessageToThread:^(Message *message, MessageThread *thread) {
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];
+        MessagesTVC *messagesTVC = [storyboard instantiateViewControllerWithIdentifier:@"MessagesTVC"];
+        messagesTVC.thread = weakSelf.thread;
+        [weakSelf presentViewController:messagesTVC animated:YES completion:nil];
+    }];
 }
 
 - (IBAction)cancelButtonTapped:(id)sender {

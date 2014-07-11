@@ -23,11 +23,12 @@
 }
 
 
-+ (UIImage *)imageFileToImage: (PFFile *)imageFile
++ (void)imageFileToImage: (PFFile *)imageFile completion: (void(^)(UIImage *))completion
 {
-    NSData *imageData = [imageFile getData];
-    UIImage *image = [UIImage imageWithData:imageData];
-    return image;
+    [imageFile getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
+        UIImage *image = [UIImage imageWithData:data];
+        completion(image);
+    }];
 }
 
 
@@ -48,15 +49,17 @@
                         PFUser *currentUser = [PFUser currentUser];
                         [currentUser setObject:[result objectForKey:@"id"] forKey:@"fbId"];
                         [currentUser setObject:[result objectForKey:@"name"] forKey:@"displayName"];
-                        [currentUser saveInBackground];
-                        // Store the current user's Facebook ID, userName and photo on the user
-                        [self fetchUserProfilePicture:^(NSData *imageData) { //if fails should handle offer to take a picture from camera of device library
-                            PFFile *file = [PFFile fileWithName:@"userPic" data:imageData];
-                            [file saveInBackground];
-                            [currentUser setObject:file forKey:@"image"];
-                            [currentUser saveInBackground];
-                            isNEW = YES;
-                            completion(isNEW);
+                        [currentUser saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                            [self fetchUserProfilePicture:^(NSData *imageData) { //if fails should handle offer to take a picture from camera of device library
+                                PFFile *file = [PFFile fileWithName:@"userPic" data:imageData];
+                                [file saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                                    [currentUser setObject:file forKey:@"image"];
+                                    [currentUser saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                                        isNEW = YES;
+                                        completion(isNEW);
+                                    }];
+                                }];
+                            }];
                         }];
                     }
                 }];
@@ -142,7 +145,7 @@
 + (void)addMessageToThread: (MessageThread *)thread
                   withText: (NSString *)text
                    picture: (UIImage *)picture
-                completion: (void(^)())completion
+                completion: (void(^)(PFObject *))completion
 {
     PFQuery *threadQueryOnId = [PFQuery queryWithClassName:@"MessageThread"];
     [threadQueryOnId whereKey:@"objectId" equalTo:thread.identifier];
@@ -156,7 +159,7 @@
                 [threadToMessage addObject:message];
                 [thread saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
                     if (!error) {
-                        completion();
+                        completion(message);
                     } else {
                         NSLog(@"%@", error);
                     }
@@ -301,22 +304,25 @@
     [messageThread setObject:currentUser[@"image"] forKey:@"author"];
     NSData *imageData =  UIImageJPEGRepresentation(backgroundImage, 0.05f);
     PFFile *file = [PFFile fileWithName:@"backroundImage" data:imageData];
-    [file saveInBackground];
-    [messageThread setObject:file forKey:@"backgroundImage"];
-    [messageThread saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-        PFRelation *threadToMessage = [messageThread relationForKey:@"messages"];
-        [threadToMessage addObject:message];
-        PFRelation *messageToThread = [message relationForKey:@"messageThreads"];
-        [messageToThread addObject:messageThread];
-        [message saveInBackground];
-        for (PFUser *participant in participants) {
-            [self storeRelation:[PFUser currentUser] toMessageThread:messageThread completion:^{
-                [self storeRelation:participant toMessageThread:messageThread completion:^{
-                    NSLog(@"created proxy");
-                }];
+    [file saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        [messageThread setObject:file forKey:@"backgroundImage"];
+        [messageThread saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+            PFRelation *threadToMessage = [messageThread relationForKey:@"messages"];
+            [threadToMessage addObject:message];
+            PFRelation *messageToThread = [message relationForKey:@"messageThreads"];
+            [messageToThread addObject:messageThread];
+            [message saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                for (PFUser *participant in participants) {
+                    [self storeRelation:[PFUser currentUser] toMessageThread:messageThread completion:^{
+                        [self storeRelation:participant toMessageThread:messageThread completion:^{
+                            NSLog(@"created proxy");
+                        }];
+                    }];
+                }
+                completion(messageThread);
             }];
-        }
-        completion(messageThread);
+        }];
+
     }];
 }
 

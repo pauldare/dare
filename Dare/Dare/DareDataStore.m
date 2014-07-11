@@ -46,7 +46,7 @@
     }
 }
 
-- (void) cleanCoreData
+- (void) cleanCoreData: (void(^)())completion
 {
     [self.managedObjectContext lock];
     NSArray *stores = [self.persistentStoreCoordinator persistentStores];
@@ -58,6 +58,7 @@
     _managedObjectContext = nil;
     _persistentStoreCoordinator = nil;
     _managedObjectModel = nil;
+    completion();
 }
 
 

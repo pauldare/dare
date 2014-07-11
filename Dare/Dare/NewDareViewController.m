@@ -19,6 +19,9 @@
 #import "Friend+Methods.h"
 #import "DareDataStore.h"
 #import "Friend+Methods.h"
+#import "MessageThread+Methods.h"
+#import "Message+Methods.h"
+
 
 
 @interface NewDareViewController () <UICollectionViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UICollectionViewDataSource,UITextFieldDelegate>
@@ -54,6 +57,7 @@
 
 @property (weak, nonatomic) IBOutlet UIView *coverView;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *spinner;
+
 
 
 
@@ -642,6 +646,39 @@
                                       withTitle:message[@"text"]
                                  backroundImage:_dareBackgroundImage
                                      completion:^(PFObject *messageThread) {
+                                         
+                                         MessageThread *newThread = [NSEntityDescription insertNewObjectForEntityForName:@"MessageThread"
+                                                                                                  inManagedObjectContext:self.dataStore.managedObjectContext];
+                                         newThread.identifier = messageThread.objectId;
+                                         newThread.title = messageThread[@"title"];
+                                         PFFile *imageFile = messageThread[@"backgroundImage"];
+                                         [imageFile getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
+                                             newThread.backgroundPicture = data;
+                                         }];
+                                         PFFile *authorImage = messageThread[@"author"];
+                                         [authorImage getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
+                                             newThread.author = data;
+                                         }];
+                                         newThread.createdAt = messageThread.createdAt;
+
+                                         Message *newMessage = [NSEntityDescription insertNewObjectForEntityForName:@"Message"
+                                                                                                  inManagedObjectContext:self.dataStore.managedObjectContext];
+                                         newMessage.identifier = message.objectId;
+                                         newMessage.text = message[@"text"];
+                                         PFFile *messageImageFile = message[@"picture"];
+                                         [messageImageFile getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
+                                             newMessage.picture = data;
+                                         }];
+
+                                         PFFile *messageAuthorImage = message[@"author"];
+                                         [messageAuthorImage getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
+                                             newMessage.author = data;
+                                         }];
+                                         newMessage.createdAt = message.createdAt;
+                                         newMessage.isRead = @0;
+                                         [newThread addMessagesObject:newMessage];
+                                         [self.dataStore saveContext];
+                                         
                                          completion(messageThread);
                                 }];
     }];
@@ -670,10 +707,8 @@
         
         PFQuery *userQuery = [PFUser query];
         [userQuery whereKey:@"fbId" equalTo:parseUser[@"fbId"]];
-
         PFQuery *pushQuery = [PFInstallation query];
         [pushQuery whereKey:@"user" matchesQuery:userQuery];
-        
         //Send push to these users
         PFPush *push = [[PFPush alloc] init];
         NSDictionary *data = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -687,19 +722,23 @@
 }
 
 
+
+
 -(void)postDare
 {
     [self fetchParseFriends:^{
         _tapGetGoing.enabled = NO;
         [self.view bringSubviewToFront:self.coverView];
         [self beginThread:^(PFObject *messageThread) {
-            [self sendPush];
+            //[self sendPush];
             UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];
             UINavigationController *mainScreenNavController = [storyBoard instantiateViewControllerWithIdentifier:@"MainNavController"];
             MainScreenViewController *mainScreen = mainScreenNavController.viewControllers[0];
             mainScreen.fromCancel = NO;
+            mainScreen.fromNew = YES;
+            NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"MessageThread"];
+            mainScreen.threads = [[NSMutableArray alloc]initWithArray:[self.dataStore.managedObjectContext executeFetchRequest:fetchRequest error:nil]];
             [self presentViewController:mainScreenNavController animated:YES completion:nil];
-            NSLog(@"thread begun");
         }];
     } failure:nil];
 }

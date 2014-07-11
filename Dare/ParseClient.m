@@ -145,7 +145,7 @@
 + (void)addMessageToThread: (MessageThread *)thread
                   withText: (NSString *)text
                    picture: (UIImage *)picture
-                completion: (void(^)())completion
+                completion: (void(^)(PFObject *))completion
 {
     PFQuery *threadQueryOnId = [PFQuery queryWithClassName:@"MessageThread"];
     [threadQueryOnId whereKey:@"objectId" equalTo:thread.identifier];
@@ -159,7 +159,7 @@
                 [threadToMessage addObject:message];
                 [thread saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
                     if (!error) {
-                        completion();
+                        completion(message);
                     } else {
                         NSLog(@"%@", error);
                     }

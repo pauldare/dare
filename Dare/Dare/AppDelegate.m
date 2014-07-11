@@ -35,39 +35,35 @@
     [Parse setApplicationId:ParseAppID
                   clientKey:ParseClientKey];
     self.dataStore = [DareDataStore sharedDataStore];
-    NSLog(@"%@", self.window.rootViewController.view);
     
-    [[DareDataStore sharedDataStore]cleanCoreData];
-
-    [[UIApplication sharedApplication] registerForRemoteNotificationTypes: UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeSound];
-    
-    [PFFacebookUtils initializeFacebook];
-    if (FBSession.activeSession.state == FBSessionStateOpen ||
-        FBSession.activeSession.state == FBSessionStateOpenTokenExtended) {
-        [self.dataStore populateCoreData:^{
-            NSLog(@"CUrrenly logged: %@", [PFUser currentUser][@"displayName"]);
-            NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"MessageThread"];
-            NSArray *threadsCD = [[NSMutableArray alloc]initWithArray:[self.dataStore.managedObjectContext executeFetchRequest:fetchRequest error:nil]];
-            NSMutableArray *threads = [[NSMutableArray alloc]initWithArray:threadsCD];
-            NSSortDescriptor* sortByDate = [NSSortDescriptor sortDescriptorWithKey:@"createdAt" ascending:YES];
-            [threads sortUsingDescriptors:[NSArray arrayWithObject:sortByDate]];
-            //sleep(2);
+    [[DareDataStore sharedDataStore]cleanCoreData:^{
+        [PFFacebookUtils initializeFacebook];
+        if (FBSession.activeSession.state == FBSessionStateOpen ||
+            FBSession.activeSession.state == FBSessionStateOpenTokenExtended) {
+            [self.dataStore populateCoreData:^{
+                NSLog(@"CUrrenly logged: %@", [PFUser currentUser][@"displayName"]);
+                NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"MessageThread"];
+                NSArray *threadsCD = [[NSMutableArray alloc]initWithArray:[self.dataStore.managedObjectContext executeFetchRequest:fetchRequest error:nil]];
+                NSMutableArray *threads = [[NSMutableArray alloc]initWithArray:threadsCD];
+                NSSortDescriptor* sortByDate = [NSSortDescriptor sortDescriptorWithKey:@"createdAt" ascending:YES];
+                [threads sortUsingDescriptors:[NSArray arrayWithObject:sortByDate]];
+                //sleep(2);
+                UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];
+                UINavigationController *navigationController = [storyboard instantiateViewControllerWithIdentifier:@"MainNavController"];
+                MainScreenViewController *main = navigationController.viewControllers[0];
+                navigationController.navigationBarHidden = YES;
+                main.threads = [[NSMutableArray alloc]initWithArray:threads];
+                self.window.rootViewController = navigationController;
+            }];
+        } else {
             UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];
-            UINavigationController *navigationController = [storyboard instantiateViewControllerWithIdentifier:@"MainNavController"];
-            MainScreenViewController *main = navigationController.viewControllers[0];
+            UINavigationController *navigationController = [storyboard instantiateViewControllerWithIdentifier:@"InitialNavController"];
             navigationController.navigationBarHidden = YES;
-            main.threads = [[NSMutableArray alloc]initWithArray:threads];
             self.window.rootViewController = navigationController;
-        }];        
-    } else {
-        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];
-        UINavigationController *navigationController = [storyboard instantiateViewControllerWithIdentifier:@"InitialNavController"];
-        navigationController.navigationBarHidden = YES;
-        self.window.rootViewController = navigationController;
-    }
-   [[UIApplication sharedApplication] registerForRemoteNotificationTypes: UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeSound];
-        
-
+        }
+    }];
+    
+    [[UIApplication sharedApplication] registerForRemoteNotificationTypes: UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeSound];
     return YES;
 }
 

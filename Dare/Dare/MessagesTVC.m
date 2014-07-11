@@ -15,13 +15,14 @@
 #import "MessageThread+Methods.h"
 #import "SnapCommentVC.h"
 #import "DareDataStore.h"
+#import "MainScreenViewController.h"
 
 @interface MessagesTVC ()<UIGestureRecognizerDelegate>
 
 @property (strong, nonatomic) UINib *headerCell;
 @property (strong, nonatomic) UINib *messageCell;
 @property (strong, nonatomic) UINib *addCommentCell;
-@property (strong, nonatomic) NSMutableArray *messages;
+
 @property (strong, nonatomic) Message *headerMessage;
 @property (strong, nonatomic) DareDataStore *dataStore;
 
@@ -50,7 +51,11 @@
     self.tableView.separatorColor = [UIColor clearColor];
     self.tableView.canCancelContentTouches = NO;
     self.tableView.exclusiveTouch = NO;
-    
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
 }
 
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
@@ -59,6 +64,7 @@
     header.backgroundColor = [UIColor clearColor];
     return header;
 }
+
 - (CGFloat)getRowHeightForCell: (NSString *)identifier
 {
     return [[[[NSBundle mainBundle] loadNibNamed:identifier owner:self options:nil] objectAtIndex:0] bounds].size.height;
@@ -155,7 +161,7 @@
             cell = [[MessageCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
         }
         cell.textLabel.text = message.text;
-        cell.imageView.contentMode = UIViewContentModeScaleAspectFit;
+        cell.imageView.contentMode = UIViewContentModeScaleToFill;
         cell.imageView.image = [UIImage imageWithData:message.picture];
         cell.userPic.image = [UIImage imageWithData:message.author];
         cell.centeredUserPic.image = [UIImage imageWithData:message.author];
@@ -200,7 +206,6 @@
 
 -(void)swipeRightOnCollectionView:(UIGestureRecognizer *)sender
 {
- 
     if ([sender.view isKindOfClass:[HeaderCell class]]) {
         HeaderCell *headerCell = (HeaderCell *)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:0]];
         if ([sender locationInView:sender.view].y < headerCell.collectionView.frame.size.height + 50) {
@@ -212,20 +217,24 @@
         }else{
             UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];
             UINavigationController *mainViewNavController = [storyBoard instantiateViewControllerWithIdentifier:@"MainNavController"];
+            MainScreenViewController *mainScreen = mainViewNavController.viewControllers[0];
+            mainScreen.fromCancel = YES;
+            mainScreen.fromNew = NO;
+            NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"MessageThread"];
+            mainScreen.threads = [[NSMutableArray alloc]initWithArray:[self.dataStore.managedObjectContext executeFetchRequest:fetchRequest error:nil]];
             [self presentViewController:mainViewNavController animated:NO completion:nil];
         }
-
     }else{
         UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];
         UINavigationController *mainViewNavController = [storyBoard instantiateViewControllerWithIdentifier:@"MainNavController"];
+        MainScreenViewController *mainScreen = mainViewNavController.viewControllers[0];
+        mainScreen.fromCancel = YES;
+        mainScreen.fromNew = NO;
+        NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"MessageThread"];
+        mainScreen.threads = [[NSMutableArray alloc]initWithArray:[self.dataStore.managedObjectContext executeFetchRequest:fetchRequest error:nil]];
         [self presentViewController:mainViewNavController animated:NO completion:nil];
-        
     }
-        
-        
-    
     self.tableView.scrollEnabled = YES;
-
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath

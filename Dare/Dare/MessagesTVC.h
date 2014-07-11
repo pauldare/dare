@@ -14,5 +14,6 @@
 
 @property (strong, nonatomic) MessageThread *thread;
 @property (strong, nonatomic) NSMutableArray *friends;
+@property (strong, nonatomic) NSMutableArray *messages;
 
 @end

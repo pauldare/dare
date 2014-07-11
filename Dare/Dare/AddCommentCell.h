@@ -9,7 +9,10 @@
 #import <UIKit/UIKit.h>
 
 @interface AddCommentCell : UITableViewCell
+@property (weak, nonatomic) IBOutlet UIButton *iDareButton;
+@property (weak, nonatomic) IBOutlet UIButton *commentButton;
+- (IBAction)iDareButtonPressed:(id)sender;
+- (IBAction)commentButtonPressed:(id)sender;
 
-@property (weak, nonatomic) IBOutlet UILabel *textLabel;
 
 @end

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5056" systemVersion="13D65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5056" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
@@ -13,16 +13,52 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="109"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="320" translatesAutoresizingMaskIntoConstraints="NO" id="E8D-tV-pM4">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="109"/>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2Hc-5g-20l">
+                        <rect key="frame" x="106" y="20" width="108" height="31"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                        <nil key="highlightedColor"/>
-                    </label>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="108" id="5ib-sO-N2o"/>
+                            <constraint firstAttribute="height" constant="31" id="Gr3-o8-Ide"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="boldSystem" pointSize="25"/>
+                        <state key="normal" title="I DARE">
+                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                        </state>
+                        <connections>
+                            <action selector="iDareButtonPressed:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="W6Q-TC-yBd"/>
+                        </connections>
+                    </button>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Hoe-Hf-0j9">
+                        <rect key="frame" x="91" y="59" width="138" height="30"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="30" id="7qP-ir-687"/>
+                            <constraint firstAttribute="width" constant="138" id="flD-rt-wLh"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="boldSystem" pointSize="25"/>
+                        <state key="normal" title="COMMENT">
+                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                        </state>
+                        <connections>
+                            <action selector="commentButtonPressed:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="4Ep-gq-Noe"/>
+                        </connections>
+                    </button>
                 </subviews>
+                <color key="backgroundColor" red="0.21799135559999999" green="0.81263591010000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                <constraints>
+                    <constraint firstItem="Hoe-Hf-0j9" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="91" id="6uu-od-wMd"/>
+                    <constraint firstItem="2Hc-5g-20l" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="20" id="OtF-mq-sfc"/>
+                    <constraint firstAttribute="trailing" secondItem="2Hc-5g-20l" secondAttribute="trailing" constant="106" id="Ppg-jl-Eax"/>
+                    <constraint firstAttribute="bottom" secondItem="Hoe-Hf-0j9" secondAttribute="bottom" constant="20" id="Wrh-bU-f2K"/>
+                    <constraint firstItem="2Hc-5g-20l" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="106" id="sds-Ko-1qw"/>
+                    <constraint firstAttribute="trailing" secondItem="Hoe-Hf-0j9" secondAttribute="trailing" constant="91" id="zjf-yW-dB2"/>
+                </constraints>
             </tableViewCellContentView>
             <connections>
-                <outlet property="textLabel" destination="E8D-tV-pM4" id="sif-t9-bmY"/>
+                <outlet property="commentButton" destination="Hoe-Hf-0j9" id="4l3-lS-1Xh"/>
+                <outlet property="iDareButton" destination="2Hc-5g-20l" id="J1c-k5-dgN"/>
             </connections>
         </tableViewCell>
     </objects>

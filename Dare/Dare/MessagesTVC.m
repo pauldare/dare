@@ -16,7 +16,7 @@
 #import "SnapCommentVC.h"
 #import "DareDataStore.h"
 
-@interface MessagesTVC ()<UIGestureRecognizerDelegate>
+@interface MessagesTVC ()<UIGestureRecognizerDelegate, UITextFieldDelegate>
 
 @property (strong, nonatomic) UINib *headerCell;
 @property (strong, nonatomic) UINib *messageCell;
@@ -24,6 +24,8 @@
 @property (strong, nonatomic) NSMutableArray *messages;
 @property (strong, nonatomic) Message *headerMessage;
 @property (strong, nonatomic) DareDataStore *dataStore;
+@property (strong, nonatomic) UIView *commentOverlay;
+@property (strong, nonatomic) UITextField *commentText;
 
 @end
 
@@ -80,7 +82,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{ 
+{
     switch (section) {
         case 1:
             return [self.messages count];
@@ -100,7 +102,7 @@
             break;
         case 1:
             return [self getRowHeightForCell:@"MessageCell"];
-            break; 
+            break;
         default:
             return [self getRowHeightForCell:@"AddCommentCell"];
             break;
@@ -117,7 +119,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 0) {        
+    if (indexPath.section == 0) {
         NSString *cellIdentifier = @"HeaderCell";
         HeaderCell *cell = (HeaderCell *)[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
         if (cell == nil) {
@@ -130,7 +132,7 @@
         cell.textLabel.backgroundColor = [UIColor DareCellOverlay];
         cell.userImage.image = [UIImage imageWithData:self.thread.author];
         //cell.friends = self.friends;
-              cell.collectionView.alwaysBounceHorizontal = YES;
+        cell.collectionView.alwaysBounceHorizontal = YES;
         cell.collectionView.userInteractionEnabled = YES;
         cell.collectionView.scrollEnabled = YES;
         cell.collectionView.canCancelContentTouches = NO;
@@ -173,6 +175,13 @@
         if (cell == nil) {
             cell = [[AddCommentCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
         }
+        
+        UIButton *dareButton = ((AddCommentCell*)cell).iDareButton;
+        [dareButton addTarget:self action:@selector(iDarePressed) forControlEvents:UIControlEventTouchUpInside];
+        
+        UIButton *commentButton =((AddCommentCell*)cell).commentButton;
+        [commentButton addTarget:self action:@selector(commentButtonPressed) forControlEvents:UIControlEventTouchUpInside];
+        
         return cell;
     }
     return nil;
@@ -189,7 +198,7 @@
         HeaderCell *headerCell = (HeaderCell *)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:0]];
         if ([sender locationInView:sender.view].y < headerCell.collectionView.frame.size.height + 50) {
             if (headerCell.collectionView.contentOffset.x < headerCell.collectionView.contentSize.width - headerCell.collectionView.frame.size.width) {
-            [headerCell.collectionView setContentOffset:CGPointMake(headerCell.collectionView.contentOffset.x + headerCell.collectionView.frame.size.width, 0)animated:YES];
+                [headerCell.collectionView setContentOffset:CGPointMake(headerCell.collectionView.contentOffset.x + headerCell.collectionView.frame.size.width, 0)animated:YES];
             }
         }
     }
@@ -200,7 +209,7 @@
 
 -(void)swipeRightOnCollectionView:(UIGestureRecognizer *)sender
 {
- 
+    
     if ([sender.view isKindOfClass:[HeaderCell class]]) {
         HeaderCell *headerCell = (HeaderCell *)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:0]];
         if ([sender locationInView:sender.view].y < headerCell.collectionView.frame.size.height + 50) {
@@ -214,29 +223,80 @@
             UINavigationController *mainViewNavController = [storyBoard instantiateViewControllerWithIdentifier:@"MainNavController"];
             [self presentViewController:mainViewNavController animated:NO completion:nil];
         }
-
+        
     }else{
         UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];
         UINavigationController *mainViewNavController = [storyBoard instantiateViewControllerWithIdentifier:@"MainNavController"];
         [self presentViewController:mainViewNavController animated:NO completion:nil];
         
     }
-        
-        
+    
+    
     
     self.tableView.scrollEnabled = YES;
+    
+}
 
+-(void)iDarePressed
+{
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];
+    SnapCommentVC *viewController = (SnapCommentVC *)[storyboard instantiateViewControllerWithIdentifier:@"SnapCommentVC"];
+    viewController.thread = self.thread;
+    [self presentViewController:viewController animated:YES completion:nil];
+}
+
+-(void)commentButtonPressed
+{
+   
+    [self setupCommentOverlay];
+    [self.view bringSubviewToFront:_commentOverlay];
+    [self moveOverlayIntoView];
+    _commentText.userInteractionEnabled = YES;
+    [_commentText becomeFirstResponder];
+     [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:2] atScrollPosition:UITableViewScrollPositionTop animated:YES];
+    
+}
+
+-(void)setupCommentOverlay
+{
+    _commentOverlay = [[UIView alloc]initWithFrame:CGRectMake(0,self.view.frame.size.height, self.view.frame.size.width, 112)];
+    _commentOverlay.backgroundColor = [UIColor DarePurpleComment];
+    [self.view.window addSubview:_commentOverlay];
+    
+    _commentText = [[UITextField alloc]init];
+    _commentText.returnKeyType = UIReturnKeyDone;
+    _commentText.delegate = self;
+    _commentText.userInteractionEnabled = NO;
+    _commentText.textAlignment = NSTextAlignmentCenter;
+    _commentText.translatesAutoresizingMaskIntoConstraints = NO;
+    _commentText.backgroundColor = [UIColor clearColor];
+    _commentText.font = [UIFont boldSystemFontOfSize:25];
+    _commentText.textColor = [UIColor whiteColor];
+    [_commentOverlay addSubview:_commentText];
+    
+    [_commentOverlay addConstraint:[NSLayoutConstraint constraintWithItem:_commentText attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:_commentOverlay attribute:NSLayoutAttributeLeading multiplier:1.0 constant:0]];
+    [_commentOverlay addConstraint:[NSLayoutConstraint constraintWithItem:_commentText attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:_commentOverlay attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:0]];
+    [_commentOverlay addConstraint:[NSLayoutConstraint constraintWithItem:_commentText attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:_commentOverlay attribute:NSLayoutAttributeTop multiplier:1.0 constant:0]];
+    [_commentOverlay addConstraint:[NSLayoutConstraint constraintWithItem:_commentText attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:_commentOverlay attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0]];
+    
+}
+
+-(void)moveOverlayIntoView
+{
+    [UIView animateWithDuration:0.3 animations:^{
+        [_commentOverlay setFrame:CGRectMake(0, self.view.frame.origin.y + (self.view.frame.size.height / 2) - 45, self.view.frame.size.width, 112)];
+    }];
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 2 && indexPath.row == 0) {
-        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];
-        SnapCommentVC *viewController = (SnapCommentVC *)[storyboard instantiateViewControllerWithIdentifier:@"SnapCommentVC"];
-        viewController.thread = self.thread;
-        [self presentViewController:viewController animated:YES completion:nil];
-    }
-
+    //    if (indexPath.section == 2 && indexPath.row == 0) {
+    //        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];
+    //        SnapCommentVC *viewController = (SnapCommentVC *)[storyboard instantiateViewControllerWithIdentifier:@"SnapCommentVC"];
+    //        viewController.thread = self.thread;
+    //        [self presentViewController:viewController animated:YES completion:nil];
+    //    }
+    
 }
 
 

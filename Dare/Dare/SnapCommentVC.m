@@ -32,6 +32,12 @@
 @property (nonatomic) BOOL imageWillBlur;
 @property (nonatomic) NSInteger blurCounter;
 @property (weak, nonatomic) IBOutlet UILabel *blurCounterLabel;
+@property (weak, nonatomic) IBOutlet UIButton *sendButton;
+@property (weak, nonatomic) IBOutlet UIButton *cancelButton;
+- (IBAction)sendButtonTapped:(id)sender;
+- (IBAction)cancelButtonTapped:(id)sender;
+- (IBAction)photoLibraryButtonTapped:(id)sender;
+
 
 @end
 
@@ -43,7 +49,8 @@
     self.dataStore = [DareDataStore sharedDataStore];
     self.friends = [[NSMutableArray alloc]init];
     self.imageWillBlur = NO;
-    
+    self.view.backgroundColor = [UIColor DareBlue];
+    [self.flipButton addTarget:self action:@selector(flipCamera) forControlEvents:UIControlEventTouchUpInside];
     self.collectionView.delegate = self;
     self.collectionView.dataSource = self;
     self.blurTimerOverlay.backgroundColor = [UIColor DareTranslucentBlue];
@@ -53,11 +60,10 @@
     }];
     
     [self setupViews];
-    [self setupCamera];
     [self setupButtons];
     _imageView.backgroundColor = [UIColor whiteColor];
     _cameraView.backgroundColor = [UIColor whiteColor];
-    self.imageView.hidden = YES;
+    //self.imageView.hidden = YES;
     self.automaticallyAdjustsScrollViewInsets = NO;
     if (!self.imageView.image) {
         self.blurTimerButton.hidden = YES;
@@ -69,6 +75,22 @@
     self.dareImageView.image = [UIImage imageWithData:self.thread.backgroundPicture];
     UINib *friendNib = [UINib nibWithNibName:@"FriendListIcon" bundle:nil];
     [self.collectionView registerNib:friendNib forCellWithReuseIdentifier:@"FriendCell"];
+    
+    _cameraView = [[UIView alloc]init];
+    
+    _cameraView.translatesAutoresizingMaskIntoConstraints = NO;
+    [self.view addSubview:_cameraView];
+    
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_cameraView attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:_imageView attribute:NSLayoutAttributeLeading multiplier:1.0 constant:0]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_cameraView attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:_imageView attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:0]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_cameraView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:_imageView attribute:NSLayoutAttributeTop multiplier:1.0 constant:0]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_cameraView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:_imageView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0]];
+    
+    _textLabel.text = _thread.title;
+    
+    [self.view bringSubviewToFront:_cameraView];
+    [self setupCamera];
+
 }
 
 - (void)fetchFriends: (void(^)())completion
@@ -82,6 +104,7 @@
 -(void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    
 }
 
 - (void)setupViews
@@ -114,23 +137,37 @@
     [_albumButton setTitle:@"" forState:UIControlStateNormal];
     [_albumButton setImage:existingPhotoImage forState:UIControlStateNormal];
     
+    FAKFontAwesome *cancelIcon = [FAKFontAwesome bombIconWithSize:35];
+    _cancelButton.tintColor = [UIColor whiteColor];
+    [cancelIcon addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor]];
+    [_cancelButton setImage:[cancelIcon imageWithSize:CGSizeMake(35, 35)] forState:UIControlStateNormal];
+    [_cancelButton setTitle:@"" forState:UIControlStateNormal];
+    
+    FAKFontAwesome *postIcon = [FAKFontAwesome commentIconWithSize:35];
+    _sendButton.tintColor = [UIColor whiteColor];
+    [postIcon addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor]];
+    [_sendButton setImage:[postIcon imageWithSize:CGSizeMake(35, 35)] forState:UIControlStateNormal];
+    [_sendButton setTitle:@"" forState:UIControlStateNormal];
+
+    
     [_cameraButton setTintColor:[UIColor DareBlue]];
     [_flipButton setTintColor:[UIColor DareBlue]];
     [_albumButton setTintColor:[UIColor DareBlue]];
+    
     
 }
 
 - (void)setupCamera
 {
-    _cameraView = [[UIView alloc]initWithFrame:_imageView.frame];
-    self.blurTimerOverlay.hidden = YES;
-    [self.view addSubview:_cameraView];
+    [self.view layoutIfNeeded];
+   
+       self.blurTimerOverlay.hidden = YES;
     [self.view bringSubviewToFront:_cameraButton];
     [self.view bringSubviewToFront:_albumButton];
     [self.view bringSubviewToFront:_flipButton];
     [self.view bringSubviewToFront:_blurTimerButton];
     
-    
+    _flipButton.hidden = NO;
     
     self.cameraManager = [[CameraManager alloc]init];
     self.cameraManager.captureSessionIsActive = YES;
@@ -140,6 +177,8 @@
                                              failure:^{
                                                  [self selectPictureFromLibrary];
                                                  self.cameraView.hidden = YES;
+                                                 self.imageView.hidden = NO;
+                                                 _flipButton.hidden = YES;
                                              }];
 }
 
@@ -153,17 +192,35 @@
     self.imageWillBlur = NO;
     self.blurTimerOverlay.hidden = YES;
     self.blurTimerButton.hidden = YES;
+    if(_cameraManager.session.isRunning){
+        _flipButton.hidden = YES;
+    }else{
+        _flipButton.hidden = NO;
+    }
+    AVCaptureInput* currentCameraInput;
+    
+    if (_cameraManager.session.isRunning) {
+        
+        currentCameraInput = [_cameraManager.session.inputs objectAtIndex:0];
+    }
+    
     [self.cameraManager snapStillImageForImageView:self.imageView
                                            isFront:YES
                                               view:self.cameraView
                                         completion:^(UIImage *image) {
                                             NSLog(@"image snapped");
+                                            
+                                            if (((AVCaptureDeviceInput*)currentCameraInput).device.position == AVCaptureDevicePositionBack) {
+                                                self.imageView.image = image;
+                                            }else{
                                             self.imageView.image = [UIImage imageWithCGImage:image.CGImage scale:1.0 orientation:UIImageOrientationLeftMirrored];
+                                            }
                                             self.cameraView.hidden = YES;
                                             self.blurTimerButton.hidden = NO;
                                             self.choosenImage = image;
                                         } failure:^{
                                             [self selectPictureFromLibrary];
+                                            _flipButton.hidden = YES;
                                         }];
 }
 
@@ -200,8 +257,6 @@
             }
         }
     }
-    //    [self setupImageOverlay];
-    //    [self moveOverlayIntoView];
 }
 
 
@@ -218,6 +273,8 @@
 
 -(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
+    [_cameraManager.session stopRunning];
+    _cameraManager.captureSessionIsActive = NO;
     UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
     [self dismissViewControllerAnimated:YES completion:nil];
     self.imageView.image = image;
@@ -225,6 +282,8 @@
     self.imageView.hidden = NO;
     self.imageView.opaque = YES;
     self.cameraView.hidden = YES;
+    self.blurTimerButton.hidden = NO;
+   
 }
 
 -(void)moveOverlayIntoView
@@ -272,7 +331,7 @@
 
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return [self.friends count] + 2;
+    return [self.friends count];
 }
 
 
@@ -297,21 +356,71 @@
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     FriendListIcon *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"FriendCell" forIndexPath:indexPath];
-    if (indexPath.row == 0) {
-        FAKFontAwesome *icon = [FAKFontAwesome commentIconWithSize:60];
-        UIImage *postImage = [icon imageWithSize:CGSizeMake(60, 60)];
-        ((FriendListIcon *)cell).friendImage.image = postImage;
-        ((FriendListIcon *)cell).friendImage.contentMode = UIViewContentModeCenter;
-        
-    }else if (indexPath.row == 1){
-        
-    }else{
-    Friend *friend = self.friends[indexPath.row - 2];
+
+    Friend *friend = self.friends[indexPath.row];
     UIImage *image = [UIImage imageWithData:friend.image];
     ((FriendListIcon *)cell).friendImage.image = image;
-    }
+    
     return cell;
 }
 
+-(void)flipCamera
+{
+    if (_cameraManager.session) {
+        [_cameraManager.session beginConfiguration];
+        AVCaptureInput* currentCameraInput = [_cameraManager.session.inputs objectAtIndex:0];
+        [_cameraManager.session removeInput:currentCameraInput];
+        
+        AVCaptureDevice *newCamera = nil;
+        if(((AVCaptureDeviceInput*)currentCameraInput).device.position == AVCaptureDevicePositionBack)
+        {
+            newCamera = [self cameraWithPosition:AVCaptureDevicePositionFront];
+        }
+        else
+        {
+            newCamera = [self cameraWithPosition:AVCaptureDevicePositionBack];
+        }
+        
+        //Add input to session
+        AVCaptureDeviceInput *newVideoInput = [[AVCaptureDeviceInput alloc] initWithDevice:newCamera error:nil];
+        [_cameraManager.session addInput:newVideoInput];
+        
+        //Commit all the configuration changes at once
+        [_cameraManager.session commitConfiguration];
+        
+    }
+    
+}
 
+- (AVCaptureDevice *) cameraWithPosition:(AVCaptureDevicePosition) position
+{
+    NSArray *devices = [AVCaptureDevice devicesWithMediaType:AVMediaTypeVideo];
+    for (AVCaptureDevice *device in devices)
+    {
+        if ([device position] == position) return device;
+    }
+    return nil;
+}
+
+
+
+
+- (IBAction)sendButtonTapped:(id)sender {
+#warning save to thread here
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];
+    UINavigationController *navController = [storyboard instantiateViewControllerWithIdentifier:@"MainNavController"];
+    [self presentViewController:navController animated:YES completion:nil];
+}
+
+- (IBAction)cancelButtonTapped:(id)sender {
+    
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];
+    UINavigationController *navController = [storyboard instantiateViewControllerWithIdentifier:@"MainNavController"];
+    [self presentViewController:navController animated:YES completion:nil];
+}
+
+- (IBAction)photoLibraryButtonTapped:(id)sender {
+    [self selectPictureFromLibrary];
+    self.flipButton.hidden = YES;
+}
 @end

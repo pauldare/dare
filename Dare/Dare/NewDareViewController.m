@@ -68,8 +68,11 @@
 
 - (void)viewDidLoad
 {
-    self.images = [[NSMutableArray alloc]init];
+    
     [super viewDidLoad];
+    
+    self.images = [[NSMutableArray alloc]init];
+    
     self.dataStore = [DareDataStore sharedDataStore];
     
     self.coverView.backgroundColor = [UIColor DareCellOverlay];

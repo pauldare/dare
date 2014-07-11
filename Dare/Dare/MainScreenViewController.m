@@ -68,9 +68,6 @@
 {
     [super viewDidLoad];
     self.fullScreenOverlayView.backgroundColor = [UIColor DareCellOverlaySolid];
-    if (self.fromNew) {
-        [self.view bringSubviewToFront:self.fullScreenOverlayView];
-    }
 
     self.dataStore = [DareDataStore sharedDataStore];
     _tableViewRefreshControl = [[UIRefreshControl alloc] init];
@@ -155,8 +152,6 @@
     [self fetchFriends:^{
         [self.collectionView reloadData];
     }];
-    
-
     [self configureMainScreen];
     self.navigationController.navigationBarHidden = YES;
 }
@@ -164,14 +159,12 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:YES];
-    
     static dispatch_once_t oncePredicate;
     dispatch_once(&oncePredicate, ^{
         [NSObject cancelPreviousPerformRequestsWithTarget:self];
         [self performSelector:@selector(refreshTable) withObject:self afterDelay:1.0];
     });
 }
-
 
 
 - (void)refreshTable
@@ -624,16 +617,7 @@
     viewController.thread = thread;
     viewController.friends = [NSMutableArray arrayWithArray:self.friends];
     
-    [self.navigationController pushViewController:viewController animated:YES];
-    
-//        CATransition* transition = [CATransition animation];
-//        transition.type = kCATransitionPush;
-//        transition.subtype = kCATransitionFromRight;
-//        [self presentViewController:viewController animated:NO completion:nil];
-//        [self.view.layer addAnimation:transition forKey:@"modal-transition"];
-   
-    
-    
+    [self.navigationController pushViewController:viewController animated:YES];  
 }
 
 

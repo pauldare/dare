@@ -643,7 +643,7 @@
                                       withTitle:message[@"text"]
                                  backroundImage:_dareBackgroundImage
                                      completion:^(PFObject *messageThread) {
-                                         completion(messageThread);
+                                         
                                          MessageThread *newThread = [NSEntityDescription insertNewObjectForEntityForName:@"MessageThread"
                                                                                                   inManagedObjectContext:self.dataStore.managedObjectContext];
                                          newThread.identifier = messageThread.objectId;
@@ -675,6 +675,8 @@
                                          newMessage.isRead = @0;
                                          [newThread addMessagesObject:newMessage];
                                          [self.dataStore saveContext];
+                                         
+                                         completion(messageThread);
                                 }];
     }];
 }
@@ -702,10 +704,8 @@
         
         PFQuery *userQuery = [PFUser query];
         [userQuery whereKey:@"fbId" equalTo:parseUser[@"fbId"]];
-
         PFQuery *pushQuery = [PFInstallation query];
         [pushQuery whereKey:@"user" matchesQuery:userQuery];
-        
         //Send push to these users
         PFPush *push = [[PFPush alloc] init];
         NSDictionary *data = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -733,7 +733,8 @@
             MainScreenViewController *mainScreen = mainScreenNavController.viewControllers[0];
             mainScreen.fromCancel = NO;
             mainScreen.fromNew = YES;
-            [mainScreen refreshTable];
+            NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"MessageThread"];
+            mainScreen.threads = [[NSMutableArray alloc]initWithArray:[self.dataStore.managedObjectContext executeFetchRequest:fetchRequest error:nil]];
             [self presentViewController:mainScreenNavController animated:YES completion:nil];
         }];
     } failure:nil];

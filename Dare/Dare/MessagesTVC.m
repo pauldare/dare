@@ -17,7 +17,7 @@
 #import "DareDataStore.h"
 #import "MainScreenViewController.h"
 
-@interface MessagesTVC ()<UIGestureRecognizerDelegate, UITextFieldDelegate>
+@interface MessagesTVC ()<UIGestureRecognizerDelegate, UITextFieldDelegate, UITextViewDelegate>
 
 @property (strong, nonatomic) UINib *headerCell;
 @property (strong, nonatomic) UINib *messageCell;
@@ -26,7 +26,8 @@
 @property (strong, nonatomic) Message *headerMessage;
 @property (strong, nonatomic) DareDataStore *dataStore;
 @property (strong, nonatomic) UIView *commentOverlay;
-@property (strong, nonatomic) UITextField *commentText;
+@property (strong, nonatomic) UITextView *commentText;
+@property (strong, nonatomic) UITextField *responderText;
 
 @end
 
@@ -53,6 +54,12 @@
     self.tableView.separatorColor = [UIColor clearColor];
     self.tableView.canCancelContentTouches = NO;
     self.tableView.exclusiveTouch = NO;
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(changeFirstResponder:)
+                                                 name:UIKeyboardDidShowNotification
+                                               object:nil];
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -258,31 +265,33 @@
 
 -(void)commentButtonPressed
 {
-   
+    _responderText = [[UITextField alloc]init];
+    _responderText.hidden = YES;
     [self setupCommentOverlay];
-    [self.view bringSubviewToFront:_commentOverlay];
-    [self moveOverlayIntoView];
-    _commentText.userInteractionEnabled = YES;
-    [_commentText becomeFirstResponder];
-     [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:2] atScrollPosition:UITableViewScrollPositionTop animated:YES];
+    [self.view.window addSubview:_responderText];
+    // [self.view bringSubviewToFront:_commentOverlay];
+    //[self moveOverlayIntoView];
+    _responderText.userInteractionEnabled = YES;
+    _responderText.inputAccessoryView = _commentOverlay;
+    [_responderText becomeFirstResponder];
+    
+    _commentText.frame = _commentOverlay.frame;
+    
+    [self.view.window layoutIfNeeded];
+    
+    NSInteger commentCells = [self.tableView numberOfRowsInSection:1];
+    if (commentCells > 0) {
+        [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:(commentCells -1) inSection:1] atScrollPosition:UITableViewScrollPositionBottom animated:YES];
+    }
     
 }
 
--(void)setupCommentOverlay
+-(void)changeFirstResponder:(id)sender
 {
-    _commentOverlay = [[UIView alloc]initWithFrame:CGRectMake(0,0, self.view.frame.size.width, 112)];
-    _commentOverlay.backgroundColor = [UIColor DarePurpleComment];
-//    [self.view.window addSubview:_commentOverlay];
-    
-    _commentText = [[UITextField alloc]init];
-    _commentText.returnKeyType = UIReturnKeyDone;
-    _commentText.delegate = self;
-    _commentText.userInteractionEnabled = NO;
-    _commentText.textAlignment = NSTextAlignmentCenter;
+    _commentText = [[UITextView alloc]init];
+    _commentText.userInteractionEnabled = YES;
     _commentText.translatesAutoresizingMaskIntoConstraints = NO;
-    _commentText.backgroundColor = [UIColor clearColor];
-    _commentText.font = [UIFont boldSystemFontOfSize:25];
-    _commentText.textColor = [UIColor whiteColor];
+    
     [_commentOverlay addSubview:_commentText];
     
     [_commentOverlay addConstraint:[NSLayoutConstraint constraintWithItem:_commentText attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:_commentOverlay attribute:NSLayoutAttributeLeading multiplier:1.0 constant:0]];
@@ -290,26 +299,91 @@
     [_commentOverlay addConstraint:[NSLayoutConstraint constraintWithItem:_commentText attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:_commentOverlay attribute:NSLayoutAttributeTop multiplier:1.0 constant:0]];
     [_commentOverlay addConstraint:[NSLayoutConstraint constraintWithItem:_commentText attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:_commentOverlay attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0]];
     
+    _commentText.returnKeyType = UIReturnKeySend;
+    _commentText.delegate = self;
+    _commentText.textAlignment = NSTextAlignmentCenter;
+    _commentText.backgroundColor = [UIColor clearColor];
+    _commentText.font = [UIFont boldSystemFontOfSize:25];
+    _commentText.textColor = [UIColor whiteColor];
+    
+    [_commentText addObserver:self forKeyPath:@"contentSize" options:(NSKeyValueObservingOptionNew) context:NULL];
+    
+    [_commentText becomeFirstResponder];
+    [_responderText resignFirstResponder];
+
+    
+    [self.view layoutIfNeeded];
 }
 
--(void)moveOverlayIntoView
+-(void)textViewDidChange:(UITextView *)textView
 {
-    [UIView animateWithDuration:0.3 animations:^{
-        [_commentOverlay setFrame:CGRectMake(0, self.view.frame.origin.y + (self.view.frame.size.height / 2) - 45, self.view.frame.size.width, 112)];
-    }];
+    NSUInteger maxNumberOfLines = 2;
+    NSUInteger numLines = textView.contentSize.height/textView.font.lineHeight;
+   
+    if (numLines > maxNumberOfLines)
+    {
+        textView.text = [textView.text substringToIndex:textView.text.length - 1];
+    }
 }
 
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+-(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
 {
-    //    if (indexPath.section == 2 && indexPath.row == 0) {
-    //        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];
-    //        SnapCommentVC *viewController = (SnapCommentVC *)[storyboard instantiateViewControllerWithIdentifier:@"SnapCommentVC"];
-    //        viewController.thread = self.thread;
-    //        [self presentViewController:viewController animated:YES completion:nil];
-    //    }
+    [_responderText resignFirstResponder];
+    [_commentText resignFirstResponder];
+    [self.view endEditing:YES];
+    [self.view.window endEditing:YES];
+    [_commentOverlay endEditing:YES];
+    [_commentText.superview endEditing:YES];
+}
+
+-(BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
+{
+    if( [text rangeOfCharacterFromSet:[NSCharacterSet newlineCharacterSet]].location == NSNotFound ) {
+        return YES;
+    }
+    
+   
+    
+    [_responderText resignFirstResponder];
+    [_commentText resignFirstResponder];
+    [self.view endEditing:YES];
+    [self.view.window endEditing:YES];
+    [_commentOverlay endEditing:YES];
+    [_commentText.superview endEditing:YES];
+    
+#warning create post here with _commentText.text
+    
+    return NO;
+}
+-(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+    UITextView *tv = object;
+    CGFloat topCorrect = ([tv bounds].size.height - [tv contentSize].height * [tv zoomScale])/2.0;
+    topCorrect = ( topCorrect < 0.0 ? 0.0 : topCorrect );
+    tv.contentOffset = (CGPoint){.x = 0, .y = -topCorrect};
+}
+
+-(void)setupCommentOverlay
+{
+    _commentOverlay = [[UIView alloc]initWithFrame:CGRectMake(0,0, self.view.frame.size.width, 112)];
+    _commentOverlay.backgroundColor = [UIColor DarePurpleComment];
+    UISwipeGestureRecognizer *downSwipe = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(swipeDownOnComment)];
+    downSwipe.direction = UISwipeGestureRecognizerDirectionDown;
+    downSwipe.numberOfTouchesRequired = 1;
+    [_commentOverlay addGestureRecognizer:downSwipe];
+
+}
+
+-(void)swipeDownOnComment
+{
+    
+    [_responderText resignFirstResponder];
+    [_commentText resignFirstResponder];
+    [self.view endEditing:YES];
+    [self.view.window endEditing:YES];
+    [_commentOverlay endEditing:YES];
+    [_commentText.superview endEditing:YES];
     
 }
-
 
 
 @end

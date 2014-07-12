@@ -33,6 +33,12 @@
             newMessage.author = data;
         }];
         newMessage.createdAt = message.createdAt;
+        newMessage.blurTimer = message[@"blurTimer"];
+        if ([message[@"isViewed"] isEqualToString:@"YES"]) {
+            newMessage.isViewed = @1;
+        } else {
+            newMessage.isViewed = @0;
+        }
         newMessage.isRead = @0;
       
         return newMessage;

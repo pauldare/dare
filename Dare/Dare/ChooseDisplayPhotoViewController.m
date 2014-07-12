@@ -14,6 +14,8 @@
 #import "ParseClient.h"
 #import "DareDataStore.h"
 #import "User+Methods.h"
+#import "MainScreenViewController.h"
+#import "SettingsViewController.h"
 
 
 @interface ChooseDisplayPhotoViewController ()
@@ -30,6 +32,7 @@
 @property (strong, nonatomic) CameraManager *cameraManager;
 @property (strong, nonatomic) DareDataStore *dataStore;
 @property (strong, nonatomic) User *coreDataUser;
+@property (strong, nonatomic) UIImage *chosenImage;
 
 // For use in the storyboards.
 
@@ -41,6 +44,9 @@
 {
     [super viewDidLoad];
     self.dataStore = [DareDataStore sharedDataStore];
+
+    self.overlayView.backgroundColor = [UIColor clearColor];
+    
     [self fetchLoggedUser:^{
         UIImage *image = [UIImage imageWithData:self.coreDataUser.profileImage];
         self.imageView.image = image;
@@ -106,14 +112,17 @@
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
-    UIImage *chosenImage = info[UIImagePickerControllerEditedImage];
-    self.imageView.image = chosenImage;
-    [self changeImageOnParse:chosenImage completion:^{
-        NSData *imageData = UIImagePNGRepresentation(chosenImage);
-        self.coreDataUser.profileImage = imageData;
-        [self.dataStore saveContext];
-        [picker dismissViewControllerAnimated:YES completion:NULL];
-    }];
+    self.chosenImage = info[UIImagePickerControllerEditedImage];
+    self.imageView.image = self.chosenImage;
+    dispatch_queue_t concurrentQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+    dispatch_async(concurrentQueue, ^{
+        [self changeImageOnParse:self.chosenImage completion:^{
+            NSData *imageData = UIImagePNGRepresentation(self.chosenImage);
+            self.coreDataUser.profileImage = imageData;
+            [self.dataStore saveContext];
+        }];
+    });
+    [picker dismissViewControllerAnimated:YES completion:NULL];
 }
 
 - (void)changeImageOnParse: (UIImage *)newImage
@@ -121,10 +130,11 @@
 {
     NSData *imageData = UIImagePNGRepresentation(newImage);
     PFFile *file = [PFFile fileWithData:imageData];
-    [file saveInBackground];
-    [self.loggedUser setObject:file forKey:@"image"];
-    [self.loggedUser saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-        completion;
+    [file saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        [self.loggedUser setObject:file forKey:@"image"];
+        [self.loggedUser saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+            completion();
+        }];
     }];
 }
 
@@ -137,15 +147,20 @@
 {
     if (!self.fromSettings) {
         UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];
-        UIViewController *vc = [storyBoard instantiateViewControllerWithIdentifier:@"MainScreen"];
-        [self presentViewController:vc animated:YES completion:nil];
+        UINavigationController *mainScreenNavController = [storyBoard instantiateViewControllerWithIdentifier:@"MainNavController"];
+        MainScreenViewController *mainScreen = mainScreenNavController.viewControllers[0];
+        mainScreen.fromCancel = NO;
+        mainScreen.fromNew = YES;
+        NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"MessageThread"];
+        mainScreen.threads = [[NSMutableArray alloc]initWithArray:[self.dataStore.managedObjectContext executeFetchRequest:fetchRequest error:nil]];
+        [self presentViewController:mainScreenNavController animated:YES completion:nil];
     } else {
         UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];
-        UIViewController *vc = [storyBoard instantiateViewControllerWithIdentifier:@"SettingsVC"];
+        SettingsViewController *vc = [storyBoard instantiateViewControllerWithIdentifier:@"SettingsVC"];
+        vc.userPic = self.chosenImage;
         [self presentViewController:vc animated:YES completion:nil];
     }
 }
-
 
 
 @end

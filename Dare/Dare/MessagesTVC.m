@@ -29,6 +29,8 @@
 @property (strong, nonatomic) UITextView *commentText;
 @property (strong, nonatomic) UITextField *responderText;
 
+@property (strong, nonatomic) UIButton *blurButton;
+
 @end
 
 @implementation MessagesTVC
@@ -37,6 +39,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.dataStore = [DareDataStore sharedDataStore];
     self.messages = [NSMutableArray arrayWithArray:[self.thread.messages allObjects]];
     NSSortDescriptor* sortByDate = [NSSortDescriptor sortDescriptorWithKey:@"createdAt" ascending:YES];
     [self.messages sortUsingDescriptors:[NSArray arrayWithObject:sortByDate]];
@@ -86,6 +89,8 @@
         [self.dataStore saveContext];
     }
 }
+
+
 
 #pragma mark - Table view data source
 
@@ -171,15 +176,22 @@
         }
         cell.textLabel.text = message.text;
         cell.imageView.contentMode = UIViewContentModeScaleToFill;
-        cell.imageView.image = [UIImage imageWithData:message.picture];
+        
+        if (message.blurTimer) {
+            UIImage *blurred = [UIColor blur:[UIImage imageWithData:message.picture]];
+            cell.imageView.image = blurred;
+            cell.blurButton.hidden = NO;
+            [cell.blurButton addTarget:self action:@selector(unblur) forControlEvents:UIControlEventTouchUpInside];
+        } else {
+             cell.imageView.image = [UIImage imageWithData:message.picture];
+        }
+        
         cell.userPic.image = [UIImage imageWithData:message.author];
         cell.centeredUserPic.image = [UIImage imageWithData:message.author];
-        
         UISwipeGestureRecognizer *rightSwipeGesture = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(swipeRightOnCollectionView:)];
         rightSwipeGesture.direction = UISwipeGestureRecognizerDirectionRight;
         rightSwipeGesture.delegate = self;
         [cell addGestureRecognizer:rightSwipeGesture];
-        
         return cell;
         
     } else {
@@ -188,21 +200,25 @@
         if (cell == nil) {
             cell = [[AddCommentCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
         }
-        
         UIButton *dareButton = ((AddCommentCell*)cell).iDareButton;
         [dareButton addTarget:self action:@selector(iDarePressed) forControlEvents:UIControlEventTouchUpInside];
-        
         UIButton *commentButton =((AddCommentCell*)cell).commentButton;
         [commentButton addTarget:self action:@selector(commentButtonPressed) forControlEvents:UIControlEventTouchUpInside];
-        
         return cell;
     }
     return nil;
 }
+
+- (void)unblur
+{
+    NSLog(@"here happens unblur");
+}
+
 -(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
 {
     return YES;
 }
+
 -(void)swipeLeftOnCollectionView:(UIGestureRecognizer *)sender
 {
     self.tableView.scrollEnabled = NO;
@@ -215,8 +231,6 @@
             }
         }
     }
-    NSLog(@"%f %f",[sender locationInView:sender.view].x, [sender locationInView:sender.view].y);
-    
     self.tableView.scrollEnabled = YES;
 }
 
@@ -265,6 +279,7 @@
 
 -(void)commentButtonPressed
 {
+
     _responderText = [[UITextField alloc]init];
     _responderText.hidden = YES;
     [self setupCommentOverlay];
@@ -328,6 +343,7 @@
 
 -(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
 {
+
     [_responderText resignFirstResponder];
     [_commentText resignFirstResponder];
     [self.view endEditing:YES];
@@ -360,6 +376,7 @@
     CGFloat topCorrect = ([tv bounds].size.height - [tv contentSize].height * [tv zoomScale])/2.0;
     topCorrect = ( topCorrect < 0.0 ? 0.0 : topCorrect );
     tv.contentOffset = (CGPoint){.x = 0, .y = -topCorrect};
+
 }
 
 -(void)setupCommentOverlay

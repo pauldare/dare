@@ -37,10 +37,6 @@
 {
     [super viewDidLoad];
     self.dataStore = [DareDataStore sharedDataStore];
-    [self fetchLoggedUser:^{
-        UIImage *photo = [UIImage imageWithData:self.loggedUser.profileImage];
-        self.profilePhoto.image = photo;
-    }];
     self.view.backgroundColor = [UIColor DareBlue];
 
     [_unblockButton addTarget:self action:@selector(unblockUsers) forControlEvents:UIControlEventTouchUpInside];
@@ -72,6 +68,19 @@
     self.navigationController.navigationBarHidden = YES;
 }
 
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    if (self.userPic) {
+        self.profilePhoto.image = self.userPic;
+    } else {
+        [self fetchLoggedUser:^{
+            UIImage *photo = [UIImage imageWithData:self.loggedUser.profileImage];
+            self.profilePhoto.image = photo;
+        }];
+    }
+}
+
 - (void)fetchLoggedUser: (void(^)())completion
 {
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"User"];
@@ -97,9 +106,14 @@
 
 -(void)backToMainPage
 {
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];
-    MainScreenViewController *mainVC = [storyboard instantiateViewControllerWithIdentifier:@"MainScreen"];
-    [self dismissViewControllerAnimated:YES completion:nil];
+    UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];
+    UINavigationController *mainScreenNavController = [storyBoard instantiateViewControllerWithIdentifier:@"MainNavController"];
+    MainScreenViewController *mainScreen = mainScreenNavController.viewControllers[0];
+    mainScreen.fromCancel = NO;
+    mainScreen.fromNew = YES;
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"MessageThread"];
+    mainScreen.threads = [[NSMutableArray alloc]initWithArray:[self.dataStore.managedObjectContext executeFetchRequest:fetchRequest error:nil]];
+    [self presentViewController:mainScreenNavController animated:YES completion:nil];
 }
 
 -(void)unblockUsers
@@ -110,12 +124,12 @@
 -(void)logOut
 {
 #warning add logout code
-   //[PFUser logOut];
+    [FBSession.activeSession close];
+    [FBSession setActiveSession:nil];
+    [[PFFacebookUtils session] closeAndClearTokenInformation];
+    [PFUser logOut];
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];
-    
-   UINavigationController *initialNavController = [storyboard instantiateViewControllerWithIdentifier:@"InitialNavController"];
-    
-    
+    UINavigationController *initialNavController = [storyboard instantiateViewControllerWithIdentifier:@"InitialNavController"];
     [self presentViewController:initialNavController animated:YES completion:nil];
 }
 

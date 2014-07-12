@@ -16,6 +16,7 @@
 #import "ParseClient.h"
 #import "MessagesTVC.h"
 #import "MessageThread+Methods.h"
+#import "MainScreenViewController.h"
 
 
 @interface SnapCommentVC ()<UITextFieldDelegate>
@@ -246,7 +247,6 @@
                 } completion:^(BOOL finished) {
                     self.blurTimerOverlay.hidden = YES;
                 }];
-                
             }
         }
     }
@@ -311,7 +311,7 @@
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
     [_dareText resignFirstResponder];
-    [ParseClient addMessageToThread:self.thread withText:_dareText.text picture:self.choosenImage completion:nil];
+    //adds
     return YES;
 }
 
@@ -398,7 +398,10 @@
 
 - (void)addMessageToThread: (void(^)(Message *, MessageThread *))completion
 {
-    [ParseClient addMessageToThread:self.thread withText:@"" picture:self.choosenImage completion:^(PFObject *message) {
+    [ParseClient addMessageToThread:self.thread withText:@""
+                            picture:self.choosenImage
+                          blurTimer:self.blurCounter
+                         completion:^(PFObject *message) {
         Message *newMessage = [NSEntityDescription insertNewObjectForEntityForName:@"Message"
                                                             inManagedObjectContext:self.dataStore.managedObjectContext];
         newMessage.identifier = message.objectId;
@@ -407,7 +410,6 @@
         [messageImageFile getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
             newMessage.picture = data;
         }];
-        
         PFFile *messageAuthorImage = message[@"author"];
         [messageAuthorImage getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
             newMessage.author = data;
@@ -423,12 +425,12 @@
         fetchRequest.predicate = searchPredicate;
         NSArray *threads = [self.dataStore.managedObjectContext executeFetchRequest:fetchRequest error:nil];
         MessageThread *thread = threads[0];
-        
         completion(newMessage, thread);
     }];
 }
 
-- (IBAction)sendButtonTapped:(id)sender {
+- (IBAction)sendButtonTapped:(id)sender
+{
     __weak typeof(self) weakSelf = self;
     [self addMessageToThread:^(Message *message, MessageThread *thread) {
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];
@@ -438,14 +440,20 @@
     }];
 }
 
-- (IBAction)cancelButtonTapped:(id)sender {
-    
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];
-    UINavigationController *navController = [storyboard instantiateViewControllerWithIdentifier:@"MainNavController"];
-    [self presentViewController:navController animated:YES completion:nil];
+- (IBAction)cancelButtonTapped:(id)sender
+{
+    UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];
+    UINavigationController *mainViewNavController = [storyBoard instantiateViewControllerWithIdentifier:@"MainNavController"];
+    MainScreenViewController *mainScreen = mainViewNavController.viewControllers[0];
+    mainScreen.fromCancel = YES;
+    mainScreen.fromNew = NO;
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"MessageThread"];
+    mainScreen.threads = [[NSMutableArray alloc]initWithArray:[self.dataStore.managedObjectContext executeFetchRequest:fetchRequest error:nil]];
+    [self presentViewController:mainViewNavController animated:NO completion:nil];
 }
 
-- (IBAction)photoLibraryButtonTapped:(id)sender {
+- (IBAction)photoLibraryButtonTapped:(id)sender
+{
     [self selectPictureFromLibrary];
     self.flipButton.hidden = YES;
 }

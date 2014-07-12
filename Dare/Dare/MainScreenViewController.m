@@ -21,6 +21,7 @@
 #import "MessagesTVC.h"
 #import "User+Methods.h"
 #import "MessageThread+Methods.h"
+#import "Friend+Methods.h"
 
 @interface MainScreenViewController ()<UIScrollViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UITableViewDataSource, UITableViewDelegate, UIGestureRecognizerDelegate>
 
@@ -616,7 +617,6 @@
     MessagesTVC *viewController = (MessagesTVC *)[storyboard instantiateViewControllerWithIdentifier:@"MessagesTVC"];
     viewController.thread = thread;
     viewController.friends = [NSMutableArray arrayWithArray:self.friends];
-    
     [self.navigationController pushViewController:viewController animated:YES];  
 }
 

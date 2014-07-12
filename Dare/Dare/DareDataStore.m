@@ -70,8 +70,9 @@
                                  inContext:self.managedObjectContext];
             if ([friends count] != 0) {
                 for (PFUser *friend in friends) {
-                    Friend *newFriend = [Friend fetchFriendFromParseFriend:friend inContext:self.managedObjectContext];
-                    [loggedUser addFriendsObject:newFriend];
+                    [Friend fetchFriendFromParseFriend:friend inContext:self.managedObjectContext completion:^(Friend *newFriend) {
+                        [loggedUser addFriendsObject:newFriend];
+                    }];
                 }
             } else {
                 completion();
@@ -83,8 +84,9 @@
                         [loggedUser addThreadsObject:newThread];
                         [ParseClient getFriendsForThread:thread completion:^(NSArray *threadFriends) {
                             for (PFUser *threadFriend in threadFriends) {
-                                Friend *friendFromThread = [Friend fetchFriendFromParseFriend:threadFriend inContext:self.managedObjectContext];
-                                [newThread addFriendsObject:friendFromThread];
+                                [Friend fetchFriendFromParseFriend:threadFriend inContext:self.managedObjectContext completion:^(Friend *friendFromThread) {
+                                    [newThread addFriendsObject:friendFromThread];
+                                }];
                             }
                             [ParseClient getMessagesForThread:newThread user:loggedUser completion:^(NSArray *messages) {
                                 for (PFObject *message in messages) {

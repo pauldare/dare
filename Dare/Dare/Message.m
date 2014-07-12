@@ -2,7 +2,7 @@
 //  Message.m
 //  Dare
 //
-//  Created by Nadia on 7/5/14.
+//  Created by Nadia on 7/12/14.
 //  Copyright (c) 2014 Dare. All rights reserved.
 //
 
@@ -14,11 +14,13 @@
 @implementation Message
 
 @dynamic author;
+@dynamic createdAt;
 @dynamic identifier;
 @dynamic isRead;
+@dynamic isViewed;
 @dynamic picture;
 @dynamic text;
-@dynamic createdAt;
+@dynamic blurTimer;
 @dynamic thread;
 @dynamic user;
 

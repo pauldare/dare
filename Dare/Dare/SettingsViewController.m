@@ -37,10 +37,6 @@
 {
     [super viewDidLoad];
     self.dataStore = [DareDataStore sharedDataStore];
-    [self fetchLoggedUser:^{
-        UIImage *photo = [UIImage imageWithData:self.loggedUser.profileImage];
-        self.profilePhoto.image = photo;
-    }];
     self.view.backgroundColor = [UIColor DareBlue];
 
     [_unblockButton addTarget:self action:@selector(unblockUsers) forControlEvents:UIControlEventTouchUpInside];
@@ -70,6 +66,19 @@
     [self.view addGestureRecognizer:swipeToGoBack];
     
     self.navigationController.navigationBarHidden = YES;
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    if (self.userPic) {
+        self.profilePhoto.image = self.userPic;
+    } else {
+        [self fetchLoggedUser:^{
+            UIImage *photo = [UIImage imageWithData:self.loggedUser.profileImage];
+            self.profilePhoto.image = photo;
+        }];
+    }
 }
 
 - (void)fetchLoggedUser: (void(^)())completion

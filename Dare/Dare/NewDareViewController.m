@@ -704,7 +704,6 @@
 - (void)sendPush
 {
     for (PFUser *parseUser in self.parseFriends) {
-        
         PFQuery *userQuery = [PFUser query];
         [userQuery whereKey:@"fbId" equalTo:parseUser[@"fbId"]];
         PFQuery *pushQuery = [PFInstallation query];
@@ -722,15 +721,12 @@
 }
 
 
-
-
 -(void)postDare
 {
     [self fetchParseFriends:^{
         _tapGetGoing.enabled = NO;
         [self.view bringSubviewToFront:self.coverView];
         [self beginThread:^(PFObject *messageThread) {
-            //[self sendPush];
             UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];
             UINavigationController *mainScreenNavController = [storyBoard instantiateViewControllerWithIdentifier:@"MainNavController"];
             MainScreenViewController *mainScreen = mainScreenNavController.viewControllers[0];

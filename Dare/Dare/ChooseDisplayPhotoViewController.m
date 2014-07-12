@@ -15,6 +15,7 @@
 #import "DareDataStore.h"
 #import "User+Methods.h"
 #import "MainScreenViewController.h"
+#import "SettingsViewController.h"
 
 
 @interface ChooseDisplayPhotoViewController ()
@@ -31,6 +32,7 @@
 @property (strong, nonatomic) CameraManager *cameraManager;
 @property (strong, nonatomic) DareDataStore *dataStore;
 @property (strong, nonatomic) User *coreDataUser;
+@property (strong, nonatomic) UIImage *chosenImage;
 
 // For use in the storyboards.
 
@@ -110,12 +112,12 @@
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
-    UIImage *chosenImage = info[UIImagePickerControllerEditedImage];
-    self.imageView.image = chosenImage;
+    self.chosenImage = info[UIImagePickerControllerEditedImage];
+    self.imageView.image = self.chosenImage;
     dispatch_queue_t concurrentQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     dispatch_async(concurrentQueue, ^{
-        [self changeImageOnParse:chosenImage completion:^{
-            NSData *imageData = UIImagePNGRepresentation(chosenImage);
+        [self changeImageOnParse:self.chosenImage completion:^{
+            NSData *imageData = UIImagePNGRepresentation(self.chosenImage);
             self.coreDataUser.profileImage = imageData;
             [self.dataStore saveContext];
         }];
@@ -154,11 +156,11 @@
         [self presentViewController:mainScreenNavController animated:YES completion:nil];
     } else {
         UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];
-        UIViewController *vc = [storyBoard instantiateViewControllerWithIdentifier:@"SettingsVC"];
+        SettingsViewController *vc = [storyBoard instantiateViewControllerWithIdentifier:@"SettingsVC"];
+        vc.userPic = self.chosenImage;
         [self presentViewController:vc animated:YES completion:nil];
     }
 }
-
 
 
 @end

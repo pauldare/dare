@@ -11,5 +11,6 @@
 
 @interface SettingsViewController : UIViewController
 
+@property (strong, nonatomic) UIImage *userPic;
 
 @end

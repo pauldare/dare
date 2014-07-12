@@ -270,9 +270,9 @@
 
 -(void)setupCommentOverlay
 {
-    _commentOverlay = [[UIView alloc]initWithFrame:CGRectMake(0,self.view.frame.size.height, self.view.frame.size.width, 112)];
+    _commentOverlay = [[UIView alloc]initWithFrame:CGRectMake(0,0, self.view.frame.size.width, 112)];
     _commentOverlay.backgroundColor = [UIColor DarePurpleComment];
-    [self.view.window addSubview:_commentOverlay];
+//    [self.view.window addSubview:_commentOverlay];
     
     _commentText = [[UITextField alloc]init];
     _commentText.returnKeyType = UIReturnKeyDone;

@@ -989,21 +989,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BZb-et-avv">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <subviews>
-                                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="08f-NM-9Vr">
-                                        <rect key="frame" x="150" y="274" width="37" height="37"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    </activityIndicatorView>
-                                </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="centerY" secondItem="08f-NM-9Vr" secondAttribute="centerY" constant="-8.5" id="D6g-9d-ecu"/>
-                                    <constraint firstAttribute="centerX" secondItem="08f-NM-9Vr" secondAttribute="centerX" constant="-8.5" id="Eom-oX-TPD"/>
-                                </constraints>
-                            </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="saD-Zg-0ip">
                                 <rect key="frame" x="20" y="96" width="41" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -1071,16 +1056,12 @@
                         </subviews>
                         <color key="backgroundColor" red="0.139803607" green="0.90190699460000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="BZb-et-avv" secondAttribute="trailing" id="2mz-U6-YfS"/>
                             <constraint firstItem="3hY-by-pSh" firstAttribute="top" secondItem="8uu-ly-4pE" secondAttribute="bottom" id="3Hz-4a-Ov3"/>
                             <constraint firstItem="saD-Zg-0ip" firstAttribute="top" secondItem="3hY-by-pSh" secondAttribute="bottom" constant="14" id="ADc-e8-m71"/>
                             <constraint firstItem="YlX-sx-FXk" firstAttribute="top" secondItem="clB-qa-qgT" secondAttribute="bottom" id="Gsl-xs-NmW"/>
-                            <constraint firstAttribute="bottom" secondItem="BZb-et-avv" secondAttribute="bottom" id="Huu-2W-vqw"/>
                             <constraint firstItem="saD-Zg-0ip" firstAttribute="leading" secondItem="83p-go-VnU" secondAttribute="leading" constant="20" id="Jog-fX-mV0"/>
                             <constraint firstItem="clB-qa-qgT" firstAttribute="leading" secondItem="lLA-xx-tbC" secondAttribute="trailing" constant="8" id="KQx-qo-dZy"/>
-                            <constraint firstItem="BZb-et-avv" firstAttribute="height" secondItem="83p-go-VnU" secondAttribute="height" id="QzO-Lo-xHM"/>
                             <constraint firstItem="d6z-cZ-6Tt" firstAttribute="top" secondItem="3hY-by-pSh" secondAttribute="bottom" id="Rac-l3-fQV"/>
-                            <constraint firstItem="BZb-et-avv" firstAttribute="leading" secondItem="83p-go-VnU" secondAttribute="leading" id="Vm6-Op-F9s"/>
                             <constraint firstAttribute="trailing" secondItem="clB-qa-qgT" secondAttribute="trailing" id="W9D-sg-aRI"/>
                             <constraint firstAttribute="trailing" secondItem="d6z-cZ-6Tt" secondAttribute="trailing" id="WdU-Bh-UZa"/>
                             <constraint firstAttribute="trailing" secondItem="3hY-by-pSh" secondAttribute="trailing" id="Yg2-1X-GZ8"/>
@@ -1092,13 +1073,11 @@
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <connections>
-                        <outlet property="activityIndicator" destination="08f-NM-9Vr" id="j1O-ea-jgb"/>
                         <outlet property="arrowLabel" destination="clB-qa-qgT" id="gFh-Cj-TnI"/>
                         <outlet property="cameraCaptureButton" destination="saD-Zg-0ip" id="SQn-ou-cco"/>
                         <outlet property="cameraView" destination="d6z-cZ-6Tt" id="aIb-1P-kwv"/>
                         <outlet property="imageView" destination="D7g-Ej-WVx" id="0Op-A3-3DM"/>
                         <outlet property="nextLabel" destination="lLA-xx-tbC" id="Icd-rc-kGB"/>
-                        <outlet property="overlayView" destination="BZb-et-avv" id="KWv-YT-bnj"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="trX-JG-kXT" userLabel="First Responder" sceneMemberID="firstResponder"/>

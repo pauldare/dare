@@ -42,8 +42,9 @@
 {
     [super viewDidLoad];
     self.dataStore = [DareDataStore sharedDataStore];
-    [self.view sendSubviewToBack:self.overlayView];
-    self.overlayView.backgroundColor = [UIColor DareCellOverlay];
+
+    self.overlayView.backgroundColor = [UIColor clearColor];
+    
     [self fetchLoggedUser:^{
         UIImage *image = [UIImage imageWithData:self.coreDataUser.profileImage];
         self.imageView.image = image;
@@ -111,13 +112,15 @@
 {
     UIImage *chosenImage = info[UIImagePickerControllerEditedImage];
     self.imageView.image = chosenImage;
-    [self.view bringSubviewToFront:self.overlayView];
-    [self changeImageOnParse:chosenImage completion:^{
-        NSData *imageData = UIImagePNGRepresentation(chosenImage);
-        self.coreDataUser.profileImage = imageData;
-        [self.dataStore saveContext];
-        [picker dismissViewControllerAnimated:YES completion:NULL];
-    }];
+    dispatch_queue_t concurrentQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+    dispatch_async(concurrentQueue, ^{
+        [self changeImageOnParse:chosenImage completion:^{
+            NSData *imageData = UIImagePNGRepresentation(chosenImage);
+            self.coreDataUser.profileImage = imageData;
+            [self.dataStore saveContext];
+        }];
+    });
+    [picker dismissViewControllerAnimated:YES completion:NULL];
 }
 
 - (void)changeImageOnParse: (UIImage *)newImage
@@ -125,10 +128,11 @@
 {
     NSData *imageData = UIImagePNGRepresentation(newImage);
     PFFile *file = [PFFile fileWithData:imageData];
-    [file saveInBackground];
-    [self.loggedUser setObject:file forKey:@"image"];
-    [self.loggedUser saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-        completion();
+    [file saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        [self.loggedUser setObject:file forKey:@"image"];
+        [self.loggedUser saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+            completion();
+        }];
     }];
 }
 

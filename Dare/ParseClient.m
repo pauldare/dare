@@ -145,6 +145,7 @@
 + (void)addMessageToThread: (MessageThread *)thread
                   withText: (NSString *)text
                    picture: (UIImage *)picture
+                 blurTimer: (NSInteger)blurTimer
                 completion: (void(^)(PFObject *))completion
 {
     PFQuery *threadQueryOnId = [PFQuery queryWithClassName:@"MessageThread"];
@@ -152,6 +153,8 @@
     [threadQueryOnId findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         PFObject *thread = objects[0];
         [self createMessage:text picture:picture completion:^(PFObject *message) {
+            [message setObject:@(blurTimer) forKey:@"blurTimer"];
+            [message setObject:@"NO" forKey:@"isViewed"];
             PFRelation *messageToThread = [message relationForKey:@"messageThreads"];
             [messageToThread addObject:thread];
             [message saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {

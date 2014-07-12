@@ -12,6 +12,7 @@
         <attribute name="createdAt" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="identifier" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="isRead" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="isViewed" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="picture" optional="YES" attributeType="Binary" syncable="YES"/>
         <attribute name="text" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="thread" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MessageThread" inverseName="messages" inverseEntity="MessageThread" syncable="YES"/>
@@ -37,7 +38,7 @@
     </entity>
     <elements>
         <element name="Friend" positionX="-452" positionY="-175" width="128" height="118"/>
-        <element name="Message" positionX="-234" positionY="-117" width="128" height="165"/>
+        <element name="Message" positionX="-234" positionY="-117" width="128" height="180"/>
         <element name="MessageThread" positionX="-317" positionY="45" width="128" height="165"/>
         <element name="User" positionX="-81" positionY="-9" width="128" height="133"/>
     </elements>

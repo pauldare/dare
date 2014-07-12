@@ -170,7 +170,6 @@
         rightSwipeGesture.direction = UISwipeGestureRecognizerDirectionRight;
         rightSwipeGesture.delegate = self;
         [cell addGestureRecognizer:rightSwipeGesture];
-        
         return cell;
         
     } else {
@@ -187,6 +186,7 @@
 {
     return YES;
 }
+
 -(void)swipeLeftOnCollectionView:(UIGestureRecognizer *)sender
 {
     self.tableView.scrollEnabled = NO;
@@ -199,8 +199,7 @@
             }
         }
     }
-    NSLog(@"%f %f",[sender locationInView:sender.view].x, [sender locationInView:sender.view].y);
-    
+    //NSLog(@"%f %f",[sender locationInView:sender.view].x, [sender locationInView:sender.view].y);
     self.tableView.scrollEnabled = YES;
 }
 
@@ -245,7 +244,6 @@
         viewController.thread = self.thread;
         [self presentViewController:viewController animated:YES completion:nil];
     }
-
 }
 
 

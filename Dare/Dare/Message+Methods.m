@@ -33,6 +33,11 @@
             newMessage.author = data;
         }];
         newMessage.createdAt = message.createdAt;
+        if ([message[@"isViewed"] isEqualToString:@"YES"]) {
+            newMessage.isViewed = @1;
+        } else {
+            newMessage.isViewed = @0;
+        }
         newMessage.isRead = @0;
       
         return newMessage;

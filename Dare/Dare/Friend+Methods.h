@@ -10,6 +10,6 @@
 
 @interface Friend (Methods)
 
-+ (Friend *)fetchFriendFromParseFriend: (PFUser *)friend inContext: (NSManagedObjectContext *)context;
++ (void)fetchFriendFromParseFriend: (PFUser *)friend inContext: (NSManagedObjectContext *)context completion: (void(^)(Friend *))completion;
 
 @end

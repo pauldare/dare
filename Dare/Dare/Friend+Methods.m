@@ -10,8 +10,9 @@
 
 @implementation Friend (Methods)
 
-+ (Friend *)fetchFriendFromParseFriend: (PFUser *)friend
++ (void)fetchFriendFromParseFriend: (PFUser *)friend
                              inContext: (NSManagedObjectContext *)context
+                            completion: (void(^)(Friend *))completion
 {
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Friend"];
     NSString *searchID = friend[@"fbId"];
@@ -26,10 +27,10 @@
         PFFile *imageFile = friend[@"image"];
         [imageFile getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
             newFriend.image = data;
+            completion(newFriend);
         }];
-        return newFriend;
     } else {
-        return friends[0];
+        completion(friends[0]);
     }
 }
 

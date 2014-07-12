@@ -52,6 +52,7 @@
 + (void)addMessageToThread: (MessageThread *)thread
                   withText: (NSString *)text
                    picture: (UIImage *)picture
+                 blurTimer: (NSInteger)blurTimer
                 completion: (void(^)(PFObject *))completion;
 
 + (void)startMessageThreadForUsers: (NSArray *)participants

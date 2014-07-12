@@ -282,15 +282,6 @@
     [self.messages removeObjectAtIndex:0];
 
     [self.tableView reloadData];
-    NSLog(@"%@", ((Message*)self.messages[[self.tableView indexPathForRowAtPoint:cell.center].row]).isViewed);
-    NSLog(@"%@", coreDataMessage.isViewed);
-   
-    
-//    [self.tableView reloadRowsAtIndexPaths:@[[self.tableView indexPathForRowAtPoint:cell.center]] withRowAnimation:UITableViewRowAnimationAutomatic];
-//    [self.tableView reloadRowsAtIndexPaths:@[[self.tableView visibleCells]]
-//                          withRowAnimation:UITableViewRowAnimationAutomatic];
-    
-    
 }
 
 

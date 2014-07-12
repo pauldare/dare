@@ -222,14 +222,16 @@
 
 - (void)createBlurredViewForImageView: (MessageCell *)cell withMessage: (Message *)message completion: (void(^)())completion
 {
-    self.blurView = [[UIView alloc]initWithFrame:cell.imageView.frame];
-    dispatch_queue_t concurrentQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
-    dispatch_async(concurrentQueue, ^{
-        UIImage *blurredImage = [UIColor blur:[UIImage imageWithData:message.picture]];
-        self.blurView.backgroundColor = [UIColor colorWithPatternImage:blurredImage];
-
-        completion();
-    });
+    if (!self.blurView) {
+        self.blurView = [[UIView alloc]initWithFrame:cell.imageView.frame];
+        dispatch_queue_t concurrentQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+        dispatch_async(concurrentQueue, ^{
+            UIImage *blurredImage = [UIColor blur:[UIImage imageWithData:message.picture]];
+            self.blurView.backgroundColor = [UIColor colorWithPatternImage:blurredImage];
+            
+            completion();
+        });
+    } completion();
 }
 
 -(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer

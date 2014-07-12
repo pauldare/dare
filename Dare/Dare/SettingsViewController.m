@@ -115,6 +115,9 @@
 -(void)logOut
 {
 #warning add logout code
+    [FBSession.activeSession close];
+    [FBSession setActiveSession:nil];
+    [[PFFacebookUtils session] closeAndClearTokenInformation];
     [PFUser logOut];
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];
     UINavigationController *initialNavController = [storyboard instantiateViewControllerWithIdentifier:@"InitialNavController"];

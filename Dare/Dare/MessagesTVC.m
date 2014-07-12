@@ -36,6 +36,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.dataStore = [DareDataStore sharedDataStore];
     self.messages = [NSMutableArray arrayWithArray:[self.thread.messages allObjects]];
     NSSortDescriptor* sortByDate = [NSSortDescriptor sortDescriptorWithKey:@"createdAt" ascending:YES];
     [self.messages sortUsingDescriptors:[NSArray arrayWithObject:sortByDate]];

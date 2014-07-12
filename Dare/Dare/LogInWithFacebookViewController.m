@@ -11,6 +11,7 @@
 #import "UIColor+DareColors.h"
 #import "DareDataStore.h"
 #import "DisplayNameSelectViewController.h"
+#import "MainScreenViewController.h"
 
 @interface LogInWithFacebookViewController ()
 @property (weak, nonatomic) IBOutlet UIButton *loginWithFacebook;
@@ -59,15 +60,19 @@
             } failure:nil];
         } else {
             self.overlayView.hidden = NO;
-            //[self.view bringSubviewToFront:self.overlayView];
             NSLog(@"Returning");
             [ParseClient relateFacebookFriendsInParse:^(bool isDone) {
                 if (isDone) {
                     [self.dataStore populateCoreData:^{
                         static dispatch_once_t oncePredicate;
                         dispatch_once(&oncePredicate, ^{
-                            UINavigationController *mainNavController = [storyboard instantiateViewControllerWithIdentifier:@"MainNavController"];
-                            [self presentViewController:mainNavController animated:YES completion:nil];
+                            UINavigationController *mainScreenNavController = [storyboard instantiateViewControllerWithIdentifier:@"MainNavController"];
+                            MainScreenViewController *mainScreen = mainScreenNavController.viewControllers[0];
+                            mainScreen.fromCancel = NO;
+                            mainScreen.fromNew = YES;
+                            NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"MessageThread"];
+                            mainScreen.threads = [[NSMutableArray alloc]initWithArray:[self.dataStore.managedObjectContext executeFetchRequest:fetchRequest error:nil]];
+                            [self presentViewController:mainScreenNavController animated:YES completion:nil];
                         });
                     }];
                 }

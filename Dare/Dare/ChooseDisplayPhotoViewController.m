@@ -42,6 +42,8 @@
 {
     [super viewDidLoad];
     self.dataStore = [DareDataStore sharedDataStore];
+    [self.view sendSubviewToBack:self.overlayView];
+    self.overlayView.backgroundColor = [UIColor DareCellOverlay];
     [self fetchLoggedUser:^{
         UIImage *image = [UIImage imageWithData:self.coreDataUser.profileImage];
         self.imageView.image = image;
@@ -109,6 +111,7 @@
 {
     UIImage *chosenImage = info[UIImagePickerControllerEditedImage];
     self.imageView.image = chosenImage;
+    [self.view bringSubviewToFront:self.overlayView];
     [self changeImageOnParse:chosenImage completion:^{
         NSData *imageData = UIImagePNGRepresentation(chosenImage);
         self.coreDataUser.profileImage = imageData;

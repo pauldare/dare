@@ -10,6 +10,7 @@
 #import "Message+Methods.h"
 #import "MessageThread+Methods.h"
 
+
 @interface MessagesTVC : UITableViewController
 
 @property (strong, nonatomic) MessageThread *thread;

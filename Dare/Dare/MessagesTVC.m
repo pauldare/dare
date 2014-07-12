@@ -17,6 +17,7 @@
 #import "DareDataStore.h"
 #import "MainScreenViewController.h"
 
+
 @interface MessagesTVC ()<UIGestureRecognizerDelegate, UITextFieldDelegate>
 
 @property (strong, nonatomic) UINib *headerCell;
@@ -29,6 +30,9 @@
 @property (strong, nonatomic) UITextField *commentText;
 
 @property (strong, nonatomic) UIButton *blurButton;
+@property (strong, nonatomic) UIView *blurView;
+
+
 
 @end
 
@@ -57,6 +61,7 @@
     self.tableView.canCancelContentTouches = NO;
     self.tableView.exclusiveTouch = NO;
 }
+
 
 - (void)viewWillAppear:(BOOL)animated
 {
@@ -169,24 +174,22 @@
         }
         cell.textLabel.text = message.text;
         cell.imageView.contentMode = UIViewContentModeScaleToFill;
+        cell.imageView.image = [UIImage imageWithData:message.picture];
         
-        if (message.blurTimer) {
-            UIImage *blurred = [UIColor blur:[UIImage imageWithData:message.picture]];
-            cell.imageView.image = blurred;
-            cell.blurButton.hidden = NO;
-            [cell.blurButton addTarget:self action:@selector(unblur) forControlEvents:UIControlEventTouchUpInside];
-        } else {
-             cell.imageView.image = [UIImage imageWithData:message.picture];
+        if ([message.blurTimer integerValue] != 0) {
+            [self createBlurredViewForImageView:cell withMessage:message];
         }
         
         cell.userPic.image = [UIImage imageWithData:message.author];
         cell.centeredUserPic.image = [UIImage imageWithData:message.author];
+        
         UISwipeGestureRecognizer *rightSwipeGesture = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(swipeRightOnCollectionView:)];
         rightSwipeGesture.direction = UISwipeGestureRecognizerDirectionRight;
         rightSwipeGesture.delegate = self;
         [cell addGestureRecognizer:rightSwipeGesture];
-        return cell;
+        cell.userInteractionEnabled = YES;
         
+        return cell;
     } else {
         NSString *cellIdentifier = @"AddCommentCell";
         AddCommentCell *cell = (AddCommentCell *)[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
@@ -202,9 +205,20 @@
     return nil;
 }
 
-- (void)unblur
+- (void)handleTap:(UITapGestureRecognizer *)tapGestureRecognizer
 {
-    NSLog(@"here happens unblur");
+    
+}
+
+- (void)createBlurredViewForImageView: (MessageCell *)cell withMessage: (Message *)message
+{
+    self.blurView = [[UIView alloc]initWithFrame:cell.imageView.frame];
+    UIImage *blurredImage = [UIColor blur:[UIImage imageWithData:message.picture]];
+//    self.blurView.opaque = NO;
+//    self.blurView.alpha = 0.5;
+    self.blurView.backgroundColor = [UIColor colorWithPatternImage:blurredImage];
+    [cell addSubview:self.blurView];
+    [cell bringSubviewToFront:self.blurView];
 }
 
 -(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer

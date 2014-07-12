@@ -44,4 +44,9 @@
 {
     return [UIColor colorWithRed:0 green:128 blue:128 alpha:0.4];
 }
+
++(UIColor *)DarePurpleComment
+{
+    return [UIColor colorWithRed:0.54 green:0.32 blue:0.64 alpha:1.0];
+}
 @end

@@ -97,9 +97,14 @@
 
 -(void)backToMainPage
 {
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];
-    MainScreenViewController *mainVC = [storyboard instantiateViewControllerWithIdentifier:@"MainScreen"];
-    [self dismissViewControllerAnimated:YES completion:nil];
+    UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];
+    UINavigationController *mainScreenNavController = [storyBoard instantiateViewControllerWithIdentifier:@"MainNavController"];
+    MainScreenViewController *mainScreen = mainScreenNavController.viewControllers[0];
+    mainScreen.fromCancel = NO;
+    mainScreen.fromNew = YES;
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"MessageThread"];
+    mainScreen.threads = [[NSMutableArray alloc]initWithArray:[self.dataStore.managedObjectContext executeFetchRequest:fetchRequest error:nil]];
+    [self presentViewController:mainScreenNavController animated:YES completion:nil];
 }
 
 -(void)unblockUsers
@@ -110,12 +115,9 @@
 -(void)logOut
 {
 #warning add logout code
-   //[PFUser logOut];
+    [PFUser logOut];
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];
-    
-   UINavigationController *initialNavController = [storyboard instantiateViewControllerWithIdentifier:@"InitialNavController"];
-    
-    
+    UINavigationController *initialNavController = [storyboard instantiateViewControllerWithIdentifier:@"InitialNavController"];
     [self presentViewController:initialNavController animated:YES completion:nil];
 }
 

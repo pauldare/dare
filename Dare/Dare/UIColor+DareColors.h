@@ -17,5 +17,5 @@
 +(UIColor *)DareLightGreen;
 +(UIColor *)DareCellOverlaySolid;
 +(UIColor *)DareTranslucentBlue;
-
++(UIColor *)DarePurpleComment;
 @end

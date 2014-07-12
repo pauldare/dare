@@ -14,6 +14,7 @@
 #import "ParseClient.h"
 #import "DareDataStore.h"
 #import "User+Methods.h"
+#import "MainScreenViewController.h"
 
 
 @interface ChooseDisplayPhotoViewController ()
@@ -122,7 +123,7 @@
     [file saveInBackground];
     [self.loggedUser setObject:file forKey:@"image"];
     [self.loggedUser saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-        completion;
+        completion();
     }];
 }
 
@@ -135,8 +136,13 @@
 {
     if (!self.fromSettings) {
         UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];
-        UIViewController *vc = [storyBoard instantiateViewControllerWithIdentifier:@"MainScreen"];
-        [self presentViewController:vc animated:YES completion:nil];
+        UINavigationController *mainScreenNavController = [storyBoard instantiateViewControllerWithIdentifier:@"MainNavController"];
+        MainScreenViewController *mainScreen = mainScreenNavController.viewControllers[0];
+        mainScreen.fromCancel = NO;
+        mainScreen.fromNew = YES;
+        NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"MessageThread"];
+        mainScreen.threads = [[NSMutableArray alloc]initWithArray:[self.dataStore.managedObjectContext executeFetchRequest:fetchRequest error:nil]];
+        [self presentViewController:mainScreenNavController animated:YES completion:nil];
     } else {
         UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];
         UIViewController *vc = [storyBoard instantiateViewControllerWithIdentifier:@"SettingsVC"];

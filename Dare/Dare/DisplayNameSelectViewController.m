@@ -10,6 +10,7 @@
 #import "UIColor+DareColors.h"
 #import "User.h"
 #import "DareDataStore.h"
+#import "MainScreenViewController.h"
 
 @interface DisplayNameSelectViewController ()
 
@@ -126,8 +127,13 @@
                 [self presentViewController:vc animated:YES completion:nil];
         } else {
             UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];
-            UIViewController *vc = [storyBoard instantiateViewControllerWithIdentifier:@"MainScreen"];
-            [self presentViewController:vc animated:YES completion:nil];
+            UINavigationController *mainScreenNavController = [storyBoard instantiateViewControllerWithIdentifier:@"MainNavController"];
+            MainScreenViewController *mainScreen = mainScreenNavController.viewControllers[0];
+            mainScreen.fromCancel = NO;
+            mainScreen.fromNew = YES;
+            NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"MessageThread"];
+            mainScreen.threads = [[NSMutableArray alloc]initWithArray:[self.dataStore.managedObjectContext executeFetchRequest:fetchRequest error:nil]];
+            [self presentViewController:mainScreenNavController animated:YES completion:nil];
         }
     }    
 }

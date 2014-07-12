@@ -21,6 +21,8 @@
 @property (weak, nonatomic) IBOutlet UIView *cameraView;
 @property (nonatomic) BOOL frontCamera;
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
+@property (weak, nonatomic) IBOutlet UIView *overlayView;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
 
 @property (weak, nonatomic) IBOutlet UIButton *cameraCaptureButton;
 @property (weak, nonatomic) IBOutlet UILabel *nextLabel;

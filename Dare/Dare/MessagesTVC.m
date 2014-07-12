@@ -28,6 +28,8 @@
 @property (strong, nonatomic) UIView *commentOverlay;
 @property (strong, nonatomic) UITextField *commentText;
 
+@property (strong, nonatomic) UIButton *blurButton;
+
 @end
 
 @implementation MessagesTVC
@@ -80,6 +82,8 @@
         [self.dataStore saveContext];
     }
 }
+
+
 
 #pragma mark - Table view data source
 
@@ -165,10 +169,18 @@
         }
         cell.textLabel.text = message.text;
         cell.imageView.contentMode = UIViewContentModeScaleToFill;
-        cell.imageView.image = [UIImage imageWithData:message.picture];
+        
+        if (message.blurTimer) {
+            UIImage *blurred = [UIColor blur:[UIImage imageWithData:message.picture]];
+            cell.imageView.image = blurred;
+            cell.blurButton.hidden = NO;
+            [cell.blurButton addTarget:self action:@selector(unblur) forControlEvents:UIControlEventTouchUpInside];
+        } else {
+             cell.imageView.image = [UIImage imageWithData:message.picture];
+        }
+        
         cell.userPic.image = [UIImage imageWithData:message.author];
         cell.centeredUserPic.image = [UIImage imageWithData:message.author];
-        
         UISwipeGestureRecognizer *rightSwipeGesture = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(swipeRightOnCollectionView:)];
         rightSwipeGesture.direction = UISwipeGestureRecognizerDirectionRight;
         rightSwipeGesture.delegate = self;
@@ -181,17 +193,20 @@
         if (cell == nil) {
             cell = [[AddCommentCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
         }
-        
         UIButton *dareButton = ((AddCommentCell*)cell).iDareButton;
         [dareButton addTarget:self action:@selector(iDarePressed) forControlEvents:UIControlEventTouchUpInside];
-        
         UIButton *commentButton =((AddCommentCell*)cell).commentButton;
         [commentButton addTarget:self action:@selector(commentButtonPressed) forControlEvents:UIControlEventTouchUpInside];
-        
         return cell;
     }
     return nil;
 }
+
+- (void)unblur
+{
+    NSLog(@"here happens unblur");
+}
+
 -(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
 {
     return YES;
@@ -209,7 +224,6 @@
             }
         }
     }
-    //NSLog(@"%f %f",[sender locationInView:sender.view].x, [sender locationInView:sender.view].y);
     self.tableView.scrollEnabled = YES;
 }
 
@@ -301,12 +315,6 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    //    if (indexPath.section == 2 && indexPath.row == 0) {
-    //        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];
-    //        SnapCommentVC *viewController = (SnapCommentVC *)[storyboard instantiateViewControllerWithIdentifier:@"SnapCommentVC"];
-    //        viewController.thread = self.thread;
-    //        [self presentViewController:viewController animated:YES completion:nil];
-    //    }
 }
 
 

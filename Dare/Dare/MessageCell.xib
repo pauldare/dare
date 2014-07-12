@@ -45,7 +45,7 @@
                             <constraint firstItem="dM0-fL-UB0" firstAttribute="top" secondItem="Iy2-VD-CWc" secondAttribute="top" id="y6R-Wn-dlL"/>
                         </constraints>
                     </view>
-                    <imageView autoresizesSubviews="NO" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Pfq-gq-piI">
+                    <imageView autoresizesSubviews="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Pfq-gq-piI">
                         <rect key="frame" x="0.0" y="60" width="320" height="324"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     </imageView>
@@ -57,21 +57,33 @@
                             <constraint firstAttribute="width" constant="50" id="Xhy-1e-Gki"/>
                         </constraints>
                     </imageView>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9Zz-04-5iY">
+                        <rect key="frame" x="137" y="207" width="46" height="30"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <state key="normal" title="Unblur">
+                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                        </state>
+                    </button>
                 </subviews>
                 <constraints>
+                    <constraint firstItem="Pfq-gq-piI" firstAttribute="centerX" secondItem="9Zz-04-5iY" secondAttribute="centerX" id="68x-cQ-j3o"/>
                     <constraint firstAttribute="trailing" secondItem="Pfq-gq-piI" secondAttribute="trailing" id="6KP-Tw-D57"/>
                     <constraint firstItem="Pfq-gq-piI" firstAttribute="top" secondItem="Iy2-VD-CWc" secondAttribute="bottom" id="6Q4-bJ-jHT"/>
                     <constraint firstAttribute="bottom" secondItem="Pfq-gq-piI" secondAttribute="bottom" id="7eH-bb-9fG"/>
+                    <constraint firstItem="9Zz-04-5iY" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="137" id="C61-fA-Rw0"/>
                     <constraint firstItem="Iy2-VD-CWc" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="D8b-9D-DBU"/>
                     <constraint firstItem="Iy2-VD-CWc" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="GMc-Ee-rjE"/>
+                    <constraint firstAttribute="trailing" secondItem="9Zz-04-5iY" secondAttribute="trailing" constant="137" id="Pr2-hl-YBm"/>
                     <constraint firstAttribute="trailing" secondItem="Iy2-VD-CWc" secondAttribute="trailing" id="SGV-gC-8zK"/>
                     <constraint firstItem="Pfq-gq-piI" firstAttribute="top" secondItem="Iy2-VD-CWc" secondAttribute="bottom" id="bVW-0J-adU"/>
+                    <constraint firstItem="Pfq-gq-piI" firstAttribute="centerY" secondItem="9Zz-04-5iY" secondAttribute="centerY" id="caZ-sr-2ZU"/>
                     <constraint firstItem="jDr-g9-WPg" firstAttribute="top" secondItem="Iy2-VD-CWc" secondAttribute="bottom" constant="8" id="gep-Fb-NsY"/>
                     <constraint firstItem="Pfq-gq-piI" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="xvk-lX-gFE"/>
                     <constraint firstItem="jDr-g9-WPg" firstAttribute="centerX" secondItem="Pfq-gq-piI" secondAttribute="centerX" id="yct-bv-30G"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
+                <outlet property="blurButton" destination="9Zz-04-5iY" id="0BP-ZI-UO4"/>
                 <outlet property="centeredUserPic" destination="jDr-g9-WPg" id="Z41-I4-0jr"/>
                 <outlet property="imageView" destination="Pfq-gq-piI" id="vee-0I-Kfo"/>
                 <outlet property="textLabel" destination="dM0-fL-UB0" id="HVJ-Rr-XJ1"/>

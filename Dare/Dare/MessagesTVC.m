@@ -66,6 +66,10 @@
     self.tableView.separatorColor = [UIColor clearColor];
     self.tableView.canCancelContentTouches = NO;
     self.tableView.exclusiveTouch = NO;
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                                  selector:@selector(changeFirstResponder:)
+                                                      name:UIKeyboardDidShowNotification
+                                                    object:nil];
 }
 
 
@@ -385,6 +389,7 @@
     [_commentOverlay addConstraint:[NSLayoutConstraint constraintWithItem:_commentText attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:_commentOverlay attribute:NSLayoutAttributeTop multiplier:1.0 constant:0]];
     [_commentOverlay addConstraint:[NSLayoutConstraint constraintWithItem:_commentText attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:_commentOverlay attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0]];
     
+    [_commentOverlay bringSubviewToFront:_commentText];
     _commentText.returnKeyType = UIReturnKeySend;
     _commentText.delegate = self;
     _commentText.textAlignment = NSTextAlignmentCenter;
@@ -429,8 +434,11 @@
         return YES;
     }
     
+    __typeof__(self) __block wself = self;
     [self addMessageToThread:^(Message *message, MessageThread *messageThread) {
         
+        wself.thread = messageThread;
+        [wself.tableView reloadData];
     }];
     
     
@@ -506,7 +514,10 @@
                              fetchRequest.predicate = searchPredicate;
                              NSArray *threads = [self.dataStore.managedObjectContext executeFetchRequest:fetchRequest error:nil];
                              MessageThread *thread = threads[0];
+                             
                              completion(newMessage, thread);
+                             
+                             
                          }];
 }
 

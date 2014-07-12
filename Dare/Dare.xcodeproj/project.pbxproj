@@ -75,6 +75,8 @@
 		45740137196390470080895D /* MainScreenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 45740136196390470080895D /* MainScreenViewController.m */; };
 		45A72F341965B17C00A187B7 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 45A72F331965B17C00A187B7 /* libPods.a */; };
 		45A72F361965B18500A187B7 /* Twitter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45A72F351965B18500A187B7 /* Twitter.framework */; };
+		45EC28DC1971B0A000B2BC3B /* textCommentCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 45EC28DB1971B0A000B2BC3B /* textCommentCell.xib */; };
+		45EC28DF1971B39500B2BC3B /* TextCommentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 45EC28DE1971B39500B2BC3B /* TextCommentCell.m */; };
 		5234BB1A19606D4C00850ECB /* DisplayNameSelectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5234BB1919606D4C00850ECB /* DisplayNameSelectViewController.m */; };
 		5234BB1D19606D8600850ECB /* UIColor+DareColors.m in Sources */ = {isa = PBXBuildFile; fileRef = 5234BB1C19606D8600850ECB /* UIColor+DareColors.m */; };
 		5234BB20196077AE00850ECB /* ChooseDisplayPhotoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5234BB1F196077AE00850ECB /* ChooseDisplayPhotoViewController.m */; };
@@ -196,6 +198,9 @@
 		45740136196390470080895D /* MainScreenViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainScreenViewController.m; sourceTree = "<group>"; };
 		45A72F331965B17C00A187B7 /* libPods.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libPods.a; path = "Pods/build/Debug-iphoneos/libPods.a"; sourceTree = "<group>"; };
 		45A72F351965B18500A187B7 /* Twitter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Twitter.framework; path = System/Library/Frameworks/Twitter.framework; sourceTree = SDKROOT; };
+		45EC28DB1971B0A000B2BC3B /* textCommentCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = textCommentCell.xib; sourceTree = "<group>"; };
+		45EC28DD1971B39500B2BC3B /* TextCommentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextCommentCell.h; sourceTree = "<group>"; };
+		45EC28DE1971B39500B2BC3B /* TextCommentCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TextCommentCell.m; sourceTree = "<group>"; };
 		5234BB1819606D4C00850ECB /* DisplayNameSelectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DisplayNameSelectViewController.h; sourceTree = "<group>"; };
 		5234BB1919606D4C00850ECB /* DisplayNameSelectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DisplayNameSelectViewController.m; sourceTree = "<group>"; };
 		5234BB1B19606D8600850ECB /* UIColor+DareColors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+DareColors.h"; sourceTree = "<group>"; };
@@ -286,6 +291,9 @@
 				359EE6F11963593A00088C2D /* SelectDareCell.xib */,
 				05984FAB19678AF800DAE025 /* HeaderCell.xib */,
 				05984FB31968602400DAE025 /* MessageCell.xib */,
+				45EC28DB1971B0A000B2BC3B /* textCommentCell.xib */,
+				45EC28DD1971B39500B2BC3B /* TextCommentCell.h */,
+				45EC28DE1971B39500B2BC3B /* TextCommentCell.m */,
 				05984FB8196866C000DAE025 /* AddCommentCell.xib */,
 				4500B05B1968C56B00F85B59 /* CancelDareCell.xib */,
 				05984FB11968602400DAE025 /* MessageCell.h */,
@@ -565,6 +573,7 @@
 				527FDB011960E5830083D6F0 /* FinalCell.xib in Resources */,
 				35F35F561962F5A10002C7BC /* angry.jpeg in Resources */,
 				05984F4B1966F6F300DAE025 /* flower.jpeg in Resources */,
+				45EC28DC1971B0A000B2BC3B /* textCommentCell.xib in Resources */,
 				05984FAD19678AF800DAE025 /* HeaderCell.xib in Resources */,
 				05984F4E1966F7A300DAE025 /* shoes.jpeg in Resources */,
 				527FDAE91960A2250083D6F0 /* icon-157351_640.png in Resources */,
@@ -631,6 +640,7 @@
 				4512E41A1967138C000A8C15 /* SettingsViewController.m in Sources */,
 				5234BB20196077AE00850ECB /* ChooseDisplayPhotoViewController.m in Sources */,
 				05984F631967398100DAE025 /* MessageThread+Methods.m in Sources */,
+				45EC28DF1971B39500B2BC3B /* TextCommentCell.m in Sources */,
 				05984FB9196866C000DAE025 /* AddCommentCell.m in Sources */,
 				4500B05F1968C56B00F85B59 /* CanelDareCell.m in Sources */,
 				05984F601967395800DAE025 /* Message+Methods.m in Sources */,

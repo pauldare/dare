@@ -16,6 +16,8 @@
 #import "SnapCommentVC.h"
 #import "DareDataStore.h"
 #import "MainScreenViewController.h"
+#import "TextCommentCell.h"
+#import "ParseClient.h"
 
 
 
@@ -24,6 +26,7 @@
 @property (strong, nonatomic) UINib *headerCell;
 @property (strong, nonatomic) UINib *messageCell;
 @property (strong, nonatomic) UINib *addCommentCell;
+@property (strong, nonatomic) UINib *textCommentCell;
 
 @property (strong, nonatomic) Message *headerMessage;
 @property (strong, nonatomic) DareDataStore *dataStore;
@@ -32,7 +35,6 @@
 @property (strong, nonatomic) UITextField *responderText;
 
 @property (strong, nonatomic) UIButton *blurButton;
-@property (strong, nonatomic) UIView *blurView;
 
 
 
@@ -50,7 +52,7 @@
     [self.messages sortUsingDescriptors:[NSArray arrayWithObject:sortByDate]];
     self.headerMessage = self.messages[0];
     [self.messages removeObjectAtIndex:0];
-    self.tableView.backgroundColor = [UIColor clearColor];
+    self.tableView.backgroundColor = [UIColor DareBlue];
     self.view.backgroundColor = [UIColor DareBlue];
     self.tableView.showsVerticalScrollIndicator = NO;
     self.headerCell = [UINib nibWithNibName:@"HeaderCell" bundle:nil];
@@ -59,6 +61,8 @@
     [self.tableView registerNib:self.messageCell forCellReuseIdentifier:@"MessageCell"];
     self.addCommentCell = [UINib nibWithNibName:@"AddCommentCell" bundle:nil];
     [self.tableView registerNib:self.addCommentCell forCellReuseIdentifier:@"AddCommentCell"];
+    self.textCommentCell = [UINib nibWithNibName:@"textCommentCell" bundle:nil];
+    [self.tableView registerNib:self.textCommentCell forCellReuseIdentifier:@"TextCommentCell"];
     self.tableView.separatorColor = [UIColor clearColor];
     self.tableView.canCancelContentTouches = NO;
     self.tableView.exclusiveTouch = NO;
@@ -79,7 +83,7 @@
 
 - (CGFloat)getRowHeightForCell: (NSString *)identifier
 {
-    return [[[[NSBundle mainBundle] loadNibNamed:identifier owner:self options:nil] objectAtIndex:0] bounds].size.height;
+    return [[[[NSBundle mainBundle] loadNibNamed:identifier owner:self options:nil] objectAtIndex:0] frame].size.height;
 }
 
 - (void)markAllMessagesAsRead
@@ -114,16 +118,19 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    switch (indexPath.section) {
-        case 0:
-            return [self getRowHeightForCell:@"HeaderCell"];
-            break;
-        case 1:
+    
+    if (indexPath.section == 0) {
+        return [self getRowHeightForCell:@"HeaderCell"];
+        
+    }else if (indexPath.section == 1){
+        if ( ((Message*)self.messages[indexPath.row]).picture) {
             return [self getRowHeightForCell:@"MessageCell"];
-            break;
-        default:
-            return [self getRowHeightForCell:@"AddCommentCell"];
-            break;
+        }else{
+            return [self getRowHeightForCell:@"textCommentCell"];
+        }
+        
+    }else{
+        return [self getRowHeightForCell:@"AddCommentCell"];
     }
 }
 
@@ -168,38 +175,57 @@
         return cell;
         
     } else if (indexPath.section == 1){
-        Message *message = self.messages[indexPath.row];
-        NSString *cellIdentifier = @"MessageCell";
-        MessageCell *cell = (MessageCell *)[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
-        if (cell == nil) {
-            cell = [[MessageCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
-        }
-        cell.textLabel.text = message.text;
-        cell.imageView.contentMode = UIViewContentModeScaleToFill;
-        cell.imageView.image = [UIImage imageWithData:message.picture];
 
-        if ([message.blurTimer integerValue] != 0) {
-            [self createBlurredViewForImageView:cell withMessage:message completion:^{
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [cell.imageView addSubview:self.blurView];
-                    //[self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
-                });
-            }];
+        Message *message = self.messages[indexPath.row];
+       
+        if (message.picture) {
+            NSString *cellIdentifier = @"MessageCell";
+            MessageCell *cell = (MessageCell *)[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+            if (cell == nil) {
+                cell = [[MessageCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+            }
+            cell.textLabel.text = message.text;
+            cell.imageView.contentMode = UIViewContentModeScaleToFill;
+            
+            UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
+            [cell addGestureRecognizer:tapGestureRecognizer];
+            
+            if ([message.blurTimer integerValue] != 0 && [message.isViewed integerValue] == 0) {
+                cell.imageView.image = [UIColor blur:[UIImage imageWithData:message.picture]];
+                tapGestureRecognizer.enabled = YES;
+            }else if ([message.isViewed integerValue] != 0){
+                cell.imageView.image = [UIColor blur:[UIImage imageWithData:message.picture]];
+                tapGestureRecognizer.enabled = NO;
+            }else {
+                cell.imageView.image = [UIImage imageWithData:message.picture];
+                tapGestureRecognizer.enabled = NO;
+            }
+            cell.centeredUserPic.image = [UIImage imageWithData:message.author];
+
+            UISwipeGestureRecognizer *rightSwipeGesture = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(swipeRightOnCollectionView:)];
+            rightSwipeGesture.direction = UISwipeGestureRecognizerDirectionRight;
+            rightSwipeGesture.delegate = self;
+            [cell addGestureRecognizer:rightSwipeGesture];
+            cell.userInteractionEnabled = YES;
+            return cell;
+        }else{
+            
+            NSString *cellIdentifier = @"TextCommentCell";
+            TextCommentCell *cell = (TextCommentCell *)[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+            if (cell == nil) {
+                cell = [[TextCommentCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+            }
+            
+            cell.commentLabel.text =  message.text;
+            cell.userImage.image = [UIImage imageWithData:message.author];
+            cell.contentView.backgroundColor = [UIColor DarePurpleComment];
+            
+            UISwipeGestureRecognizer *rightSwipeGesture = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(swipeRightOnCollectionView:)];
+            rightSwipeGesture.direction = UISwipeGestureRecognizerDirectionRight;
+            rightSwipeGesture.delegate = self;
+            [cell addGestureRecognizer:rightSwipeGesture];
+            return cell;
         }
-        
-        cell.userPic.image = [UIImage imageWithData:message.author];
-        cell.centeredUserPic.image = [UIImage imageWithData:message.author];
-        
-        UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
-        [cell addGestureRecognizer:tapGestureRecognizer];
-        
-        UISwipeGestureRecognizer *rightSwipeGesture = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(swipeRightOnCollectionView:)];
-        rightSwipeGesture.direction = UISwipeGestureRecognizerDirectionRight;
-        rightSwipeGesture.delegate = self;
-        [cell addGestureRecognizer:rightSwipeGesture];
-        cell.userInteractionEnabled = YES;
-        
-        return cell;
     } else {
         NSString *cellIdentifier = @"AddCommentCell";
         AddCommentCell *cell = (AddCommentCell *)[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
@@ -210,6 +236,8 @@
         [dareButton addTarget:self action:@selector(iDarePressed) forControlEvents:UIControlEventTouchUpInside];
         UIButton *commentButton =((AddCommentCell*)cell).commentButton;
         [commentButton addTarget:self action:@selector(commentButtonPressed) forControlEvents:UIControlEventTouchUpInside];
+        cell.backgroundColor = [UIColor DareBlue];
+        cell.contentView.backgroundColor = [UIColor DareBlue];
         return cell;
     }
     return nil;
@@ -217,22 +245,54 @@
 
 - (void)handleTap:(UITapGestureRecognizer *)tapGestureRecognizer
 {
-    [self.blurView removeFromSuperview];
+    NSLog(@"%@",tapGestureRecognizer.view);
+    MessageCell *messageCell = (MessageCell*)tapGestureRecognizer.view;
+    NSLog(@"%d",[self.tableView indexPathForCell:messageCell].row);
+    NSInteger blurTimer = [((Message*)self.messages[[self.tableView indexPathForCell:messageCell].row]).blurTimer integerValue];
+    [self performSelector:@selector(viewBlurredImagewithCell:) withObject:messageCell afterDelay:blurTimer];
+    ((Message*)self.messages[[self.tableView indexPathForCell:messageCell].row]).blurTimer = 0;
+    [self.tableView reloadRowsAtIndexPaths:@[[self.tableView indexPathForCell:messageCell]] withRowAnimation:UITableViewRowAnimationAutomatic];
+    
 }
 
-- (void)createBlurredViewForImageView: (MessageCell *)cell withMessage: (Message *)message completion: (void(^)())completion
+-(void)viewBlurredImagewithCell:(MessageCell*)cell
 {
-    if (!self.blurView) {
-        self.blurView = [[UIView alloc]initWithFrame:cell.imageView.frame];
-        dispatch_queue_t concurrentQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
-        dispatch_async(concurrentQueue, ^{
-            UIImage *blurredImage = [UIColor blur:[UIImage imageWithData:message.picture]];
-            self.blurView.backgroundColor = [UIColor colorWithPatternImage:blurredImage];
-            
-            completion();
-        });
-    } completion();
+    Message *cellMessage = self.messages[[self.tableView indexPathForRowAtPoint:cell.center].row];
+    //cellMessage.isViewed = @1;
+
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Message"];
+    NSString *searchID = cellMessage.identifier;
+    NSPredicate *searchPredicate = [NSPredicate predicateWithFormat:@"identifier==%@",searchID];
+    fetchRequest.predicate = searchPredicate;
+    NSArray *messages = [self.dataStore.managedObjectContext executeFetchRequest:fetchRequest error:nil];
+    Message *coreDataMessage = messages[0];
+    coreDataMessage.isViewed = @1;
+    [self.dataStore saveContext];
+    
+    NSFetchRequest *fetchThread = [[NSFetchRequest alloc] initWithEntityName:@"MessageThread"];
+    NSString *threadID = self.thread.identifier;
+    NSPredicate *searchThread = [NSPredicate predicateWithFormat:@"identifier==%@",threadID];
+    fetchThread.predicate = searchThread;
+    NSArray *threads = [self.dataStore.managedObjectContext executeFetchRequest:fetchThread error:nil];
+    MessageThread *thread = threads[0];
+    self.messages = [NSMutableArray arrayWithArray:[thread.messages allObjects]];
+    NSSortDescriptor* sortByDate = [NSSortDescriptor sortDescriptorWithKey:@"createdAt" ascending:YES];
+    [self.messages sortUsingDescriptors:[NSArray arrayWithObject:sortByDate]];
+    self.headerMessage = self.messages[0];
+    [self.messages removeObjectAtIndex:0];
+
+    [self.tableView reloadData];
+    NSLog(@"%@", ((Message*)self.messages[[self.tableView indexPathForRowAtPoint:cell.center].row]).isViewed);
+    NSLog(@"%@", coreDataMessage.isViewed);
+   
+    
+//    [self.tableView reloadRowsAtIndexPaths:@[[self.tableView indexPathForRowAtPoint:cell.center]] withRowAnimation:UITableViewRowAnimationAutomatic];
+//    [self.tableView reloadRowsAtIndexPaths:@[[self.tableView visibleCells]]
+//                          withRowAnimation:UITableViewRowAnimationAutomatic];
+    
+    
 }
+
 
 -(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
 {
@@ -299,7 +359,7 @@
 
 -(void)commentButtonPressed
 {
-
+    
     _responderText = [[UITextField alloc]init];
     _responderText.hidden = YES;
     [self setupCommentOverlay];
@@ -345,7 +405,7 @@
     
     [_commentText becomeFirstResponder];
     [_responderText resignFirstResponder];
-
+    
     
     [self.view layoutIfNeeded];
 }
@@ -354,7 +414,7 @@
 {
     NSUInteger maxNumberOfLines = 2;
     NSUInteger numLines = textView.contentSize.height/textView.font.lineHeight;
-   
+    
     if (numLines > maxNumberOfLines)
     {
         textView.text = [textView.text substringToIndex:textView.text.length - 1];
@@ -363,7 +423,7 @@
 
 -(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
 {
-
+    
     [_responderText resignFirstResponder];
     [_commentText resignFirstResponder];
     [self.view endEditing:YES];
@@ -378,7 +438,10 @@
         return YES;
     }
     
-   
+    [self addMessageToThread:^(Message *message, MessageThread *messageThread) {
+        
+    }];
+    
     
     [_responderText resignFirstResponder];
     [_commentText resignFirstResponder];
@@ -386,6 +449,7 @@
     [self.view.window endEditing:YES];
     [_commentOverlay endEditing:YES];
     [_commentText.superview endEditing:YES];
+    
     
 #warning create post here with _commentText.text
     
@@ -396,7 +460,7 @@
     CGFloat topCorrect = ([tv bounds].size.height - [tv contentSize].height * [tv zoomScale])/2.0;
     topCorrect = ( topCorrect < 0.0 ? 0.0 : topCorrect );
     tv.contentOffset = (CGPoint){.x = 0, .y = -topCorrect};
-
+    
 }
 
 -(void)setupCommentOverlay
@@ -407,7 +471,7 @@
     downSwipe.direction = UISwipeGestureRecognizerDirectionDown;
     downSwipe.numberOfTouchesRequired = 1;
     [_commentOverlay addGestureRecognizer:downSwipe];
-
+    
 }
 
 -(void)swipeDownOnComment
@@ -420,6 +484,39 @@
     [_commentOverlay endEditing:YES];
     [_commentText.superview endEditing:YES];
     
+}
+
+- (void)addMessageToThread: (void(^)(Message *, MessageThread *))completion
+{
+    [ParseClient addMessageToThread:self.thread withText:_commentText.text
+                            picture:nil
+                          blurTimer:0
+                         completion:^(PFObject *message) {
+                             Message *newMessage = [NSEntityDescription insertNewObjectForEntityForName:@"Message"
+                                                                                 inManagedObjectContext:self.dataStore.managedObjectContext];
+                             newMessage.identifier = message.objectId;
+                             newMessage.text = message[@"text"];
+                             PFFile *messageImageFile = message[@"picture"];
+                             [messageImageFile getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
+                                 newMessage.picture = data;
+                             }];
+                             PFFile *messageAuthorImage = message[@"author"];
+                             [messageAuthorImage getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
+                                 newMessage.author = data;
+                             }];
+                             newMessage.createdAt = message.createdAt;
+                             newMessage.isRead = @0;
+                             [self.thread addMessagesObject:newMessage];
+                             [self.dataStore saveContext];
+                             
+                             NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"MessageThread"];
+                             NSString *searchID = self.thread.identifier;
+                             NSPredicate *searchPredicate = [NSPredicate predicateWithFormat:@"identifier==%@",searchID];
+                             fetchRequest.predicate = searchPredicate;
+                             NSArray *threads = [self.dataStore.managedObjectContext executeFetchRequest:fetchRequest error:nil];
+                             MessageThread *thread = threads[0];
+                             completion(newMessage, thread);
+                         }];
 }
 
 

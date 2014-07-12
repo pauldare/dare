@@ -67,12 +67,6 @@
     self.tableView.separatorColor = [UIColor clearColor];
     self.tableView.canCancelContentTouches = NO;
     self.tableView.exclusiveTouch = NO;
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(changeFirstResponder:)
-                                                 name:UIKeyboardDidShowNotification
-                                               object:nil];
-    
 }
 
 
@@ -182,32 +176,40 @@
         return cell;
         
     } else if (indexPath.section == 1){
-        
-        
+
         Message *message = self.messages[indexPath.row];
-        
+       
         if (message.picture) {
             NSString *cellIdentifier = @"MessageCell";
             MessageCell *cell = (MessageCell *)[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
             if (cell == nil) {
                 cell = [[MessageCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
             }
-            // cell.textLabel.text = message.text;
+            cell.textLabel.text = message.text;
             cell.imageView.contentMode = UIViewContentModeScaleToFill;
             cell.imageView.image = [UIImage imageWithData:message.picture];
             
             if ([message.blurTimer integerValue] != 0) {
-                [self createBlurredViewForImageView:cell withMessage:message];
+                [self createBlurredViewForImageView:cell withMessage:message completion:^{
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [cell.imageView addSubview:self.blurView];
+                        //[self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+                    });
+                }];
             }
             
-            cell.userPic.image = [UIImage imageWithData:message.author];
             cell.centeredUserPic.image = [UIImage imageWithData:message.author];
+            
+            
+            UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
+            [cell addGestureRecognizer:tapGestureRecognizer];
             
             UISwipeGestureRecognizer *rightSwipeGesture = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(swipeRightOnCollectionView:)];
             rightSwipeGesture.direction = UISwipeGestureRecognizerDirectionRight;
             rightSwipeGesture.delegate = self;
             [cell addGestureRecognizer:rightSwipeGesture];
             cell.userInteractionEnabled = YES;
+
             
             return cell;
         }else{
@@ -230,6 +232,7 @@
             
             return cell;
         }
+
         
     } else {
         NSString *cellIdentifier = @"AddCommentCell";
@@ -250,18 +253,21 @@
 
 - (void)handleTap:(UITapGestureRecognizer *)tapGestureRecognizer
 {
-    
+    [self.blurView removeFromSuperview];
 }
 
-- (void)createBlurredViewForImageView: (MessageCell *)cell withMessage: (Message *)message
+- (void)createBlurredViewForImageView: (MessageCell *)cell withMessage: (Message *)message completion: (void(^)())completion
 {
     self.blurView = [[UIView alloc]initWithFrame:cell.imageView.frame];
-    UIImage *blurredImage = [UIColor blur:[UIImage imageWithData:message.picture]];
-    //    self.blurView.opaque = NO;
-    //    self.blurView.alpha = 0.5;
-    self.blurView.backgroundColor = [UIColor colorWithPatternImage:blurredImage];
-    [cell addSubview:self.blurView];
-    [cell bringSubviewToFront:self.blurView];
+
+    dispatch_queue_t concurrentQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+    dispatch_async(concurrentQueue, ^{
+        UIImage *blurredImage = [UIColor blur:[UIImage imageWithData:message.picture]];
+        self.blurView.backgroundColor = [UIColor colorWithPatternImage:blurredImage];
+
+        completion();
+    });
+
 }
 
 -(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer

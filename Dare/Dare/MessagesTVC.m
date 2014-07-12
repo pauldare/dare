@@ -35,7 +35,6 @@
 @property (strong, nonatomic) UITextField *responderText;
 
 @property (strong, nonatomic) UIButton *blurButton;
-@property (strong, nonatomic) UIView *blurView;
 
 
 
@@ -191,30 +190,27 @@
             }
             cell.textLabel.text = message.text;
             cell.imageView.contentMode = UIViewContentModeScaleToFill;
-            cell.imageView.image = [UIImage imageWithData:message.picture];
-            
-            if ([message.blurTimer integerValue] != 0) {
-                [self createBlurredViewForImageView:cell withMessage:message completion:^{
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        [cell.imageView addSubview:self.blurView];
-                        //[self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
-                    });
-                }];
-            }
-            
-            cell.centeredUserPic.image = [UIImage imageWithData:message.author];
-            
             
             UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
             [cell addGestureRecognizer:tapGestureRecognizer];
             
+            if ([message.blurTimer integerValue] != 0 && [message.isViewed integerValue] == 0) {
+                cell.imageView.image = [UIColor blur:[UIImage imageWithData:message.picture]];
+                tapGestureRecognizer.enabled = YES;
+            }else if ([message.isViewed integerValue] != 0){
+                cell.imageView.image = [UIColor blur:[UIImage imageWithData:message.picture]];
+                tapGestureRecognizer.enabled = NO;
+            }else {
+                cell.imageView.image = [UIImage imageWithData:message.picture];
+                tapGestureRecognizer.enabled = NO;
+            }
+            cell.centeredUserPic.image = [UIImage imageWithData:message.author];
+
             UISwipeGestureRecognizer *rightSwipeGesture = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(swipeRightOnCollectionView:)];
             rightSwipeGesture.direction = UISwipeGestureRecognizerDirectionRight;
             rightSwipeGesture.delegate = self;
             [cell addGestureRecognizer:rightSwipeGesture];
             cell.userInteractionEnabled = YES;
-
-            
             return cell;
         }else{
             
@@ -232,12 +228,8 @@
             rightSwipeGesture.direction = UISwipeGestureRecognizerDirectionRight;
             rightSwipeGesture.delegate = self;
             [cell addGestureRecognizer:rightSwipeGesture];
-            
-            
             return cell;
         }
-
-        
     } else {
         NSString *cellIdentifier = @"AddCommentCell";
         AddCommentCell *cell = (AddCommentCell *)[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
@@ -257,22 +249,54 @@
 
 - (void)handleTap:(UITapGestureRecognizer *)tapGestureRecognizer
 {
-    [self.blurView removeFromSuperview];
+    NSLog(@"%@",tapGestureRecognizer.view);
+    MessageCell *messageCell = (MessageCell*)tapGestureRecognizer.view;
+    NSLog(@"%d",[self.tableView indexPathForCell:messageCell].row);
+    NSInteger blurTimer = [((Message*)self.messages[[self.tableView indexPathForCell:messageCell].row]).blurTimer integerValue];
+    [self performSelector:@selector(viewBlurredImagewithCell:) withObject:messageCell afterDelay:blurTimer];
+    ((Message*)self.messages[[self.tableView indexPathForCell:messageCell].row]).blurTimer = 0;
+    [self.tableView reloadRowsAtIndexPaths:@[[self.tableView indexPathForCell:messageCell]] withRowAnimation:UITableViewRowAnimationAutomatic];
+    
 }
 
-- (void)createBlurredViewForImageView: (MessageCell *)cell withMessage: (Message *)message completion: (void(^)())completion
+-(void)viewBlurredImagewithCell:(MessageCell*)cell
 {
-    self.blurView = [[UIView alloc]initWithFrame:cell.imageView.frame];
+    Message *cellMessage = self.messages[[self.tableView indexPathForRowAtPoint:cell.center].row];
+    //cellMessage.isViewed = @1;
 
-    dispatch_queue_t concurrentQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
-    dispatch_async(concurrentQueue, ^{
-        UIImage *blurredImage = [UIColor blur:[UIImage imageWithData:message.picture]];
-        self.blurView.backgroundColor = [UIColor colorWithPatternImage:blurredImage];
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Message"];
+    NSString *searchID = cellMessage.identifier;
+    NSPredicate *searchPredicate = [NSPredicate predicateWithFormat:@"identifier==%@",searchID];
+    fetchRequest.predicate = searchPredicate;
+    NSArray *messages = [self.dataStore.managedObjectContext executeFetchRequest:fetchRequest error:nil];
+    Message *coreDataMessage = messages[0];
+    coreDataMessage.isViewed = @1;
+    [self.dataStore saveContext];
+    
+    NSFetchRequest *fetchThread = [[NSFetchRequest alloc] initWithEntityName:@"MessageThread"];
+    NSString *threadID = self.thread.identifier;
+    NSPredicate *searchThread = [NSPredicate predicateWithFormat:@"identifier==%@",threadID];
+    fetchThread.predicate = searchThread;
+    NSArray *threads = [self.dataStore.managedObjectContext executeFetchRequest:fetchThread error:nil];
+    MessageThread *thread = threads[0];
+    self.messages = [NSMutableArray arrayWithArray:[thread.messages allObjects]];
+    NSSortDescriptor* sortByDate = [NSSortDescriptor sortDescriptorWithKey:@"createdAt" ascending:YES];
+    [self.messages sortUsingDescriptors:[NSArray arrayWithObject:sortByDate]];
+    self.headerMessage = self.messages[0];
+    [self.messages removeObjectAtIndex:0];
 
-        completion();
-    });
-
+    [self.tableView reloadData];
+    NSLog(@"%@", ((Message*)self.messages[[self.tableView indexPathForRowAtPoint:cell.center].row]).isViewed);
+    NSLog(@"%@", coreDataMessage.isViewed);
+   
+    
+//    [self.tableView reloadRowsAtIndexPaths:@[[self.tableView indexPathForRowAtPoint:cell.center]] withRowAnimation:UITableViewRowAnimationAutomatic];
+//    [self.tableView reloadRowsAtIndexPaths:@[[self.tableView visibleCells]]
+//                          withRowAnimation:UITableViewRowAnimationAutomatic];
+    
+    
 }
+
 
 -(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
 {

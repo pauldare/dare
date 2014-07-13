@@ -575,7 +575,6 @@
         }
     }else if (collectionView == _friendsCollection){
         if (indexPath.row == ([collectionView numberOfItemsInSection:0] -1)) {
-            
             UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];
             UINavigationController *mainScreenNavController = [storyBoard instantiateViewControllerWithIdentifier:@"MainNavController"];
             MainScreenViewController *mainScreen = mainScreenNavController.viewControllers[0];

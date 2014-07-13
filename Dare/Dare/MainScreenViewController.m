@@ -595,7 +595,7 @@
     MessageThread *thread = self.threads[indexPath.row];
     UIImage *background = [UIImage imageWithData:thread.backgroundPicture];
     ((DareCell *)cell).backgroundImageView.image = background;
-    ((DareCell *)cell).titleLabel.text = [NSString stringWithFormat:@"I DARE YOU TO\n%@", thread.title];
+    ((DareCell *)cell).titleLabel.text = thread.title;
     NSInteger unreadCount = 0;
     if (!self.fromCancel && [self.presentingViewController isKindOfClass:[NewDareViewController class]]) {
         unreadCount++;

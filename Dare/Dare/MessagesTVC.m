@@ -436,15 +436,12 @@
     
     __typeof__(self) __block wself = self;
     [self addMessageToThread:^(Message *message, MessageThread *messageThread) {
-        
-        //wself.thread = messageThread;
         wself.messages = [[messageThread.messages allObjects]mutableCopy];
         NSSortDescriptor* sortByDate = [NSSortDescriptor sortDescriptorWithKey:@"createdAt" ascending:YES];
         [wself.messages sortUsingDescriptors:[NSArray arrayWithObject:sortByDate]];
         wself.headerMessage = wself.messages[0];
         [wself.messages removeObjectAtIndex:0];
         [wself.tableView reloadData];
-    
     }];
 
     [_responderText resignFirstResponder];

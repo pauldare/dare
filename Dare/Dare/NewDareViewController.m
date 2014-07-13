@@ -575,12 +575,14 @@
         }
     }else if (collectionView == _friendsCollection){
         if (indexPath.row == ([collectionView numberOfItemsInSection:0] -1)) {
-            
-            UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];
-            UINavigationController *mainVCNavController = [storyboard instantiateViewControllerWithIdentifier:@"MainNavController"];
-            MainScreenViewController *mainView = (MainScreenViewController*)mainVCNavController.viewControllers[0];
-            mainView.fromCancel = YES;
-            [self presentViewController:mainVCNavController animated:YES completion:nil];
+            UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];
+            UINavigationController *mainScreenNavController = [storyBoard instantiateViewControllerWithIdentifier:@"MainNavController"];
+            MainScreenViewController *mainScreen = mainScreenNavController.viewControllers[0];
+            mainScreen.fromCancel = YES;
+            mainScreen.fromNew = YES;
+            NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"MessageThread"];
+            mainScreen.threads = [[NSMutableArray alloc]initWithArray:[self.dataStore.managedObjectContext executeFetchRequest:fetchRequest error:nil]];
+            [self presentViewController:mainScreenNavController animated:YES completion:nil];
         }
     }
 }

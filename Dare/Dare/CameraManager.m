@@ -28,9 +28,11 @@
         imageView.hidden = YES;
         self.session = [[AVCaptureSession alloc] init];
         self.session.sessionPreset = AVCaptureSessionPresetPhoto;
+    
         
         self.captureVideoPreviewLayer = [[AVCaptureVideoPreviewLayer alloc] initWithSession:_session];
         [self.captureVideoPreviewLayer setVideoGravity:AVLayerVideoGravityResizeAspectFill];
+        
         
         self.captureVideoPreviewLayer.frame = cameraView.bounds;
         [cameraView.layer addSublayer:self.captureVideoPreviewLayer];
@@ -46,6 +48,7 @@
                     if ([device position] == AVCaptureDevicePositionFront) {
                         
                         camera = device;
+                        
                     }
                 } else {
                     if ([device position] == AVCaptureDevicePositionBack) {
@@ -93,8 +96,8 @@
         
 //        [sessionQueue addOperationWithBlock:^{
         
-            //[[[self stillImageOutput] connectionWithMediaType:AVMediaTypeVideo] setVideoOrientation:[[(AVCaptureVideoPreviewLayer *)[[self cameraView] layer] connection] videoOrientation]];
-            
+//            [[[self stillImageOutput] connectionWithMediaType:AVMediaTypeVideo] setVideoOrientation:((AVCaptureVideoPreviewLayer *)view.layer).connection.videoOrientation];
+        
             // Flash set to Auto for Still Capture
             //[AVCamViewController setFlashMode:AVCaptureFlashModeAuto forDevice:[[self videoDeviceInput] device]];
             

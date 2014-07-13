@@ -578,7 +578,7 @@
             
             UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];
             UINavigationController *mainVCNavController = [storyboard instantiateViewControllerWithIdentifier:@"MainNavController"];
-            MainScreenViewController *mainView = (MainScreenViewController*)mainVCNavController.view;
+            MainScreenViewController *mainView = (MainScreenViewController*)mainVCNavController.viewControllers[0];
             mainView.fromCancel = YES;
             [self presentViewController:mainVCNavController animated:YES completion:nil];
         }

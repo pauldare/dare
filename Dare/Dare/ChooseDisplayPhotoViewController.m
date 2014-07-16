@@ -73,7 +73,19 @@
     UISwipeGestureRecognizer *swipeGesture = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(presentNextView)];
     swipeGesture.direction = UISwipeGestureRecognizerDirectionLeft;
     [self.view addGestureRecognizer:swipeGesture];
+    
+    UISwipeGestureRecognizer *rightSwipeGesture = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(swipeRight:)];
+    rightSwipeGesture.direction = UISwipeGestureRecognizerDirectionRight;
+    [self.view addGestureRecognizer:rightSwipeGesture];
 }
+
+-(void)swipeRight:(UIGestureRecognizer *)sender
+{
+    UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];
+    SettingsViewController *vc = [storyBoard instantiateViewControllerWithIdentifier:@"SettingsVC"];
+    [self presentViewController:vc animated:YES completion:nil];
+}
+
 
 - (void)fetchLoggedUser: (void(^)())completion
 {

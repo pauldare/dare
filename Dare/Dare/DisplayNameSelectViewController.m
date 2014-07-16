@@ -11,6 +11,7 @@
 #import "User.h"
 #import "DareDataStore.h"
 #import "MainScreenViewController.h"
+#import "SettingsViewController.h"
 
 @interface DisplayNameSelectViewController ()
 
@@ -56,6 +57,7 @@
     swipeGesture.direction = UISwipeGestureRecognizerDirectionLeft;
     [self.view addGestureRecognizer:swipeGesture];
     
+        
     _userNameLabel.translatesAutoresizingMaskIntoConstraints = NO;
     _userNameTextfield.translatesAutoresizingMaskIntoConstraints = NO;
     _nextLabel.translatesAutoresizingMaskIntoConstraints = NO;
@@ -82,6 +84,7 @@
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_nextLabel attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:_arrowLabel attribute:NSLayoutAttributeWidth multiplier:1.0 constant:0]];
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_nextLabel attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:_arrowLabel attribute:NSLayoutAttributeHeight multiplier:1.0 constant:0]];
 }
+
 
 - (void)fetchLoggedUser: (void(^)())completion
 {

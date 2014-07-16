@@ -237,6 +237,7 @@
             cell = [[AddCommentCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
         }
         UIButton *dareButton = ((AddCommentCell*)cell).iDareButton;
+        cell.userInteractionEnabled = YES;
         [dareButton addTarget:self action:@selector(iDarePressed) forControlEvents:UIControlEventTouchUpInside];
         UIButton *commentButton =((AddCommentCell*)cell).commentButton;
         [commentButton addTarget:self action:@selector(commentButtonPressed) forControlEvents:UIControlEventTouchUpInside];

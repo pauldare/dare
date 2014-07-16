@@ -199,7 +199,7 @@
     dispatch_queue_t concurrentQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     dispatch_async(concurrentQueue, ^{
         [self changeImageOnParse:self.chosenImage completion:^{
-            NSData *imageData = UIImagePNGRepresentation(self.chosenImage);
+            NSData *imageData = UIImageJPEGRepresentation(self.chosenImage, 0.5f);
             self.coreDataUser.profileImage = imageData;
             [self.dataStore saveContext];
         }];
@@ -207,10 +207,22 @@
     [picker dismissViewControllerAnimated:YES completion:NULL];
 }
 
+
+- (UIImage *)resizeImage: (UIImage *)image
+{
+    CGSize destinationSize = CGSizeMake(100, 100);
+    UIGraphicsBeginImageContext(destinationSize);
+    [image drawInRect:CGRectMake(0,0,destinationSize.width,destinationSize.height)];
+    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return newImage;
+}
+
 - (void)changeImageOnParse: (UIImage *)newImage
                 completion: (void(^)())completion
 {
-    NSData *imageData = UIImagePNGRepresentation(newImage);
+    UIImage *resizedImage = [self resizeImage:newImage];
+    NSData *imageData = UIImageJPEGRepresentation(resizedImage, 0.5f);
     PFFile *file = [PFFile fileWithData:imageData];
     [file saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         [self.loggedUser setObject:file forKey:@"image"];

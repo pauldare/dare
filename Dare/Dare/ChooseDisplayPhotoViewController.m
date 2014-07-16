@@ -221,8 +221,8 @@
 - (void)changeImageOnParse: (UIImage *)newImage
                 completion: (void(^)())completion
 {
-    UIImage *resizedImage = [self resizeImage:newImage];
-    NSData *imageData = UIImageJPEGRepresentation(resizedImage, 0.5f);
+    //UIImage *resizedImage = [self resizeImage:newImage];
+    NSData *imageData = UIImageJPEGRepresentation(newImage, 0.5f);
     PFFile *file = [PFFile fileWithData:imageData];
     [file saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         [self.loggedUser setObject:file forKey:@"image"];

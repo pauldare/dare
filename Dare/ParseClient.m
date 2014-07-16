@@ -315,17 +315,16 @@
             PFRelation *messageToThread = [message relationForKey:@"messageThreads"];
             [messageToThread addObject:messageThread];
             [message saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+            [self storeRelation:[PFUser currentUser] toMessageThread:messageThread completion:^{
                 for (PFUser *participant in participants) {
-                    [self storeRelation:[PFUser currentUser] toMessageThread:messageThread completion:^{
-                        [self storeRelation:participant toMessageThread:messageThread completion:^{
-                            NSLog(@"created proxy");
-                        }];
+                    [self storeRelation:participant toMessageThread:messageThread completion:^{
+                        NSLog(@"created proxy");
                     }];
                 }
                 completion(messageThread);
             }];
         }];
-
+        }];
     }];
 }
 

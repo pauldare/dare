@@ -73,17 +73,28 @@
     
     self.images = [[NSMutableArray alloc]init];
     
+    for (Friend *friend in self.friends) {
+        [self.images addObject:[UIImage imageWithData:friend.image]];
+    }
+    
+    [self.friendsCollection reloadData];
+    
     self.dataStore = [DareDataStore sharedDataStore];
     
     self.coverView.backgroundColor = [UIColor DareCellOverlay];
     [self.view sendSubviewToBack:self.coverView];
     
-    [self fetchFriends:^{
-        for (Friend *friend in self.friends) {
-            [self.images addObject:[UIImage imageWithData:friend.image]];
-        }
-        [self.friendsCollection reloadData];
-    }];
+//    [self fetchFriends:^{
+//        for (Friend *friend in self.friends) {
+//            [self.images addObject:[UIImage imageWithData:friend.image]];
+//        }
+//        [self.friendsCollection reloadData];
+//    }];
+    
+    //self.parseFriends = [[NSMutableArray alloc]init];
+    [self fetchParseFriends:^(bool isDone, NSArray *parseFriends) {
+        self.parseFriends = parseFriends;
+    } failure:nil];
         
 //    self.images = @[[UIImage imageNamed:@"angry.jpeg"], [UIImage imageNamed:@"tricolor.jpeg"], [UIImage imageNamed:@"kitten.jpeg"], [UIImage imageNamed:@"cat.jpeg"]];
     
@@ -686,15 +697,20 @@
     }];
 }
 
-- (void)fetchParseFriends: (void(^)())completion failure: (void(^)())failure
+- (void)fetchParseFriends: (void(^)(bool, NSArray *))completion failure: (void(^)())failure
 {
+    NSMutableArray *parseFriends = [[NSMutableArray alloc]init];
     for (Friend *friend in self.friends) {
         PFQuery *friendQuery = [PFUser query];
         [friendQuery whereKey:@"fbId" equalTo:friend.identifier];
         [friendQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+            BOOL isDone = NO;
             if (!error) {
-                self.parseFriends = objects;
-                completion();
+                [parseFriends addObject:objects[0]];
+                if ([parseFriends count] == [self.friends count]) {
+                    isDone = YES;
+                }
+                completion(isDone, parseFriends);
             } else {
                 failure();
             }
@@ -725,7 +741,7 @@
 
 -(void)postDare
 {
-    [self fetchParseFriends:^{
+//    [self fetchParseFriends:^{
         _tapGetGoing.enabled = NO;
         [self.view bringSubviewToFront:self.coverView];
         [self beginThread:^(PFObject *messageThread) {
@@ -738,7 +754,7 @@
             mainScreen.threads = [[NSMutableArray alloc]initWithArray:[self.dataStore.managedObjectContext executeFetchRequest:fetchRequest error:nil]];
             [self presentViewController:mainScreenNavController animated:YES completion:nil];
         }];
-    } failure:nil];
+//    } failure:nil];
 }
 
 @end

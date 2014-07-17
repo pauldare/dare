@@ -36,7 +36,7 @@
                   clientKey:ParseClientKey];
     self.dataStore = [DareDataStore sharedDataStore];
     
-    //[[DareDataStore sharedDataStore]cleanCoreData:^{
+    [[DareDataStore sharedDataStore]cleanCoreData:^{
         [PFFacebookUtils initializeFacebook];
         if (FBSession.activeSession.state == FBSessionStateOpen ||
             FBSession.activeSession.state == FBSessionStateOpenTokenExtended) {
@@ -61,14 +61,13 @@
             navigationController.navigationBarHidden = YES;
             self.window.rootViewController = navigationController;
         }
-    //}];
+    }];
     
     [[UIApplication sharedApplication] registerForRemoteNotificationTypes: UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeSound];
     return YES;
 }
 
-- (void)application:(UIApplication *)application
-didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
 {
     // Store the deviceToken in the current Installation and save it to Parse.
     PFInstallation *currentInstallation = [PFInstallation currentInstallation];
@@ -91,7 +90,12 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
 
 - (void)applicationWillEnterForeground:(UIApplication *)application
 {
-    // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+    [PFFacebookUtils initializeFacebook];
+    if (FBSession.activeSession.state == FBSessionStateOpen ||
+        FBSession.activeSession.state == FBSessionStateOpenTokenExtended) {
+        [self.dataStore populateCoreData:^{
+        }];
+    }
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
@@ -119,20 +123,6 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
                         withSession:[PFFacebookUtils session]];
     
     FBSession *activeSession = [FBSession activeSession];
-    
-//    if (activeSession.state != FBSessionStateCreatedTokenLoaded) {
-//        
-//        NSLog(@"from open url");
-//    } else {
-//        NSLog(@"no token");
-//    }
-    
-//    if (activeSession.isOpen) {
-//        UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];
-//        
-//        
-//    }
-    
 }
 
 

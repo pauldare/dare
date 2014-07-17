@@ -28,8 +28,7 @@
     self.textLabel.backgroundColor = [UIColor clearColor];
     self.textLabel.font = [UIFont boldSystemFontOfSize:18];
     self.textLabel.textColor = [UIColor whiteColor];
-    self.blurButton.hidden = YES;
-    //self.backgroundColor = [UIColor DareBlue];
+    self.backgroundColor = [UIColor DareBlue];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated

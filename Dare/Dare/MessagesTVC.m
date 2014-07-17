@@ -195,9 +195,17 @@
             [cell addGestureRecognizer:tapGestureRecognizer];
             
             if ([message.blurTimer integerValue] != 0 && [message.isViewed integerValue] == 0) {
-                cell.imageView.image = [UIColor blur:[UIImage imageWithData:message.picture]];
+                dispatch_queue_t queue = dispatch_queue_create("queue", 0);
+                dispatch_async(queue, ^{
+                    UIImage *blurredImage = [UIColor blur:[UIImage imageWithData:message.picture]];
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [cell.spinner stopAnimating];
+                        cell.imageView.image = blurredImage;
+                    });
+                });
                 tapGestureRecognizer.enabled = YES;
             }else if ([message.isViewed integerValue] != 0){
+                
                 cell.imageView.image = [UIColor blur:[UIImage imageWithData:message.picture]];
                 tapGestureRecognizer.enabled = NO;
             }else {

@@ -58,6 +58,7 @@
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
 
 
+
 @end
 
 @implementation MainScreenViewController
@@ -68,6 +69,7 @@
     self.fullScreenOverlayView.backgroundColor = [UIColor DareCellOverlaySolid];
 
     self.dataStore = [DareDataStore sharedDataStore];
+
     self.parseFriends = [[NSMutableArray alloc]init];
     _tableViewRefreshControl = [[UIRefreshControl alloc] init];
     [_tableViewRefreshControl addTarget:self action:@selector(refreshFeeds) forControlEvents:UIControlEventValueChanged];
@@ -152,6 +154,7 @@
         [self.collectionView reloadData];
     }];
     [self configureMainScreen];
+    
     self.navigationController.navigationBarHidden = YES;
 }
 

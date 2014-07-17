@@ -17,10 +17,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="386"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     </imageView>
-                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="hI2-L9-427">
-                        <rect key="frame" x="142" y="174" width="37" height="37"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    </activityIndicatorView>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="jDr-g9-WPg">
                         <rect key="frame" x="135" y="20" width="50" height="50"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -42,7 +38,6 @@
             <connections>
                 <outlet property="centeredUserPic" destination="jDr-g9-WPg" id="Z41-I4-0jr"/>
                 <outlet property="imageView" destination="Pfq-gq-piI" id="vee-0I-Kfo"/>
-                <outlet property="spinner" destination="hI2-L9-427" id="Ou6-MJ-YuH"/>
             </connections>
         </tableViewCell>
     </objects>

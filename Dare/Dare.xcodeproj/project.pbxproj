@@ -31,6 +31,7 @@
 		05984FF41968A27C00DAE025 /* Friend.m in Sources */ = {isa = PBXBuildFile; fileRef = 05984FF31968A27C00DAE025 /* Friend.m */; };
 		05FA70ED195FA75E00C057D4 /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = 05FA70EC195FA75E00C057D4 /* Constants.m */; };
 		0719EAB8195F516E007C2983 /* Storyboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0719EAB7195F516E007C2983 /* Storyboard.storyboard */; };
+		352E66D4197780EA00E1B69D /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 352E66D3197780EA00E1B69D /* Accelerate.framework */; };
 		359EE6F01963591300088C2D /* SelectDareCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 359EE6EF1963591300088C2D /* SelectDareCell.m */; };
 		359EE6F21963593A00088C2D /* SelectDareCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 359EE6F11963593A00088C2D /* SelectDareCell.xib */; };
 		35F35F401961EA2F0002C7BC /* NewDareViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 35F35F3F1961EA2F0002C7BC /* NewDareViewController.m */; };
@@ -140,6 +141,7 @@
 		05984FF31968A27C00DAE025 /* Friend.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Friend.m; sourceTree = "<group>"; };
 		05FA70EC195FA75E00C057D4 /* Constants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Constants.m; path = ../Constants.m; sourceTree = "<group>"; };
 		0719EAB7195F516E007C2983 /* Storyboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Storyboard.storyboard; sourceTree = "<group>"; };
+		352E66D3197780EA00E1B69D /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 		359EE6EE1963591300088C2D /* SelectDareCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelectDareCell.h; sourceTree = "<group>"; };
 		359EE6EF1963591300088C2D /* SelectDareCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SelectDareCell.m; sourceTree = "<group>"; };
 		359EE6F11963593A00088C2D /* SelectDareCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SelectDareCell.xib; sourceTree = "<group>"; };
@@ -227,6 +229,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				352E66D4197780EA00E1B69D /* Accelerate.framework in Frameworks */,
 				4553B5D8195B981D005C6D1A /* QuartzCore.framework in Frameworks */,
 				4553B59B195B944E005C6D1A /* CoreData.framework in Frameworks */,
 				4512E4111965B321000A8C15 /* Social.framework in Frameworks */,
@@ -361,6 +364,7 @@
 		4553B593195B944E005C6D1A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				352E66D3197780EA00E1B69D /* Accelerate.framework */,
 				4512E4101965B321000A8C15 /* Social.framework */,
 				45A72F351965B18500A187B7 /* Twitter.framework */,
 				45A72F331965B17C00A187B7 /* libPods.a */,

@@ -38,6 +38,7 @@
 
 
 
+
 @end
 
 @implementation MessagesTVC
@@ -193,21 +194,24 @@
             
             UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
             [cell addGestureRecognizer:tapGestureRecognizer];
-            
+
             if ([message.blurTimer integerValue] != 0 && [message.isViewed integerValue] == 0) {
+                
                 dispatch_queue_t queue = dispatch_queue_create("queue", 0);
                 dispatch_async(queue, ^{
-                    UIImage *blurredImage = [UIColor blur:[UIImage imageWithData:message.picture]];
+                    UIImage *blurredImage = [UIColor blurryImage:[UIImage imageWithData:message.picture] withBlurLevel:0.6f];
                     dispatch_async(dispatch_get_main_queue(), ^{
                         [cell.spinner stopAnimating];
                         cell.imageView.image = blurredImage;
                     });
                 });
-                tapGestureRecognizer.enabled = YES;
-            }else if ([message.isViewed integerValue] != 0){
                 
-                cell.imageView.image = [UIColor blur:[UIImage imageWithData:message.picture]];
+                tapGestureRecognizer.enabled = YES;
+                                             
+            }else if ([message.isViewed integerValue] != 0){
+                cell.imageView.image = [UIColor blurryImage:[UIImage imageWithData:message.picture] withBlurLevel:0.6f];
                 tapGestureRecognizer.enabled = NO;
+                
             }else {
                 cell.imageView.image = [UIImage imageWithData:message.picture];
                 tapGestureRecognizer.enabled = NO;

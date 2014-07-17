@@ -18,6 +18,6 @@
 +(UIColor *)DareCellOverlaySolid;
 +(UIColor *)DareTranslucentBlue;
 +(UIColor *)DarePurpleComment;
-+ (UIImage*) blur:(UIImage*)theImage;
++ (UIImage *)blurryImage:(UIImage *)image withBlurLevel:(CGFloat)blur;
 
 @end

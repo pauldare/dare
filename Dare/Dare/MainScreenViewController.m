@@ -56,6 +56,7 @@
 @property (strong, nonatomic) NSMutableArray *parseFriends;
 @property (weak, nonatomic) IBOutlet UIView *fullScreenOverlayView;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
+@property (strong, nonatomic) NSMutableDictionary *blurredImages;
 
 
 @end
@@ -68,6 +69,10 @@
     self.fullScreenOverlayView.backgroundColor = [UIColor DareCellOverlaySolid];
 
     self.dataStore = [DareDataStore sharedDataStore];
+    
+    self.blurredImages = [[NSMutableDictionary alloc]init];
+    
+    
     self.parseFriends = [[NSMutableArray alloc]init];
     _tableViewRefreshControl = [[UIRefreshControl alloc] init];
     [_tableViewRefreshControl addTarget:self action:@selector(refreshFeeds) forControlEvents:UIControlEventValueChanged];
@@ -152,6 +157,7 @@
         [self.collectionView reloadData];
     }];
     [self configureMainScreen];
+    
     self.navigationController.navigationBarHidden = YES;
 }
 
@@ -163,6 +169,23 @@
         [NSObject cancelPreviousPerformRequestsWithTarget:self];
         [self performSelector:@selector(refreshTable) withObject:self afterDelay:1.0];
     });
+}
+
+- (void)blurSomeImages
+{
+    for (MessageThread *thread in self.threads) {
+        for (Message *message in [thread.messages allObjects]) {
+            if ([message.blurTimer integerValue] != 0) {
+                dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0ul);
+                dispatch_async(queue, ^{
+                    UIImage *blurredImage = [UIColor blur:[UIImage imageWithData:message.picture]];
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        self.blurredImages[message.identifier] = blurredImage;
+                    });
+                });
+            }
+        }
+    }
 }
 
 
@@ -177,6 +200,7 @@
             if (self.fromNew) {
                 [self.view sendSubviewToBack:self.fullScreenOverlayView];
             }
+            [self blurSomeImages];
         });
     }];
 }
@@ -633,6 +657,7 @@
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];
     MessagesTVC *viewController = (MessagesTVC *)[storyboard instantiateViewControllerWithIdentifier:@"MessagesTVC"];
     viewController.thread = thread;
+    viewController.blurredImages = self.blurredImages;
     viewController.friends = [NSMutableArray arrayWithArray:self.friends];
     [self.navigationController pushViewController:viewController animated:YES];  
 }

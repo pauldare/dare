@@ -53,11 +53,9 @@
 @property (strong, nonatomic) UIRefreshControl *collectionViewRefreshControl;
 @property (strong, nonatomic) DareDataStore *dataStore;
 @property (strong, nonatomic) User *user;
-@property (strong, nonatomic) NSArray *parseFriends;
+@property (strong, nonatomic) NSMutableArray *parseFriends;
 @property (weak, nonatomic) IBOutlet UIView *fullScreenOverlayView;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
-
-
 
 
 
@@ -71,6 +69,8 @@
     self.fullScreenOverlayView.backgroundColor = [UIColor DareCellOverlaySolid];
 
     self.dataStore = [DareDataStore sharedDataStore];
+
+    self.parseFriends = [[NSMutableArray alloc]init];
     _tableViewRefreshControl = [[UIRefreshControl alloc] init];
     [_tableViewRefreshControl addTarget:self action:@selector(refreshFeeds) forControlEvents:UIControlEventValueChanged];
     [_tableView addSubview:_tableViewRefreshControl];
@@ -154,6 +154,7 @@
         [self.collectionView reloadData];
     }];
     [self configureMainScreen];
+    
     self.navigationController.navigationBarHidden = YES;
 }
 
@@ -205,33 +206,25 @@
     completion();
 }
 
-//- (void)fetchParseThreads: (void(^)())completion
-//{
-//    [self fetchUser:^{
-//        [ParseClient getMessageThreadsForUser:self.user completion:^(NSArray *threads) {
-//            for (PFObject *thread in threads) {
-//                MessageThread *newThread = [MessageThread fetchThreadFromParseThreads:thread inContext:self.dataStore.managedObjectContext];
-//                [ParseClient getMessagesForThread:newThread user:self.user completion:^(NSArray *messages) {
-//                    NSSet *messagesSet = [[NSSet alloc] init];
-//                    [messagesSet setByAddingObjectsFromArray:messages];
-//                    [newThread addMessages:messagesSet];
-//                    [self.threads addObject:newThread];
-//                    completion();
-//                    //[self.dataStore saveContext];
-//                } failure:nil];
-//                //[self.dataStore saveContext];
-//            }            
-//        } failure:nil];
-//    }];
-//}
+- (void)fetchParseThreads: (void(^)(NSArray *))completion
+{
+    NSMutableArray *threadsFromParse = [[NSMutableArray alloc]init];
+    [self fetchUser:^{
+        [ParseClient getMessageThreadsForUser:self.user completion:^(NSArray *threads) {
+            for (PFObject *thread in threads) {
+                [MessageThread fetchThreadFromParseThreads:thread inContext:self.dataStore.managedObjectContext completion:^(MessageThread *messageThread) {
+                    [threadsFromParse addObject:messageThread];
+                    completion(threadsFromParse);
+                }];
+            }
+        } failure:nil];
+    }];
+}
 
 
 - (NSInteger)countTotalUnread
 {
     NSInteger total = 0;
-//    if (!self.fromCancel && [self.presentingViewController isKindOfClass:[NewDareViewController class]]) {
-//        total++;
-//    }
     for (MessageThread *thread in self.threads) {
         for (Message *message in thread.messages) {
             if ([message.isRead integerValue] == 0) {
@@ -243,14 +236,41 @@
 }
 
 
+- (void)fetchParseFriends: (void(^)(NSArray *))completion
+{
+    NSMutableArray *friendsFromParse = [[NSMutableArray alloc]init];
+    [ParseClient queryForFriends:^(NSArray *parseFriends) {
+        for (PFUser *parseFriend in parseFriends) {
+            [Friend fetchFriendFromParseFriend:parseFriend
+                                     inContext:self.dataStore.managedObjectContext
+                                    completion:^(Friend *friend) {
+                                        [friendsFromParse addObject:friend];
+                                        completion(friendsFromParse);
+            }];
+        }
+    }];
+}
+
+
 -(void)refreshFeeds
-{    
-    [_tableViewRefreshControl performSelector:@selector(endRefreshing) withObject:self afterDelay:3.0];
+{
+    [self fetchParseThreads:^(NSArray *parseThreads) {
+        self.threads = [NSMutableArray arrayWithArray:parseThreads];
+        [self.tableView reloadData];
+        [_tableViewRefreshControl performSelector:@selector(endRefreshing) withObject:self afterDelay:3.0];
+    }];
+
 }
 
 -(void)refreshFriends
 {
-    [_collectionViewRefreshControl performSelector:@selector(endRefreshing) withObject:self afterDelay:3.0];
+    [self fetchParseFriends:^(NSArray *parseFriends) {
+        self.friends = parseFriends;
+        [self.collectionView reloadData];
+        [_collectionViewRefreshControl performSelector:@selector(endRefreshing)
+                                            withObject:self
+                                            afterDelay:3.0];
+    }];
 }
 
 -(void)configureMainScreen

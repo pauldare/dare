@@ -283,11 +283,6 @@
                     }];
                 }
             }
-//            bool isDone = NO;
-//            if (count == [data count]) {
-//                isDone = YES;
-//            }
-//            completion(isDone);
         } else {
             failure(error);
         }

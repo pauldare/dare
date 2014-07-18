@@ -11,6 +11,11 @@
 @interface MessageThread (Methods)
 
 + (MessageThread *)fetchThreadFromParseThreads: (PFObject *)thread
-                           inContext: (NSManagedObjectContext *)context;
+                                     inContext: (NSManagedObjectContext *)context;
+
+
++ (void)fetchThreadFromParseThreads: (PFObject *)thread
+                          inContext: (NSManagedObjectContext *)context
+                         completion: (void(^)(MessageThread *))completion;
 
 @end

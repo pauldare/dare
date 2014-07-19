@@ -264,17 +264,23 @@
     NSLog(@"%@",tapGestureRecognizer.view);
     MessageCell *messageCell = (MessageCell*)tapGestureRecognizer.view;
     NSLog(@"%d",[self.tableView indexPathForCell:messageCell].row);
-    NSInteger blurTimer = [((Message*)self.messages[[self.tableView indexPathForCell:messageCell].row]).blurTimer integerValue];
-    [self performSelector:@selector(viewBlurredImagewithCell:) withObject:messageCell afterDelay:blurTimer];
-    ((Message*)self.messages[[self.tableView indexPathForCell:messageCell].row]).blurTimer = 0;
-    [self.tableView reloadRowsAtIndexPaths:@[[self.tableView indexPathForCell:messageCell]] withRowAnimation:UITableViewRowAnimationAutomatic];
-    
+    if (!((Message*)self.messages[[self.tableView indexPathForCell:messageCell].row]).isViewed) {
+        NSInteger blurTimer = [((Message*)self.messages[[self.tableView indexPathForCell:messageCell].row]).blurTimer integerValue];
+        [self performSelector:@selector(viewBlurredImagewithCell:) withObject:messageCell afterDelay:blurTimer];
+        ((Message*)self.messages[[self.tableView indexPathForCell:messageCell].row]).blurTimer = 0;
+        [self.tableView reloadRowsAtIndexPaths:@[[self.tableView indexPathForCell:messageCell]] withRowAnimation:UITableViewRowAnimationAutomatic];
+    }
 }
 
 -(void)viewBlurredImagewithCell:(MessageCell*)cell
 {
     Message *cellMessage = self.messages[[self.tableView indexPathForRowAtPoint:cell.center].row];
-    //cellMessage.isViewed = @1;
+    
+    [ParseClient fetchMessage:cellMessage completion:^(PFObject *parseMessage) {
+        [ParseClient storeRelation:[PFUser currentUser] toViewersListOfMessage:parseMessage completion:^{
+            
+        }];
+    }];
 
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Message"];
     NSString *searchID = cellMessage.identifier;
@@ -366,7 +372,6 @@
 
 -(void)commentButtonPressed
 {
-    
     _responderText = [[UITextField alloc]init];
     _responderText.hidden = YES;
     [self setupCommentOverlay];
@@ -414,7 +419,6 @@
     [_commentText becomeFirstResponder];
     [_responderText resignFirstResponder];
     
-    
     [self.view layoutIfNeeded];
 }
 
@@ -431,7 +435,6 @@
 
 -(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
 {
-    
     [_responderText resignFirstResponder];
     [_commentText resignFirstResponder];
     [self.view endEditing:YES];

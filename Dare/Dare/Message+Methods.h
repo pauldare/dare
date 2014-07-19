@@ -13,5 +13,9 @@
 + (Message *)fetchMessageFromParseMessages: (PFObject *)message
                                  inContext: (NSManagedObjectContext *)context;
 
++ (void)fetchMessageFromParseMessages: (PFObject *)message
+                            inContext: (NSManagedObjectContext *)context
+                           completion: (void(^)(Message *)) completion;
+
 
 @end

@@ -149,9 +149,7 @@
 
     [_cameraButton setTintColor:[UIColor DareBlue]];
     [_flipButton setTintColor:[UIColor DareBlue]];
-    [_albumButton setTintColor:[UIColor DareBlue]];
-    
-    
+    [_albumButton setTintColor:[UIColor DareBlue]]; 
 }
 
 - (void)setupCamera

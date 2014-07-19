@@ -121,7 +121,7 @@
 }
 
 + (void)getMessagesForThread: (MessageThread *)thread
-                     user: (User *)user
+                        user: (User *)user
                 completion: (void(^)(NSArray *))completion
                    failure: (void(^)(NSError *))failure
 {
@@ -154,7 +154,7 @@
         PFObject *thread = objects[0];
         [self createMessage:text picture:picture completion:^(PFObject *message) {
             [message setObject:@(blurTimer) forKey:@"blurTimer"];
-            [message setObject:@"NO" forKey:@"isViewed"];
+            //[message setObject:@"NO" forKey:@"isViewed"];
             PFRelation *messageToThread = [message relationForKey:@"messageThreads"];
             [messageToThread addObject:thread];
             [message saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
@@ -350,6 +350,27 @@
                         completion();
             }];
         }];
+    }];
+}
+
+
++ (void)storeRelation: (PFUser *)parseUser toViewersListOfMessage: (PFObject *)message
+           completion: (void(^)())completion
+{
+    PFRelation *relation = [message relationforKey:@"viewers"];
+    [relation addObject:parseUser];
+    [message saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        completion();
+    }];
+}
+
++ (void)fetchMessage: (Message *)message completion: (void(^)(PFObject *))completion
+{
+    PFQuery *messageQueryOnId = [PFQuery queryWithClassName:@"Message"];
+    [messageQueryOnId whereKey:@"objectId" equalTo:message.identifier];
+    [messageQueryOnId findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        PFObject *parseMessage = objects[0];
+        completion(parseMessage);
     }];
 }
 

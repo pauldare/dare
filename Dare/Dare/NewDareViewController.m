@@ -712,7 +712,7 @@
                 }
                 completion(isDone, parseFriends);
             } else {
-                failure();
+                failure(nil);
             }
         }];
     }

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>7733424A-C38C-4376-85ED-AAA94B525050</string>
+	<key>IDESourceControlProjectName</key>
+	<string>Dare</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>C920218B-EA49-4283-A37E-BD0B3EE30893</key>
+		<string>https://github.com/pauldare/dare.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>Dare/Dare.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>C920218B-EA49-4283-A37E-BD0B3EE30893</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/pauldare/dare.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>C920218B-EA49-4283-A37E-BD0B3EE30893</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>C920218B-EA49-4283-A37E-BD0B3EE30893</string>
+			<key>IDESourceControlWCCName</key>
+			<string>dare</string>
+		</dict>
+	</array>
+</dict>
+</plist>

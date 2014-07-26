@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface CanelDareCell : UICollectionViewCell
-@property (weak, nonatomic) IBOutlet UIImageView *cancelImage;
+
 @property (weak, nonatomic) IBOutlet UILabel *cancelLabel;
 
 

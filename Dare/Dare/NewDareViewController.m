@@ -526,12 +526,15 @@
         
         if (indexPath.row == [self.images count]) {
             CanelDareCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"CancelDareCell" forIndexPath:indexPath];
-            FAKFontAwesome *cancelIcon = [FAKFontAwesome bombIconWithSize:80];
-            [cancelIcon addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor]];
-            cell.cancelImage.image = [cancelIcon imageWithSize:CGSizeMake(80, 80)];
-            cell.cancelLabel.text = @"Cancel";
+            
+//            FAKFontAwesome *cancelIcon = [FAKFontAwesome bombIconWithSize:80];
+//            [cancelIcon addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor]];
+//            cell.cancelImage.image = [cancelIcon imageWithSize:CGSizeMake(80, 80)];
+            cell.cancelLabel.text = @"X";
+            [cell.cancelLabel setFont:[UIFont boldSystemFontOfSize:72]];
+            [cell.cancelLabel setTextColor:[UIColor DareUnreadBadge]];
             cell.backgroundColor = [UIColor DareBlue];
-            cell.cancelImage.backgroundColor = [UIColor DareBlue];
+            //cell.cancelImage.backgroundColor = [UIColor DareBlue];
             return cell;
         }else{
             FriendListIcon *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"FriendCell" forIndexPath:indexPath];

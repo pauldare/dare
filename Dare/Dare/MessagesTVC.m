@@ -264,7 +264,7 @@
 {
     NSLog(@"%@",tapGestureRecognizer.view);
     MessageCell *messageCell = (MessageCell*)tapGestureRecognizer.view;
-    NSLog(@"%d",[self.tableView indexPathForCell:messageCell].row);
+    NSLog(@"%ld",(long)[self.tableView indexPathForCell:messageCell].row);
     NSInteger blurTimer = [((Message*)self.messages[[self.tableView indexPathForCell:messageCell].row]).blurTimer integerValue];
     [self performSelector:@selector(viewBlurredImagewithCell:) withObject:messageCell afterDelay:blurTimer];
     ((Message*)self.messages[[self.tableView indexPathForCell:messageCell].row]).blurTimer = 0;

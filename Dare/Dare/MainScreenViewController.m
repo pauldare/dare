@@ -22,6 +22,7 @@
 #import "User+Methods.h"
 #import "MessageThread+Methods.h"
 #import "Friend+Methods.h"
+#import "UnreadCounter.h"
 
 @interface MainScreenViewController ()<UIScrollViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UITableViewDataSource, UITableViewDelegate, UIGestureRecognizerDelegate>
 
@@ -173,7 +174,11 @@
 {
     [self fetchCoreDataThreads:^{
         dispatch_async(dispatch_get_main_queue(), ^{
-            _overlayUnreadBadge.text = [NSString stringWithFormat:@"%ld", (long)[self countTotalUnread]];
+            if ([self countTotalUnread] != 0) {
+                _overlayUnreadBadge.text = [NSString stringWithFormat:@"%ld", (long)[self countTotalUnread]];
+            } else {
+                _overlayUnreadBadge.hidden = YES;
+            }
             NSSortDescriptor* sortByDate = [NSSortDescriptor sortDescriptorWithKey:@"createdAt" ascending:YES];
             [self.threads sortUsingDescriptors:[NSArray arrayWithObject:sortByDate]];
             [self.tableView reloadData];
@@ -234,15 +239,14 @@
 
 - (NSInteger)countTotalUnread
 {
-    NSInteger total = 0;
     for (MessageThread *thread in self.threads) {
         for (Message *message in thread.messages) {
             if ([message.isRead integerValue] == 0) {
-                total++;
+                [UnreadCounter sharedCounter].unreadMessages++;
             }
         }
     }
-    return total;
+    return [UnreadCounter sharedCounter].unreadMessages;
 }
 
 
@@ -632,11 +636,11 @@
     } else {
         for (Message *message in thread.messages) {
             if ([message.isRead integerValue] == 0) {
-                    unreadCount++;
+                    [UnreadCounter sharedCounter].unreadMessages++;
             }
         }
     }
-    ((DareCell *)cell).unreadCountLabel.text = [NSString stringWithFormat:@"%d", unreadCount];
+    ((DareCell *)cell).unreadCountLabel.text = [NSString stringWithFormat:@"%ld", (long)unreadCount];
     return cell;
 }
 
@@ -646,7 +650,8 @@
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];
     MessagesTVC *viewController = (MessagesTVC *)[storyboard instantiateViewControllerWithIdentifier:@"MessagesTVC"];
     viewController.thread = thread;
-    viewController.friends = [NSMutableArray arrayWithArray:self.friends];
+    viewController.friends = [[thread.friends allObjects] mutableCopy];
+    NSLog(@"friends from thread: %@", thread.users);
     [self.navigationController pushViewController:viewController animated:YES];  
 }
 

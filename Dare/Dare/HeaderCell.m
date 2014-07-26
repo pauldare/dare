@@ -32,9 +32,9 @@
     self.textLabel.backgroundColor = [UIColor blackColor];
     self.dataStore = [DareDataStore sharedDataStore];
     [self setupViews];
-    [self fetchFriends:^{
-        [self.collectionView reloadData];
-    }];
+//    [self fetchFriends:^{
+//        [self.collectionView reloadData];
+//    }];
     UINib *friendNib = [UINib nibWithNibName:@"FriendListIcon" bundle:nil];
     [self.collectionView registerNib:friendNib forCellWithReuseIdentifier:@"FriendCell"];
 }

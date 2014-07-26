@@ -90,7 +90,7 @@
                  completion: (void(^)(NSArray *))completion
 {
     PFUser *currentUser = [PFUser currentUser];
-    PFRelation *friendsRelation = [thread relationForKey:@"friends"];
+    PFRelation *friendsRelation = [thread relationForKey:@"proxyUsers"];
     PFQuery *query = [friendsRelation query];
     [query whereKey:@"identifier" notEqualTo:currentUser[@"fbId"]];
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
@@ -358,6 +358,16 @@
            completion: (void(^)())completion
 {
     PFRelation *relation = [message relationforKey:@"viewers"];
+    [relation addObject:parseUser];
+    [message saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        completion();
+    }];
+}
+
++ (void)storeRelation: (PFUser *)parseUser toReadersListForMessage: (PFObject *)message
+           completion: (void(^)())completion
+{
+    PFRelation *relation = [message relationforKey:@"readers"];
     [relation addObject:parseUser];
     [message saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         completion();

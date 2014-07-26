@@ -31,6 +31,7 @@
 		05984FF41968A27C00DAE025 /* Friend.m in Sources */ = {isa = PBXBuildFile; fileRef = 05984FF31968A27C00DAE025 /* Friend.m */; };
 		05FA70ED195FA75E00C057D4 /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = 05FA70EC195FA75E00C057D4 /* Constants.m */; };
 		0719EAB8195F516E007C2983 /* Storyboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0719EAB7195F516E007C2983 /* Storyboard.storyboard */; };
+		352D75E4197B19230089F8D5 /* UnreadCounter.m in Sources */ = {isa = PBXBuildFile; fileRef = 352D75E3197B19230089F8D5 /* UnreadCounter.m */; };
 		352E66D4197780EA00E1B69D /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 352E66D3197780EA00E1B69D /* Accelerate.framework */; };
 		359EE6F01963591300088C2D /* SelectDareCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 359EE6EF1963591300088C2D /* SelectDareCell.m */; };
 		359EE6F21963593A00088C2D /* SelectDareCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 359EE6F11963593A00088C2D /* SelectDareCell.xib */; };
@@ -141,6 +142,8 @@
 		05984FF31968A27C00DAE025 /* Friend.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Friend.m; sourceTree = "<group>"; };
 		05FA70EC195FA75E00C057D4 /* Constants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Constants.m; path = ../Constants.m; sourceTree = "<group>"; };
 		0719EAB7195F516E007C2983 /* Storyboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Storyboard.storyboard; sourceTree = "<group>"; };
+		352D75E2197B19230089F8D5 /* UnreadCounter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnreadCounter.h; sourceTree = "<group>"; };
+		352D75E3197B19230089F8D5 /* UnreadCounter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UnreadCounter.m; sourceTree = "<group>"; };
 		352E66D3197780EA00E1B69D /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 		359EE6EE1963591300088C2D /* SelectDareCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelectDareCell.h; sourceTree = "<group>"; };
 		359EE6EF1963591300088C2D /* SelectDareCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SelectDareCell.m; sourceTree = "<group>"; };
@@ -465,6 +468,8 @@
 				05984F921967424800DAE025 /* Friend+Methods.m */,
 				05984F521967323A00DAE025 /* DareDataStore.h */,
 				05984F531967323A00DAE025 /* DareDataStore.m */,
+				352D75E2197B19230089F8D5 /* UnreadCounter.h */,
+				352D75E3197B19230089F8D5 /* UnreadCounter.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -661,6 +666,7 @@
 				527FDAEE1960B35C0083D6F0 /* DareCell.m in Sources */,
 				05984F51196731DD00DAE025 /* Dare.xcdatamodeld in Sources */,
 				359EE6F01963591300088C2D /* SelectDareCell.m in Sources */,
+				352D75E4197B19230089F8D5 /* UnreadCounter.m in Sources */,
 				4553B5A7195B944E005C6D1A /* AppDelegate.m in Sources */,
 				05984F541967323A00DAE025 /* DareDataStore.m in Sources */,
 				05984F66196739B100DAE025 /* User+Methods.m in Sources */,

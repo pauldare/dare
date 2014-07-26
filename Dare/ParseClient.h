@@ -77,6 +77,9 @@ toViewersListOfMessage: (PFObject *)message
 + (void)fetchMessage: (Message *)message
           completion: (void(^)(PFObject *))completion;
 
++ (void)storeRelation: (PFUser *)parseUser toReadersListForMessage: (PFObject *)message
+           completion: (void(^)())completion;
+
 
 
 

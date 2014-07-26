@@ -56,16 +56,16 @@
                                                                  inManagedObjectContext:context];
         newThread.identifier = thread.objectId;
         newThread.title = thread[@"title"];
+        newThread.createdAt = thread.createdAt;
         PFFile *imageFile = thread[@"backgroundImage"];
         [imageFile getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
             newThread.backgroundPicture = data;
+            PFFile *authorImage = thread[@"author"];
+            [authorImage getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
+                newThread.author = data;
+                completion(newThread);
+            }];
         }];
-        PFFile *authorImage = thread[@"author"];
-        [authorImage getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
-            newThread.author = data;
-        }];
-        newThread.createdAt = thread.createdAt;
-        completion(newThread);
     } else {
         completion(threads[0]);
     }

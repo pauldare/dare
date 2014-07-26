@@ -19,7 +19,7 @@
 #import "MainScreenViewController.h"
 
 
-@interface SnapCommentVC ()<UITextFieldDelegate>
+@interface SnapCommentVC ()<UITextFieldDelegate, UIPickerViewDelegate, UIPickerViewDataSource>
 @property (weak, nonatomic) IBOutlet UIButton *cameraButton;
 @property (weak, nonatomic) IBOutlet UIButton *flipButton;
 @property (weak, nonatomic) IBOutlet UIButton *albumButton;
@@ -31,13 +31,16 @@
 @property (strong, nonatomic) UIView *dareTextImageOverlay;
 @property (strong, nonatomic) UITextField *dareText;
 @property (strong, nonatomic) UIImage *choosenImage;
-@property (weak, nonatomic) IBOutlet UIView *blurTimerOverlay;
 @property (nonatomic) BOOL imageWillBlur;
 @property (nonatomic) NSInteger blurCounter;
 @property (weak, nonatomic) IBOutlet UILabel *blurCounterLabel;
 @property (weak, nonatomic) IBOutlet UIButton *sendButton;
 @property (weak, nonatomic) IBOutlet UIButton *cancelButton;
 @property (strong, nonatomic) NSMutableArray *messages;
+@property (nonatomic) BOOL isSelectingBlurTime;
+@property (strong, nonatomic) UIPickerView *blurTimePicker;
+@property (strong, nonatomic) UILabel *blurLabel;
+
 - (IBAction)sendButtonTapped:(id)sender;
 - (IBAction)cancelButtonTapped:(id)sender;
 - (IBAction)photoLibraryButtonTapped:(id)sender;
@@ -50,6 +53,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.isSelectingBlurTime = NO;
     self.dataStore = [DareDataStore sharedDataStore];
     self.messages = [[NSMutableArray alloc]initWithArray:[self.thread.messages allObjects]];
     self.friends = [[NSMutableArray alloc]init];
@@ -58,7 +62,6 @@
     [self.flipButton addTarget:self action:@selector(flipCamera) forControlEvents:UIControlEventTouchUpInside];
     self.collectionView.delegate = self;
     self.collectionView.dataSource = self;
-    self.blurTimerOverlay.backgroundColor = [UIColor DareTranslucentBlue];
     self.collectionView.showsHorizontalScrollIndicator = NO;
     [self fetchFriends:^{
         [self.collectionView reloadData];
@@ -93,8 +96,13 @@
     _textLabel.text = _thread.title;
     
     [self.view bringSubviewToFront:_cameraView];
+    [self.view bringSubviewToFront:self.dareTextImageOverlay];
+    self.blurTimePicker = [[UIPickerView alloc]initWithFrame:CGRectMake(130, 0, 135, self.dareTextImageOverlay.frame.size.height)];
+    self.blurTimePicker.hidden = YES;
     [self setupCamera];
-
+    
+    
+    
 }
 
 - (void)fetchFriends: (void(^)())completion
@@ -108,10 +116,15 @@
 - (void)setupViews
 {
     self.collectionView.backgroundColor = [UIColor DareBlue];
+    self.blurLabel = [[UILabel alloc]init];
+    self.blurLabel.hidden = YES;
     self.dareView.backgroundColor = [UIColor DareCellOverlay];
     self.textLabel.backgroundColor = [UIColor DareCellOverlay];
     self.textLabel.font = [UIFont boldSystemFontOfSize:18];
     self.textLabel.textColor = [UIColor whiteColor];
+    self.dareTextImageOverlay = [[UIView alloc]initWithFrame:CGRectMake(0, self.view.frame.size.height - 100, self.view.frame.size.width, 100)];
+    self.dareTextImageOverlay.backgroundColor = [UIColor DareTranslucentBlue];
+    [self.view addSubview:self.dareTextImageOverlay];
 }
 
 
@@ -135,29 +148,41 @@
     [_albumButton setTitle:@"" forState:UIControlStateNormal];
     [_albumButton setImage:existingPhotoImage forState:UIControlStateNormal];
     
-    FAKFontAwesome *cancelIcon = [FAKFontAwesome bombIconWithSize:35];
-    _cancelButton.tintColor = [UIColor whiteColor];
-    [cancelIcon addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor]];
-    [_cancelButton setImage:[cancelIcon imageWithSize:CGSizeMake(35, 35)] forState:UIControlStateNormal];
-    [_cancelButton setTitle:@"" forState:UIControlStateNormal];
+    self.sendButton =  [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    self.sendButton.titleLabel.font = [UIFont boldSystemFontOfSize:72];
+    self.sendButton.tintColor = [UIColor greenColor];
+    [self.sendButton setTitle:@"✓" forState:UIControlStateNormal];
+    [self.sendButton addTarget:self action:@selector(sendButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+    self.sendButton.frame = CGRectMake(120, 20, 80, 80);
+    [self.dareTextImageOverlay addSubview:self.sendButton];
     
-    FAKFontAwesome *postIcon = [FAKFontAwesome commentIconWithSize:35];
-    _sendButton.tintColor = [UIColor whiteColor];
-    [postIcon addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor]];
-    [_sendButton setImage:[postIcon imageWithSize:CGSizeMake(35, 35)] forState:UIControlStateNormal];
-    [_sendButton setTitle:@"" forState:UIControlStateNormal];
-
     [_cameraButton setTintColor:[UIColor DareBlue]];
     [_flipButton setTintColor:[UIColor DareBlue]];
     [_albumButton setTintColor:[UIColor DareBlue]];
     
+    self.cancelButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    [self.cancelButton setTitle:@"X" forState:UIControlStateNormal];
+    self.cancelButton.titleLabel.font = [UIFont boldSystemFontOfSize:60];
+    [self.cancelButton setTintColor:[UIColor DareUnreadBadge]];
+    self.cancelButton.frame = CGRectMake(20, 20, 80, 80);
+    [self.cancelButton addTarget:self action:@selector(cancelButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+    [self.dareTextImageOverlay addSubview:self.cancelButton];
     
+    self.blurTimerButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    self.blurTimerButton.frame = CGRectMake(self.view.frame.size.width - 80, 20, 60, 60);
+    self.blurTimerButton.tintColor = [UIColor whiteColor];
+    [self.blurTimerButton addTarget:self action:@selector(blurButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+    FAKFontAwesome *cancelIcon = [FAKFontAwesome bombIconWithSize:80];
+    [cancelIcon addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor]];
+    [self.blurTimerButton setImage:[cancelIcon imageWithSize:CGSizeMake(80, 80)] forState:UIControlStateNormal];
+    [self.dareTextImageOverlay addSubview:self.blurTimerButton];
 }
 
 - (void)setupCamera
 {
     [self.view layoutIfNeeded];
-    self.blurTimerOverlay.hidden = YES;
+    self.blurTimerButton.hidden = YES;
+    self.sendButton.hidden = YES;
     [self.view bringSubviewToFront:_cameraButton];
     [self.view bringSubviewToFront:_albumButton];
     [self.view bringSubviewToFront:_flipButton];
@@ -184,7 +209,7 @@
     self.imageView.image = nil;
     self.blurCounter = 0;
     self.imageWillBlur = NO;
-    self.blurTimerOverlay.hidden = YES;
+    self.sendButton.hidden = YES;
     self.blurTimerButton.hidden = YES;
     if(_cameraManager.session.isRunning){
         _flipButton.hidden = YES;
@@ -207,10 +232,11 @@
                                             if (((AVCaptureDeviceInput*)currentCameraInput).device.position == AVCaptureDevicePositionBack) {
                                                 self.imageView.image = image;
                                             }else{
-                                            self.imageView.image = [UIImage imageWithCGImage:image.CGImage scale:1.0 orientation:UIImageOrientationLeftMirrored];
+                                                self.imageView.image = [UIImage imageWithCGImage:image.CGImage scale:1.0 orientation:UIImageOrientationLeftMirrored];
                                             }
                                             self.cameraView.hidden = YES;
                                             self.blurTimerButton.hidden = NO;
+                                            self.sendButton.hidden = NO;
                                             self.choosenImage = image;
                                         } failure:^{
                                             [self selectPictureFromLibrary];
@@ -220,39 +246,59 @@
 
 - (IBAction)blurButtonPressed:(id)sender
 {
+    self.isSelectingBlurTime = YES;
+    
     if (self.imageView.image) {
         if (!self.imageWillBlur) {
-            self.blurTimerOverlay.hidden = NO;
-            self.blurCounter = 5;
-            self.blurCounterLabel.text = [NSString stringWithFormat:@"%lu",(long)self.blurCounter];
-            self.imageWillBlur = YES;
-            [self.view bringSubviewToFront:self.blurTimerOverlay];
-            self.blurTimerOverlay.alpha = 0;
-            self.blurTimerOverlay.hidden = NO;
-            self.blurTimerOverlay.backgroundColor = [UIColor DareTranslucentBlue];
-            [self.view bringSubviewToFront:self.blurTimerButton];
-            [UIView animateWithDuration:0.3 animations:^{
-                self.blurTimerOverlay.alpha = 1;
-            }];
-        }else{
-            if (self.blurCounter < 30) {
-                self.blurCounter += 5;
-                self.blurCounterLabel.text = [NSString stringWithFormat:@"%lu",(long)self.blurCounter];
+            self.cancelButton.hidden = YES;
+            self.blurTimerButton.hidden = YES;
+            self.blurCounter = 0;
+            [UIView animateWithDuration:0.2f animations:^{
                 
-            }else{
-                self.blurCounter = 0;
-                self.imageWillBlur = NO;
-                [UIView animateWithDuration:0.2 animations:^{
-                    self.blurTimerOverlay.alpha = 0;
-                } completion:^(BOOL finished) {
-                    self.blurTimerOverlay.hidden = YES;
-                }];
-            }
+                self.dareTextImageOverlay.frame = CGRectMake(0, self.view.frame.size.height - 150, self.view.frame.size.width, 150);
+                self.sendButton.frame = CGRectMake(self.view.frame.size.width - 60, 45, 60, 60);
+            }];
+            self.blurLabel.frame = CGRectMake(0, 0, 135, self.dareTextImageOverlay.frame.size.height);
+            self.blurLabel.font = [UIFont boldSystemFontOfSize:30];
+            self.blurLabel.hidden = NO;
+            self.blurLabel.textColor = [UIColor whiteColor];
+            self.blurLabel.numberOfLines = 2;
+            self.blurLabel.text = @"Blur this image in";
+            [self.dareTextImageOverlay addSubview:self.blurLabel];
+            self.blurTimePicker.hidden = NO;
+            self.blurTimePicker.delegate = self;
+            self.blurTimePicker.dataSource = self;
+            [self.dareTextImageOverlay addSubview:self.blurTimePicker];
+            
+            //self.blurCounterLabel.text = [NSString stringWithFormat:@"%lu",(long)self.blurCounter];
         }
     }
 }
 
 
+-(NSAttributedString *)pickerView:(UIPickerView *)pickerView attributedTitleForRow:(NSInteger)row forComponent:(NSInteger)component
+{
+    NSMutableAttributedString *rowTitle = [[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"%lu sec", ((long)row * 5)]];
+    [rowTitle addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor] range:NSMakeRange(0, rowTitle.length)];
+    [rowTitle addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:60] range:NSMakeRange(0, rowTitle.length)];
+    return rowTitle;
+    
+}
+
+-(CGFloat)pickerView:(UIPickerView *)pickerView rowHeightForComponent:(NSInteger)component
+{
+    return 60;
+}
+
+-(NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
+{
+    return 13;
+}
+
+-(NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
+{
+    return 1;
+}
 - (void)selectPictureFromLibrary
 {
     if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary]) {
@@ -276,7 +322,8 @@
     self.imageView.opaque = YES;
     self.cameraView.hidden = YES;
     self.blurTimerButton.hidden = NO;
-   
+    self.sendButton.hidden = NO;
+    
 }
 
 -(void)moveOverlayIntoView
@@ -286,27 +333,27 @@
     }];
 }
 
--(void)setupImageOverlay
-{
-    _dareTextImageOverlay = [[UIView alloc]initWithFrame:CGRectMake(0,self.view.frame.size.height, _imageView.frame.size.width, 80)];
-    _dareTextImageOverlay.backgroundColor = [UIColor DareCellOverlay];
-    [self.view addSubview:_dareTextImageOverlay];
-    
-    _dareText = [[UITextField alloc]init];
-    _dareText.delegate = self;
-    _dareText.userInteractionEnabled = YES;
-    _dareText.textAlignment = NSTextAlignmentCenter;
-    _dareText.translatesAutoresizingMaskIntoConstraints = NO;
-    _dareText.backgroundColor = [UIColor clearColor];
-    _dareText.font = [UIFont boldSystemFontOfSize:15];
-    _dareText.textColor = [UIColor whiteColor];
-    [_dareTextImageOverlay addSubview:_dareText];
-    
-    [_dareTextImageOverlay addConstraint:[NSLayoutConstraint constraintWithItem:_dareText attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:_dareTextImageOverlay attribute:NSLayoutAttributeLeading multiplier:1.0 constant:0]];
-    [_dareTextImageOverlay addConstraint:[NSLayoutConstraint constraintWithItem:_dareText attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:_dareTextImageOverlay attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:0]];
-    [_dareTextImageOverlay addConstraint:[NSLayoutConstraint constraintWithItem:_dareText attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:_dareTextImageOverlay attribute:NSLayoutAttributeTop multiplier:1.0 constant:0]];
-    [_dareTextImageOverlay addConstraint:[NSLayoutConstraint constraintWithItem:_dareText attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:_dareTextImageOverlay attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0]];
-}
+//-(void)setupImageOverlay
+//{
+//    _dareTextImageOverlay = [[UIView alloc]initWithFrame:CGRectMake(0,self.view.frame.size.height, _imageView.frame.size.width, 80)];
+//    _dareTextImageOverlay.backgroundColor = [UIColor DareCellOverlay];
+//    [self.view addSubview:_dareTextImageOverlay];
+//    
+//    _dareText = [[UITextField alloc]init];
+//    _dareText.delegate = self;
+//    _dareText.userInteractionEnabled = YES;
+//    _dareText.textAlignment = NSTextAlignmentCenter;
+//    _dareText.translatesAutoresizingMaskIntoConstraints = NO;
+//    _dareText.backgroundColor = [UIColor clearColor];
+//    _dareText.font = [UIFont boldSystemFontOfSize:15];
+//    _dareText.textColor = [UIColor whiteColor];
+//    [_dareTextImageOverlay addSubview:_dareText];
+//    
+//    [_dareTextImageOverlay addConstraint:[NSLayoutConstraint constraintWithItem:_dareText attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:_dareTextImageOverlay attribute:NSLayoutAttributeLeading multiplier:1.0 constant:0]];
+//    [_dareTextImageOverlay addConstraint:[NSLayoutConstraint constraintWithItem:_dareText attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:_dareTextImageOverlay attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:0]];
+//    [_dareTextImageOverlay addConstraint:[NSLayoutConstraint constraintWithItem:_dareText attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:_dareTextImageOverlay attribute:NSLayoutAttributeTop multiplier:1.0 constant:0]];
+//    [_dareTextImageOverlay addConstraint:[NSLayoutConstraint constraintWithItem:_dareText attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:_dareTextImageOverlay attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0]];
+//}
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
@@ -349,7 +396,7 @@
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     FriendListIcon *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"FriendCell" forIndexPath:indexPath];
-
+    
     Friend *friend = self.friends[indexPath.row];
     UIImage *image = [UIImage imageWithData:friend.image];
     ((FriendListIcon *)cell).friendImage.image = image;
@@ -402,35 +449,36 @@
                             picture:self.choosenImage
                           blurTimer:self.blurCounter
                          completion:^(PFObject *message) {
-        Message *newMessage = [NSEntityDescription insertNewObjectForEntityForName:@"Message"
-                                                            inManagedObjectContext:self.dataStore.managedObjectContext];
-        newMessage.identifier = message.objectId;
-        newMessage.text = message[@"text"];
-        PFFile *messageImageFile = message[@"picture"];
-        [messageImageFile getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
-            newMessage.picture = data;
-        }];
-        PFFile *messageAuthorImage = message[@"author"];
-        [messageAuthorImage getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
-            newMessage.author = data;
-        }];
-        newMessage.createdAt = message.createdAt;
-        newMessage.isRead = @0;
-        [self.thread addMessagesObject:newMessage];
-        [self.dataStore saveContext];
-        
-        NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"MessageThread"];
-        NSString *searchID = self.thread.identifier;
-        NSPredicate *searchPredicate = [NSPredicate predicateWithFormat:@"identifier==%@",searchID];
-        fetchRequest.predicate = searchPredicate;
-        NSArray *threads = [self.dataStore.managedObjectContext executeFetchRequest:fetchRequest error:nil];
-        MessageThread *thread = threads[0];
-        completion(newMessage, thread);
-    }];
+                             Message *newMessage = [NSEntityDescription insertNewObjectForEntityForName:@"Message"
+                                                                                 inManagedObjectContext:self.dataStore.managedObjectContext];
+                             newMessage.identifier = message.objectId;
+                             newMessage.text = message[@"text"];
+                             PFFile *messageImageFile = message[@"picture"];
+                             [messageImageFile getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
+                                 newMessage.picture = data;
+                             }];
+                             PFFile *messageAuthorImage = message[@"author"];
+                             [messageAuthorImage getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
+                                 newMessage.author = data;
+                             }];
+                             newMessage.createdAt = message.createdAt;
+                             newMessage.isRead = @0;
+                             [self.thread addMessagesObject:newMessage];
+                             [self.dataStore saveContext];
+                             
+                             NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"MessageThread"];
+                             NSString *searchID = self.thread.identifier;
+                             NSPredicate *searchPredicate = [NSPredicate predicateWithFormat:@"identifier==%@",searchID];
+                             fetchRequest.predicate = searchPredicate;
+                             NSArray *threads = [self.dataStore.managedObjectContext executeFetchRequest:fetchRequest error:nil];
+                             MessageThread *thread = threads[0];
+                             completion(newMessage, thread);
+                         }];
 }
 
 - (IBAction)sendButtonTapped:(id)sender
 {
+    if (!self.isSelectingBlurTime) {
     __weak typeof(self) weakSelf = self;
     [self addMessageToThread:^(Message *message, MessageThread *thread) {
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];
@@ -438,6 +486,35 @@
         messagesTVC.thread = weakSelf.thread;
         [weakSelf presentViewController:messagesTVC animated:YES completion:nil];
     }];
+    }else{
+        self.isSelectingBlurTime = NO;
+        self.imageWillBlur = YES;
+        self.blurCounter = ([self.blurTimePicker selectedRowInComponent:0] * 5);
+        
+        [UIView animateWithDuration:0.2 animations:^{
+            self.dareTextImageOverlay.frame = CGRectMake(0, self.view.frame.size.height - 100, self.view.frame.size.width, 100);
+            
+            
+        }];
+        [UIView animateWithDuration:0.2 animations:^{
+             self.sendButton.frame = CGRectMake(120, 20, 80, 80);
+            self.blurTimePicker.alpha = 0;
+            self.blurLabel.alpha = 0;
+            
+        } completion:^(BOOL finished) {
+            self.blurTimePicker.hidden = YES;
+            self.blurLabel.hidden = YES;
+            self.blurTimerButton.hidden = NO;
+            self.cancelButton.hidden = NO;
+           
+            [UIView animateWithDuration:0.2 animations:^{
+                self.blurTimerButton.frame = CGRectMake(self.view.frame.size.width - 80, 20, 60, 60);
+                self.cancelButton.frame = CGRectMake(20, 20, 80, 80);
+            }];
+            
+        }];
+        NSLog(@"Blur image in %lu seconds", (long)self.blurCounter);
+    }
 }
 
 - (IBAction)cancelButtonTapped:(id)sender

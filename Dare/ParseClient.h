@@ -28,7 +28,7 @@
                      failure: (void(^)())failure;
 
 + (void)getMessagesForThread: (MessageThread *)thread
-                     user: (User *)user
+                        user: (User *)user
                completion: (void(^)(NSArray *))completion
                   failure: (void(^)(NSError *))failure;
 
@@ -69,6 +69,15 @@
 + (void)createMessage: (NSString *)text
               picture: (UIImage *) picture
            completion: (void(^)(PFObject *))completion;
+
++ (void)storeRelation: (PFUser *)parseUser
+toViewersListOfMessage: (PFObject *)message
+           completion: (void(^)())completion;
+
++ (void)fetchMessage: (Message *)message
+          completion: (void(^)(PFObject *))completion;
+
+
 
 
 @end

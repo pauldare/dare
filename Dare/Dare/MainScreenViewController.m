@@ -212,9 +212,19 @@
     [self fetchUser:^{
         [ParseClient getMessageThreadsForUser:self.user completion:^(NSArray *threads) {
             for (PFObject *thread in threads) {
+                NSMutableArray *messagesFromThread = [[NSMutableArray alloc]init];
                 [MessageThread fetchThreadFromParseThreads:thread inContext:self.dataStore.managedObjectContext completion:^(MessageThread *messageThread) {
                     [threadsFromParse addObject:messageThread];
-                    completion(threadsFromParse);
+                    [ParseClient getMessagesForThread:messageThread user:self.user completion:^(NSArray *parseMessages) {
+                        for (PFObject *parseMessage in parseMessages) {
+                            [Message fetchMessageFromParseMessages:parseMessage inContext:self.dataStore.managedObjectContext completion:^(Message *newMessage) {
+                                [messagesFromThread addObject:newMessage];
+                                messageThread.messages = [NSSet setWithArray:messagesFromThread];
+                                [self.dataStore saveContext];
+                                completion(threadsFromParse);
+                            }];
+                        }
+                    } failure:nil];
                 }];
             }
         } failure:nil];
@@ -257,7 +267,7 @@
     [self fetchParseThreads:^(NSArray *parseThreads) {
         self.threads = [NSMutableArray arrayWithArray:parseThreads];
         [self.tableView reloadData];
-        [_tableViewRefreshControl performSelector:@selector(endRefreshing) withObject:self afterDelay:3.0];
+        [_tableViewRefreshControl performSelector:@selector(endRefreshing) withObject:self afterDelay:5.0];
     }];
 
 }
@@ -269,7 +279,7 @@
         [self.collectionView reloadData];
         [_collectionViewRefreshControl performSelector:@selector(endRefreshing)
                                             withObject:self
-                                            afterDelay:3.0];
+                                            afterDelay:5.0];
     }];
 }
 

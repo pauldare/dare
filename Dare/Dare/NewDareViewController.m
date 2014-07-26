@@ -54,6 +54,7 @@
 @property (strong, nonatomic) UIImage *dareImage;
 @property (strong, nonatomic) DareDataStore *dataStore;
 @property (strong, nonatomic) NSArray *parseFriends;
+@property (strong, nonatomic) UITapGestureRecognizer *tapOnCamera;
 
 @property (weak, nonatomic) IBOutlet UIView *coverView;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *spinner;
@@ -72,7 +73,6 @@
     [super viewDidLoad];
     
     self.images = [[NSMutableArray alloc]init];
-    
     for (Friend *friend in self.friends) {
         [self.images addObject:[UIImage imageWithData:friend.image]];
     }
@@ -370,10 +370,18 @@
     [self.cameraManager initializeCameraForImageView:self.imageView
                                              isFront:YES view:self.cameraView
                                              failure:^{_flipButton.hidden = YES; _cameraButton.hidden = YES;}];
+    self.tapOnCamera = [[UITapGestureRecognizer alloc]init];
+    self.tapOnCamera.numberOfTapsRequired = 1;
+    [self.tapOnCamera addTarget:self action:@selector(cameraButtonPressed:)];
+    [self.cameraView addGestureRecognizer:self.tapOnCamera];
+   
 }
 
 
-
+-(void)tap
+{
+    NSLog(@"Tap");
+}
 - (void)setupFriendsCollection
 {
     self.friendsCollection.backgroundColor = [UIColor DareBlue];
@@ -465,7 +473,7 @@
     _backButton.hidden = NO;
     _forwardButton.hidden = NO;
     _textCollection.hidden = NO;
-    
+    [self.cameraView removeGestureRecognizer:self.tapOnCamera];
 }
 
 - (void)selectPictureFromPhotoLibrary
@@ -639,9 +647,11 @@
     
     _dareText.text = _dareString;
     _bottomOverlay.text = @"Get Going";
+    [self.dareTextImageOverlay removeGestureRecognizer:self.panGestureOnImageOverlay];
     _tapGetGoing = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(postDare)];
     _tapGetGoing.numberOfTapsRequired = 1;
     [_bottomOverlay addGestureRecognizer:_tapGetGoing];
+    
 }
 
 -(BOOL)textFieldShouldReturn:(UITextField *)textField

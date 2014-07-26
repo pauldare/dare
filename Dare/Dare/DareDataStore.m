@@ -90,12 +90,14 @@
                             }
                             [ParseClient getMessagesForThread:newThread user:loggedUser completion:^(NSArray *messages) {
                                 for (PFObject *message in messages) {
-                                    Message *newMessage = [Message fetchMessageFromParseMessages:message inContext:self.managedObjectContext];
-                                    [newThread addMessagesObject:newMessage];
-                                    newMessage.user = loggedUser;
+                                    [Message fetchMessageFromParseMessages:message inContext:self.managedObjectContext completion:^(Message *newMessage) {
+                                        [newThread addMessagesObject:newMessage];
+                                        newMessage.user = loggedUser;
+                                        [self saveContext];
+                                        completion();
+                                    }];
                                 }
-                                [self saveContext];
-                                completion();
+                                
                             } failure:nil];
                         }];
                     }

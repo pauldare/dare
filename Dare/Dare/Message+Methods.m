@@ -44,9 +44,16 @@
             } else {
                 newMessage.isViewed = @0;
             }
+            PFRelation *readersRelation = [message relationForKey:@"readers"];
+            PFQuery *readersQuery = [readersRelation query];
+            [readersQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+                if ([objects containsObject:[PFUser currentUser]]) {
+                    newMessage.isRead = @1;
+                } else {
+                    newMessage.isRead = @0;
+                }
+            }];
         }];
-        newMessage.isRead = @0;
-      
         return newMessage;
     } else {
         return messages[0];
@@ -71,7 +78,6 @@
         PFFile *imageFile = message[@"picture"];
         newMessage.createdAt = message.createdAt;
         newMessage.blurTimer = message[@"blurTimer"];
-        newMessage.isRead = @0;
         [imageFile getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
             newMessage.picture = data;
             PFFile *authorImage = message[@"author"];
@@ -85,7 +91,16 @@
                     } else {
                         newMessage.isViewed = @0;
                     }
-                    completion(newMessage);
+                    PFRelation *readersRelation = [message relationForKey:@"readers"];
+                    PFQuery *readersQuery = [readersRelation query];
+                    [readersQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+                        if ([objects containsObject:[PFUser currentUser]]) {
+                            newMessage.isRead = @1;
+                        } else {
+                            newMessage.isRead = @0;
+                        }
+                        completion(newMessage);
+                    }];
                 }];
             }];
         }];

@@ -18,6 +18,7 @@
 #import "MainScreenViewController.h"
 #import "TextCommentCell.h"
 #import "ParseClient.h"
+#import "UnreadCounter.h"
 
 
 
@@ -37,8 +38,6 @@
 @property (strong, nonatomic) UIButton *blurButton;
 
 
-
-
 @end
 
 @implementation MessagesTVC
@@ -47,8 +46,22 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [UnreadCounter sharedCounter].unreadMessages = 0;
     self.dataStore = [DareDataStore sharedDataStore];
     self.messages = [NSMutableArray arrayWithArray:[self.thread.messages allObjects]];
+    
+    for (Message *message in self.messages) {
+        PFQuery *messageQuery = [PFQuery queryWithClassName:@"Message"];
+        [messageQuery whereKey:@"objectId" equalTo:message.identifier];
+        [messageQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+            for (PFObject *parseMessage in objects) {
+                [ParseClient storeRelation:[PFUser currentUser] toReadersListForMessage:parseMessage completion:^{
+                    
+                }];
+            }
+        }];
+    }
+    
     NSSortDescriptor* sortByDate = [NSSortDescriptor sortDescriptorWithKey:@"createdAt" ascending:YES];
     [self.messages sortUsingDescriptors:[NSArray arrayWithObject:sortByDate]];
     self.headerMessage = self.messages[0];
@@ -161,7 +174,7 @@
         cell.textLabel.text = self.thread.title;
         cell.textLabel.backgroundColor = [UIColor DareCellOverlay];
         cell.userImage.image = [UIImage imageWithData:self.thread.author];
-        //cell.friends = self.friends;
+        cell.friends = self.friends;
         cell.collectionView.alwaysBounceHorizontal = YES;
         cell.collectionView.userInteractionEnabled = YES;
         cell.collectionView.scrollEnabled = YES;
@@ -278,7 +291,6 @@
     
     [ParseClient fetchMessage:cellMessage completion:^(PFObject *parseMessage) {
         [ParseClient storeRelation:[PFUser currentUser] toViewersListOfMessage:parseMessage completion:^{
-            
         }];
     }];
 
@@ -302,7 +314,7 @@
     [self.messages sortUsingDescriptors:[NSArray arrayWithObject:sortByDate]];
     self.headerMessage = self.messages[0];
     [self.messages removeObjectAtIndex:0];
-
+    
     [self.tableView reloadData];
 }
 
@@ -521,7 +533,7 @@
                                  newMessage.author = data;
                              }];
                              newMessage.createdAt = message.createdAt;
-                             newMessage.isRead = @0;
+                             newMessage.isRead = @1;
                              [self.thread addMessagesObject:newMessage];
                              
                              [self.dataStore saveContext];

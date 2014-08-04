@@ -199,7 +199,11 @@
 
 - (void)fetchFriends: (void(^)())completion
 {
+    PFUser *currentUser = [PFUser currentUser];
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Friend"];
+    NSString *searchID = currentUser[@"fbId"];
+    NSPredicate *searchPredicate = [NSPredicate predicateWithFormat:@"identifier!=%@",searchID];
+    fetchRequest.predicate = searchPredicate;
     self.friends = [self.dataStore.managedObjectContext executeFetchRequest:fetchRequest error:nil];
     completion();
 }

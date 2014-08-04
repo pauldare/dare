@@ -374,7 +374,6 @@
     self.tapOnCamera.numberOfTapsRequired = 1;
     [self.tapOnCamera addTarget:self action:@selector(cameraButtonPressed:)];
     [self.cameraView addGestureRecognizer:self.tapOnCamera];
-   
 }
 
 
@@ -382,6 +381,7 @@
 {
     NSLog(@"Tap");
 }
+
 - (void)setupFriendsCollection
 {
     self.friendsCollection.backgroundColor = [UIColor DareBlue];

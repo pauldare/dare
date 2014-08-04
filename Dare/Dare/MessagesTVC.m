@@ -19,6 +19,7 @@
 #import "TextCommentCell.h"
 #import "ParseClient.h"
 #import "UnreadCounter.h"
+#import "Friend+Methods.h"
 
 
 
@@ -84,6 +85,20 @@
                                                   selector:@selector(changeFirstResponder:)
                                                       name:UIKeyboardDidShowNotification
                                                     object:nil];
+}
+
+
+- (NSMutableArray *)fetchFriendsToShow
+{
+    NSArray *allFriends = [self.thread.friends allObjects];
+    NSMutableArray *threadFriends = [[NSMutableArray alloc]init];
+    PFUser *currentUser = [PFUser currentUser];
+    for (Friend *friend in allFriends) {
+        if (![friend.identifier isEqualToString:currentUser[@"fbId"]]) {
+            [threadFriends addObject:friend];
+        }
+    }
+    return threadFriends;
 }
 
 
@@ -174,7 +189,7 @@
         cell.textLabel.text = self.thread.title;
         cell.textLabel.backgroundColor = [UIColor DareCellOverlay];
         cell.userImage.image = [UIImage imageWithData:self.thread.author];
-        cell.friends = self.friends;
+        cell.friends = [self fetchFriendsToShow];
         cell.collectionView.alwaysBounceHorizontal = YES;
         cell.collectionView.userInteractionEnabled = YES;
         cell.collectionView.scrollEnabled = YES;

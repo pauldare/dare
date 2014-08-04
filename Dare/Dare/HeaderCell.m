@@ -59,12 +59,12 @@
     self.userImage.image = self.images[0];
 }
 
-- (void)fetchFriends: (void(^)())completion
-{
-    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Friend"];
-    self.friends = [self.dataStore.managedObjectContext executeFetchRequest:fetchRequest error:nil];
-    completion();
-}
+//- (void)fetchFriends: (void(^)())completion
+//{
+//    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Friend"];
+//    self.friends = [[self.dataStore.managedObjectContext executeFetchRequest:fetchRequest error:nil] mutableCopy];
+//    completion();
+//}
 
 
 #pragma collection view delegate

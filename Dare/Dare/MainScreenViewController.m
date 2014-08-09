@@ -157,7 +157,17 @@
     [self configureMainScreen];
     
     self.navigationController.navigationBarHidden = YES;
+    
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"MessageThread"];
+    NSArray *threads = [self.dataStore.managedObjectContext executeFetchRequest:fetchRequest error:nil];
+    for (MessageThread *th in threads) {
+        NSLog(@"thread: %@", th.identifier);
+        NSLog(@"firends: %d", [th.friends count]);
+        NSLog(@"messages: %d", [th.messages count]);
+    }
 }
+
+
 
 - (void)viewWillAppear:(BOOL)animated
 {
@@ -165,6 +175,7 @@
     static dispatch_once_t oncePredicate;
     dispatch_once(&oncePredicate, ^{
         [NSObject cancelPreviousPerformRequestsWithTarget:self];
+        [self countTotalUnread];
         [self performSelector:@selector(refreshTable) withObject:self afterDelay:1.0];
     });
 }
@@ -172,10 +183,11 @@
 
 - (void)refreshTable
 {
+    NSLog(@"refresh table called");
     [self fetchCoreDataThreads:^{
         dispatch_async(dispatch_get_main_queue(), ^{
-            if ([self countTotalUnread] != 0) {
-                _overlayUnreadBadge.text = [NSString stringWithFormat:@"%ld", (long)[self countTotalUnread]];
+            if ([UnreadCounter sharedCounter].unreadMessages != 0) {
+                _overlayUnreadBadge.text = [NSString stringWithFormat:@"%ld", (long)[UnreadCounter sharedCounter].unreadMessages];
             } else {
                 _overlayUnreadBadge.hidden = YES;
             }
@@ -244,7 +256,11 @@
 - (NSInteger)countTotalUnread
 {
     for (MessageThread *thread in self.threads) {
+        NSLog(@"threads: %d", [self.threads count]);
+        NSLog(@"thread: %@", thread.title);
+        NSLog(@"messages count: %d", [thread.messages count]);
         for (Message *message in thread.messages) {
+            NSLog(@"message: %@ isRead: %@", message.text, message.isRead);
             if ([message.isRead integerValue] == 0) {
                 [UnreadCounter sharedCounter].unreadMessages++;
             }
@@ -387,7 +403,8 @@
     _overlayUnreadBadge.textColor = [UIColor DareUnreadBadge];
     _overlayUnreadBadge.font = [UIFont boldSystemFontOfSize:130];
     _overlayUnreadBadge.textAlignment = NSTextAlignmentRight;
-    _overlayUnreadBadge.text = [NSString stringWithFormat:@"%ld", (long)[self countTotalUnread]];
+    //NSLog(@"metod called");
+    _overlayUnreadBadge.text = [NSString stringWithFormat:@"%ld", (long)[UnreadCounter sharedCounter].unreadMessages];
     [self.view addSubview:_overlayUnreadBadge];
     
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_overlayUnreadBadge attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTop multiplier:1.0 constant:50]];
@@ -634,17 +651,7 @@
     UIImage *background = [UIImage imageWithData:thread.backgroundPicture];
     ((DareCell *)cell).backgroundImageView.image = background;
     ((DareCell *)cell).titleLabel.text = thread.title;
-    NSInteger unreadCount = 0;
-    if (!self.fromCancel && [self.presentingViewController isKindOfClass:[NewDareViewController class]]) {
-        unreadCount++;
-    } else {
-        for (Message *message in thread.messages) {
-            if ([message.isRead integerValue] == 0) {
-                    [UnreadCounter sharedCounter].unreadMessages++;
-            }
-        }
-    }
-    ((DareCell *)cell).unreadCountLabel.text = [NSString stringWithFormat:@"%ld", (long)unreadCount];
+    ((DareCell *)cell).unreadCountLabel.text = [NSString stringWithFormat:@""];
     return cell;
 }
 

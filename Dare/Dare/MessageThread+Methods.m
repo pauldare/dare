@@ -41,7 +41,7 @@
 
 
 
-+ (void)fetchThreadFromParseThreads: (PFObject *)thread
++ (void)fetchThreadFromParseThreads:(PFObject *)thread
                                      inContext: (NSManagedObjectContext *)context
                                     completion: (void(^)(MessageThread *))completion
 

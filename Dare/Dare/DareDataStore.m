@@ -70,36 +70,43 @@
                                  inContext:self.managedObjectContext];
             if ([friends count] != 0) {
                 for (PFUser *friend in friends) {
-                    [Friend fetchFriendFromParseFriend:friend inContext:self.managedObjectContext completion:^(Friend *newFriend) {
+                    [Friend fetchFriendFromParseFriend:friend
+                                             inContext:self.managedObjectContext
+                                            completion:^(Friend *newFriend) {
                         [loggedUser addFriendsObject:newFriend];
                     }];
                 }
             } else {
                 completion();
             }
+            
             [ParseClient getMessageThreadsForUser:loggedUser completion:^(NSArray *threads) {
                 if ([threads count] != 0) {
                     for (PFObject *thread in threads) {
                         MessageThread *newThread = [MessageThread fetchThreadFromParseThreads:thread inContext:self.managedObjectContext];
                         [loggedUser addThreadsObject:newThread];
+                        
                         [ParseClient getFriendsForThread:thread completion:^(NSArray *threadFriends) {
+                            NSLog(@"thread: %@", newThread.identifier);
                             for (PFUser *threadFriend in threadFriends) {
                                 [Friend fetchFriendFromParseFriend:threadFriend inContext:self.managedObjectContext completion:^(Friend *friendFromThread) {
                                     [newThread addFriendsObject:friendFromThread];
+                                    NSLog(@"friend: %@", friendFromThread.displayName);
+                                    [self saveContext];
                                 }];
                             }
-                            [ParseClient getMessagesForThread:newThread user:loggedUser completion:^(NSArray *messages) {
-                                for (PFObject *message in messages) {
-                                    [Message fetchMessageFromParseMessages:message inContext:self.managedObjectContext completion:^(Message *newMessage) {
-                                        [newThread addMessagesObject:newMessage];
-                                        newMessage.user = loggedUser;
-                                        [self saveContext];
-                                        completion();
-                                    }];
-                                }
-                                
-                            } failure:nil];
                         }];
+                        
+                        [ParseClient getMessagesForThread:newThread user:loggedUser completion:^(NSArray *messages) {
+                            for (PFObject *message in messages) {
+                                [Message fetchMessageFromParseMessages:message inContext:self.managedObjectContext completion:^(Message *newMessage) {
+                                    [newThread addMessagesObject:newMessage];
+                                    newMessage.user = loggedUser;
+                                    [self saveContext];
+                                }];
+                            }
+                            completion();
+                        } failure:nil];
                     }
                 } else {
                     completion();

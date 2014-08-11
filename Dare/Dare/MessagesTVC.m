@@ -38,6 +38,8 @@
 
 @property (strong, nonatomic) UIButton *blurButton;
 
+@property (strong, nonatomic) NSArray *friendsForThread;
+
 
 @end
 
@@ -63,6 +65,9 @@
         }];
     }
     
+    self.friendsForThread = [self fetchFriendsToShow];
+    
+    
     NSSortDescriptor* sortByDate = [NSSortDescriptor sortDescriptorWithKey:@"createdAt" ascending:YES];
     [self.messages sortUsingDescriptors:[NSArray arrayWithObject:sortByDate]];
     self.headerMessage = self.messages[0];
@@ -87,18 +92,48 @@
                                                     object:nil];
 }
 
-
-- (NSMutableArray *)fetchFriendsToShow
+- (void)fetchParseThread: (void(^)(PFObject *parseThread))completion
 {
-    NSArray *allFriends = [self.thread.friends allObjects];
-    NSMutableArray *threadFriends = [[NSMutableArray alloc]init];
-    PFUser *currentUser = [PFUser currentUser];
-    for (Friend *friend in allFriends) {
-        if (![friend.identifier isEqualToString:currentUser[@"fbId"]]) {
-            [threadFriends addObject:friend];
-        }
-    }
-    return threadFriends;
+    PFQuery *threadQuery = [PFQuery queryWithClassName:@"MessageThread"];
+    [threadQuery whereKey:@"objectId" equalTo:self.thread.identifier];
+    [threadQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        PFObject *parseThread = objects[0];
+        completion(parseThread);
+    }];
+}
+
+
+- (NSArray *)fetchFriendsToShow
+{
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Friend"];
+    NSArray *friends = [self.dataStore.managedObjectContext executeFetchRequest:fetchRequest error:nil];
+    return friends;
+//    [self fetchParseThread:^(PFObject *parseThread) {
+//        [ParseClient getFriendsForThread:parseThread completion:^(NSArray *parseFriends) {
+//            
+//            NSInteger count = 0;
+//            __block BOOL isDone = NO;
+//
+//            for (PFUser *friend in parseFriends) {
+//                count++;
+//                NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Friend"];
+//                NSString *searchID = friend[@"fbId"];
+//                NSLog(@"facebook id: %@", friend[@"fbId"]);
+//                NSPredicate *searchPredicate = [NSPredicate predicateWithFormat:@"identifier==%@",searchID];
+//                fetchRequest.predicate = searchPredicate;
+//                NSArray *friends = [self.dataStore.managedObjectContext executeFetchRequest:fetchRequest error:nil];
+//                if ([friends count] != 0) {
+//                    Friend *newFriend = friends[0];
+//                    NSLog(@"newFriend: %@", newFriend.displayName);
+//                    [self.thread addFriendsObject:newFriend];
+//                }
+//                
+//                if (count == [parseFriends count]) {
+//                    isDone = YES;
+//                }
+//            }
+//        }];
+//    }];
 }
 
 
@@ -189,7 +224,11 @@
         cell.textLabel.text = self.thread.title;
         cell.textLabel.backgroundColor = [UIColor DareCellOverlay];
         cell.userImage.image = [UIImage imageWithData:self.thread.author];
-        cell.friends = [self fetchFriendsToShow];
+        
+        
+        cell.friends = [self.friendsForThread mutableCopy];
+        
+        //cell.friends = [self fetchFriendsToShow];
         cell.collectionView.alwaysBounceHorizontal = YES;
         cell.collectionView.userInteractionEnabled = YES;
         cell.collectionView.scrollEnabled = YES;

@@ -62,60 +62,155 @@
 }
 
 
-- (void)populateCoreData: (void(^)())completion
+- (void)addThreads: (void(^)(bool isDone, NSArray *threads))completion
 {
     if ([PFUser currentUser]) {
         [ParseClient queryForFriends:^(NSArray *friends) {
             User *loggedUser = [User fetchUserFromCurrentUser:[PFUser currentUser]
-                                 inContext:self.managedObjectContext];
+                                                    inContext:self.managedObjectContext];
             if ([friends count] != 0) {
                 for (PFUser *friend in friends) {
                     [Friend fetchFriendFromParseFriend:friend
                                              inContext:self.managedObjectContext
                                             completion:^(Friend *newFriend) {
-                        [loggedUser addFriendsObject:newFriend];
-                    }];
+                                                [loggedUser addFriendsObject:newFriend];
+                                            }];
                 }
             } else {
-                completion();
+                completion(NO, nil);
             }
             
             [ParseClient getMessageThreadsForUser:loggedUser completion:^(NSArray *threads) {
+                
                 if ([threads count] != 0) {
+                    
+                    __block BOOL isDone = NO;
+                    NSInteger count = 0;
+                    
                     for (PFObject *thread in threads) {
+                        count++;
+
                         MessageThread *newThread = [MessageThread fetchThreadFromParseThreads:thread inContext:self.managedObjectContext];
                         [loggedUser addThreadsObject:newThread];
                         
-                        [ParseClient getFriendsForThread:thread completion:^(NSArray *threadFriends) {
-                            NSLog(@"thread: %@", newThread.identifier);
-                            for (PFUser *threadFriend in threadFriends) {
-                                [Friend fetchFriendFromParseFriend:threadFriend inContext:self.managedObjectContext completion:^(Friend *friendFromThread) {
-                                    [newThread addFriendsObject:friendFromThread];
-                                    NSLog(@"friend: %@", friendFromThread.displayName);
-                                    [self saveContext];
-                                }];
-                            }
-                        }];
-                        
-                        [ParseClient getMessagesForThread:newThread user:loggedUser completion:^(NSArray *messages) {
-                            for (PFObject *message in messages) {
-                                [Message fetchMessageFromParseMessages:message inContext:self.managedObjectContext completion:^(Message *newMessage) {
-                                    [newThread addMessagesObject:newMessage];
-                                    newMessage.user = loggedUser;
-                                    [self saveContext];
-                                }];
-                            }
-                            completion();
-                        } failure:nil];
+                        if (count == [threads count]) {
+                            isDone = YES;
+                        }
                     }
-                } else {
-                    completion();
+                    completion(isDone, threads);
                 }
-            } failure:nil];
+                
+            }failure: nil];
         }];
-    } else {
-        NSLog(@"no one is logged");
     }
+    
+}
+
+
+
+- (void)addFriends: (void(^)(bool isDone))completion
+{
+    __weak typeof(self) weakSelf = self;
+    [self addThreads:^(bool isDone, NSArray *threads) {
+        
+        if (isDone) {
+            __block BOOL isDone = NO;
+            NSInteger count = 0;
+            
+            for (PFObject *thread in threads) {
+                count++;
+                NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"MessageThread"];
+                NSString *searchID = thread.objectId;
+                NSPredicate *searchPredicate = [NSPredicate predicateWithFormat:@"identifier==%@",searchID];
+                fetchRequest.predicate = searchPredicate;
+                NSArray *localThreads = [weakSelf.managedObjectContext executeFetchRequest:fetchRequest error:nil];
+                MessageThread *localThread = localThreads[0];
+                
+                [ParseClient getFriendsForThread:thread completion:^(NSArray *parseFriends) {
+                    
+                    NSInteger friendCount = 0;
+                    
+                    for (PFUser *parseFriend in parseFriends) {
+                        
+                        friendCount++;
+                        
+                        NSFetchRequest *fetchRequest1 = [[NSFetchRequest alloc] initWithEntityName:@"Friend"];
+//                        NSString *searchID1 = parseFriend[@"fbId"];
+//                        NSPredicate *searchPredicate1 = [NSPredicate predicateWithFormat:@"identifier==%@",searchID1];
+//                        fetchRequest1.predicate = searchPredicate1;
+                        NSArray *friends = [weakSelf.managedObjectContext executeFetchRequest:fetchRequest1 error:nil];
+                        Friend *friend = friends[0];
+                        for (Friend *fr in friends) {
+                            NSLog(@"id: %@", fr.identifier);
+                        }
+                        [localThread addFriendsObject:friend];
+                        
+                        if (count == [threads count] && friendCount == [parseFriends count]) {
+                            [weakSelf saveContext];
+                            isDone = YES;
+                        }
+                    }
+                    completion(isDone);
+                }];
+            }
+        }
+    }];
+}
+
+
+- (void)addMessages: (void(^)(bool isDone))completion
+{
+    __weak typeof(self) weakSelf = self;
+
+    [self addThreads:^(bool isDone, NSArray *threads) {
+        
+        if (isDone) {
+            
+            __block BOOL isDone = NO;
+            NSInteger threadCount = 0;
+            
+            for (PFObject *thread in threads) {
+                threadCount++;
+                
+                NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"MessageThread"];
+                NSString *searchID = thread.objectId;
+                NSPredicate *searchPredicate = [NSPredicate predicateWithFormat:@"identifier==%@",searchID];
+                fetchRequest.predicate = searchPredicate;
+                NSArray *localThreads = [weakSelf.managedObjectContext executeFetchRequest:fetchRequest error:nil];
+                MessageThread *localThread = localThreads[0];
+                User *user = localThread.users;
+                
+                [ParseClient getMessagesForThread:localThread user:user completion:^(NSArray *messages) {
+                    
+                    NSInteger count = 0;
+                    for (PFObject *message in messages) {
+                        count++;
+                        [Message fetchMessageFromParseMessages:message inContext:weakSelf.managedObjectContext completion:^(Message *newMessage) {
+                            [localThread addMessagesObject:newMessage];
+                            newMessage.user = user;
+                            
+                            if (count == [messages count] && threadCount == [threads count]) {
+                                [weakSelf saveContext];
+                                isDone = YES;
+                            }
+                            completion(isDone);
+                        }];
+                    }
+                    
+                } failure:nil];
+            }
+        }
+    }];
+}
+
+
+- (void)populateCoreData: (void(^)())completion
+{
+    [self addMessages:^(bool isDone) {
+        if (isDone) {
+            completion();
+        }
+    }];
 }
 
 #pragma mark - Core Data stack

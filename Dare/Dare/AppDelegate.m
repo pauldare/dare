@@ -36,7 +36,7 @@
                   clientKey:ParseClientKey];
     self.dataStore = [DareDataStore sharedDataStore];
     
-    [[DareDataStore sharedDataStore]cleanCoreData:^{
+    //[[DareDataStore sharedDataStore]cleanCoreData:^{
         [PFFacebookUtils initializeFacebook];
         if (FBSession.activeSession.state == FBSessionStateOpen ||
             FBSession.activeSession.state == FBSessionStateOpenTokenExtended) {
@@ -61,7 +61,7 @@
             navigationController.navigationBarHidden = YES;
             self.window.rootViewController = navigationController;
         }
-    }];
+    //}];
     
     [[UIApplication sharedApplication] registerForRemoteNotificationTypes: UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeSound];
     return YES;

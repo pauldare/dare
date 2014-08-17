@@ -35,6 +35,7 @@
 		352E66D4197780EA00E1B69D /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 352E66D3197780EA00E1B69D /* Accelerate.framework */; };
 		359EE6F01963591300088C2D /* SelectDareCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 359EE6EF1963591300088C2D /* SelectDareCell.m */; };
 		359EE6F21963593A00088C2D /* SelectDareCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 359EE6F11963593A00088C2D /* SelectDareCell.xib */; };
+		35D3C2A319A140EF007814C5 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35D3C2A219A140EF007814C5 /* Crashlytics.framework */; };
 		35F35F401961EA2F0002C7BC /* NewDareViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 35F35F3F1961EA2F0002C7BC /* NewDareViewController.m */; };
 		35F35F481961F23F0002C7BC /* cat.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 35F35F471961F23F0002C7BC /* cat.jpeg */; };
 		35F35F501961F89E0002C7BC /* CameraManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 35F35F4F1961F89E0002C7BC /* CameraManager.m */; };
@@ -148,6 +149,7 @@
 		359EE6EE1963591300088C2D /* SelectDareCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelectDareCell.h; sourceTree = "<group>"; };
 		359EE6EF1963591300088C2D /* SelectDareCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SelectDareCell.m; sourceTree = "<group>"; };
 		359EE6F11963593A00088C2D /* SelectDareCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SelectDareCell.xib; sourceTree = "<group>"; };
+		35D3C2A219A140EF007814C5 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		35F35F3E1961EA2F0002C7BC /* NewDareViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewDareViewController.h; sourceTree = "<group>"; };
 		35F35F3F1961EA2F0002C7BC /* NewDareViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewDareViewController.m; sourceTree = "<group>"; };
 		35F35F471961F23F0002C7BC /* cat.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = cat.jpeg; sourceTree = "<group>"; };
@@ -238,6 +240,7 @@
 				4512E4111965B321000A8C15 /* Social.framework in Frameworks */,
 				45A72F361965B18500A187B7 /* Twitter.framework in Frameworks */,
 				45A72F341965B17C00A187B7 /* libPods.a in Frameworks */,
+				35D3C2A319A140EF007814C5 /* Crashlytics.framework in Frameworks */,
 				527FDAE21960807B0083D6F0 /* AVFoundation.framework in Frameworks */,
 				4553B5DE195B9853005C6D1A /* SystemConfiguration.framework in Frameworks */,
 				4553B5DA195B9829005C6D1A /* Security.framework in Frameworks */,
@@ -367,6 +370,7 @@
 		4553B593195B944E005C6D1A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				35D3C2A219A140EF007814C5 /* Crashlytics.framework */,
 				352E66D3197780EA00E1B69D /* Accelerate.framework */,
 				4512E4101965B321000A8C15 /* Social.framework */,
 				45A72F351965B18500A187B7 /* Twitter.framework */,
@@ -496,6 +500,7 @@
 				4553B58E195B944E005C6D1A /* Frameworks */,
 				4553B58F195B944E005C6D1A /* Resources */,
 				B14D43A4D7324CEC9F862EF0 /* Copy Pods Resources */,
+				35D3C2A119A140C2007814C5 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -604,6 +609,19 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		35D3C2A119A140C2007814C5 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "./Crashlytics.framework/run 2bfb2ab38d8c4e9b379c4ad7d15618ffe8675efb e2f784feb4259f04a0b65cb81c502b792d6ed966df3621f10620a33da6a25dd8";
+		};
 		AD33728EB4EF40519181A76E /* Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;

@@ -16,6 +16,7 @@
 #import "Friend+Methods.h"
 #import "DareDataStore.h"
 #import "MainScreenViewController.h"
+#import <Crashlytics/Crashlytics.h>
 
 
 
@@ -36,7 +37,7 @@
                   clientKey:ParseClientKey];
     self.dataStore = [DareDataStore sharedDataStore];
     
-    //[[DareDataStore sharedDataStore]cleanCoreData:^{
+    [[DareDataStore sharedDataStore]cleanCoreData:^{
         [PFFacebookUtils initializeFacebook];
         if (FBSession.activeSession.state == FBSessionStateOpen ||
             FBSession.activeSession.state == FBSessionStateOpenTokenExtended) {
@@ -61,9 +62,12 @@
             navigationController.navigationBarHidden = YES;
             self.window.rootViewController = navigationController;
         }
-    //}];
+    }];
     
     [[UIApplication sharedApplication] registerForRemoteNotificationTypes: UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeSound];
+    
+    [Crashlytics startWithAPIKey:@"2bfb2ab38d8c4e9b379c4ad7d15618ffe8675efb"];
+    
     return YES;
 }
 
